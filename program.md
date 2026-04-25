@@ -40,26 +40,79 @@ tail -20 results/results.tsv
 <!-- Update this as the research progresses, or let the agent update it -->
 No experiments run yet.
 
-## The Experiment Loop
+## The Research Loop
 
 LOOP FOREVER:
 
-0. **Check for updates**: Every 5 experiments, check if this file (`program.md`) has been modified. If it changed, re-read it to pick up new tools, targets, or instructions.
+### Phase 0: Check for updates
+
+Every 5 experiments, check if this file (`program.md`) has been modified. If it changed, re-read it.
+
+### Phase 1: Literature & Knowledge
+
+Before experimenting, build understanding:
+
+1. **Search for relevant literature**: Use web search to find papers, blog posts, or code related to your current problem. Search terms should come from your current hypothesis or the domain.
+2. **Ingest into wiki**: When you find a useful source, save it to `raw/` and create a source-summary page. Unlike supervised mode, you do NOT need user approval for ingests during autonomous research — just follow the APPLY order (create pages → update cross-links → source-summary → regenerate index → log entry).
+3. **Read existing wiki**: Check `index.md`. Has a previous session already covered this? Build on existing knowledge, don't re-derive.
+4. **Synthesize**: If you see connections across multiple sources or experiments, write a `synthesis` page.
+
+### Phase 2: Ideation
+
+Generate experiment ideas from multiple sources:
+
+1. **From literature**: "This paper says X works. Does it apply to our problem?"
+2. **From cross-experiment patterns**: "Parameter A helps target 1 but hurts target 2. Why?"
+3. **From failures**: "The last 10 experiments all failed when using X. What if we tried the opposite?"
+4. **From analogy**: "This problem is structurally similar to Y. What solved Y?"
+5. **From first principles**: "The physics/math says this should work because..."
+
+Write your reasoning before each experiment. State the hypothesis clearly.
+
+### Phase 3: Experiment
 
 1. **Read the landscape**: Run `--status`. What's been tried? What hasn't?
+2. **Form a hypothesis**: State what you expect and why.
+3. **Run the experiment**: Use the tools above.
+4. **Analyze the result**: Confirm or refute? What did you learn?
+5. **Record in wiki**: Write a page if the finding is significant.
 
-2. **Read and reason**: Read source materials in `raw/` if you need domain understanding.
+### Phase 4: Stuck Protocol
 
-3. **Form a hypothesis**: State what you think will happen and why.
+If no improvement for 10+ experiments, escalate systematically:
 
-4. **Run the experiment**: Use the tools above.
+**Level 1 — Reframe the search**
+- Review all results. What parameter regions are unexplored?
+- Try the opposite of current best parameters.
+- Search for literature on the specific failure mode.
 
-5. **Analyze the result**: Did it confirm or refute your hypothesis?
+**Level 2 — Decompose the problem**
+- Break the main objective into sub-objectives.
+- Example: "Can't improve ipTM" → "Is the problem the binder length? The sampling noise? The target representation?"
+- Run targeted experiments on each sub-problem independently.
+- Write a `comparison` page analyzing sub-problem results.
 
-6. **Record in wiki**: If you discovered something significant, write a wiki page.
+**Level 3 — Change the approach**
+- Search for alternative methods in the literature.
+- "If diffusion parameters can't solve this, what about a different conditioning strategy?"
+- "If the current tool can't do it, what tool modifications would help?"
+- Write a `synthesis` page proposing the new approach.
+- Try the new approach. If the tools don't support it, document what would be needed in the wiki and move to a different target.
 
-7. **Decide next**: Based on what you learned, pick the next most informative experiment.
+**Level 4 — Pivot**
+- If a target is fundamentally stuck after all levels, document the ceiling and reason in a wiki page.
+- Switch to a different target or sub-problem where progress is still possible.
+- Return to the stuck target later with fresh perspective from other work.
+
+### Phase 5: Knowledge Consolidation
+
+Every 20 experiments:
+
+1. Re-read all wiki pages you've written. Are there contradictions? Stale claims?
+2. Write a `synthesis` page summarizing the current state of knowledge.
+3. Update `index.md`.
+4. Look for implied-but-missing entity pages.
 
 ## NEVER STOP
 
-Run indefinitely. You are autonomous. If you run out of ideas, re-read source materials, try radical changes, try the opposite of what worked. The loop runs until the human interrupts you.
+Run indefinitely. You are autonomous. Cycle through the phases. When stuck, escalate through the stuck protocol. When all targets plateau, search for new literature, try new approaches, consolidate knowledge. The loop runs until the human interrupts you.

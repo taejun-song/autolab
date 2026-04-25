@@ -80,9 +80,13 @@ Read `program.md` for your specific research instructions. The general loop:
 6. **Record in wiki**: If significant, write a wiki page following the APPLY order below.
 7. **Repeat forever**.
 
-### 6.2 INGEST (when reading source materials)
+### 6.2 INGEST
 
-When you read a paper, dataset, or other source in `raw/`:
+Two modes:
+
+**Supervised** (when the user says "ingest X"): Plan first, wait for approval, then apply.
+
+**Autonomous** (during research loop): When you find a relevant source through literature search or need to read a paper in `raw/`, ingest it directly without user approval. Follow the same APPLY order:
 
 1. **READ** the source.
 2. **SCAN** `index.md` for overlapping topics.
@@ -93,7 +97,16 @@ When you read a paper, dataset, or other source in `raw/`:
    d. Regenerate `index.md` (see §6.4).
    e. Append entry to `log.md` (see §6.5). **Always the last write.**
 
-### 6.3 LINT
+### 6.3 LITERATURE SEARCH (autonomous)
+
+During the research loop, actively search for relevant knowledge:
+
+1. **Web search**: Search for papers, blog posts, or code when you need domain understanding or are stuck.
+2. **Save to raw/**: Save fetched content to `raw/articles/<slug>.md` or `raw/papers/`.
+3. **Ingest autonomously**: Follow the autonomous ingest flow above.
+4. **Cross-link**: Connect new knowledge to existing wiki pages and ongoing experiments.
+
+### 6.4 LINT
 
 When the user says "lint" or "audit":
 
@@ -114,7 +127,7 @@ When the user says "lint" or "audit":
 
 4. **REPORT** findings. **WAIT** for user authorization before fixing.
 
-### 6.4 INDEX REGENERATION
+### 6.5 INDEX REGENERATION
 
 `index.md` is fully rewritten after any wiki writes. Contents in order:
 
@@ -129,7 +142,7 @@ When the user says "lint" or "audit":
 
 Each entry: `- [[slug|Title]] — one-line summary`. Empty sections: `_(none yet)_`.
 
-### 6.5 LOG ENTRIES
+### 6.6 LOG ENTRIES
 
 Append-only. Format:
 
@@ -156,7 +169,7 @@ Allowed actions: `ingest`, `experiment`, `query`, `query+page`, `lint`, `lint-fi
 
 ## 8. Forbidden Actions
 
-- ❌ Modify, rename, or delete anything in `raw/`
+- ❌ Modify or delete existing files in `raw/` (you CAN add new files from literature search)
 - ❌ Silently overwrite a fact — use `> [!contradiction]` callout
 - ❌ Create a new page when an existing page covers the concept — extend instead
 - ❌ Skip `index.md` or `log.md` updates after wiki writes
