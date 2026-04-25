@@ -51,7 +51,7 @@ cd my-lab/
 vim program.md
 
 # 4. Launch the agent
-claude --dangerously-skip-permissions -p "Read program.md for your instructions. You are an autonomous research agent. Start the experiment loop. Never stop. IMPORTANT: Before every experiment, check if program.md has been modified since you last read it. If changed, re-read it completely to pick up new tools and instructions."
+claude --dangerously-skip-permissions -p "Read program.md and let's kick off the research."
 ```
 
 ## Concepts
