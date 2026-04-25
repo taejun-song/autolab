@@ -177,7 +177,14 @@ Allowed actions: `ingest`, `experiment`, `query`, `query+page`, `lint`, `lint-fi
 
 Run tests with `uv run pytest tests/`. Never ship untested code.
 
-**Reusable abstractions**: Tools should be domain-agnostic and composable. Separate the interface (CLI, arguments) from the logic (functions). A tool built for one lab should work in another with minimal changes. Extract shared patterns into reusable modules — don't duplicate code across tools.
+**Reusable tools**: Agents can and should implement new tools when needed. But before building a new tool, check if an existing tool already does something similar — extend it rather than creating a duplicate. When tools accumulate, refactor shared logic into modules.
+
+**Spec before building**: When implementing a non-trivial tool (more than a simple script), write a spec in `specs/` first:
+- What does the tool do?
+- What interface does it expose (CLI args, inputs, outputs)?
+- What existing tools does it relate to?
+
+This prevents fragmentation — where 5 similar scripts exist because each agent built its own version without knowing about the others. The spec acts as a contract that future agents can read before deciding to build or extend.
 
 ## 9. Forbidden Actions
 
