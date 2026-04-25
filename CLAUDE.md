@@ -169,13 +169,15 @@ Allowed actions: `ingest`, `experiment`, `query`, `query+page`, `lint`, `lint-fi
 
 ## 8. Development Rules
 
-When implementing or modifying tools, always follow **test-driven development (TDD)**:
+**TDD**: When implementing or modifying tools, always follow test-driven development:
 
 1. Write failing tests first
 2. Implement the code to make tests pass
 3. Verify all tests pass before committing
 
 Run tests with `uv run pytest tests/`. Never ship untested code.
+
+**Reusable abstractions**: Tools should be domain-agnostic and composable. Separate the interface (CLI, arguments) from the logic (functions). A tool built for one lab should work in another with minimal changes. Extract shared patterns into reusable modules — don't duplicate code across tools.
 
 ## 9. Forbidden Actions
 
