@@ -167,7 +167,17 @@ Allowed actions: `ingest`, `experiment`, `query`, `query+page`, `lint`, `lint-fi
 | `.csv` | Read directly. Describe shape in source-summary |
 | `.json` | Read directly. Describe keys in source-summary |
 
-## 8. Forbidden Actions
+## 8. Development Rules
+
+When implementing or modifying tools, always follow **test-driven development (TDD)**:
+
+1. Write failing tests first
+2. Implement the code to make tests pass
+3. Verify all tests pass before committing
+
+Run tests with `uv run pytest tests/`. Never ship untested code.
+
+## 9. Forbidden Actions
 
 - ❌ Modify or delete existing files in `raw/` (you CAN add new files from literature search)
 - ❌ Silently overwrite a fact — use `> [!contradiction]` callout
@@ -177,7 +187,7 @@ Allowed actions: `ingest`, `experiment`, `query`, `query+page`, `lint`, `lint-fi
 - ❌ Edit an existing `log.md` entry (file a `correction` instead)
 - ❌ Stop researching unless the human interrupts you
 
-## 9. Reporting Format
+## 10. Reporting Format
 
 After wiki operations, reply with:
 
@@ -190,7 +200,7 @@ After wiki operations, reply with:
 **Log entry**: <the exact log line>
 ```
 
-## 10. Adapting for Your Domain
+## 11. Adapting for Your Domain
 
 1. Edit `program.md` with your research objective, tools, and parameters.
 2. Replace `tools/run_one.py` with your experiment runner.
