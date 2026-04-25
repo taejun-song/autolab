@@ -1,8 +1,8 @@
 # AutoLab
 
-Autonomous research agent on top of an LLM wiki.
+Autoresearch integrated with LLM-wiki.
 
-*You write `program.md`. The agent reads it, runs experiments, writes findings to a wiki, and re-reads the program for updates. You wake up to a wiki full of insights and a log of experiments.*
+*Autonomous AI research agents that search literature, run experiments, and build compounding knowledge. You write `program.md`. The agent reads papers, forms hypotheses, runs experiments, writes findings to a wiki, and re-reads the program for updates. You wake up to a wiki full of insights and a log of experiments.*
 
 ## How it works
 
@@ -21,6 +21,12 @@ Human edits program.md
         ↓
   Results + Wiki Pages
 ```
+
+## Key ideas
+
+- **Autoresearch** (Karpathy): LLM agent autonomously runs experiments, keeps or discards, iterates forever
+- **LLM-wiki**: Persistent, compounding knowledge base that survives across sessions
+- **AutoLab** = both: the agent searches literature, ingests into the wiki, forms hypotheses from accumulated knowledge, runs experiments, writes findings back to the wiki
 
 Three files matter:
 
@@ -93,10 +99,13 @@ my-lab/
 ├── index.md            # Wiki index (agent maintains)
 ├── log.md              # Chronological log (agent maintains)
 ├── tools/
-│   └── run_one.py      # Your experiment runner (you write this)
-├── raw/                # Source materials (read-only)
-│   ├── papers/
-│   └── data/
+│   ├── run_one.py      # Your experiment runner (you write this)
+│   └── literature.py   # Literature search & download (built-in)
+├── raw/                # Source materials
+│   ├── papers/         # Downloaded PDFs (agent adds, never modifies)
+│   ├── articles/       # Fetched web articles
+│   ├── assets/         # Images, data files
+│   └── data/           # Datasets
 ├── concepts/           # Wiki pages (agent writes)
 ├── entities/           #
 ├── summaries/          #

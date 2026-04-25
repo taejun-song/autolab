@@ -26,6 +26,27 @@ python tools/run_one.py --config param1=value1 param2=value2
 tail -20 results/results.tsv
 ```
 
+### Search literature
+```bash
+# Search arXiv
+python tools/literature.py search "your query here"
+
+# Search Semantic Scholar
+python tools/literature.py scholar "your query here"
+
+# Download a paper by arXiv ID
+python tools/literature.py fetch 2310.15138
+
+# Download by DOI (open-access via Unpaywall)
+python tools/literature.py fetch-doi 10.1038/s41586-023-06415-8
+
+# Search and download top result
+python tools/literature.py search "your query" --download
+
+# List downloaded papers
+python tools/literature.py list
+```
+
 ## Parameters
 
 <!-- List the parameters the agent can tune -->
