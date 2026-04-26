@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | proof path bridge (L² convergence → SC decay)
+
+- created: KuramotoLean/ProofBridge.lean
+- updated: KuramotoLean.lean (+ProofBridge import, 71/71)
+- updated: syntheses/lean-proof-status.md (file count 71)
+- index.md: regenerated
+- LEAN: sc_decay_from_convergence — r → r* + Φ continuous + Φ(r*) = r* → |r-Φ(r)| → 0
+- LEAN: bridge_l2_to_main — L² convergence → KuramotoData → gap-exclusion path
+- **Result**: The L² Lyapunov path SUBSUMES the gap-exclusion path: any proof of r → r* automatically produces hsc_decay (self-consistency decay), the key hypothesis of MainTheorem. This shows the 12+ proof paths are not merely independent — the L² family implies the gap-exclusion family.
+- **Sorry count**: 0 (71 files)
+
 ## [2026-04-26] experiment | qualitative trajectory Lyapunov (dV/dt ≤ 0 without uniform bound)
 
 - updated: KuramotoLean/TrajectoryLyapunov.lean (+trajectory_lyapunov_qualitative)
