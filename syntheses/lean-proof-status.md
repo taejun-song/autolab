@@ -18,7 +18,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 63 files. Lorentzian envelope convergence eliminates all external hypotheses.
+Machine-checked proof status: 0 sorry, 0 axioms across 71 files. Instability Lyapunov quantifies repulsion from incoherence.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,7 +63,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **71** |
-| Comprehensive build | **71/71 files** (all name conflicts resolved via namespaces) |
+| Comprehensive build | **72/72 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -545,6 +545,22 @@ Derives a component-wise lower bound from the n-pole ODE structure using the Gr�
 The proof: dF_k/dt = (K/2)·r(t)·(1-α_k²)·exp(γ_k t) ≥ 0 when r ≥ 0 and α_k ∈ [0,1]. By `monotoneOn_of_deriv_nonneg` (Mathlib mean value theorem): F_k is monotone on [0,∞). Dividing by exp(γ_k t) gives the barrier.
 
 **Significance**: This derives component positivity and order parameter positivity directly from the ODE, without assuming persistence. Combined with the Lyapunov basin argument (LyapunovPersistence.lean), this gives a mechanism for eventual persistence: once V enters the basin V < r*², persistence holds permanently; and the initial order parameter r(0) > 0 provides the first drop needed for basin entry.
+
+## Instability Lyapunov at Incoherence (InstabilityLyapunov.lean)
+
+**Status**: 0 sorry.
+
+The Chetaev-type Lyapunov function W(α) = Σ c_k v_k α_k, where v_k = 1/(λ*+γ_k) is the unstable eigenvector from IncoherenceInstability, satisfies an exact algebraic identity quantifying repulsion from the incoherent state.
+
+| Theorem | Status |
+|---|---|
+| `instability_lyapunov_identity`: dW/dt = λ*W − (K/2)r·Σ c_k v_k α_k² | **proved** |
+| `instability_correction_bound`: correction ≤ (K/2)Sc·ε²·W when α_k ≤ ε | **proved** |
+| `instability_growth_rate`: dW/dt ≥ (λ* − (K/2)Sc·ε²)·W when α_k ∈ [0,ε] | **proved** |
+
+The identity decomposes dW/dt into a linear growth term λ*W (from the unstable eigenvalue) and a quadratic correction (from nonlinearity). When all α_k < √(2λ*/(K·Sc)), the correction is dominated by the growth, giving dW/dt ≥ (λ*/2)W — exponential repulsion from α = 0.
+
+**Significance**: Combined with ComponentBarrier (α_k(t) > 0 for all t) and the V antitone property, this gives the mechanism for excluding convergence to the incoherent state: near α = 0, W grows exponentially, pushing the trajectory away. This is the formal foundation for deriving persistence (liminf r > 0) from instability, which would eliminate the persistence hypothesis from all n-pole proof paths.
 
 ## Open Problem
 

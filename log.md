@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | instability Lyapunov at incoherent state
+
+- created: KuramotoLean/InstabilityLyapunov.lean
+- updated: KuramotoLean.lean (+InstabilityLyapunov import, 72/72)
+- updated: syntheses/lean-proof-status.md (+instability Lyapunov section, file count 71)
+- index.md: regenerated
+- LEAN: instability_lyapunov_identity — dW/dt = λ*W − (K/2)r·Σ c_k v_k α_k²
+- LEAN: instability_correction_bound — correction ≤ (K/2)Sc·ε²·W when α_k ≤ ε
+- LEAN: instability_growth_rate — dW/dt ≥ (λ* − (K/2)Sc·ε²)·W near α = 0
+- **Result**: Exact algebraic identity for the Chetaev instability function W = Σ c_k v_k α_k at the incoherent state. When α is in the instability zone (max α_k < √(2λ*/K·Sc)), dW/dt ≥ (λ*/2)W — exponential repulsion. Foundation for deriving persistence from instability.
+- **Sorry count**: 0 (71 files)
+
 ## [2026-04-26] experiment | continuum strict Lyapunov (V∞ > 0 → ∫∫pair > 0)
 
 - updated: KuramotoLean/ContinuumRigidity.lean (+continuum_strict_lyapunov)
