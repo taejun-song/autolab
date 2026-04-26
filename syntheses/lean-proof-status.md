@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 85 files. Forward invariance + permanent component persistence from r-persistence.
+Machine-checked proof status: 0 sorry, 0 axioms across 88 files. End-to-end convergence: ODE trajectory data → V antitone (derived) → component persistence → V drops → r → r*.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **85** |
-| Comprehensive build | **85/85 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **88** |
+| Comprehensive build | **88/88 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -729,6 +729,26 @@ Key algebraic results for deriving persistence from the energy gap V < V_incoher
 | `self_contained_tendsto`: Filter.Tendsto form | **proved** |
 
 **Significance**: The `V_initial_lt_V_incoherent` theorem shows V(0) < V_incoherent for all initial data α(0) ∈ (0, 2α*_min)^n, covering initial data near incoherence AND near the PLS. Combined with `quantitative_persistence`, this gives a quantitative r ≥ δ bound WITHOUT assuming persistence. The δ depends on V(0) and α*_max only. Combined with RPersistenceComponent (propagation) and UniformRate (exponential decay), this yields the 16th independent proof path: V gap → quantitative persistence → component propagation → uniform rate → V → 0.
+
+## End-to-End Convergence (EndToEndConvergence.lean)
+
+**Status**: 0 sorry.
+
+Assembles all building blocks into a single theorem from ODE trajectory data to r → r*. Two key new results:
+
+| Theorem | Status |
+|---|---|
+| `l2_antitoneOn`: V antitone on [0,∞) from ODE pair bound | **proved** |
+| `l2_ext_antitone`: V antitone on all of ℝ (extension) | **proved** |
+| `end_to_end_drop`: V(a+Δ) ≤ V(a)·exp(-μΔ) from component bounds | **proved** |
+| `end_to_end_drops`: drops happen infinitely often | **proved** |
+| `end_to_end_V_tendsto`: V → 0 (Filter.Tendsto form) | **proved** |
+| `end_to_end_convergence`: |Σc_k(α_k-α*_k)| → 0 | **proved** |
+| `end_to_end_r_convergence`: |r-r*| → 0 | **proved** |
+
+**Key new result**: `l2_antitoneOn` DERIVES V antitone from the ODE structure using `trajectory_lyapunov_qualitative` (dV/dt ≤ 0) + `component_positive` (α_k > 0 from Gronwall barrier) + `antitoneOn_of_deriv_nonpos` (Mathlib MVT). This eliminates the `hV_anti` hypothesis that all previous proof paths assumed.
+
+The `EndToEndData` structure packages: NPoleBarrierData + equilibrium + initial positivity + component persistence bounds. The proof chain: component_lb on [T₀,∞) → l2_drop_from_bounds → multiplicative V-drops → continuous_barbalat_tendsto → V → 0 → Cauchy-Schwarz → |r-r*| → 0.
 
 ## Open Problem
 

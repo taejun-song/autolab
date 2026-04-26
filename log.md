@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | end-to-end convergence assembly
+
+- updated: KuramotoLean/EndToEndConvergence.lean (fixed compilation: added ComponentBarrier import, DifferentiableOn fix, exp monotonicity fix, sum_sub_distrib fix)
+- updated: KuramotoLean.lean (+EndToEndConvergence import, 88/88)
+- updated: syntheses/lean-proof-status.md (+end-to-end section, file count 88)
+- index.md: regenerated
+- LEAN: l2_antitoneOn — V antitone on [0,∞) DERIVED from ODE (not assumed)
+- LEAN: end_to_end_convergence — |Σc_k(α_k-α*_k)| → 0 from EndToEndData
+- LEAN: end_to_end_r_convergence — |r-r*| → 0
+- **Result**: Fixed all compilation errors in EndToEndConvergence.lean (was draft from prior session). Key fix: added import KuramotoLean.ComponentBarrier for NPoleBarrierData and component_positive. The l2_antitoneOn theorem is the first result that DERIVES V antitone from the ODE pair bound + Gronwall barrier + Mathlib MVT, eliminating the hV_anti hypothesis from all prior proof paths. The full assembly: EndToEndData → l2_ext_antitone → end_to_end_drops → continuous_barbalat_tendsto → V → 0 → Cauchy-Schwarz → r → r*.
+- **Sorry count**: 0 (88 files)
+
 ## [2026-04-27] experiment | multiplicative V-drop from component bounds
 
 - created: KuramotoLean/DropFromComponentBound.lean
