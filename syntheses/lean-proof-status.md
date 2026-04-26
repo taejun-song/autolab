@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **73** |
+| Total .lean files | **74** |
 | Comprehensive build | **72/72 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -598,6 +598,21 @@ The `InstabilityExclusionData` structure packages:
 - W escapes [0,η) infinitely often (instability repulsion prevents W staying small)
 
 The drops are infinitely often (from W escaping), and each drop is multiplicative (q < 1), so Barbalat gives V → 0. This is the cleanest proof path combining instability + Lyapunov: NO persistence hypothesis, NO self-consistency map, NO gap exclusion. Only: V antitone + instability-driven drops.
+
+## Comparison Growth Principle (ComparisonGrowth.lean)
+
+**Status**: 0 sorry.
+
+Dual of comparison_decay (GronwallBridge.lean). If dW/dt ≥ μW, then W(t) ≥ W(0)·exp(μt).
+
+| Theorem | Status |
+|---|---|
+| `comparison_growth`: W'≥μW → W(t)≥W₀·exp(μt) | **proved** |
+| `comparison_growth_escape`: W₀>0 + growth → W eventually ≥ η | **proved** |
+
+The proof uses U(t) = W(t)·exp(-μt), shows dU/dt ≥ 0 via Mathlib's monotoneOn_of_deriv_nonneg. The escape theorem uses Tendsto exp atTop atTop from Mathlib.
+
+**Significance**: Combined with instability_growth_rate, this completes the chain: near α = 0, W satisfies dW/dt ≥ (λ*/2)W → W grows exponentially → W eventually exceeds any threshold η → components grow → pair coercivity kicks in → V drops. The full mechanism for deriving persistence from instability is now machine-checked in components.
 
 ## Open Problem
 

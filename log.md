@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | comparison growth principle (dual Gronwall)
+
+- created: KuramotoLean/ComparisonGrowth.lean
+- updated: KuramotoLean.lean (+ComparisonGrowth import, 76/76)
+- updated: syntheses/lean-proof-status.md (+comparison growth section, file count 74)
+- index.md: regenerated
+- LEAN: comparison_growth — W'≥μW → W(t)≥W₀·exp(μt) (monotone multiplier)
+- LEAN: comparison_growth_escape — W₀>0 + growth → W eventually ≥ η (Tendsto)
+- **Result**: Dual of comparison_decay for exponential growth. Combined with instability_growth_rate, completes the chain: near α=0, W grows exponentially → escapes any threshold → components grow → pair coercivity → V drops.
+- **Sorry count**: 0 (74 files)
+
 ## [2026-04-26] experiment | instability exclusion convergence (14th proof path)
 
 - created: KuramotoLean/InstabilityExclusion.lean
