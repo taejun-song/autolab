@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | component persistence from r-persistence
+
+- created: KuramotoLean/RPersistenceComponent.lean
+- updated: KuramotoLean.lean (+RPersistenceComponent import, 83/83)
+- updated: syntheses/lean-proof-status.md (+component persistence section, file count 83)
+- index.md: regenerated
+- LEAN: component_linear_growth — α_k(b) ≥ α_k(a) + (Kδ/8)(b-a) when r ≥ δ and α_k ≤ β
+- LEAN: component_must_exceed — α_k exceeds β within time 8β/(Kδ) when r ≥ δ
+- LEAN: single_component_exceeds — convenience wrapper with escapeTime
+- **Result**: Bridges order parameter persistence to component-wise persistence. When r(t) ≥ δ on a long enough interval, each component α_k must exceed the threshold β = min(Kδ/(4γ_k), 1/2). Uses npole_velocity_lower_bound + monotoneOn_of_deriv_nonneg for the linear growth, then contradiction argument for threshold crossing. Key building block for the self-contained n-pole theorem (ODE data → r → r*).
+- **Sorry count**: 0 (83 files)
+
 ## [2026-04-26] experiment | order parameter escape + quantitative pair bound
 
 - created: KuramotoLean/OrderParameterEscape.lean

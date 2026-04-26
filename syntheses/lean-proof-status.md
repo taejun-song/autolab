@@ -2,7 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-04-26
+updated: 2026-04-27
 
 sources:
   - "[[kuramoto-stability-problem]]"
@@ -18,7 +18,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 81 files. Order parameter escape + quantitative pair bound from single component.
+Machine-checked proof status: 0 sorry, 0 axioms across 83 files. Component persistence from r-persistence via velocity lower bound.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **81** |
-| Comprehensive build | **81/81 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **83** |
+| Comprehensive build | **83/83 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -678,6 +678,22 @@ Proves that when the Lyapunov function V is below the incoherent-state value V_i
 | `energy_exclusion_quantitative`: all α_k ≤ δ → V ≥ V_incoherent - 2δr* | **proved** |
 
 **Significance**: This provides a purely energy-based mechanism for persistence: no need for the instability analysis if V can be shown to drop below V_incoherent. The quantitative bound shows the level set {V ≤ V₀} is bounded away from α = 0 when V₀ < V_incoherent. Combined with Chetaev escape (which forces the FIRST V-drop), this gives the complete chain: instability → V drops → V < V_incoherent → r > 0 forever → persistence → exponential convergence.
+
+## Component Persistence from Order Parameter Persistence (RPersistenceComponent.lean)
+
+**Status**: 0 sorry.
+
+| Statement | LEAN name | Status |
+|-----------|-----------|--------|
+| Linear growth below threshold | `component_linear_growth` | proved |
+| Component must exceed threshold | `component_must_exceed` | proved |
+| Single component exceeds | `single_component_exceeds` | proved |
+
+**Key result**: If the order parameter r(t) ≥ δ > 0 on an interval [a, a+S] with S ≥ 8β/(Kδ), then component α_k cannot stay below β = min(Kδ/(4γ_k), 1/2). This bridges order parameter persistence to component-wise persistence.
+
+**Proof**: The velocity bound (ContinuousLaSalle) gives dα_k/dt ≥ Kδ/8 when α_k ≤ β and r ≥ δ. Using monotoneOn_of_deriv_nonneg on the shifted function g(t) = α_k(t) - (Kδ/8)t, the linear growth α_k(b) ≥ α_k(a) + (Kδ/8)(b-a) follows. After time 8β/(Kδ), the growth exceeds β, contradicting α_k ≤ β.
+
+**Significance**: This is a key bridge toward the self-contained n-pole theorem. Combined with the uniform rate (dV/dt ≤ -Kδδ*V when all α_k ≥ δ) and comparison_decay, it closes: r-persistence → component growth → uniform rate → V → 0. The remaining gap is forward invariance of the threshold (showing α_k stays ≥ β once it exceeds it).
 
 ## Open Problem
 
