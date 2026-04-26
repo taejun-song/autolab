@@ -242,17 +242,19 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Decomposition: h_decomp [integral splitting]
 
 ### What is open
-- Wire full NPoleBarrierData → SelfContainedData construction (all pieces exist, need assembly)
 - Filling ContinuumGlobalStability structure hypotheses with LEAN proofs
 - Reducing hypothesis count (some hypotheses are consequences of others)
+- Full initial-condition chain: InitialConditionData → EndToEndData (quantitative_persistence + component_persistence_from_r)
 
 ### Key new results (this session)
+- **EndToEndConvergence**: ODE data + component persistence → V antitone (DERIVED) → V drops → r → r*
+- **l2_antitoneOn**: First result deriving V antitone from ODE pair bound (eliminates hV_anti hypothesis)
 - **SelfContainedConvergence**: V < V_incoherent → quantitative persistence → V → 0
 - **ComponentForwardInvariance**: {α_k ≥ β} forward invariant under r ≥ δ
 - **DropFromComponentBound**: component bounds → multiplicative V-drop via comparison_decay
 - **ShiftedBarrier**: α_k(t) ≥ α_k(t₀)·exp(-γ_k(t-t₀)) for t ≥ t₀
 - **RPersistenceComponent**: r ≥ δ → component propagation → α_k exceeds threshold
-- All building blocks for self-contained assembly now exist (87 files)
+- Assembly complete: NPoleBarrierData → EndToEndData → r → r* (88 files)
 
 ### Independent proof paths (all 0 sorry)
 1. **MainTheorem**: gap exclusion + Lipschitz trapping (14-field KuramotoData)
@@ -265,6 +267,7 @@ hsc_gap + persistence + Lipschitz → r → r*
 8. **UniformRate**: dV/dt ≤ -Kδδ*V (n-independent, full pair sum)
 9. **InstabilityExclusion**: V antitone + instability escape drops → V → 0 (no persistence)
 10. **SelfContainedConvergence**: V gap → quantitative persistence → iterated drops → V → 0
+11. **EndToEndConvergence**: ODE data → V antitone (derived) → component drops → Barbalat → r → r*
 
 ## NEVER STOP
 
