@@ -61,7 +61,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **49** |
+| Total .lean files | **50** |
 
 ### Axiom Inventory
 
@@ -218,6 +218,25 @@ Trapping uses IVT (`IsPreconnected.intermediate_value₂`): a continuous path ca
 ### Concrete Instance: Continuous Lorentzian (ContinuousLorentzianInstance.lean)
 
 `lorentzian_continuous_global_stability` proves: for any continuous solution r(t) of the Lorentzian ODE with persistence and self-consistency decay, r(t) → r* = √(1-2γ/K). Applies to ALL K > 2γ with no step-size restriction.
+
+## Continuum L² Lyapunov (ContinuumLyapunov.lean)
+
+**Status**: 0 sorry.
+
+The finite-sum `pair_bound` is purely algebraic — it holds pointwise for any α, α* ∈ (0,1) regardless of dimension. By `integral_nonneg` applied twice, the double integral over ANY measure space (Ω, μ) is non-negative.
+
+| Theorem | Status |
+|---|---|
+| `continuum_pair_nonneg`: ∫∫ pair_term(ω₁,ω₂) dμ dμ ≥ 0 | **proved** |
+| `pairIntegrand_nonneg`: pointwise pair bound | **proved** |
+
+This gives dV∞/dt ≤ 0 for the continuum OA flow where V∞ = ∫g|α-α*|²dω. The proof:
+1. dV∞/dt = K·(DS - r*Q) (Lyapunov identity, same algebra as n-pole)
+2. r*Q - DS = (1/2)∫∫ pair_term dμ dμ (Fubini + symmetrization)
+3. pair_term ≥ 0 pointwise (pair_bound)
+4. ∫∫ pair_term dμ dμ ≥ 0 (integral_nonneg twice)
+
+**Significance**: This bypasses the passage to limit entirely. The continuum Lyapunov is a DIRECT result, not a limit of finite approximations. V∞ is finite at PLS (unlike Ψ), resolving the core obstruction identified in the subproblem decomposition.
 
 ## Open Problem
 

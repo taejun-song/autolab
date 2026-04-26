@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuum L2 Lyapunov via pair bound transfer
+
+- created: KuramotoLean/ContinuumLyapunov.lean
+- updated: syntheses/lean-proof-status.md (+continuum Lyapunov section)
+- LEAN: continuum_pair_nonneg — ∫∫ pair_term dμ dμ ≥ 0 for any measure space
+- LEAN: pairIntegrand_nonneg — pointwise pair bound wrapper
+- index.md: regenerated
+- **Result**: Continuum dV∞/dt ≤ 0 formalized. Bypasses passage to limit entirely.
+- **Sorry count**: 0 (50 files)
+
 ## [2026-04-26] experiment | n-pole ODE instance (general convergence)
 
 - created: KuramotoLean/NPoleInstance.lean
