@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-26] experiment | uniform exponential rate via full pair sum
+
+- created: KuramotoLean/UniformRate.lean
+- LEAN: full_pair_sum_identity — Σ Σ c_j c_k (p_j²+p_k²) = 2(Σc)V
+- LEAN: coercive_double_sum — Σ Σ c_j c_k pair ≥ 2δδ*V (from pair_coercive)
+- **Result**: Rate Kδδ* is n-independent, confirming uniform convergence for n → ∞.
+- **Sorry count**: 0 (57 files)
+
 ## [2026-04-26] experiment | locked exponential + split convergence
 
 - created: KuramotoLean/LockedExponential.lean
