@@ -244,7 +244,6 @@ hsc_gap + persistence + Lipschitz → r → r*
 ### What is open
 - Filling ContinuumGlobalStability structure hypotheses with LEAN proofs
 - Reducing hypothesis count (some hypotheses are consequences of others)
-- Full initial-condition chain: InitialConditionData → EndToEndData (quantitative_persistence + component_persistence_from_r)
 
 ### Key new results (this session)
 - **EndToEndConvergence**: ODE data + component persistence → V antitone (DERIVED) → V drops → r → r*
