@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | exponential convergence via Mathlib Gronwall
+
+- created: KuramotoLean/ExponentialConvergence.lean
+- updated: syntheses/lean-proof-status.md
+- LEAN: exponential_decay_convergence — V(t) ≤ V₀·exp(-ct) implies V → 0
+- LEAN: npole_exponential_convergence — pointwise exponential convergence for n-pole
+- index.md: regenerated
+- **Result**: Connected L2 rate to Mathlib Gronwall for continuous-time exponential convergence
+- **Sorry count**: 0 (45 files)
+
 ## [2026-04-26] experiment | L2 convergence theorem for n-pole systems
 
 - created: KuramotoLean/L2Convergence.lean
