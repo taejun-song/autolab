@@ -8,7 +8,7 @@
 - LEAN: critical_W_convergence — W₀ → 0 by contradiction (antitone + comparison_decay)
 - LEAN: critical_r_convergence — r → 0 (from r ≤ γ_max·W₀)
 - **Result**: First proof of convergence at the critical coupling K = K_c. Approach: cubic Lyapunov bound dW₀/dt ≤ -(K²γ_min/4)W₀³ from identity + Cauchy-Schwarz + r ≥ γ_min·W₀. If W₀ ≥ δ > 0 forever, linearize to dW₀/dt ≤ -(K²γ_minδ²/4)W₀, then comparison_decay gives exponential decay → contradiction.
-- **Sorry count**: 1 (critical_deriv_cubic: algebraic identity + weighted Cauchy-Schwarz)
+- **Sorry count**: 0 (critical_deriv_cubic proved: weighted ODE identity + Titu's lemma + product bound)
 - index.md: regenerated
 
 ## [2026-04-27] experiment | bifurcation dichotomy K≠K_c
