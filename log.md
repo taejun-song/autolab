@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | Archimedean convergence (13th proof path)
+
+- created: KuramotoLean/ArchimedeanConvergence.lean
+- updated: KuramotoLean.lean (+ArchimedeanConvergence import, 72/72)
+- LEAN: archimedean_convergence — V ≥ 0, V non-increasing, additive drop modulus → V → 0
+- LEAN: archimedean_r_convergence — same with order parameter bound
+- **Result**: 13th independent proof path. V monotone + additive drop modulus → V → 0 via the Archimedean property. Purely discrete (ℕ-indexed), no Barbalat, no multiplicative factor q.
+- **Sorry count**: 0 (72 files)
+
 ## [2026-04-26] experiment | instability Lyapunov at incoherent state
 
 - created: KuramotoLean/InstabilityLyapunov.lean
