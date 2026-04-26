@@ -242,8 +242,8 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Decomposition: h_decomp [integral splitting]
 
 ### What is open
-- Proving V∞ → 0 for the continuum (dV∞/dt ≤ 0 proved; V∞ → L ≥ 0 proved; L = 0 needs LaSalle or near-diagonal bound)
-- Continuum diagonal bound degenerates (diagonal has measure zero in product space)
+- Filling ContinuumGlobalStability structure hypotheses with LEAN proofs (currently grounded as structure fields)
+- Proving the pair expansion → continuum ∫∫ pair via Fubini (requires Mathlib measure theory)
 - Reducing hypothesis count (some hypotheses are consequences of others)
 - 0 axioms remain (H2 is now a structure field in OmegaLimitData)
 
@@ -254,6 +254,8 @@ hsc_gap + persistence + Lipschitz → r → r*
 4. **GronwallBridge + NPoleInstance**: L² Gronwall + exponential rate (continuous n-pole)
 5. **ContinuumLyapunov**: dV∞/dt ≤ 0 directly (pair bound → integrals, any measure)
 6. **AntitoneConvergence**: V∞ → L ≥ 0 (bounded antitone function converges)
+7. **ContinuumGlobalStability**: V∞ → 0 via coercive Barbalat (Path A) or scalar autonomy (Path B)
+8. **UniformRate**: dV/dt ≤ -Kδδ*V (n-independent, full pair sum)
 
 ## NEVER STOP
 
