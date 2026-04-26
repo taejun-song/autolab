@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-27] experiment | forward invariance + permanent component persistence
+
+- created: KuramotoLean/ComponentForwardInvariance.lean
+- updated: KuramotoLean.lean (+ComponentForwardInvariance import, 85/85)
+- updated: syntheses/lean-proof-status.md (+forward invariance section, file count 85)
+- index.md: regenerated
+- LEAN: component_threshold_forward_inv — α_k(a) ≥ β ∧ r ≥ δ on [a,b] → α_k(t) ≥ β on [a,b]
+- LEAN: component_persistence_from_r — r ≥ δ on [T,∞) → α_k(t) ≥ β for t ≥ T + 8β/(Kδ)
+- **Result**: Completes the bridge from order parameter persistence to permanent component lower bounds. Forward invariance proved via compact maximum of level set (IsClosed.csSup_mem) + linear growth contradiction. Combined with Experiment 1 (component_must_exceed), gives: r ≥ δ → each α_k eventually reaches AND permanently stays above threshold β_k. This enables the uniform rate dV/dt ≤ -Kδδ*V.
+- **Sorry count**: 0 (85 files)
+
 ## [2026-04-27] experiment | self-contained convergence from V < V_incoherent
 
 - created: KuramotoLean/SelfContainedConvergence.lean

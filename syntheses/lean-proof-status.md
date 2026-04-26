@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 84 files. Self-contained convergence from V < V_incoherent.
+Machine-checked proof status: 0 sorry, 0 axioms across 85 files. Forward invariance + permanent component persistence from r-persistence.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **84** |
-| Comprehensive build | **84/84 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **85** |
+| Comprehensive build | **85/85 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -694,7 +694,22 @@ Proves that when the Lyapunov function V is below the incoherent-state value V_i
 
 **Proof**: The velocity bound (ContinuousLaSalle) gives dα_k/dt ≥ Kδ/8 when α_k ≤ β and r ≥ δ. Using monotoneOn_of_deriv_nonneg on the shifted function g(t) = α_k(t) - (Kδ/8)t, the linear growth α_k(b) ≥ α_k(a) + (Kδ/8)(b-a) follows. After time 8β/(Kδ), the growth exceeds β, contradicting α_k ≤ β.
 
-**Significance**: This is a key bridge toward the self-contained n-pole theorem. Combined with the uniform rate (dV/dt ≤ -Kδδ*V when all α_k ≥ δ) and comparison_decay, it closes: r-persistence → component growth → uniform rate → V → 0. The remaining gap is forward invariance of the threshold (showing α_k stays ≥ β once it exceeds it).
+**Significance**: Combined with forward invariance (ComponentForwardInvariance.lean), this closes: r-persistence → component growth → permanent lower bound → uniform rate → V → 0.
+
+## Forward Invariance of Component Threshold (ComponentForwardInvariance.lean)
+
+**Status**: 0 sorry.
+
+| Statement | LEAN name | Status |
+|-----------|-----------|--------|
+| Forward invariance | `component_threshold_forward_inv` | proved |
+| Permanent persistence | `component_persistence_from_r` | proved |
+
+**Key result**: If α_k(a) ≥ β and r(t) ≥ δ on [a,b], then α_k(t) ≥ β for ALL t ∈ [a,b]. Combined with component_must_exceed: after time T + 8β/(Kδ), α_k permanently stays ≥ β.
+
+**Proof**: By contradiction. The set {t ∈ [a,t₁] : α_k(t) ≥ β} is closed and nonempty, so its sSup c is in the set (IsClosed.csSup_mem). We show α_k(c) = β exactly (if > β, continuity gives points past c, contradicting maximality). Past c, α_k < β, so linear growth gives α_k(t₁) > β. Contradiction.
+
+**Significance**: This COMPLETES the bridge from r-persistence to permanent component lower bounds. The chain r ≥ δ → all α_k ≥ β_k permanently → uniform rate dV/dt ≤ -μV → exponential V-decay is now fully formalized.
 
 ## Self-Contained Convergence (SelfContainedConvergence.lean)
 
