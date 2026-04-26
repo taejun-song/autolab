@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | subcritical convergence K < K_c → r → 0
+
+- created: KuramotoLean/SubcriticalConvergence.lean
+- updated: KuramotoLean.lean (+SubcriticalConvergence import)
+- LEAN: weightedW — Lyapunov W₀ = Σ c_k α_k/γ_k
+- LEAN: weightedW_deriv_le — dW₀/dt ≤ -(γ_min(1-K/K_c))·W₀
+- LEAN: subcritical_W_decay — W₀(t) ≤ W₀(0)·exp(-μt) via comparison_decay
+- LEAN: subcritical_r_decay — r(t) ≤ γ_max·W₀(0)·exp(-μt)
+- **Result**: First machine-checked proof that the incoherent state is globally exponentially stable for K < K_c. Proof: the weighted Lyapunov W₀ = Σ c_k α_k/γ_k satisfies dW₀/dt = Σ c_k/γ_k · ODE_k ≤ r(K/K_c - 1) (algebraic identity + 1-α² ≤ 1). Since r ≥ γ_min · W₀ and K/K_c - 1 < 0: dW₀/dt ≤ -μ W₀ with μ = γ_min(1-K/K_c). Comparison principle gives exponential decay. Combined with r ≤ γ_max · W₀: r → 0 exponentially.
+- **Sorry count**: 0
+- index.md: regenerated
+
 ## [2026-04-27] experiment | subcritical Lyapunov bound
 
 - created: KuramotoLean/SubcriticalLyapunov.lean
