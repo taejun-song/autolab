@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-26] experiment | pair expansion identity + l2_uniform_rate
+
+- updated: KuramotoLean/UniformRate.lean (+pair_expansion_identity, +l2_uniform_rate)
+- LEAN: pair_expansion_identity — 2(r*Q-DS) = Σ Σ c_j c_k pair (algebraic)
+- LEAN: l2_uniform_rate — dV/dt ≤ -Kδδ*V (n-independent, complete chain)
+- **Result**: Complete chain: pair_coercive → coercive_double_sum → pair_expansion → uniform_rate
+- **Sorry count**: 0 (57 files)
+
 ## [2026-04-26] experiment | uniform exponential rate via full pair sum
 
 - created: KuramotoLean/UniformRate.lean
