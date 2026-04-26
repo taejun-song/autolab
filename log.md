@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-27] experiment | zero component activation
+
+- created: KuramotoLean/ZeroActivation.lean
+- updated: KuramotoLean.lean (+ZeroActivation import, 98/98)
+- LEAN: r_pos_from_component — ∃ j, α_j(0) > 0 → r(t) > 0 ∀ t ≥ 0
+- LEAN: zero_component_activation — α_k(0) ≥ 0, ∃ j, α_j(0) > 0 → α_k(t) > 0 ∀ t > 0
+- **Result**: Proves zero components become positive immediately when r > 0. Uses shifted_component_barrier (contrapositive: α_k(t)=0 → α_k=0 on [0,t]) + strictMonoOn_of_deriv_pos (α_k=0 with dα_k/dt=(K/2)r>0 → strictly increasing → α_k(t)>α_k(0)=0, contradiction). Extends the initial condition domain from (0,1)^n to [0,1)^n with at least one positive component.
+- **Sorry count**: 0 (98 files)
+
 ## [2026-04-27] experiment | parametric convergence — 6 hypotheses
 
 - updated: KuramotoLean/GlobalStabilitySupercritical.lean (+parametric_convergence)
