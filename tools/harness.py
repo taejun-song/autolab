@@ -127,7 +127,7 @@ class SessionManager:
         self.start_session()
         ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[{ts}] Session {self.session_number}: starting "
-              f"(max {self.max_experiments} experiments)")
+              f"(max {self.max_experiments} experiments)", flush=True)
 
         prompt = (
             f"Read {self.program_path} and run up to {self.max_experiments} experiments. "
@@ -142,18 +142,20 @@ class SessionManager:
         try:
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             while proc.poll() is None:
+                # Pull latest to detect program.md changes
+                if git_pull:
+                    subprocess.run(["git", "pull"], capture_output=True, timeout=30)
                 reason = self.check_cycle()
                 if reason and reason != "max_experiments":
-                    # Force cycle on program change or timeout
                     ts = datetime.now().strftime("%H:%M:%S")
-                    print(f"[{ts}] Cycling session: {reason}")
+                    print(f"[{ts}] Cycling session: {reason}", flush=True)
                     proc.send_signal(signal.SIGTERM)
                     try:
                         proc.wait(timeout=30)
                     except subprocess.TimeoutExpired:
                         proc.kill()
                     return reason
-                time.sleep(10)
+                time.sleep(30)
             return self.check_cycle() or "session_ended"
         except Exception as e:
             print(f"Session error: {e}", file=sys.stderr)
@@ -175,8 +177,8 @@ class SessionManager:
                 experiments_run=self.experiments_run,
                 cycle_reason=reason,
             )
-            print(f"[{ts}] {summary}")
-            print(f"[{ts}] Restarting with fresh context in 5s...")
+            print(f"[{ts}] {summary}", flush=True)
+            print(f"[{ts}] Restarting with fresh context in 5s...", flush=True)
             time.sleep(5)
 
 
