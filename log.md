@@ -1,5 +1,22 @@
 # Activity Log
 
+## [2026-04-27] experiment | equilibrium monotone in coupling K
+
+- updated: KuramotoLean/SelfConsistencyFixedPoint.lean (+explicitEquil_mono_K)
+- LEAN: explicitEquil_mono_K — K₁ < K₂ → α*(γ,K₁,r) < α*(γ,K₂,r)
+- **Result**: Completes the monotonicity picture. Proof: componentEquil at K₂ evaluated at α*(K₁) is positive (coupling increase raises (K/2)r(1-α²) term), then strictAntiOn gives α*(K₁) < α*(K₂).
+- **Sorry count**: 0 (102 files)
+
+## [2026-04-27] experiment | explicit convergence rate T = log(V₀/ε²)/μ
+
+- created: KuramotoLean/ExplicitRate.lean
+- updated: KuramotoLean.lean (+ExplicitRate import, 102/102)
+- LEAN: order_parameter_exp_decay — |r-r*| ≤ √V₀ · exp(-μt/2)
+- LEAN: explicit_convergence_time — t > log(V₀/ε²)/μ → |r-r*| < ε
+- LEAN: lyapunov_halflife — V₀·exp(-μ·log2/μ) = V₀/2
+- **Result**: First fully quantitative convergence theorem with computable time formula.
+- **Sorry count**: 0 (102 files)
+
 ## [2026-04-27] experiment | eventual exponential convergence rate
 
 - created: KuramotoLean/EventualRate.lean
