@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **93** |
-| Comprehensive build | **93/93 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **96** |
+| Comprehensive build | **96/96 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
