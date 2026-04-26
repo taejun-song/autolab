@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | Generalize slaving bound constant from 2 to C > 0
+
+- updated: syntheses/lean-proof-status.md (Lorentzian instance section, KuramotoData table)
+- LEAN: KuramotoData, ApproxSCData, FullKuramotoData gain C/hC fields
+- LEAN: lorentzian_global_stability_from_lyapunov — no external slaving hypothesis
+- index.md: regenerated
+- **Result**: Lorentzian instance now works for all K > 2γ (was restricted to K ≤ 4)
+- **Sorry count**: 0 (unchanged)
+
 ## [2026-04-14] ingest | Kuramoto (1975) — Self-Entrainment of a Population of Coupled Non-Linear Oscillators
 
 - created: concepts/synchronization.md

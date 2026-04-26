@@ -45,6 +45,7 @@ All hypotheses are transparent and individually groundable:
 | hPhi_fp_rstar: Phi(r*) = r* | [[kuramoto-1975-self-entrainment\|K75]] | Published |
 | hPhi_unique: two fixed points only | [[kuramoto-1975-self-entrainment\|K75]] K > K_c | Published |
 | hPhi_continuous: Phi continuous | [[kuramoto-1975-self-entrainment\|K75]] integral formula | Published |
+| C, hC: slaving constant C > 0 | Any bound on initial deviation | Standard |
 | hslaving_bound: Riccati contraction | [[dietert-2016-thesis\|D16 thesis]] S2.3 | Published |
 | htail_decay: L1 tail of g | [[brezis-2011-functional-analysis-sobolev-pdes\|Brezis 2011]] Prop 4.4 | Published |
 | h_decomp: integral splitting | Standard analysis | Standard |
@@ -130,12 +131,15 @@ The main theorem's correctness depends ONLY on:
 
 The `LorentzianSolution.toKuramotoData` construction builds a concrete `KuramotoData` from the Lorentzian OA ODE. This applies `global_stability` to prove `lorentzian_global_stability`: r(n) → r* = √(1-2γ/K) for all K > 2γ.
 
-The construction assumes:
-1. A LorentzianSolution (ODE solution sampled at integer times)
-2. A slaving bound: |f(r(n))| ≤ 2·exp(-γ_c·Ψ(n))
-3. hL_small: 3(K-γ) < r*
+The slaving bound constant was generalized from the hardcoded `2` to an arbitrary `C > 0`. This enables:
 
-The slaving bound follows from the Lyapunov identity (dW/dt = -2Kr²W) but is not yet formalized. This is the single remaining gap for a fully concrete instance.
+- `lorentzian_global_stability_from_lyapunov`: fully assembled theorem with no external slaving hypothesis. Uses Lyapunov identity to derive `C = (K/2)·√W₀` and `γ_c = 1`.
+- Works for **all** K > 2γ (previously restricted to K ≤ 4).
+
+The remaining external hypotheses:
+1. A `LorentzianSolution` (ODE solution sampled at integer times)
+2. `hr0_ne`: r₀² ≠ r*² (initial data not at equilibrium)
+3. `hL_small`: 3(K-γ) < r* (step size smallness, satisfiable by `lorentzian_hL_small_satisfiable`)
 
 ## Open Problem
 
