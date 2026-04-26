@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | V < V_incoherent convergence chain
+
+- created: KuramotoLean/BarbalatLemma.lean
+- updated: KuramotoLean.lean (+BarbalatLemma import)
+- LEAN: sub_vinc_convergence — V(0) < V_incoherent → |r-r*| → 0 (full chain)
+- **Result**: Packages the complete chain from V(0) < V_incoherent to convergence as a single theorem. Given NPoleBarrierData + equilibrium + V(0) < V_incoherent: derives quantitative r-persistence (r ≥ δ₁ from energy gap), component propagation (all α_k ≥ β after escapeTime), constructs EndToEndData, and calls end_to_end_r_convergence. This is the canonical entry point for convergence when the initial energy is below the incoherent level.
+- **Sorry count**: 0
+
 ## [2026-04-27] experiment | barrier drop extends convergence basin
 
 - created: KuramotoLean/BarrierDrop.lean
