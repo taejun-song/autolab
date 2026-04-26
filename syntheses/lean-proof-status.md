@@ -423,6 +423,23 @@ The LaSalle characterization: dV/dt = 0 if and only if α = α*.
 
 Proof: V > 0 means some α_k ≠ α*_k. By pair_eq_zero_iff, pair(k,k) > 0. Since all pair terms are ≥ 0 (pair_bound) and one is > 0, the double sum is > 0. The Lyapunov identity then gives dV/dt = K(DS - r*Q) < 0.
 
+## Instability of Incoherence (IncoherenceInstability.lean)
+
+**Status**: 0 sorry.
+
+Formalizes the dispersion relation for the n-pole Jacobian at α = 0 and proves instability via IVT.
+
+| Theorem | Status |
+|---|---|
+| `npoleDispersion`: h(λ) = (K/2)Σc_k/(λ+γ_k) | **def** |
+| `npoleCriticalK`: K_c = 2/(Σc_k/γ_k) | **def** |
+| `incoherence_unstable`: K > K_c → ∃ λ* > 0 with h(λ*) = 1 | **proved** |
+| `eigenvector_equation`: Jv = λ*v where v_k = 1/(λ*+γ_k) | **proved** |
+| `eigenvector_order_parameter`: Σc_k·v_k = 2/K | **proved** |
+| `eigenvector_r_pos`: order parameter positive in unstable direction | **proved** |
+
+The unstable eigenvector is positive (all components > 0), pointing into the trapping region (0,1)^n. The order parameter r = Σc_k·v_k = 2/K > 0 along this direction.
+
 ## Open Problem
 
 The genuinely open assumption **unstable_manifold_to_pls** (H2) is now an explicit structure field in `OmegaLimitData.h_unstable_to_pls`, not a LEAN axiom. To use the FullRangeStability proof path, one must construct an `OmegaLimitData` satisfying this property. This is proved for finite-dimensional OA (Lorentzian mixtures) but open for the continuum semiflow.
