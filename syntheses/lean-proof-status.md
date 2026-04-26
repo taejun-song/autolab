@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **55** |
+| Total .lean files | **56** |
 
 ### Axiom Inventory
 
@@ -148,6 +148,22 @@ The remaining external hypotheses:
 | `l2_exponential_rate`: dV/dt ≤ -Kμ·V | **proved** (0 sorry) |
 
 The diagonal extraction uses the symmetrized double-sum from `ds_le_rstarQ`, applies `double_sum_ge_diagonal` (non-negative terms), and simplifies the self-pair via `self_pair_identity`.
+
+### Uniform Exponential Rate (UniformRate.lean)
+
+**Status**: 0 sorry.
+
+The existing `l2_exponential_rate` uses diagonal extraction (c_min factor, degenerates as n→∞). The full pair sum identity eliminates the c_min factor:
+
+| Theorem | Status |
+|---|---|
+| `full_pair_sum_identity`: Σ_j Σ_k c_j c_k (p_j²+p_k²) = 2(Σc)V | **proved** |
+| `full_pair_sum_prob`: with Σc=1, equals 2V | **proved** |
+| `coercive_double_sum`: Σ pair ≥ 2δδ*V from pair_coercive | **proved** |
+| `pair_expansion_identity`: 2(r*Q-DS) = Σ Σ c_j c_k pair(j,k) | **proved** |
+| `l2_uniform_rate`: dV/dt ≤ -Kδδ*V (no c_min!) | **proved** |
+
+The full chain: pair_expansion_identity gives the exact double sum, coercive_double_sum bounds it by 2δδ*V, and l2_uniform_rate combines with l2_lyapunov_identity. The rate Kδδ* is independent of n.
 
 ### Direct L² Convergence (L2Convergence.lean)
 
