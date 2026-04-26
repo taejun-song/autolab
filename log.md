@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuum Jensen inequality (variance bound)
+
+- updated: KuramotoLean/ContinuumUniformRate.lean (+sq_integral_le_integral_sq, +continuum_order_parameter_bound)
+- LEAN: sq_integral_le_integral_sq — (∫f dμ)² ≤ ∫f² dμ for probability measures
+- LEAN: continuum_order_parameter_bound — (r-r*)² ≤ V∞
+- **Result**: Continuum Cauchy-Schwarz via variance inequality. Closes hV_controls_r for the continuum MinimalStabilityData.
+- **Sorry count**: 0 (61 files)
+
 ## [2026-04-26] experiment | comprehensive build + bug fixes
 
 - updated: KuramotoLean.lean (root module imports 57/61 files)
