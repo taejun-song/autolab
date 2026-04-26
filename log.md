@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | unstable eigenvector at incoherence
+
+- updated: KuramotoLean/IncoherenceInstability.lean (+eigenvector equation, +order parameter)
+- LEAN: unstableEigenvector — v_k = 1/(λ*+γ_k) > 0 for all k
+- LEAN: eigenvector_equation — Jv = λ*v from dispersion relation
+- LEAN: eigenvector_order_parameter — Σc_k·v_k = 2/K
+- LEAN: eigenvector_r_pos — order parameter positive in unstable direction
+- **Result**: The instability direction at α = 0 points into (0,∞)^n with positive order parameter. Key structural ingredient for persistence.
+- **Sorry count**: 0 (65 files)
+
 ## [2026-04-26] experiment | continuum product integral + pair decomposition
 
 - created: KuramotoLean/ContinuumIdentity.lean
