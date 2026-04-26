@@ -236,6 +236,8 @@ l2_exponential_rate → trajectory_lyapunov_bound → comparison_decay
 → NPoleExponentialData → npole_exponential_convergence
 ```
 
+The **shifted comparison principle** `comparison_decay_interval` extends this to arbitrary time intervals [a, a+Δ], enabling persistence-based drop construction: if dV/dt ≤ -μV during a persistence window of length Δ, then V(a+Δ) ≤ V(a)·exp(-μΔ).
+
 ## Continuous-Time Global Stability (ContinuousStability.lean)
 
 **Status**: 0 sorry.

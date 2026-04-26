@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-26] experiment | shifted comparison principle
+
+- updated: KuramotoLean/GronwallBridge.lean (+comparison_decay_interval)
+- LEAN: comparison_decay_interval — V'≤-μV on [a,a+Δ] ⟹ V(a+Δ)≤V(a)·exp(-μΔ)
+- **Result**: Shifted version of comparison_decay. Enables converting ODE rate bounds during persistence intervals into exponential drops for MinimalStabilityData.
+- **Sorry count**: 0 (61 files)
+
 ## [2026-04-26] experiment | minimal instance + convergence time bound
 
 - created: KuramotoLean/MinimalInstance.lean
