@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuum strict Lyapunov (V∞ > 0 → ∫∫pair > 0)
+
+- updated: KuramotoLean/ContinuumRigidity.lean (+continuum_strict_lyapunov)
+- updated: syntheses/lean-proof-status.md (continuum strict Lyapunov)
+- index.md: regenerated
+- LEAN: continuum_strict_lyapunov — V∞ > 0 → ∫∫ pair > 0
+- **Result**: Completes the continuum LaSalle characterization. If V∞ = ∫(α-α*)² > 0, then ∫∫ pair > 0 (strict decrease). By contrapositive: ���∫ pair = 0 → α = α* a.e. (rigidity) → V∞ = 0.
+- **Sorry count**: 0 (71 files)
+
 ## [2026-04-26] experiment | proof path bridge (L² convergence → SC decay)
 
 - created: KuramotoLean/ProofBridge.lean
