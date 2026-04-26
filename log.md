@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-27] experiment | initial condition → convergence (full chain)
+
+- updated: KuramotoLean/EndToEndConvergence.lean (+InitialConditionData, full chain from α(0) ∈ (0,2α*))
+- LEAN: InitialConditionData.r_persist — V(0) < V_inc → r ≥ δ₁ (via extended trajectory for Antitone)
+- LEAN: InitialConditionData.component_persist — r ≥ δ₁ → α_k ≥ β after escapeTime (universal β via γ_max)
+- LEAN: InitialConditionData.toEndToEnd — constructs EndToEndData from initial conditions
+- LEAN: initial_condition_convergence — |Σc_k(α_k-α*_k)| → 0 from InitialConditionData
+- LEAN: initial_condition_r_convergence — |r-r*| → 0
+- **Result**: Complete initial-condition chain. Given NPoleBarrierData + equilibrium + α(0) ∈ (0, 2α*) + γ_max + δ_star, the theorem automatically derives: quantitative r-persistence (via trajectory extension for Antitone), universal component threshold β = min(Kδ₁/(4γ_max), 1/2), component escape time, forward invariance, and feeds into EndToEndData → r → r*. Key technique: trajectory extension α_ext(t) = α(max(t,0)) converts AntitoneOn [0,∞) to full Antitone for quantitative_persistence.
+- **Sorry count**: 0 (88 files)
+
 ## [2026-04-27] experiment | end-to-end convergence assembly
 
 - updated: KuramotoLean/EndToEndConvergence.lean (fixed compilation: added ComponentBarrier import, DifferentiableOn fix, exp monotonicity fix, sum_sub_distrib fix)
