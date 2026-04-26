@@ -50,8 +50,11 @@ cd my-lab/
 # 3. Edit program.md with your research objective and tools
 vim program.md
 
-# 4. Launch the agent
+# 4. Launch the agent (simple)
 claude --dangerously-skip-permissions -p "Read program.md and let's kick off the research."
+
+# 4b. Or use the harness for reliable long-running research
+python tools/harness.py --program program.md --max-experiments 5 --agents 3 --git-pull
 ```
 
 ## Concepts
