@@ -47,14 +47,14 @@ class TestShouldCycle:
             program_changed=False,
         ) == "max_experiments"
 
-    def test_cycles_on_timeout(self):
+    def test_no_timeout(self):
         assert should_cycle(
             experiments_run=1,
             max_experiments=10,
             session_start=time.time() - 7200,
             max_duration=3600,
             program_changed=False,
-        ) == "timeout"
+        ) is None
 
     def test_no_cycle_when_ok(self):
         assert should_cycle(
@@ -130,6 +130,36 @@ class TestSessionManager:
         time.sleep(0.1)
         program.write_text("# Version 2 — added new tool")
         assert sm.check_cycle() == "program_changed"
+
+    def test_log_session_writes_jsonl(self, tmp_path):
+        program = tmp_path / "program.md"
+        program.write_text("# Test")
+        log = tmp_path / "harness.jsonl"
+        sm = SessionManager(program_path=program, max_experiments=5, max_duration=1800,
+                            log_path=log)
+        sm.start_session()
+        sm.experiments_run = 3
+        sm.log_session("max_experiments", 120.5)
+        assert log.exists()
+        import json
+        entry = json.loads(log.read_text().strip())
+        assert entry["session"] == 1
+        assert entry["experiments_run"] == 3
+        assert entry["cycle_reason"] == "max_experiments"
+        assert entry["duration_seconds"] == 120.5
+
+    def test_history_accumulates(self, tmp_path):
+        program = tmp_path / "program.md"
+        program.write_text("# Test")
+        sm = SessionManager(program_path=program, max_experiments=5, max_duration=1800,
+                            log_path=tmp_path / "h.jsonl")
+        sm.start_session()
+        sm.log_session("max_experiments", 60.0)
+        sm.start_session()
+        sm.log_session("program_changed", 30.0)
+        assert len(sm.history) == 2
+        assert sm.history[0]["cycle_reason"] == "max_experiments"
+        assert sm.history[1]["cycle_reason"] == "program_changed"
 
     def test_session_counter_increments(self, tmp_path):
         program = tmp_path / "program.md"

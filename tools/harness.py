@@ -42,13 +42,13 @@ def should_cycle(experiments_run, max_experiments, session_start,
     """Decide if the current session should cycle.
 
     Returns reason string or None.
+    Only cycles on program change or max experiments — no timeout.
+    The agent runs as long as it needs; we just track and wait.
     """
     if program_changed:
         return "program_changed"
     if experiments_run >= max_experiments:
         return "max_experiments"
-    if time.time() - session_start > max_duration:
-        return "timeout"
     return None
 
 
@@ -70,9 +70,10 @@ def build_session_summary(wiki_dirs, results_path, session_number,
 
 
 class SessionManager:
-    """Manages agent session lifecycle."""
+    """Manages agent session lifecycle with workflow tracking."""
 
-    def __init__(self, program_path, max_experiments=5, max_duration=1800):
+    def __init__(self, program_path, max_experiments=5, max_duration=1800,
+                 log_path=None):
         self.program_path = Path(program_path)
         self.max_experiments = max_experiments
         self.max_duration = max_duration
@@ -80,6 +81,8 @@ class SessionManager:
         self.experiments_run = 0
         self.session_start = 0.0
         self.program_mtime = 0.0
+        self.log_path = Path(log_path) if log_path else Path("harness_log.jsonl")
+        self.history = []
 
     def start_session(self):
         """Begin a new session. Snapshots program mtime."""
@@ -100,6 +103,22 @@ class SessionManager:
             program_changed,
         )
 
+    def log_session(self, reason, duration):
+        """Log session to JSONL for workflow tracking."""
+        import json
+        entry = {
+            "session": self.session_number,
+            "timestamp": datetime.now().isoformat(),
+            "experiments_run": self.experiments_run,
+            "duration_seconds": round(duration, 1),
+            "cycle_reason": reason,
+            "program_mtime": self.program_mtime,
+        }
+        self.history.append(entry)
+        self.log_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.log_path, "a") as f:
+            f.write(json.dumps(entry) + "\n")
+
     def run_session(self, claude_path="claude", git_pull=False, extra_args=None):
         """Run one Claude session. Returns cycle reason."""
         if git_pull:
@@ -108,7 +127,7 @@ class SessionManager:
         self.start_session()
         ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[{ts}] Session {self.session_number}: starting "
-              f"(max {self.max_experiments} experiments, {self.max_duration}s timeout)")
+              f"(max {self.max_experiments} experiments)")
 
         prompt = (
             f"Read {self.program_path} and run up to {self.max_experiments} experiments. "
@@ -143,7 +162,10 @@ class SessionManager:
     def run_loop(self, claude_path="claude", git_pull=False):
         """Run sessions in a loop forever."""
         while True:
+            start = time.time()
             reason = self.run_session(claude_path=claude_path, git_pull=git_pull)
+            duration = time.time() - start
+            self.log_session(reason, duration)
             ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             wiki_dirs = [Path(d) for d in ["concepts", "syntheses", "comparisons", "entities"]]
             summary = build_session_summary(
