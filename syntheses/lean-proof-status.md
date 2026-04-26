@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **52** |
+| Total .lean files | **54** |
 
 ### Axiom Inventory
 
@@ -258,6 +258,39 @@ Quantitative lower bound on the pair integrand: when α_j, α_k ≥ δ > 0,
 The proof clears fractions (multiply by α*_j·α*_k > 0), decomposes the numerator as SOS + sign-definite term, and chains with min/δ bounds.
 
 Combined with dV∞/dt = -K·∫∫ pair/2, this gives exponential convergence dV∞/dt ≤ -Kδδ*·V∞ on the locked region where α ≥ δ and α* ≥ δ*. The rate degenerates for tail oscillators where α* → 0.
+
+## Scalar OA Convergence (ScalarConvergence.lean)
+
+**Status**: 0 sorry.
+
+Proves the scalar OA velocity g(x) = -γx + (K/2)r*(1-x²) has a globally attracting equilibrium α* on (0,1), with explicit factorization and decay rate.
+
+| Theorem | Status |
+|---|---|
+| `scalar_oa_factor`: g(x) = (x-α*)·[-γ-(K/2)r*(x+α*)] | **proved** |
+| `scalar_oa_strict_lyapunov`: (x-α*)·g(x) < 0 for x ≠ α* | **proved** |
+| `scalar_oa_decay_rate`: (x-α*)·g(x) ≤ -γ·(x-α*)² | **proved** |
+| `scalar_oa_perturbation_bound`: \|f(r_t,x)-f(r*,x)\| ≤ K/2·\|r_t-r*\| | **proved** |
+| `discrete_decay_with_perturbation`: V(n+1) ≤ (1-μ)V(n)+ε(n), ε→0 ⟹ V→0 | **proved** |
+
+The factorization uses g(α*) = 0 to write g(x) - g(α*) = (x-α*)·[bracket]. The Lyapunov attractivity (x-α*)·g(x) = (x-α*)²·[bracket] < 0 follows from bracket = -γ - (K/2)r*(x+α*) < 0. The rate ≥ 2γ comes from dropping the positive (K/2)r*(x+α*) term.
+
+**Application**: Combined with r(t) → r* (MainTheorem), each oscillator α(ω,t) satisfies an asymptotically autonomous scalar ODE with globally attracting equilibrium α*(ω). The Markus theorem gives α(ω,t) → α*(ω) pointwise, and dominated convergence gives V∞ = ∫g|α-α*|²dω → 0.
+
+## Continuous Barbalat (ContinuumBarbalat.lean)
+
+**Status**: 0 sorry.
+
+Continuous-time analogue of barbalat_from_persistence (NPoleGlobalStability.lean).
+
+| Theorem | Status |
+|---|---|
+| `continuous_barbalat_persistence`: V ≥ 0 antitone + q-drops → V → 0 | **proved** |
+| `continuous_barbalat_tendsto`: same, Filter.Tendsto form | **proved** |
+| `continuous_barbalat_general`: general drop interval Δ | **proved** |
+| `LyapunovConvergence.zero_from_drops`: V → 0 for Lyapunov structures | **proved** |
+
+Combined with pair coercivity: at persistence times, dV/dt ≤ -Kδδ*V gives V drops by factor q = exp(-Kδδ*) < 1. Then this Barbalat theorem gives V → 0 on the locked region.
 
 ## Open Problem
 

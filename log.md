@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-26] experiment | scalar OA convergence + discrete decay with perturbation
+
+- created: KuramotoLean/ScalarConvergence.lean
+- updated: syntheses/lean-proof-status.md (+scalar convergence section)
+- LEAN: scalar_oa_factor — g(x) = (x-α*) · [-γ-(K/2)r*(x+α*)]
+- LEAN: scalar_oa_strict_lyapunov — (x-α*)·g(x) < 0 (global attractivity)
+- LEAN: scalar_oa_decay_rate — rate ≥ 2γ from bracket bound
+- LEAN: scalar_oa_perturbation_bound — |f(r_t,x)-f(r*,x)| ≤ K/2·|r_t-r*|
+- LEAN: discrete_decay_with_perturbation — V(n+1) ≤ (1-μ)V(n)+ε(n), ε→0 ⟹ V→0
+- index.md: regenerated
+- **Result**: Scalar OA globally attracting with explicit rate. Combined with r→r* (MainTheorem), gives α(ω,t)→α*(ω) pointwise → V∞→0 by dominated convergence.
+- **Sorry count**: 0 (54 files)
+
 ## [2026-04-26] experiment | pair coercivity: quantitative lower bound
 
 - created: KuramotoLean/PairCoercivity.lean
