@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 102 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Explicit convergence time T = log(V₀/ε²)/μ proved.
+Machine-checked proof status: 0 sorry, 0 axioms across 102 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Eventual exponential rate + Filter.Tendsto forms proved.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,7 +63,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **102** (+ExplicitRate) |
+| Total .lean files | **102** (+EventualRate) |
 | Comprehensive build | **102/102 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
