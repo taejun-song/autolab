@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | square root law r* = Ω(√(K-K_c))
+
+- created: KuramotoLean/SquareRootLaw.lean
+- updated: KuramotoLean.lean (+SquareRootLaw import)
+- updated: syntheses/lean-proof-status.md (+SquareRootLaw section)
+- LEAN: slope_gap_term_le — per-summand gap c_kK/(2γ)-c_kK/D ≤ c_kK³r²/(8γ³) via conjugate identity + D≥2γ
+- LEAN: slope_gap_upper_bound — S(0)-S(r) ≤ K³r²/8 · Σc_k/γ_k³
+- LEAN: order_parameter_sq_lower_bound — r*² ≥ 8(K-K_c)/(K³K_cΣc_k/γ_k³)
+- **Result**: The Kuramoto square root law (lower bound). Near K_c, the PLS order parameter satisfies r* ≥ C√(K-K_c) where C = √(8/(K³K_cΣc_k/γ_k³)). Proof: S(0)-S(r*) = (K-K_c)/K_c. Each gap summand uses the conjugate identity (γ+S)(S-γ) = K²r² with S=√(γ²+K²r²) and the bound D≥2γ_k to get term ≤ c_kK³r²/(8γ_k³). Summing gives the slope gap ≤ K³r²/8·Σc_k/γ_k³. Combining: (K-K_c)/K_c ≤ K³r*²/8·Σc/γ³.
+- **Sorry count**: 0
+- index.md: regenerated
+
 ## [2026-04-27] experiment | subcritical no-PLS fixed point
 
 - updated: KuramotoLean/SelfConsistencyFixedPoint.lean (+scSlope_zero_le_one, +no_pls_subcritical, +no_pls_fixed_point_subcritical)
