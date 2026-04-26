@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **62** |
-| Comprehensive build | **58/62 files** (4 excluded for legacy name conflicts) |
+| Total .lean files | **63** |
+| Comprehensive build | **59/63 files** (4 excluded for legacy name conflicts) |
 
 ### Axiom Inventory
 
@@ -378,6 +378,18 @@ Constructs MinimalStabilityData from the L² Lyapunov chain:
 | `l2_pipeline_convergence`: complete pipeline, \|r-r*\| < ε | **proved** |
 | `l2_pipeline_tendsto`: Filter.Tendsto form | **proved** |
 | `convergence_time_bound`: explicit k with q^k·V₀ < ε² | **proved** |
+
+## LaSalle Convergence (LaSalleConvergence.lean)
+
+**Status**: 0 sorry.
+
+Alternative to Barbalat: if V is non-increasing with a modulus of decrease (V ≥ δ implies drop ≥ f(δ) > 0), then V → 0 by the Archimedean property. No drop factor q < 1 needed.
+
+| Theorem | Status |
+|---|---|
+| `lasalle_convergence`: V ≥ 0, V mono, modulus of decrease → V → 0 | **proved** |
+
+Combined with `l2_strict_lyapunov` (StrictLyapunov.lean), this gives a 10th independent proof path for n-pole convergence.
 
 ## Strict Lyapunov Decrease (StrictLyapunov.lean)
 

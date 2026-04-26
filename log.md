@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | LaSalle convergence (no Barbalat needed)
+
+- created: KuramotoLean/LaSalleConvergence.lean
+- updated: syntheses/lean-proof-status.md (+LaSalle convergence section)
+- LEAN: lasalle_convergence — V ≥ 0, V non-increasing, modulus of decrease → V → 0
+- index.md: regenerated
+- **Result**: 10th independent proof path. No Barbalat, no drop factor. Uses Archimedean property.
+- **Sorry count**: 0 (63 files)
+
 ## [2026-04-26] experiment | strict Lyapunov decrease (LaSalle characterization)
 
 - created: KuramotoLean/StrictLyapunov.lean
