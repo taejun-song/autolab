@@ -4,7 +4,7 @@ _Last regenerated: 2026-04-27_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 113 files, 0 sorry. Trifurcation for ALL K. r*(K) strictly increasing. Critical rate. Maximal initial data [0,1]^n \ {0}.
+- [[lean-proof-status]] — Machine-checked proof status: 114 files, 0 sorry. Trifurcation for ALL K. r*(K) strictly increasing, r*→0 near K_c, r*→1 for K→∞.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.

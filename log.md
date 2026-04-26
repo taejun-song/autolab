@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-27] experiment | bifurcation limits (near K_c and strong coupling)
+
+- created: KuramotoLean/BifurcationLimits.lean
+- updated: KuramotoLean.lean (+BifurcationLimits import, 114/114)
+- LEAN: r_star_lower_strong — r* ≥ 1 - 2γ_max/K for any K > 0 with r* > 0
+- LEAN: r_star_vanishes_near_critical — K close to K_c ⟹ r* < ε (from square root upper bound)
+- **Result**: Two asymptotic limits of the PLS order parameter. Strong coupling: r* ≥ 1 - 2γ_max/K → 1 as K → ∞ (all oscillators lock). Near critical: r*² ≤ (K-K_c)·C → r* → 0 as K → K_c+ (bifurcation continuity). The strong coupling bound follows from the self-consistency lower bound α*_k ≥ Kr/(2γ_max+Kr) + Σc=1 + cross-multiply. The near-critical bound follows directly from the square root law upper bound.
+- **Sorry count**: 0 (114 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | bifurcation monotonicity r*(K)
 
 - created: KuramotoLean/BifurcationMonotonicity.lean
