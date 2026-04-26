@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-04-27] experiment | bifurcation analysis at incoherence
+
+- created: KuramotoLean/BifurcationAnalysis.lean
+- updated: KuramotoLean.lean (+BifurcationAnalysis import, 103/103)
+- updated: syntheses/lean-proof-status.md (+BifurcationAnalysis section, file count 103)
+- LEAN: npoleDispersion_strictAntiOn — h(λ) strictly decreasing on [0,∞)
+- LEAN: npoleDispersion_at_critical — h(0) = 1 at K = K_c
+- LEAN: incoherence_stable_subcritical — K < K_c → h(λ) < 1 for all λ ≥ 0
+- LEAN: unstable_eigenvalue_unique — at most one positive root of h(λ) = 1
+- LEAN: bifurcation_iff — (∃ λ* > 0, h(λ*) = 1) ↔ K > K_c
+- **Result**: K_c = 2/(Σ c_k/γ_k) is the exact bifurcation threshold. Below K_c, the dispersion h(λ) < 1 for all λ ≥ 0 (no unstable eigenvalue). Above K_c, exactly one unstable eigenvalue exists (strict anti-monotonicity gives uniqueness). At K_c, h(0) = 1 (marginal). Proof: each summand c_k/(λ+γ_k) is strictly decreasing; sum of strictly decreasing functions is strictly decreasing; IVT gives existence (supercritical); anti-monotonicity gives uniqueness.
+- **Sorry count**: 0 (103 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | equilibrium quantitative bounds + improved scalar rate
 
 - updated: KuramotoLean/SelfConsistencyFixedPoint.lean (+explicitEquil_upper, +explicitEquil_lower, +explicitEquil_tail_bound, +explicitEquil_lower_from_gamma_max)

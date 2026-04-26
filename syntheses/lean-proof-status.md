@@ -530,6 +530,24 @@ Formalizes the dispersion relation for the n-pole Jacobian at α = 0 and proves 
 
 The unstable eigenvector is positive (all components > 0), pointing into the trapping region (0,1)^n. The order parameter r = Σc_k·v_k = 2/K > 0 along this direction.
 
+## Bifurcation Analysis (BifurcationAnalysis.lean)
+
+**Status**: 0 sorry.
+
+Completes the bifurcation picture at incoherence. The dispersion function h(λ) is strictly decreasing on [0,∞), giving the exact characterization of K_c as the bifurcation threshold.
+
+| Theorem | Status |
+|---|---|
+| `npoleDispersion_strictAntiOn`: h strictly decreasing on [0,∞) | **proved** |
+| `npoleDispersion_at_critical`: h(0) = 1 at K = K_c | **proved** |
+| `incoherence_stable_subcritical`: K < K_c → h(λ) < 1 ∀ λ ≥ 0 | **proved** |
+| `incoherence_no_unstable_eigenvalue`: K < K_c → no λ ≥ 0 with h(λ) = 1 | **proved** |
+| `critical_no_positive_eigenvalue`: K = K_c → h(λ) < 1 ∀ λ > 0 | **proved** |
+| `unstable_eigenvalue_unique`: h(λ₁) = h(λ₂) = 1, λᵢ ≥ 0 → λ₁ = λ₂ | **proved** |
+| `bifurcation_iff`: (∃ λ* > 0, h(λ*) = 1) ↔ K > K_c | **proved** |
+
+The bifurcation is sharp: below K_c, the linearization at α = 0 has all eigenvalues with negative real part (along the positive real axis); at K_c, a simple eigenvalue crosses zero; above K_c, exactly one positive eigenvalue exists.
+
 ## Component Barrier via Grönwall Multiplier (ComponentBarrier.lean)
 
 **Status**: 0 sorry.
