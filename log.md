@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-27] experiment | explicit equilibrium formula
+
+- created: KuramotoLean/EquilibriumFormula.lean
+- updated: KuramotoLean.lean (+EquilibriumFormula import, 91/91)
+- LEAN: explicitEquil — α*(γ,K,r) = (-γ + √(γ² + K²r²)) / (Kr)
+- LEAN: explicitEquil_solves — the formula satisfies the equilibrium equation
+- LEAN: explicitEquil_pos — α* > 0 (√(γ²+K²r²) > γ since K²r² > 0)
+- LEAN: explicitEquil_lt_one — α* < 1 (√(γ²+K²r²) < γ+Kr since 2γKr > 0)
+- **Result**: Closed-form expression for the n-pole equilibrium. The quadratic (K/2)r·α² + γ·α - (K/2)r = 0 has positive root α* = (-γ + √(γ² + K²r²)) / (Kr). Key inequalities proved via sqrt_lt_sqrt from Mathlib. This enables continuity/monotonicity analysis of the self-consistency map Φ(r) = Σ c_k · α*_k(r).
+- **Sorry count**: 0 (91 files)
+
 ## [2026-04-27] experiment | equilibrium uniqueness via IVT + strict monotonicity
 
 - created: KuramotoLean/EquilibriumUniqueness.lean
