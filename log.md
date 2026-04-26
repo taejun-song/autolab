@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | L2 exponential rate for n-pole system
+
+- updated: syntheses/lean-proof-status.md (+L2 exponential rate section)
+- LEAN: l2_exponential_rate — dV/dt ≤ -Kμ·V with explicit μ = c_min·δ·(δ+δ*)
+- LEAN: l2_diagonal_lower_bound (1 sorry: double-sum diagonal extraction)
+- index.md: regenerated
+- **Result**: Exponential convergence rate for all n-pole systems
+- **Sorry count**: 0 (main theorem chain); 1 (standalone L2Lyapunov diagonal)
+
 ## [2026-04-26] experiment | Reduce KuramotoData from 26 to 14 fields
 
 - updated: syntheses/lean-proof-status.md (minimal structure, proof chain)

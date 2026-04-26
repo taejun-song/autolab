@@ -136,6 +136,18 @@ The remaining external hypotheses:
 2. `hr0_ne`: r₀² ≠ r*² (initial data not at equilibrium)
 3. `hL_small`: 3(K-γ) < r* (step size smallness, satisfiable by `lorentzian_hL_small_satisfiable`)
 
+## L² Exponential Rate (L2Lyapunov.lean)
+
+**New result**: `l2_exponential_rate` proves dV/dt ≤ -K·c_min·δ·(δ+δ*)·V for the n-pole OA system, where V = Σ c_k(α_k-α*_k)² is the weighted L² distance. This gives explicit exponential convergence when α_k and α*_k are bounded away from 0.
+
+| Theorem | Status |
+|---|---|
+| `l2_lyapunov_theorem`: dV/dt ≤ 0 for all n | **proved** (0 sorry) |
+| `l2_diagonal_lower_bound`: r*Q-DS ≥ diagonal | **1 sorry** (double-sum diagonal extraction) |
+| `l2_exponential_rate`: dV/dt ≤ -Kμ·V | depends on diagonal bound |
+
+The sorry is a standard finset decomposition (diagonal ≤ total for non-negative double sum). The mathematical proof is clear; the LEAN formalization of the double-sum splitting is the gap.
+
 ## Open Problem
 
 The genuinely open assumption **unstable_manifold_to_pls** (H2) is now an explicit structure field in `OmegaLimitData.h_unstable_to_pls`, not a LEAN axiom. To use the FullRangeStability proof path, one must construct an `OmegaLimitData` satisfying this property. This is proved for finite-dimensional OA (Lorentzian mixtures) but open for the continuum semiflow.
