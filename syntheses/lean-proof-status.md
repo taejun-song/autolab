@@ -18,7 +18,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 73 files. Chetaev escape proves trajectories must leave neighborhood of incoherence.
+Machine-checked proof status: 0 sorry, 0 axioms across 78 files. Infinite escape: trajectories leave ε-ball of incoherence infinitely often.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **78** |
-| Comprehensive build | **72/72 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **80** |
+| Comprehensive build | **78/78 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -647,6 +647,22 @@ Proves trajectories of the n-pole ODE must leave any ε-ball around α = 0 when 
 | `instability_escape`: ∃ t,k such that α_k(t) > ε | **proved** |
 
 **Significance**: This is the machine-checked proof that the incoherent state α = 0 is NOT a possible accumulation point for trajectories with α(0) ∈ (0,1)^n. Combined with BoundaryStrictLyapunov ({dV/dt=0}∩{V>0} = {0}), this shows V → 0 by LaSalle exclusion.
+
+## Infinite Escape from Instability (InfiniteEscape.lean)
+
+**Status**: 0 sorry.
+
+Extends ChetaevEscape from one-time escape to infinitely many escapes: for any T ≥ 0, the trajectory has some α_k(t) > ε at some t ≥ T. Key technical contribution: comparison_growth_from — exponential growth on [T₀, ∞) proved by time-shifting to comparison_growth.
+
+| Theorem | Status |
+|---|---|
+| `comparison_growth_from`: W'≥μW on (T₀,∞) → W(t)≥W(T₀)·exp(μ(t-T₀)) | **proved** |
+| `comparison_growth_escape_from`: W(T₀)>0 + growth → W exceeds any level | **proved** |
+| `instability_infinite_escape`: ∀ T≥0, ∃ t≥T, ∃ k, α_k(t) > ε | **proved** |
+
+The proof of `instability_infinite_escape`: at time T, component_positive gives α_k(T) > 0, hence W(T) > 0. If all α_k(t) ≤ ε for t ≥ T, comparison_growth_from gives W(t) ≥ W(T)·exp(μ(t-T)) → ∞, but instabilityW_le_in_ball gives W(t) ≤ (2/K)ε. Contradiction.
+
+**Significance**: This is the missing link for deriving persistence from instability. The ChetaevEscape proves one-time escape; InfiniteEscape proves the trajectory can never permanently settle near α = 0. Combined with InstabilityExclusion (which requires hW_escapes: infinitely many W ≥ η events), this gives a FULLY SELF-CONTAINED convergence proof from the ODE structure alone, without assuming persistence as a hypothesis. The instability-exclusion chain is now: K > K_c → unstable eigenvalue → instability growth rate → comparison growth → infinite escape → V drops infinitely often → V → 0 → r → r*.
 
 ## Energy Exclusion Persistence (EnergyExclusion.lean)
 

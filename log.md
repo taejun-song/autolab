@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | infinite escape from instability (comparison_growth_from)
+
+- created: KuramotoLean/InfiniteEscape.lean
+- updated: KuramotoLean.lean (+InfiniteEscape import, 80/80)
+- updated: syntheses/lean-proof-status.md (+infinite escape section, file count 80)
+- index.md: regenerated
+- LEAN: comparison_growth_from — W'≥μW on (T₀,∞) → W(t)≥W(T₀)·exp(μ(t-T₀))
+- LEAN: comparison_growth_escape_from — W(T₀)>0 + growth → W exceeds any level
+- LEAN: instability_infinite_escape — ∀ T≥0, ∃ t≥T, ∃ k, α_k(t) > ε
+- **Result**: Extends ChetaevEscape from one-time escape to infinitely many escapes. At any time T, component_positive gives W(T) > 0; if all α_k ≤ ε after T, comparison_growth_from gives W → ∞ but W ≤ (2/K)ε. Contradiction. This is the missing link connecting ChetaevEscape to InstabilityExclusionData.hW_escapes.
+- **Sorry count**: 0 (80 files)
+
 ## [2026-04-26] experiment | persistence chain assembly (15th proof path)
 
 - created: KuramotoLean/PersistenceChain.lean
