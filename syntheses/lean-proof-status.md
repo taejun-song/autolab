@@ -783,6 +783,8 @@ Proves the existence of a self-consistency fixed point r* ∈ (0,1) when K > K_c
 | `sc_fixed_point_exists`: ∃ r* ∈ (0,1), Φ(r*) = r* | **proved** |
 | `explicitEquil_rationalized`: α* = Kr/(γ+√(γ²+K²r²)) | **proved** |
 | `sc_fixed_point_grounds`: r* + α*_k + equilibrium + self-consistency | **proved** |
+| `scSlope_strictAntiOn`: S(r) strictly decreasing on [0,∞) | **proved** |
+| `sc_fixed_point_unique`: r₁, r₂ > 0 with Φ(rᵢ) = rᵢ → r₁ = r₂ | **proved** |
 
 **Significance**: Grounds the r* and α* hypotheses in EndToEndData and InitialConditionData from first principles. Given K > K_c = 2/(Σ c_k/γ_k) and Σ c_k = 1, produces: r* ∈ (0,1), α*_k = explicitEquil(γ_k, K, r*) ∈ (0,1), each α*_k solves the component equilibrium equation, and Σ c_k α*_k = r* (self-consistency). Combined with EquilibriumFormula (closed-form) and EquilibriumUniqueness (unique root), this fully determines the PLS equilibrium from the parameters (K, γ, c).
 

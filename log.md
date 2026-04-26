@@ -13,6 +13,8 @@
 - LEAN: sc_fixed_point_exists — ∃ r* ∈ (0,1), Φ(r*) = r* (IVT on [r₀,1])
 - LEAN: explicitEquil_rationalized — α* = Kr/(γ+√(γ²+K²r²))
 - LEAN: sc_fixed_point_grounds — r* + α*_k + equilibrium + self-consistency
+- LEAN: scSlope_strictAntiOn — S(r) strictly decreasing on [0,∞)
+- LEAN: sc_fixed_point_unique — r₁, r₂ > 0 with Φ(rᵢ)=rᵢ implies r₁=r₂
 - **Result**: Grounds the equilibrium hypothesis r* from the parameters (K, γ, c). The slope function S(r) = Σ c_k·K/(γ_k+√(γ_k²+K²r²)) is continuous, equals K/K_c at r=0 (supercritical: > 1), and < 1 at r=1 (dissipation from √(γ²+K²) > K). Since Φ(r) = r·S(r), we get Φ(r₀) > r₀ for small r₀ and Φ(1) < 1. IVT gives the fixed point. The corollary sc_fixed_point_grounds produces: r* ∈ (0,1), each α*_k ∈ (0,1), each α*_k solves the component equilibrium, and Σ c_k·α*_k = r*. This grounds all equilibrium hypotheses in EndToEndData and InitialConditionData.
 - **Sorry count**: 0 (92 files)
 
