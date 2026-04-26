@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-26] experiment | Fubini Lyapunov identity + linter fixes
+
+- updated: KuramotoLean/ContinuumIdentity.lean (+inner_term12, +inner_term21, +pair_fubini_identity)
+- updated: KuramotoLean/IncoherenceInstability.lean (show→change linter fix, ext→congr fix)
+- updated: KuramotoLean/WindowedApproximation.lean (show→change linter fix)
+- updated: syntheses/lean-proof-status.md (+Fubini identity section, file count 66)
+- index.md: regenerated
+- LEAN: inner_term12 — ∫ω₂ Term₁₂ = αs₁·Q - p₁·S
+- LEAN: inner_term21 — ∫ω₂ Term₂₁ = p₁²q₁·r* - p₁(1-α₁²)·D
+- LEAN: pair_fubini_identity — ∫∫ pair = 2(r*Q - DS) under integrability
+- **Result**: Bridges algebraic pair bound to Lyapunov derivative identity via Fubini. Step 2 of the continuum Lyapunov chain is now machine-checked.
+- **Sorry count**: 0 (66 files)
+
 ## [2026-04-26] experiment | Lorentzian K_c = 2γ specialization
 
 - updated: KuramotoLean/IncoherenceInstability.lean (+lorentzian_critical_coupling, +lorentzian_incoherence_unstable)

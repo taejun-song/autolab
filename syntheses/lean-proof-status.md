@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **65** |
-| Comprehensive build | **65/65 files** (all name conflicts resolved via namespaces) |
+| Total .lean files | **66** |
+| Comprehensive build | **66/66 files** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -291,6 +291,20 @@ This gives dV∞/dt ≤ 0 for the continuum OA flow where V∞ = ∫g|α-α*|²d
 2. r*Q - DS = (1/2)∫∫ pair_term dμ dμ (Fubini + symmetrization)
 3. pair_term ≥ 0 pointwise (pair_bound)
 4. ∫∫ pair_term dμ dμ ≥ 0 (integral_nonneg twice)
+
+### Fubini Lyapunov Identity (ContinuumIdentity.lean)
+
+**Status**: 0 sorry.
+
+Under integrability, the double integral of the pair integrand decomposes exactly into products of single integrals via the Fubini identity:
+
+| Theorem | Status |
+|---|---|
+| `inner_term12`: inner integral of Term₁₂ = αs₁·Q - p₁·S | **proved** |
+| `inner_term21`: inner integral of Term₂₁ = p₁²q₁·r* - p₁(1-α₁²)·D | **proved** |
+| `pair_fubini_identity`: ∫∫ pair = 2(r*·Q - D·S) | **proved** |
+
+This connects the algebraic pair bound to the Lyapunov derivative: dV∞/dt = K(DS - r*Q) = -K/2 · ∫∫ pair ≤ 0. Step 2 above is now machine-checked (not just a comment).
 
 **Significance**: This bypasses the passage to limit entirely. The continuum Lyapunov is a DIRECT result, not a limit of finite approximations. V∞ is finite at PLS (unlike Ψ), resolving the core obstruction identified in the subproblem decomposition.
 
