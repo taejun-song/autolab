@@ -63,7 +63,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **102** (+EventualRate) |
+| Total .lean files | **103** (+EventualRate, +ExplicitRate) |
 | Comprehensive build | **102/102 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -869,6 +869,8 @@ Proves that after a finite transient, the L² distance decays exponentially with
 | `eventual_exponential_V`: V(t) ≤ V(T₀)·exp(-μ(t-T₀)) for t ≥ T₀ | **proved** |
 | `eventual_exponential_r`: (r-r*)² ≤ V(T₀)·exp(-μ(t-T₀)) | **proved** |
 | `eventual_exponential_pointwise`: (α_k-α*_k)² ≤ (V₀/c_min)·exp(-μ(t-T₀)) | **proved** |
+| `tendsto_r`: Filter.Tendsto r atTop (nhds r*) | **proved** |
+| `tendsto_component`: Filter.Tendsto (α_k(·)) atTop (nhds α*_k) | **proved** |
 
 The rate μ = K·(δ*/2)·δ* where δ* = min_k α*_k is the equilibrium lower bound. The transient time T₀ is determined by V entering the exponential basin V < c_min·(δ*/2)².
 
