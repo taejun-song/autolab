@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | persistence chain assembly (15th proof path)
+
+- created: KuramotoLean/PersistenceChain.lean
+- updated: KuramotoLean.lean (+PersistenceChain import, 79/79)
+- LEAN: persistence_chain_V_zero — V → 0 from instability + drops
+- LEAN: persistence_chain_convergence — r → r* (ε-δ form)
+- LEAN: persistence_chain_tendsto — r → r* (Filter.Tendsto form)
+- **Result**: 15th independent proof path. Assembles InstabilityExclusion + EnergyExclusion into PersistenceChainData structure. Only needs: V antitone + W escapes η infinitely often + W ≥ η implies V drops. No persistence hypothesis, no self-consistency map, no gap exclusion. The drops come from instability-driven W-escapes.
+- **Sorry count**: 0 (79 files)
+
 ## [2026-04-26] experiment | energy exclusion persistence (V < V_incoherent → r > 0)
 
 - created: KuramotoLean/EnergyExclusion.lean
