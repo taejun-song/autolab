@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | Chetaev escape r-lower corollary
+
+- updated: KuramotoLean/ChetaevEscape.lean (+r_pos_at_escape)
+- updated: syntheses/lean-proof-status.md (file count 77, Chetaev section)
+- index.md: regenerated
+- LEAN: r_pos_at_escape — r(t) ≥ c_min·ε at escape time
+- **Result**: Connects the abstract escape theorem to the order parameter: when some α_k(t) > ε, the order parameter r(t) ≥ c_min·ε > 0. Building block for deriving persistence from instability.
+- **Sorry count**: 0 (77 files)
+
 ## [2026-04-26] experiment | Chetaev instability escape (trajectory leaves ε-ball)
 
 - created: KuramotoLean/ChetaevEscape.lean

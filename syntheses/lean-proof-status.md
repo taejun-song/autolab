@@ -18,7 +18,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 71 files. Instability Lyapunov quantifies repulsion from incoherence.
+Machine-checked proof status: 0 sorry, 0 axioms across 73 files. Chetaev escape proves trajectories must leave neighborhood of incoherence.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **75** |
+| Total .lean files | **77** |
 | Comprehensive build | **72/72 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -613,6 +613,26 @@ Dual of comparison_decay (GronwallBridge.lean). If dW/dt ≥ μW, then W(t) ≥ 
 The proof uses U(t) = W(t)·exp(-μt), shows dU/dt ≥ 0 via Mathlib's monotoneOn_of_deriv_nonneg. The escape theorem uses Tendsto exp atTop atTop from Mathlib.
 
 **Significance**: Combined with instability_growth_rate, this completes the chain: near α = 0, W satisfies dW/dt ≥ (λ*/2)W → W grows exponentially → W eventually exceeds any threshold η → components grow → pair coercivity kicks in → V drops. The full mechanism for deriving persistence from instability is now machine-checked in components.
+
+## Chetaev Instability Escape (ChetaevEscape.lean)
+
+**Status**: 0 sorry.
+
+Assembles the instability Lyapunov (InstabilityLyapunov) with the n-pole ODE trajectory (ComponentBarrier) and the comparison growth principle (ComparisonGrowth) to prove that trajectories MUST leave the ε-neighborhood of α = 0.
+
+| Theorem | Status |
+|---|---|
+| `instabilityW_nonneg`: W ≥ 0 when α ≥ 0 | **proved** |
+| `instabilityW_cont`: W continuous along trajectory | **proved** |
+| `hasDerivAt_instabilityW`: dW/dt = Σ c_k v_k · ODE_k | **proved** |
+| `instability_W_growth`: W(t) ≥ W(0)·exp((λ*/2)t) in ε-ball | **proved** |
+| `instabilityW_le_in_ball`: W ≤ (2/K)ε in ε-ball | **proved** |
+| `instability_escape`: ∃ t ≥ 0, ∃ k, α_k(t) > ε | **proved** |
+| `r_pos_at_escape`: r(t) ≥ c_min·ε at escape time | **proved** |
+
+The proof of `instability_escape` is by contradiction: if the trajectory stays in the ε-ball forever, comparison_growth gives W(t) ≥ W(0)·exp((λ*/2)t) → ∞, but instabilityW_le_in_ball gives W(t) ≤ (2/K)ε (bounded). Contradiction via the Archimedean property of exp.
+
+**Significance**: This is the first theorem in the project that connects the abstract instability analysis (eigenvalue, eigenvector, growth rate) to actual ODE trajectories. It proves that the incoherent state α = 0 is genuinely repelling along trajectories — not just linearly unstable. Combined with V antitone (pair bound) and the Lyapunov basin (LyapunovPersistence), this is the key building block for deriving persistence from instability.
 
 ## Chetaev Instability Escape (ChetaevEscape.lean)
 
