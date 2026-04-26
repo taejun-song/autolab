@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 93 files. Full chain: instability → convergence without persistence.
+Machine-checked proof status: 0 sorry, 0 axioms across 97 files. Fully parametric: K > K_c + α(0) ∈ (0,1)^n → r → r*.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -817,9 +817,10 @@ The cleanest theorem statement: NPoleBarrierData + K > K_c + gmax/cmin bounds �
 | Theorem | Status |
 |---|---|
 | `suitable_epsilon`: ∃ ε satisfying instability conditions | **proved** |
-| `global_stability_supercritical`: K > K_c → r → r* | **proved** |
+| `global_stability_supercritical`: K > K_c + bounds → r → r* | **proved** |
+| `parametric_convergence`: K > K_c → r → r* (no bounds params) | **proved** |
 
-**Significance**: The most user-facing theorem. Given an ODE solution, K > K_c, and α(0) ∈ (0,1)^n, the fixed point r*, the unstable eigenvalue λ*, the instability parameter ε, and all intermediate data are computed internally. The user provides only the ODE solution, coupling strength, and basic bounds.
+**Significance**: `parametric_convergence` is the cleanest theorem. Given an ODE solution with K > K_c and α(0) ∈ (0,1)^n, it derives r*, λ*, γ_max (via `Finset.exists_max_image`), c_min (via `Finset.exists_min_image`), and ε automatically. No external uniform bounds needed — everything computed from the finite arrays.
 
 ## Open Problem
 
