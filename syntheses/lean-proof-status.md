@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 102 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Eventual exponential rate proved.
+Machine-checked proof status: 0 sorry, 0 axioms across 102 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Explicit convergence time T = log(V₀/ε²)/μ proved.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **102** (+EventualRate) |
-| Comprehensive build | **101/101 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **102** (+ExplicitRate) |
+| Comprehensive build | **102/102 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -875,6 +875,25 @@ The rate μ = K·(δ*/2)·δ* where δ* = min_k α*_k is the equilibrium lower b
 **Proof**: V → 0 (qualitative, FullChainConvergence) → V(T₀) < basin threshold → V antitone keeps V in basin → basin_component_lb gives α_k ≥ δ*/2 → l2_drop_from_bounds gives exponential decay on [T₀, t] for any t ≥ T₀.
 
 **Significance**: Upgrades the qualitative convergence r → r* to quantitative exponential decay. The rate depends only on the equilibrium structure (K, δ*), not on the initial data. This is useful for the passage-to-limit argument (Term 2 in PassageToLimit.lean).
+
+## Explicit Convergence Rate (ExplicitRate.lean)
+
+**Status**: 0 sorry.
+
+Derives a computable convergence time formula from exponential Lyapunov decay.
+
+| Theorem | Status |
+|---|---|
+| `order_parameter_exp_decay`: \|r-r*\| ≤ √V₀ · exp(-μt/2) | **proved** |
+| `explicit_convergence_time`: t > log(V₀/ε²)/μ → \|r-r*\| < ε | **proved** |
+| `lyapunov_halflife`: V₀·exp(-μ·log2/μ) = V₀/2 | **proved** |
+| `order_parameter_convergence`: ∀ε>0, ∃T explicit, ∀t≥T, \|r-r*\|<ε | **proved** |
+
+The convergence time T = max(0, log(V₀/ε²)/μ + 1) is explicit and computable from V₀ (initial Lyapunov value), ε (target accuracy), and μ (exponential rate). The Lyapunov half-life is log(2)/μ.
+
+**Proof**: `exp_decay_lt` shows t > log(V₀/ε²)/μ implies V₀·exp(-μt) < ε² by log-exp inversion. Combined with (r-r*)² ≤ V and √ monotonicity, this gives |r-r*| < ε. The square root decomposition √(V₀·exp(-μt)) = √V₀·exp(-μt/2) uses √(exp x) = exp(x/2) via the identity exp x = (exp(x/2))².
+
+**Significance**: First fully quantitative convergence theorem. All previous paths prove convergence non-constructively (∀ε, ∃T). This gives an explicit formula for T, enabling numerical prediction of convergence time from system parameters.
 
 ## Open Problem
 

@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-27] experiment | explicit convergence rate T = log(V₀/ε²)/μ
+
+- created: KuramotoLean/ExplicitRate.lean
+- updated: KuramotoLean.lean (+ExplicitRate import, 102/102)
+- updated: syntheses/lean-proof-status.md (+ExplicitRate section, file count 102)
+- index.md: regenerated
+- LEAN: order_parameter_exp_decay — |r-r*| ≤ √V₀ · exp(-μt/2) (pointwise exponential bound)
+- LEAN: explicit_convergence_time — t > log(V₀/ε²)/μ → |r-r*| < ε (computable time formula)
+- LEAN: lyapunov_halflife — V₀·exp(-μ·log2/μ) = V₀/2 (half-life identity)
+- LEAN: order_parameter_convergence — ∀ε>0, ∃T explicit, ∀t≥T, |r-r*|<ε
+- **Result**: First fully quantitative convergence theorem. Given exponential Lyapunov decay V(t) ≤ V₀·exp(-μt) and (r-r*)² ≤ V, derives computable convergence time T = max(0, log(V₀/ε²)/μ + 1). The proof chain: log-exp inversion (exp_log from Mathlib) → exp decay below threshold → sqrt of squared inequality → |r-r*| < ε. The sqrt decomposition uses √(exp x) = exp(x/2) via exp x = (exp(x/2))².
+- **Sorry count**: 0 (102 files)
+
 ## [2026-04-27] experiment | eventual exponential convergence rate
 
 - created: KuramotoLean/EventualRate.lean
