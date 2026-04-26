@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | eigenvalue bounds + K_c monotonicity
+
+- updated: KuramotoLean/BifurcationAnalysis.lean (+eigenvalue_upper_bound, +eigenvalue_lower_bound, +npoleCriticalK_mono_gamma, +dispersion_difference)
+- updated: syntheses/lean-proof-status.md (+eigenvalue bounds)
+- LEAN: eigenvalue_upper_bound — λ* ≤ K/2 - γ_min via sum bound h(K/2-γ_min) ≤ 1
+- LEAN: eigenvalue_lower_bound — λ* ≥ 2(K-K_c)/(K·K_c·Σc/γ²) via h(0)-h(λ*)=(K/2)Σcλ*/(γ(λ*+γ)) ≤ (K/2)λ*Σc/γ²
+- LEAN: npoleCriticalK_mono_gamma — γ₁ ≤ γ₂ componentwise → K_c(γ₁) ≤ K_c(γ₂)
+- LEAN: dispersion_difference — exact formula for h(0) - h(λ)
+- **Result**: The unstable eigenvalue λ* = Θ(K - K_c) near the bifurcation. Lower bound: λ* ≥ 2(K-K_c)/(K·K_c·Σc_k/γ_k²), using the dispersion difference identity and bounding 1/(γ(λ+γ)) ≤ 1/γ². Upper bound: λ* ≤ K/2 - γ_min for probability weights, using h(K/2-γ_min) ≤ 1 from the sum bound Σc_k/(K/2) = 1. K_c monotone in damping: larger γ → smaller Σc/γ → larger K_c.
+- **Sorry count**: 0 (103 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | bifurcation analysis at incoherence
 
 - created: KuramotoLean/BifurcationAnalysis.lean

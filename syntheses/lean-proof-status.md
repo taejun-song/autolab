@@ -545,8 +545,12 @@ Completes the bifurcation picture at incoherence. The dispersion function h(λ) 
 | `critical_no_positive_eigenvalue`: K = K_c → h(λ) < 1 ∀ λ > 0 | **proved** |
 | `unstable_eigenvalue_unique`: h(λ₁) = h(λ₂) = 1, λᵢ ≥ 0 → λ₁ = λ₂ | **proved** |
 | `bifurcation_iff`: (∃ λ* > 0, h(λ*) = 1) ↔ K > K_c | **proved** |
+| `npoleCriticalK_mono_gamma`: γ₁ ≤ γ₂ → K_c(γ₁) ≤ K_c(γ₂) | **proved** |
+| `eigenvalue_upper_bound`: λ* ≤ K/2 - γ_min (Σc=1) | **proved** |
+| `eigenvalue_lower_bound`: λ* ≥ 2(K-K_c)/(K·K_c·Σc/γ²) | **proved** |
+| `dispersion_difference`: h(0) - h(λ) exact formula | **proved** |
 
-The bifurcation is sharp: below K_c, the linearization at α = 0 has all eigenvalues with negative real part (along the positive real axis); at K_c, a simple eigenvalue crosses zero; above K_c, exactly one positive eigenvalue exists.
+The bifurcation is sharp: below K_c, the linearization at α = 0 has all eigenvalues with negative real part (along the positive real axis); at K_c, a simple eigenvalue crosses zero; above K_c, exactly one positive eigenvalue exists. The eigenvalue λ* = Θ(K - K_c) near the bifurcation (lower bound proportional to K - K_c). K_c is monotone in the damping rates: more damped oscillators require stronger coupling to synchronize.
 
 ## Component Barrier via Grönwall Multiplier (ComponentBarrier.lean)
 
