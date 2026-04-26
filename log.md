@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | Gronwall bridge: continuous-time exponential decay
+
+- created: KuramotoLean/GronwallBridge.lean
+- updated: syntheses/lean-proof-status.md (+Gronwall bridge section)
+- LEAN: comparison_decay — V' ≤ -μV ⟹ V(t) ≤ V₀·exp(-μt) via antitone comparison
+- LEAN: npole_exponential_l2_decay — n-pole L² distance decays exponentially
+- LEAN: npole_l2_global_stability — α_k(t) → α*_k with explicit rate
+- LEAN: order_parameter_from_pointwise — pointwise convergence ⟹ |r-r*| bound
+- index.md: regenerated
+- **Result**: Completes l2_exponential_rate → trajectory_lyapunov_bound → Gronwall → convergence chain
+- **Sorry count**: 0 (48 files)
+
 ## [2026-04-26] experiment | n-pole Barbalat persistence convergence
 
 - created: KuramotoLean/NPoleGlobalStability.lean

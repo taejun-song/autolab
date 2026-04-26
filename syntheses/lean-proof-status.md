@@ -180,6 +180,29 @@ This proof path requires NO:
 
 Only: V monotonicity + persistence drops + q < 1.
 
+## Gronwall Bridge: Continuous-Time Exponential Decay (GronwallBridge.lean)
+
+**Status**: 0 sorry.
+
+Connects the continuous-time L² exponential rate `dV/dt ≤ -μV` to the exponential decay bound `V(t) ≤ V(0)·exp(-μt)` via a comparison principle.
+
+| Theorem | Status |
+|---|---|
+| `comparison_decay`: V' ≤ -μV implies V(t) ≤ V₀·exp(-μt) | **proved** |
+| `npole_exponential_l2_decay`: n-pole L² decays exponentially | **proved** |
+| `npole_l2_global_stability`: α_k(t) → α*_k pointwise | **proved** |
+| `order_parameter_from_pointwise`: pointwise → order parameter | **proved** |
+
+The proof uses the comparison function W(t) = V(t)·exp(μt). Since W'(t) = (V'+μV)·exp(μt) ≤ 0, W is antitone by Mathlib's `antitoneOn_of_deriv_nonpos`. Hence W(t) ≤ W(0) = V(0), giving V(t) ≤ V(0)·exp(-μt).
+
+The `NPoleTrajectoryData` structure packages an n-pole ODE trajectory with uniform lower bounds, and `npole_l2_global_stability` gives exponential pointwise convergence with rate μ = K·c_min·δ·(δ+δ*).
+
+This completes the chain:
+```
+l2_exponential_rate → trajectory_lyapunov_bound → comparison_decay
+→ NPoleExponentialData → npole_exponential_convergence
+```
+
 ## Continuous-Time Global Stability (ContinuousStability.lean)
 
 **Status**: 0 sorry.
