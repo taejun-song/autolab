@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | parametric convergence — 6 hypotheses
+
+- updated: KuramotoLean/GlobalStabilitySupercritical.lean (+parametric_convergence)
+- LEAN: parametric_convergence — NPoleBarrierData + n>0 + Σc=1 + K>K_c + α(0)∈(0,1) → ∃r*∈(0,1), r→r*
+- **Result**: Eliminated gmax and cmin as external parameters. Uses Finset.exists_max_image and Finset.exists_min_image to compute the maximum damping and minimum weight from the arrays, then passes to global_stability_supercritical. Only 6 hypotheses: ODE solution, n > 0, probability weights, supercritical coupling, initial data positive, initial data < 1.
+- **Sorry count**: 0 (97 files)
+
 ## [2026-04-27] experiment | global stability from K > K_c (minimal inputs)
 
 - created: KuramotoLean/GlobalStabilitySupercritical.lean
