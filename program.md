@@ -79,6 +79,7 @@ Every mathematical claim MUST carry one label:
 - ❌ "The error is $o(1)$" without a bound — **heuristic**
 - ❌ "By Riemann-Lebesgue" on a nonlinear time-evolving solution — **sketch**
 - ❌ "By self-consistency uniqueness, $|r| \to r^*$" when the self-consistency uses the unknown limit — **circular**
+- ❌ "Tested N cases with zero failures" — **numerical evidence**, not a proof. Numerical experiments can guide intuition and suggest conjectures, but they NEVER upgrade a claim's label. A conjecture with 1M supporting tests is still a **conjecture**.
 
 ## LEAN 4 Formalization Rule
 
