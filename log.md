@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-27] experiment | critical convergence rate
+
+- created: KuramotoLean/CriticalRate.lean
+- updated: KuramotoLean.lean (+CriticalRate import, 112/112)
+- LEAN: critical_W_antitone — W₀ antitone on [0,∞) from cubic bound dW/dt ≤ -CW³
+- LEAN: critical_explicit_time — antitone persistence: W ≤ ε ⟹ W stays ≤ ε
+- LEAN: critical_exp_bound_above_threshold — linearized decay: W ≥ ε ⟹ W ≤ W₀·exp(-Cε²t)
+- LEAN: critical_convergence_time — explicit T with 0 < T, ∀ t ≥ T, r(t) < ε
+- LEAN: parametric_critical_convergence_time — auto γ_min/γ_max extraction
+- **Result**: First explicit convergence time bound at K = K_c. The time to reach r < ε satisfies T = O(ε⁻² log(1/ε)), consistent with the algebraic rate r = O(1/√t).
+- **Sorry count**: 0 (112 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | unified trifurcation theorem
 
 - created: KuramotoLean/CompleteTrifurcation.lean
