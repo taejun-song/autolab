@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-26] experiment | qualitative trajectory Lyapunov (dV/dt ≤ 0 without uniform bound)
+
+- updated: KuramotoLean/TrajectoryLyapunov.lean (+trajectory_lyapunov_qualitative)
+- LEAN: trajectory_lyapunov_qualitative — dV/dt ≤ 0 when α(t) ∈ (0,1)^n, no δ needed
+- **Result**: Connects ComponentBarrier to basin convergence: component_positive → α ∈ (0,1)^n → pair bound → dV/dt ≤ 0 → V antitone. Combined with basin_forward, gives the full chain from α(0) > 0 to exponential convergence after basin entry.
+- **Sorry count**: 0 (70 files)
+
 ## [2026-04-26] experiment | component barrier via Grönwall multiplier
 
 - created: KuramotoLean/ComponentBarrier.lean
