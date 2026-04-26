@@ -4,7 +4,24 @@
 
 Prove global stability of the Kuramoto partially locked state (PLS) for symmetric unimodal analytic frequency distributions $g$ with coupling $K > K_c$. The proof must be machine-checked in LEAN 4 with **0 sorry**.
 
-The metric is **sorry count** — lower is better, 0 = solved.
+### Metrics (in priority order)
+
+1. **Primary metric: LorentzianSolution field count** — how many fields of `LorentzianSolution` are still ASSUMED vs PROVED from the ODE definition `ṙ = (K/2-γ)r - (K/2)r³`. Lower assumed count = better. **0 assumed = SOLVED.**
+2. **Secondary metric: sorry count** — 0 sorry across all files. Already achieved.
+
+The sorry count is 0, but this is misleading. The real gap is that `LorentzianSolution` is a STRUCTURE with assumed fields (ODE solution exists, r ∈ [0,1], Lipschitz bound, persistence, Lyapunov bound). These assumptions are NOT sorry's — they're hidden in the structure definition. The proof is not complete until every field of `LorentzianSolution` is a THEOREM proved from the ODE.
+
+### PRIORITY: Close the LorentzianSolution gap
+
+**STOP exploring new mathematical territory.** The current 114 files already prove far more than needed. The bottleneck is NOT more theorems — it is proving the concrete instance. Focus ALL effort on:
+
+1. **ODE existence**: Prove a solution to ṙ = (K/2-γ)r - (K/2)r³ exists (Picard-Lindelöf from Mathlib)
+2. **Invariance**: Prove r(t) ∈ [0,1] if r(0) ∈ [0,1] (barrier argument: f(0) ≥ 0, f(1) ≤ 0)
+3. **Lipschitz bound**: Prove |r(n+1) - r(n)| ≤ K - γ from the ODE bound
+4. **Persistence**: Connect ChetaevEscape (already proved) to the hpersist field
+5. **Lyapunov bound**: Prove W(n) ≤ W(0)e^{-2Ψ} from dW/dt = -2Kr²W (algebraic identity)
+
+Each of these is standard ODE theory. Do NOT add new files for new theorems. Instead, fill the existing `LorentzianSolution` fields with proofs.
 
 ## The open problem
 
