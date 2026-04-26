@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-27] experiment | PLS fixed point monotone in coupling K
+
+- updated: KuramotoLean/SelfConsistencyFixedPoint.lean (+summand_mono_K, +scSlope_mono_K, +sc_fixed_point_mono_K)
+- LEAN: summand_mono_K — K₁ < K₂ → K₁/D₁ < K₂/D₂ via cross-multiplication + (K₂a)²-(K₁b)²=(K₂²-K₁²)γ²
+- LEAN: scSlope_mono_K — K₁ < K₂ → scSlope(K₁,r) < scSlope(K₂,r) via Finset.sum_lt_sum
+- LEAN: sc_fixed_point_mono_K — K₁ < K₂ → r*(K₁) < r*(K₂) via slope monotonicity + strictAntiOn
+- **Result**: The supercritical bifurcation diagram is monotone: larger coupling gives larger PLS order parameter. Proof chain: cross-multiply K₁D₂ < K₂D₁ using (K₂a)²-(K₁b)²=(K₂²-K₁²)γ² identity → each scSlope summand increases → sum increases → fixed point increases by IFT (scSlope_strictAntiOn).
+- **Sorry count**: 0 (102 files)
+
 ## [2026-04-27] experiment | equilibrium monotone in coupling K
 
 - updated: KuramotoLean/SelfConsistencyFixedPoint.lean (+explicitEquil_mono_K)
