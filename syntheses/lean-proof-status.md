@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **77** |
+| Total .lean files | **78** |
 | Comprehensive build | **72/72 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -647,6 +647,21 @@ Proves trajectories of the n-pole ODE must leave any ε-ball around α = 0 when 
 | `instability_escape`: ∃ t,k such that α_k(t) > ε | **proved** |
 
 **Significance**: This is the machine-checked proof that the incoherent state α = 0 is NOT a possible accumulation point for trajectories with α(0) ∈ (0,1)^n. Combined with BoundaryStrictLyapunov ({dV/dt=0}∩{V>0} = {0}), this shows V → 0 by LaSalle exclusion.
+
+## Energy Exclusion Persistence (EnergyExclusion.lean)
+
+**Status**: 0 sorry.
+
+Proves that when the Lyapunov function V is below the incoherent-state value V_incoherent = Σ c_k α*_k², the order parameter r must be positive. Combined with V antitone (the Lyapunov property), this gives: once V drops below V_incoherent, r > 0 forever.
+
+| Theorem | Status |
+|---|---|
+| `V_incoherent_pos`: V_incoherent > 0 when c_k, α*_k > 0 | **proved** |
+| `energy_exclusion_r_pos`: V < V_incoherent → r > 0 | **proved** |
+| `energy_exclusion_persistence`: V antitone + V(T) < V_incoherent → r(t) > 0 for t ≥ T | **proved** |
+| `energy_exclusion_quantitative`: all α_k ≤ δ → V ≥ V_incoherent - 2δr* | **proved** |
+
+**Significance**: This provides a purely energy-based mechanism for persistence: no need for the instability analysis if V can be shown to drop below V_incoherent. The quantitative bound shows the level set {V ≤ V₀} is bounded away from α = 0 when V₀ < V_incoherent. Combined with Chetaev escape (which forces the FIRST V-drop), this gives the complete chain: instability → V drops → V < V_incoherent → r > 0 forever → persistence → exponential convergence.
 
 ## Open Problem
 

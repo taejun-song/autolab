@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | energy exclusion persistence (V < V_incoherent → r > 0)
+
+- created: KuramotoLean/EnergyExclusion.lean
+- updated: KuramotoLean.lean (+EnergyExclusion import, 78/78)
+- updated: syntheses/lean-proof-status.md (+energy exclusion section, file count 78)
+- index.md: regenerated
+- LEAN: energy_exclusion_r_pos — V < Σ c_k α*_k² → Σ c_k α_k > 0
+- LEAN: energy_exclusion_persistence — V antitone + V(T) < V_incoherent → r(t) > 0 for t ≥ T
+- LEAN: energy_exclusion_quantitative — all α_k ≤ δ → V ≥ V_incoherent - 2δr*
+- **Result**: Energy barrier at the incoherent state. If V ever drops below V_incoherent = Σ c_k α*_k², the Lyapunov monotonicity keeps V below that level forever, and the energy exclusion gives r > 0. The contrapositive: r = 0 forces all α_k = 0 (V = V_incoherent). Combined with Chetaev escape (forces the first V-drop), this completes the persistence derivation chain.
+- **Sorry count**: 0 (78 files)
+
 ## [2026-04-26] experiment | Chetaev escape r-lower corollary
 
 - updated: KuramotoLean/ChetaevEscape.lean (+r_pos_at_escape)
