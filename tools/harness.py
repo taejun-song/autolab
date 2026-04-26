@@ -155,7 +155,7 @@ class SessionManager:
                     except subprocess.TimeoutExpired:
                         proc.kill()
                     return reason
-                time.sleep(30)
+                time.sleep(10800)  # check every 3 hours
             return self.check_cycle() or "session_ended"
         except Exception as e:
             print(f"Session error: {e}", file=sys.stderr)
