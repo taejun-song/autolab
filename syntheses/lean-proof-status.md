@@ -25,39 +25,34 @@ Machine-checked proof that the Kuramoto order parameter converges to the partial
 
 The theorem `global_stability` proves: for all eps > 0, there exists N such that |r(n) - r*| < eps for all n >= N.
 
-The proof chain:
-1. **Phi-axioms** (structure hypotheses) -> self-consistency decay |r - Phi(r)| -> 0
-2. **EVT** (Mathlib's `IsCompact.exists_forall_le'`) -> gap minimum on compact set
-3. **Gap exclusion** -> r(n) eventually near {0} or {r*}
-4. **Persistence** (liminf|r| > 0) -> r(n) near r*, not 0
-5. **Lipschitz trapping** -> r stays near r*
+The proof chain (14-field minimal structure):
+1. **hsc_decay** (hypothesis) + **EVT** (Mathlib) -> gap exclusion
+2. **Gap exclusion** -> r(n) eventually near {0} or {r*}
+3. **Persistence** (liminf|r| > 0) -> r(n) near r*, not 0
+4. **Lipschitz trapping** -> r stays near r*
 
-### KuramotoData Hypotheses
+### KuramotoData Hypotheses (14 fields, minimal)
 
 All hypotheses are transparent and individually groundable:
 
 | Hypothesis | Citation | Type |
 |---|---|---|
-| hPsi_growth: dPsi/dt = K\|r\|^2 | [[dietert-2016-stability-bifurcation\|D16]] S3 | Energy identity |
+| hr_star: 0 < r* | [[kuramoto-1975-self-entrainment\|K75]] K > K_c | Published |
+| hr_bdd: 0 ≤ r(n) ≤ 1 | ODE invariance | Standard |
 | hpersist: liminf\|r\| > 0 | [[dietert-fernandez-2018-asymptotic-stability\|DF18]] Prop 4.3 | Published |
-| hLip: \|r(n+1) - r(n)\| <= L | Standard ODE bound | Standard |
-| hPhi_fp0: Phi(0) = 0 | [[kuramoto-1975-self-entrainment\|K75]] | Published |
-| hPhi_fp_rstar: Phi(r*) = r* | [[kuramoto-1975-self-entrainment\|K75]] | Published |
-| hPhi_unique: two fixed points only | [[kuramoto-1975-self-entrainment\|K75]] K > K_c | Published |
-| hPhi_continuous: Phi continuous | [[kuramoto-1975-self-entrainment\|K75]] integral formula | Published |
-| C, hC: slaving constant C > 0 | Any bound on initial deviation | Standard |
-| hslaving_bound: Riccati contraction | [[dietert-2016-thesis\|D16 thesis]] S2.3 | Published |
-| htail_decay: L1 tail of g | [[brezis-2011-functional-analysis-sobolev-pdes\|Brezis 2011]] Prop 4.4 | Published |
-| h_decomp: integral splitting | Standard analysis | Standard |
+| hLip: \|r(n+1) - r(n)\| ≤ L | Standard ODE bound | Standard |
+| hL_small: 3L < r* | Step size choice | Standard |
+| hΦ_unique: two fixed points only | [[kuramoto-1975-self-entrainment\|K75]] K > K_c | Published |
+| hΦ_continuous: Φ continuous | [[kuramoto-1975-self-entrainment\|K75]] integral formula | Published |
+| hsc_decay: \|r(n) - Φ(r(n))\| → 0 | Derived from slaving+tail | Composite |
 
 ### What Was Proved (not hypothesized)
 
-- **Psi monotonicity**: from hPsi_growth + K > 0
-- **Psi diverges**: from hPsi_growth + hpersist (Archimedean property)
-- **gap_min**: from hPhi_continuous via Weierstrass EVT (Mathlib)
-- **sc_decay**: |r(n) - Phi(r(n))| -> 0 (SelfConsistencyDecay.lean)
+- **gap_min**: from hΦ_continuous via Weierstrass EVT (Mathlib) — standalone `gap_min_from_continuity`
 - **hsc_gap**: gap exclusion (GapExclusion.lean)
-- **global_stability**: r(n) -> r*
+- **global_stability**: r(n) → r*
+
+The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc_decay from Lyapunov identity via SelfConsistencyDecay).
 
 ## Project-Wide Status
 

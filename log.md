@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | Reduce KuramotoData from 26 to 14 fields
+
+- updated: syntheses/lean-proof-status.md (minimal structure, proof chain)
+- LEAN: KuramotoData minimal — hsc_decay replaces slaving/tail/Ψ decomposition
+- LEAN: gap_min_from_continuity standalone theorem
+- LEAN: LorentzianInstance derives hsc_decay from Lyapunov via SelfConsistencyDecay
+- index.md: regenerated
+- **Result**: 14-field structure, 0 sorry, 0 axioms
+- **Sorry count**: 0
+
 ## [2026-04-26] experiment | Generalize slaving bound constant from 2 to C > 0
 
 - updated: syntheses/lean-proof-status.md (Lorentzian instance section, KuramotoData table)
