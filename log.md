@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-27] experiment | bifurcation monotonicity r*(K)
+
+- created: KuramotoLean/BifurcationMonotonicity.lean
+- updated: KuramotoLean.lean (+BifurcationMonotonicity import, 113/113)
+- LEAN: scSlope_mono_K — S(r,K₁) < S(r,K₂) when K₁ < K₂ (slope monotone in K)
+- LEAN: r_star_mono_K — r*(K₁) < r*(K₂) when K₁ < K₂ > K_c (PLS monotone in K)
+- LEAN: summand_mono_K — K/(γ+√(γ²+K²r²)) strictly increasing in K (cross-multiply + quadratic identity)
+- **Result**: The PLS order parameter r* is strictly increasing in coupling strength K. For K₁ < K₂ with both > K_c: r*(K₁) < r*(K₂). Proof uses: slope S(r,K) monotone in K (each summand increasing via cross-multiplication and the identity K₂²D₁² - K₁²D₂² = γ²(K₂² - K₁²)) + S(r,·) decreasing in r (strict anti) → r₂ ≥ r₁ would force S(r₁,K₂) > 1, contradicting S(r₂,K₂) = 1.
+- **Sorry count**: 0 (113 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | critical convergence rate
 
 - created: KuramotoLean/CriticalRate.lean
