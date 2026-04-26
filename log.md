@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | invariant box — eliminates hα_nn/hα_le from NPoleBarrierData
+
+- created: KuramotoLean/InvariantBox.lean
+- updated: KuramotoLean.lean (+InvariantBox import)
+- LEAN: upper_barrier — α_k(0)<1 + ODE → α_k(t)<1 for t≥0 (first-touching-time + strictAntiOn)
+- LEAN: lower_barrier — α_k(0)>0 + ODE → α_k(t)>0 for t≥0 (simultaneous first-touching-time + Grönwall)
+- LEAN: invariant_box — (0,1)^n is positively invariant under the n-pole OA ODE
+- LEAN: NPoleODEData.toBarrierData — constructs NPoleBarrierData from just ODE + initial conditions
+- LEAN: parametric_convergence_from_ode — K>K_c + ODE solution + α(0)∈(0,1)^n → r→r* (no hα_nn/hα_le)
+- **Result**: Proves the positive invariance of (0,1)^n without assuming it as a hypothesis. Upper barrier: at α_k=1, the ODE gives dα_k/dt=-γ_k<0 independent of r; first-touching-time construction via csInf on closed set + continuity of ODE rhs + strictAntiOn_of_deriv_neg gives contradiction. Lower barrier: simultaneous first-touching-time for all components; on [0,t_min], all α_j∈[0,1) so the Grönwall multiplier F_j=α_j·exp(γ_j t) is non-decreasing; F(t_min)=0 but F(0)>0, contradiction.
+- **Sorry count**: 0
+
 ## [2026-04-27] experiment | maximal convergence — α(0) ∈ [0,1]^n \ {0}
 
 - created: KuramotoLean/OneDeactivation.lean
