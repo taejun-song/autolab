@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | L2 convergence theorem for n-pole systems
+
+- created: KuramotoLean/L2Convergence.lean
+- updated: syntheses/lean-proof-status.md
+- LEAN: geometric_decay — discrete Gronwall for geometric sequences
+- LEAN: npole_l2_convergence — α → α* in weighted L² norm
+- LEAN: pointwise_from_l2 — L² → pointwise convergence
+- index.md: regenerated
+- **Result**: Standalone n-pole convergence via L2 Lyapunov (bypasses gap exclusion)
+- **Sorry count**: 0 (44 files)
+
 ## [2026-04-26] experiment | continuous Lorentzian instance, all K > 2γ
 
 - created: KuramotoLean/ContinuousLorentzianInstance.lean

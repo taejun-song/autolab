@@ -61,7 +61,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **43** |
+| Total .lean files | **44** |
 
 ### Axiom Inventory
 
@@ -147,6 +147,16 @@ The remaining external hypotheses:
 | `l2_exponential_rate`: dV/dt ≤ -Kμ·V | **proved** (0 sorry) |
 
 The diagonal extraction uses the symmetrized double-sum from `ds_le_rstarQ`, applies `double_sum_ge_diagonal` (non-negative terms), and simplifies the self-pair via `self_pair_identity`.
+
+### Direct L² Convergence (L2Convergence.lean)
+
+**Status**: 0 sorry.
+
+- `geometric_decay`: discrete Gronwall — V(n+1) ≤ q·V(n) with 0 ≤ q < 1 implies V → 0
+- `npole_l2_convergence`: α(n) → α* in weighted L² norm
+- `pointwise_from_l2`: V < c_min·ε² implies |α_k - α*_k| < ε for all k
+
+This gives a STANDALONE proof path for n-pole convergence that bypasses gap exclusion entirely.
 
 ## Continuous-Time Global Stability (ContinuousStability.lean)
 
