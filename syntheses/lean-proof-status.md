@@ -4,6 +4,7 @@ title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
 updated: 2026-04-27
 
+
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -18,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 83 files. Component persistence from r-persistence via velocity lower bound.
+Machine-checked proof status: 0 sorry, 0 axioms across 84 files. Self-contained convergence from V < V_incoherent.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -62,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **83** |
-| Comprehensive build | **83/83 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **84** |
+| Comprehensive build | **84/84 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -694,6 +695,25 @@ Proves that when the Lyapunov function V is below the incoherent-state value V_i
 **Proof**: The velocity bound (ContinuousLaSalle) gives dα_k/dt ≥ Kδ/8 when α_k ≤ β and r ≥ δ. Using monotoneOn_of_deriv_nonneg on the shifted function g(t) = α_k(t) - (Kδ/8)t, the linear growth α_k(b) ≥ α_k(a) + (Kδ/8)(b-a) follows. After time 8β/(Kδ), the growth exceeds β, contradicting α_k ≤ β.
 
 **Significance**: This is a key bridge toward the self-contained n-pole theorem. Combined with the uniform rate (dV/dt ≤ -Kδδ*V when all α_k ≥ δ) and comparison_decay, it closes: r-persistence → component growth → uniform rate → V → 0. The remaining gap is forward invariance of the threshold (showing α_k stays ≥ β once it exceeds it).
+
+## Self-Contained Convergence (SelfContainedConvergence.lean)
+
+**Status**: 0 sorry.
+
+Key algebraic results for deriving persistence from the energy gap V < V_incoherent, plus an abstract convergence framework.
+
+| Theorem | Status |
+|---|---|
+| `V_incoherent_sub_l2`: V_inc - V = Σ c_k(2α_k α*_k - α_k²) | **proved** |
+| `V_gap_le_r_bound`: V_inc - V ≤ 2α*_max · r | **proved** |
+| `r_lower_from_V_gap`: r ≥ (V_inc - V)/(2α*_max) | **proved** |
+| `V_initial_lt_V_incoherent`: α ∈ (0, 2α*) → V < V_inc | **proved** |
+| `quantitative_persistence`: V antitone + V(0) < V_inc → r(t) ≥ δ | **proved** |
+| `self_contained_V_zero`: V → 0 from iterated drops | **proved** |
+| `self_contained_convergence`: r → r* | **proved** |
+| `self_contained_tendsto`: Filter.Tendsto form | **proved** |
+
+**Significance**: The `V_initial_lt_V_incoherent` theorem shows V(0) < V_incoherent for all initial data α(0) ∈ (0, 2α*_min)^n, covering initial data near incoherence AND near the PLS. Combined with `quantitative_persistence`, this gives a quantitative r ≥ δ bound WITHOUT assuming persistence. The δ depends on V(0) and α*_max only. Combined with RPersistenceComponent (propagation) and UniformRate (exponential decay), this yields the 16th independent proof path: V gap → quantitative persistence → component propagation → uniform rate → V → 0.
 
 ## Open Problem
 

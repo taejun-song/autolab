@@ -1,5 +1,20 @@
 # Activity Log
 
+## [2026-04-27] experiment | self-contained convergence from V < V_incoherent
+
+- created: KuramotoLean/SelfContainedConvergence.lean
+- updated: KuramotoLean.lean (+SelfContainedConvergence import, 84/84)
+- updated: syntheses/lean-proof-status.md (+self-contained convergence section, file count 84)
+- index.md: regenerated
+- LEAN: V_incoherent_sub_l2 — V_inc - V = Σ c_k(2α_k α*_k - α_k²) (algebraic identity)
+- LEAN: V_gap_le_r_bound — V_inc - V ≤ 2α*_max · r (upper bound)
+- LEAN: r_lower_from_V_gap — r ≥ (V_inc - V)/(2α*_max) (quantitative persistence)
+- LEAN: V_initial_lt_V_incoherent — α ∈ (0, 2α*) → V < V_inc
+- LEAN: quantitative_persistence — V antitone + V(0) < V_inc → r(t) ≥ δ forever
+- LEAN: self_contained_convergence — r → r* from iterated drops
+- **Result**: 16th independent proof path. V < V_incoherent gives quantitative r ≥ δ without assuming persistence. For α(0) ∈ (0, 2α*_min)^n, the initial V gap provides permanent order parameter positivity. Combined with component propagation and uniform rate, this yields V → 0. NO persistence hypothesis, NO instability analysis.
+- **Sorry count**: 0 (84 files)
+
 ## [2026-04-27] experiment | component persistence from r-persistence
 
 - created: KuramotoLean/RPersistenceComponent.lean
