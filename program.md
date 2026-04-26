@@ -242,10 +242,16 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Decomposition: h_decomp [integral splitting]
 
 ### What is open
-- Filling ContinuumGlobalStability structure hypotheses with LEAN proofs (currently grounded as structure fields)
-- Proving the pair expansion → continuum ∫∫ pair via Fubini (requires Mathlib measure theory)
+- Assembling full persistence chain: ChetaevEscape → V drops → EnergyExclusion → r > 0 forever
+- Building self-contained n-pole theorem (ODE data → r → r* without persistence hypothesis)
+- Filling ContinuumGlobalStability structure hypotheses with LEAN proofs
 - Reducing hypothesis count (some hypotheses are consequences of others)
-- 0 axioms remain (H2 is now a structure field in OmegaLimitData)
+
+### Key new results (this session)
+- **ChetaevEscape**: trajectories must leave ε-ball of α = 0 (instability_escape)
+- **EnergyExclusion**: V < V_incoherent → r > 0 (energy_exclusion_persistence)
+- **ComparisonGrowth**: V' ≥ μV → V(t) ≥ V₀·exp(μt) (comparison_growth)
+- Together these provide the mechanism for deriving persistence from instability
 
 ### Independent proof paths (all 0 sorry)
 1. **MainTheorem**: gap exclusion + Lipschitz trapping (14-field KuramotoData)
@@ -256,6 +262,7 @@ hsc_gap + persistence + Lipschitz → r → r*
 6. **AntitoneConvergence**: V∞ → L ≥ 0 (bounded antitone function converges)
 7. **ContinuumGlobalStability**: V∞ → 0 via coercive Barbalat (Path A) or scalar autonomy (Path B)
 8. **UniformRate**: dV/dt ≤ -Kδδ*V (n-independent, full pair sum)
+9. **InstabilityExclusion**: V antitone + instability escape drops → V → 0 (no persistence)
 
 ## NEVER STOP
 
