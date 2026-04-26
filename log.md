@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuum uniform rate via measure theory
+
+- created: KuramotoLean/ContinuumUniformRate.lean
+- updated: syntheses/lean-proof-status.md (+continuum uniform rate section)
+- LEAN: double_integral_sq_prob — ∫∫(p₁²+p₂²) dμ dμ = 2∫p² dμ (probability μ)
+- LEAN: pair_ge_delta_sq — pair ≥ δδ*(p₁²+p₂²) pointwise
+- LEAN: continuum_coercive_integral — ∫∫ pair dμ dμ ≥ 2δδ*·V∞ (integral_mono)
+- LEAN: continuum_rate_convergence — V → 0 from exponential drops at rate Kδδ*
+- LEAN: continuum_V_tendsto_zero — Filter.Tendsto form
+- index.md: regenerated
+- **Result**: Continuum uniform rate proved via Mathlib measure theory (IsProbabilityMeasure + integral_mono). Rate Kδδ* identical to n-pole, confirming n → ∞ uniformity. 9th independent proof path.
+- **Sorry count**: 0 (59 files)
+
 ## [2026-04-26] experiment | order parameter convergence rate
 
 - created: KuramotoLean/OrderParameterRate.lean

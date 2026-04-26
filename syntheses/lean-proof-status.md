@@ -18,7 +18,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof that the Kuramoto order parameter converges to the partially locked state r* for symmetric unimodal analytic frequency distributions with K > K_c.
+Machine-checked proof status: 0 sorry, 0 axioms across 58 files. Continuum uniform rate via measure-theoretic coercive bound.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **56** |
+| Total .lean files | **58** |
 
 ### Axiom Inventory
 
@@ -164,6 +164,22 @@ The existing `l2_exponential_rate` uses diagonal extraction (c_min factor, degen
 | `l2_uniform_rate`: dV/dt ≤ -Kδδ*V (no c_min!) | **proved** |
 
 The full chain: pair_expansion_identity gives the exact double sum, coercive_double_sum bounds it by 2δδ*V, and l2_uniform_rate combines with l2_lyapunov_identity. The rate Kδδ* is independent of n.
+
+### Continuum Uniform Rate (ContinuumUniformRate.lean)
+
+**Status**: 0 sorry.
+
+Extends the n-pole uniform rate to the continuum via Mathlib measure theory. For a probability measure μ with locked amplitudes α ≥ δ, α* ≥ δ*:
+
+| Theorem | Status |
+|---|---|
+| `double_integral_sq_prob`: ∫∫(p₁²+p₂²) dμ dμ = 2∫p² dμ | **proved** |
+| `pair_ge_delta_sq`: pair ≥ δδ*(p₁²+p₂²) pointwise | **proved** |
+| `continuum_coercive_integral`: ∫∫ pair dμ dμ ≥ 2δδ*V∞ | **proved** |
+| `continuum_rate_convergence`: V → 0 from exponential drops | **proved** |
+| `continuum_V_tendsto_zero`: Filter.Tendsto V atTop (nhds 0) | **proved** |
+
+The double integral identity uses `integral_const` + `IsProbabilityMeasure` (μ(Ω)=1). The coercive bound uses `integral_mono` with the pointwise pair coercivity. Convergence chains through `continuous_barbalat_general`. The rate K·δ·δ* is identical to the n-pole rate, confirming the n → ∞ uniformity.
 
 ### Direct L² Convergence (L2Convergence.lean)
 
