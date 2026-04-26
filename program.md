@@ -203,7 +203,7 @@ Commit frequently — every successful experiment should be committed. This pres
 
 ## Current state
 
-`MainTheorem.lean`: **0 sorry, 0 axioms.** All hypotheses in `KuramotoData` are grounded. **101 files total.**
+`MainTheorem.lean`: **0 sorry, 0 axioms.** All hypotheses in `KuramotoData` are grounded. **102 files total.**
 
 **`hsc_gap` is PROVED** (not assumed) from:
 1. Φ continuous → gap_min via Weierstrass EVT (Mathlib)
@@ -257,6 +257,8 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Assembly complete: K > K_c → r* exists unique → equilibrium grounded → convergence (93 files)
 - **maximal_convergence**: α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r* (101 files)
 - **one_component_deactivation**: α_k(0)=1 → α_k(t)<1 for t>0 (upper Grönwall + strictAntiOn)
+- **EventualRate**: V(t) ≤ V(T₀)·exp(-μ(t-T₀)) eventual exponential rate (102 files)
+- **tendsto_r / tendsto_component**: Filter.Tendsto forms for r → r* and α_k → α*_k
 
 ### Independent proof paths (all 0 sorry)
 1. **MainTheorem**: gap exclusion + Lipschitz trapping (14-field KuramotoData)
