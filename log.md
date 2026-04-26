@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuous-time global stability (eliminates hL_small)
+
+- created: KuramotoLean/ContinuousStability.lean
+- updated: syntheses/lean-proof-status.md (+continuous-time section)
+- LEAN: continuous_global_stability — r(t) → r* for continuous trajectories, NO step-size constraint
+- LEAN: continuous_trapping — IVT-based, replaces lipschitz_trap
+- index.md: regenerated
+- **Result**: Extends global stability to all K > K_c without hL_small restriction
+- **Sorry count**: 0 (42 files)
+
 ## [2026-04-26] experiment | l2_diagonal_lower_bound proved (0 sorry project-wide)
 
 - updated: syntheses/lean-proof-status.md (+diagonal bound now proved)

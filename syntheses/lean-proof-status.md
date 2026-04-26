@@ -61,7 +61,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | 41 |
+| Total .lean files | **42** |
 
 ### Axiom Inventory
 
@@ -147,6 +147,18 @@ The remaining external hypotheses:
 | `l2_exponential_rate`: dV/dt ≤ -Kμ·V | **proved** (0 sorry) |
 
 The diagonal extraction uses the symmetrized double-sum from `ds_le_rstarQ`, applies `double_sum_ge_diagonal` (non-negative terms), and simplifies the self-pair via `self_pair_identity`.
+
+## Continuous-Time Global Stability (ContinuousStability.lean)
+
+**Status**: 0 sorry.
+
+`continuous_global_stability` proves the same convergence result as `global_stability` but for continuous trajectories `r : ℝ → ℝ`. The key improvement: **no step-size constraint** (`hL_small` eliminated).
+
+The `ContinuousKuramotoData` structure has only 11 fields (vs 14 for discrete):
+- Removed: `L`, `hL_small`, `hLip`
+- Added: `hr_cont : Continuous r`
+
+Trapping uses IVT (`IsPreconnected.intermediate_value₂`): a continuous path cannot jump across the self-consistency gap, so once r enters B(r*, η), it cannot escape to B(0, η) without crossing the gap. This extends the result to ALL K > K_c without parameter restrictions.
 
 ## Open Problem
 
