@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 104 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Bifurcation analysis complete: K_c is the exact threshold.
+Machine-checked proof status: 0 sorry, 0 axioms across 106 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Bifurcation complete: K_c exact threshold + square root law r* = Θ(√(K-K_c)).
 
 ## Main Theorem (MainTheorem.lean)
 

@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-27] experiment | subcritical Lyapunov bound
+
+- created: KuramotoLean/SubcriticalLyapunov.lean
+- updated: KuramotoLean.lean (+SubcriticalLyapunov import, 106/106)
+- LEAN: weighted_ode_identity — Σ(c_k/γ_k)·f_k(α) = -r + (K/2)r·Σ(c_k/γ_k)(1-α_k²)
+- LEAN: weighted_ode_le_r_gap — Σ(c_k/γ_k)·f_k(α) ≤ r·((K/2)Σ(c_k/γ_k) - 1) = r·(K/K_c - 1)
+- **Result**: The algebraic Lyapunov derivative bound for subcritical convergence. The weighted sum W₀' = Σ(c_k/γ_k)f_k ≤ r(K/K_c - 1) < 0 when K < K_c and r > 0. Combined with comparison_decay, this gives W₀ → 0 exponentially with rate γ_min(1-K/K_c).
+- **Sorry count**: 0 (106 files)
+
 ## [2026-04-27] experiment | square root law r* = Ω(√(K-K_c))
 
 - created: KuramotoLean/SquareRootLaw.lean
