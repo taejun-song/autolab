@@ -61,7 +61,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **42** |
+| Total .lean files | **43** |
 
 ### Axiom Inventory
 
@@ -159,6 +159,10 @@ The `ContinuousKuramotoData` structure has only 11 fields (vs 14 for discrete):
 - Added: `hr_cont : Continuous r`
 
 Trapping uses IVT (`IsPreconnected.intermediate_value₂`): a continuous path cannot jump across the self-consistency gap, so once r enters B(r*, η), it cannot escape to B(0, η) without crossing the gap. This extends the result to ALL K > K_c without parameter restrictions.
+
+### Concrete Instance: Continuous Lorentzian (ContinuousLorentzianInstance.lean)
+
+`lorentzian_continuous_global_stability` proves: for any continuous solution r(t) of the Lorentzian ODE with persistence and self-consistency decay, r(t) → r* = √(1-2γ/K). Applies to ALL K > 2γ with no step-size restriction.
 
 ## Open Problem
 

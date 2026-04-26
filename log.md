@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuous Lorentzian instance, all K > 2γ
+
+- created: KuramotoLean/ContinuousLorentzianInstance.lean
+- updated: KuramotoLean/LorentzianInstance.lean (Mathlib API fix: sq_pos_of_ne_zero)
+- updated: syntheses/lean-proof-status.md
+- LEAN: lorentzian_continuous_global_stability — no step-size constraint
+- index.md: regenerated
+- **Result**: Concrete continuous-time Lorentzian stability for all K > 2γ
+- **Sorry count**: 0 (43 files)
+
 ## [2026-04-26] experiment | continuous-time global stability (eliminates hL_small)
 
 - created: KuramotoLean/ContinuousStability.lean
