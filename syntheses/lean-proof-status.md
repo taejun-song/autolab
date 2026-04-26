@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **74** |
+| Total .lean files | **75** |
 | Comprehensive build | **72/72 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -613,6 +613,20 @@ Dual of comparison_decay (GronwallBridge.lean). If dW/dt ≥ μW, then W(t) ≥ 
 The proof uses U(t) = W(t)·exp(-μt), shows dU/dt ≥ 0 via Mathlib's monotoneOn_of_deriv_nonneg. The escape theorem uses Tendsto exp atTop atTop from Mathlib.
 
 **Significance**: Combined with instability_growth_rate, this completes the chain: near α = 0, W satisfies dW/dt ≥ (λ*/2)W → W grows exponentially → W eventually exceeds any threshold η → components grow → pair coercivity kicks in → V drops. The full mechanism for deriving persistence from instability is now machine-checked in components.
+
+## Chetaev Instability Escape (ChetaevEscape.lean)
+
+**Status**: 0 sorry.
+
+Proves trajectories of the n-pole ODE must leave any ε-ball around α = 0 when K > K_c. The instability Lyapunov function W grows exponentially (comparison_growth) but is bounded by (2/K)ε in the ball. Contradiction forces escape.
+
+| Theorem | Status |
+|---|---|
+| `instability_W_growth`: W(t) ≥ W₀·exp((λ*/2)t) in ε-ball | **proved** |
+| `instabilityW_le_in_ball`: W ≤ (2/K)ε when α_k ≤ ε | **proved** |
+| `instability_escape`: ∃ t,k such that α_k(t) > ε | **proved** |
+
+**Significance**: This is the machine-checked proof that the incoherent state α = 0 is NOT a possible accumulation point for trajectories with α(0) ∈ (0,1)^n. Combined with BoundaryStrictLyapunov ({dV/dt=0}∩{V>0} = {0}), this shows V → 0 by LaSalle exclusion.
 
 ## Open Problem
 

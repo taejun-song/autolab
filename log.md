@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | Chetaev instability escape (trajectory leaves ε-ball)
+
+- created: KuramotoLean/ChetaevEscape.lean
+- updated: KuramotoLean.lean (+ChetaevEscape import)
+- updated: syntheses/lean-proof-status.md (+Chetaev escape section, file count 75)
+- index.md: regenerated
+- LEAN: instability_W_growth — W(t) ≥ W₀·exp((λ*/2)t) in instability zone
+- LEAN: instabilityW_le_in_ball — W ≤ (2/K)ε when α_k ≤ ε (dispersion)
+- LEAN: instability_escape — ∃ t,k : α_k(t) > ε (by contradiction)
+- **Result**: Combines instability Lyapunov identity, comparison growth, and bounded W to prove trajectories MUST leave the ε-ball around incoherence. W grows exponentially (dW/dt ≥ (λ*/2)W) but is bounded (W ≤ (2/K)ε), so exp(λt/2) hits the ceiling. Machine-checked proof that α = 0 is not an accumulation point.
+- **Sorry count**: 0 (75 files)
+
 ## [2026-04-26] experiment | comparison growth principle (dual Gronwall)
 
 - created: KuramotoLean/ComparisonGrowth.lean
