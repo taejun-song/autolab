@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 111 files. Complete trifurcation: ∃ r_limit, Tendsto r atTop (nhds r_limit) for ALL K — subcritical (r→0), critical (r→0), supercritical (r→r*). Maximal initial data [0,1]^n \ {0}. Square root law: r*=Θ(√(K-K_c)).
+Machine-checked proof status: 0 sorry, 0 axioms across 113 files. Complete trifurcation with Filter.Tendsto for ALL K. Bifurcation monotonicity: r* strictly increasing in K. Square root law: r*=Θ(√(K-K_c)).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,7 +63,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **111** (+CompleteTrifurcation, Trifurcation) |
+| Total .lean files | **113** (+BifurcationMonotonicity, CriticalAlgebraicRate) |
 | Comprehensive build | **107/107 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -1000,6 +1000,19 @@ The first machine-checked complete classification of the Kuramoto bifurcation fo
 - `maximal_trifurcation` uses `lt_trichotomy` to dispatch all three regimes
 - All branches use Filter.Tendsto (not just ε-δ)
 - No restriction on boundary initial data (α_k = 0 or 1 allowed)
+
+## Bifurcation Monotonicity (BifurcationMonotonicity.lean)
+
+**Status**: 0 sorry.
+
+The PLS order parameter r* is strictly increasing in coupling K.
+
+| Theorem | Status |
+|---|---|
+| `scSlope_mono_K`: S(K₁,r) < S(K₂,r) for K₁ < K₂, r > 0 | **proved** |
+| `r_star_mono_K`: K₁ < K₂ → r*(K₁) < r*(K₂) | **proved** |
+
+**Key algebraic identity**: K₂²D₁² - K₁²D₂² = γ²(K₂² - K₁²) where D_i = √(γ² + K_i²r²). This gives K₂D₁ > K₁D₂ (by squaring), hence each summand K/(γ+D) is strictly increasing in K. The fixed point comparison uses scSlope strict anti in r (existing) + strict mono in K (new): if r*(K₂) ≤ r*(K₁), then S(K₂, r₁) > 1 and S(K₂, r₁) < 1, contradiction.
 
 ## Open Problem
 
