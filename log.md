@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuous-time LaSalle convergence (12th proof path)
+
+- created: KuramotoLean/ContinuousLaSalle.lean
+- updated: KuramotoLean.lean (+ContinuousLaSalle import, 68/68)
+- updated: syntheses/lean-proof-status.md (+continuous LaSalle section, 68 files)
+- LEAN: continuous_lasalle — V ≥ 0, V antitone, additive drop modulus → V → 0
+- LEAN: lasalle_global_stability — V controls r → r → r*
+- LEAN: pair_sum_zero_iff_interior — Σpair = 0 ↔ α = α* in (0,1)^n
+- **Result**: 12th independent proof path. No persistence, Barbalat, or locked-region needed. Uses barrier + strict Lyapunov + additive modulus (Archimedean).
+- **Sorry count**: 0 (68 files)
+
 ## [2026-04-26] experiment | Lyapunov persistence (V < r*² → r > 0)
 
 - created: KuramotoLean/LyapunovPersistence.lean

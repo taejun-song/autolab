@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **67** |
-| Comprehensive build | **67/67 files** (all name conflicts resolved via namespaces) |
+| Total .lean files | **68** |
+| Comprehensive build | **68/68 files** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -436,6 +436,24 @@ Alternative to Barbalat: if V is non-increasing with a modulus of decrease (V �
 | `lasalle_convergence`: V ≥ 0, V mono, modulus of decrease → V → 0 | **proved** |
 
 Combined with `l2_strict_lyapunov` (StrictLyapunov.lean), this gives a 10th independent proof path for n-pole convergence.
+
+## Continuous-Time LaSalle (ContinuousLaSalle.lean)
+
+**Status**: 0 sorry.
+
+Continuous-time analogue of LaSalleConvergence, working with ℝ-indexed V instead of ℕ-indexed. Uses additive drop modulus (no multiplicative factor q needed). 12th independent proof path.
+
+| Theorem | Status |
+|---|---|
+| `continuous_lasalle`: V ≥ 0, V antitone, additive drop → V → 0 | **proved** |
+| `continuous_lasalle_tendsto`: Filter.Tendsto form | **proved** |
+| `lasalle_global_stability`: V controls r → r → r* | **proved** |
+| `lasalle_tendsto`: Filter.Tendsto form for r → r* | **proved** |
+| `pair_sum_zero_iff_interior`: Σpair = 0 ↔ α = α* in (0,1)^n | **proved** |
+
+The key insight: the barrier lemma keeps α ∈ (0,1)^n, and on this open set, `l2_strict_lyapunov` gives dV/dt = 0 iff α = α*. Combined with V antitone → V → L ≥ 0: if L > 0, the orbit visits {V ≈ L > 0} where dV/dt < 0, giving an additive drop (modulus of strict decrease). The Archimedean property then forces V → 0.
+
+This proof path needs NO: persistence, Barbalat, multiplicative drop factor, locked-region hypothesis, self-consistency map, or gap exclusion. Only: V antitone + strict Lyapunov + additive modulus.
 
 ## Strict Lyapunov Decrease (StrictLyapunov.lean)
 
