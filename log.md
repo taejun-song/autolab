@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | n-pole Barbalat persistence convergence
+
+- created: KuramotoLean/NPoleGlobalStability.lean
+- updated: syntheses/lean-proof-status.md (+Barbalat persistence section)
+- LEAN: barbalat_from_persistence — V ≥ 0, V non-increasing, infinitely many q-drops → V → 0
+- LEAN: npole_stability_l2 — L² distance → 0 for n-pole via persistence Barbalat
+- LEAN: npole_stability_pointwise — α_k → α*_k for each k
+- LEAN: npole_order_parameter_convergence — r → r*
+- index.md: regenerated
+- **Result**: Third independent proof path for n-pole convergence (no gap exclusion, no Φ, no Lipschitz)
+- **Sorry count**: 0 (48 files)
+
 ## [2026-04-26] experiment | trajectory Lyapunov bridge (chain rule + derivative bound)
 
 - created: KuramotoLean/TrajectoryLyapunov.lean

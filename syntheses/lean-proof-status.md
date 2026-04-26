@@ -61,7 +61,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **45** |
+| Total .lean files | **48** |
 
 ### Axiom Inventory
 
@@ -157,6 +157,28 @@ The diagonal extraction uses the symmetrized double-sum from `ds_le_rstarQ`, app
 - `pointwise_from_l2`: V < c_min·ε² implies |α_k - α*_k| < ε for all k
 
 This gives a STANDALONE proof path for n-pole convergence that bypasses gap exclusion entirely.
+
+## N-Pole Global Stability via Barbalat Persistence (NPoleGlobalStability.lean)
+
+**Status**: 0 sorry.
+
+A third independent proof path for n-pole convergence, combining the L² Lyapunov monotonicity with a discrete Barbalat argument.
+
+| Theorem | Status |
+|---|---|
+| `barbalat_from_persistence`: V ≥ 0, V non-increasing, infinitely many q-drops → V → 0 | **proved** |
+| `npole_stability_l2`: n-pole L² distance → 0 | **proved** |
+| `npole_stability_pointwise`: α_k → α*_k for each k | **proved** |
+| `npole_order_parameter_convergence`: r → r* | **proved** |
+
+The key insight: the L² Lyapunov gives dV/dt ≤ 0 everywhere (monotonicity) and dV/dt ≤ -μV at persistence times (exponential drop). The Barbalat argument chains these drops: after k persistence visits, V ≤ q^k · V(0) → 0.
+
+This proof path requires NO:
+- Gap exclusion or self-consistency decay
+- Self-consistency map Φ
+- Lipschitz trapping or step-size constraints
+
+Only: V monotonicity + persistence drops + q < 1.
 
 ## Continuous-Time Global Stability (ContinuousStability.lean)
 

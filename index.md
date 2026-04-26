@@ -4,7 +4,7 @@ _Last regenerated: 2026-04-26_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 46 files. L2 trajectory bridge + continuous-time stability.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 48 files. N-pole Barbalat persistence proof path added.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
