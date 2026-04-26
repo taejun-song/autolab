@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-27] experiment | unified trifurcation theorem
+
+- created: KuramotoLean/CompleteTrifurcation.lean
+- created: KuramotoLean/Trifurcation.lean
+- updated: KuramotoLean.lean (+CompleteTrifurcation, +Trifurcation imports, 111/111)
+- updated: syntheses/lean-proof-status.md (+Trifurcation, file count 111)
+- LEAN: trifurcation — ∃ r_limit ≥ 0, Tendsto r atTop (nhds r_limit) for α(0) ∈ (0,1)^n
+- LEAN: maximal_trifurcation — same for α(0) ∈ [0,1]^n \ {0} (maximal initial data)
+- LEAN: parametric_critical_convergence — auto γ_min/γ_max + Filter.Tendsto for K = K_c
+- **Result**: First unified convergence theorem covering ALL coupling strengths in a single statement. Dispatches on lt_trichotomy to subcritical (r→0, exponential), critical (r→0, cubic), supercritical (r→r*, 12 paths). The existential form ∃ r_limit with Tendsto is the cleanest statement for applications.
+- **Sorry count**: 0 (111 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | critical convergence K = K_c → r → 0
 
 - created: KuramotoLean/CriticalConvergence.lean

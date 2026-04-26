@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 109 files. Complete trifurcation: K<K_c→r→0 (exponential), K=K_c→r→0 (cubic Lyapunov), K>K_c→r→r* (12 independent paths). Square root law: r*=Θ(√(K-K_c)) (two-sided bounds).
+Machine-checked proof status: 0 sorry, 0 axioms across 111 files. Complete trifurcation: ∃ r_limit, Tendsto r atTop (nhds r_limit) for ALL K — subcritical (r→0), critical (r→0), supercritical (r→r*). Maximal initial data [0,1]^n \ {0}. Square root law: r*=Θ(√(K-K_c)).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,7 +63,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **107** (+BifurcationDichotomy, SubcriticalConvergence) |
+| Total .lean files | **111** (+CompleteTrifurcation, Trifurcation) |
 | Comprehensive build | **107/107 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -979,6 +979,27 @@ Unified statement of the complete bifurcation: for K ≠ K_c, either r → 0 (su
 **Hypotheses**: NPoleBarrierData + n > 0 + Σc = 1 + K ≠ K_c + α(0) ∈ (0,1)^n.
 
 **Significance**: The first machine-checked complete bifurcation theorem for the Kuramoto model. Dispatches on `lt_or_gt_of_ne` to apply either `parametric_subcritical_convergence` or `parametric_convergence`. The subcritical branch is new (this session); the supercritical branch chains through the full instability-exclusion path.
+
+## Complete Trifurcation (CompleteTrifurcation.lean + Trifurcation.lean)
+
+**Status**: 0 sorry.
+
+The first machine-checked complete classification of the Kuramoto bifurcation for ALL coupling strengths K > 0.
+
+| Theorem | Status |
+|---|---|
+| `incoherence_convergence`: K ≤ K_c → Tendsto r (nhds 0) | **proved** |
+| `maximal_convergence_tendsto`: K > K_c → ∃ r*, Tendsto r (nhds r*) | **proved** |
+| `complete_trifurcation`: disjunction form, maximal initial data | **proved** |
+| `maximal_trifurcation`: ∃ r_limit form, [0,1]^n \ {0} initial data | **proved** |
+
+**Hypotheses**: NPoleBarrierData + n > 0 + Σc = 1 + ∃j, α_j(0) > 0.
+
+**Key results**:
+- `incoherence_convergence` unifies subcritical (K < K_c) and critical (K = K_c) via `eq_or_lt_of_le`
+- `maximal_trifurcation` uses `lt_trichotomy` to dispatch all three regimes
+- All branches use Filter.Tendsto (not just ε-δ)
+- No restriction on boundary initial data (α_k = 0 or 1 allowed)
 
 ## Open Problem
 
