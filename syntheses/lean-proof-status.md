@@ -18,7 +18,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 58 files. Continuum uniform rate via measure-theoretic coercive bound.
+Machine-checked proof status: 0 sorry, 0 axioms across 63 files. Lorentzian envelope convergence eliminates all external hypotheses.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -137,6 +137,24 @@ The remaining external hypotheses:
 1. A `LorentzianSolution` (ODE solution sampled at integer times)
 2. `hr0_ne`: r₀² ≠ r*² (initial data not at equilibrium)
 3. `hL_small`: 3(K-γ) < r* (step size smallness, satisfiable by `lorentzian_hL_small_satisfiable`)
+
+### Lorentzian Envelope (LorentzianEnvelope.lean)
+
+**Status**: 0 sorry.
+
+Proves `lorentzian_envelope_stability`: r(n) → r* with NO external hypotheses beyond `LorentzianSolution`. Eliminates BOTH `hr0_ne` and `hL_small`.
+
+| Theorem | Status |
+|---|---|
+| `lorentzian_envelope_stability`: r(n) → r* unconditionally | **proved** |
+
+The proof uses the Lyapunov envelope V(n) = W₀·exp(-2Ψ(n))/r*² where W₀ = (r(0)²-r*²)²:
+1. V antitone: from Ψ monotonicity (Ψ(n+1) = Ψ(n) + K·r(n)² ≥ Ψ(n))
+2. (r-r*)² ≤ V: from (r-r*)²·(r+r*)² = (r²-r*²)² and r+r* ≥ r*
+3. Persistence drops: when r(n) ≥ δ, V(n+1) ≤ exp(-2Kδ²)·V(n)
+4. Barbalat: V → 0 → |r-r*| → 0
+
+This is the cleanest Lorentzian instance: works for ALL K > 2γ with only the `LorentzianSolution` structure.
 
 ## L² Exponential Rate (L2Lyapunov.lean)
 

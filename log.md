@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | Lorentzian envelope convergence (no hL_small, no hr0_ne)
+
+- created: KuramotoLean/LorentzianEnvelope.lean
+- updated: syntheses/lean-proof-status.md (+envelope convergence section)
+- LEAN: lorentzian_envelope_stability — r(n) → r* unconditionally for ALL K > 2γ
+- LEAN: envelope_mono — Lyapunov envelope V(n) = W₀·exp(-2Ψ(n))/r*² is antitone
+- LEAN: controls_r — (r-r*)² ≤ V via (r-r*)²(r+r*)² = (r²-r*²)² and r+r* ≥ r*
+- LEAN: envelope_drop — persistence drops at rate exp(-2Kδ²)
+- index.md: regenerated
+- **Result**: Cleanest Lorentzian instance. Eliminates BOTH hL_small (step-size) and hr0_ne (non-degeneracy). Uses Lyapunov envelope + Barbalat. 11th independent proof path.
+- **Sorry count**: 0 (63 files)
+
 ## [2026-04-26] experiment | LaSalle convergence (no Barbalat needed)
 
 - created: KuramotoLean/LaSalleConvergence.lean
