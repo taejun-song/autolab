@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | eventual exponential convergence rate
+
+- created: KuramotoLean/EventualRate.lean
+- updated: KuramotoLean.lean (+EventualRate import, 102/102)
+- updated: syntheses/lean-proof-status.md (+EventualRate section, file count 102)
+- index.md: regenerated
+- LEAN: eventual_exponential_V — V(t) ≤ V(T₀)·exp(-μ(t-T₀)) for t ≥ T₀
+- LEAN: eventual_exponential_r — (r-r*)² ≤ V(T₀)·exp(-μ(t-T₀))
+- LEAN: eventual_exponential_pointwise — (α_k-α*_k)² ≤ (V₀/c_min)·exp(-μ(t-T₀))
+- **Result**: Upgrades qualitative V → 0 to quantitative exponential decay after a finite transient. V → 0 (FullChainConvergence) → V enters basin V < c_min·(δ*/2)² → V antitone preserves basin → basin_component_lb gives α_k ≥ δ*/2 for all t ≥ T₀ → l2_drop_from_bounds gives V(t) ≤ V(T₀)·exp(-μ(t-T₀)) with μ = K·(δ*/2)·δ*. The rate depends only on the equilibrium structure, not initial data.
+- **Sorry count**: 0 (102 files)
+
 ## [2026-04-27] experiment | invariant box — eliminates hα_nn/hα_le from NPoleBarrierData
 
 - created: KuramotoLean/InvariantBox.lean

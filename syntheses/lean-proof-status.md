@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 101 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*.
+Machine-checked proof status: 0 sorry, 0 axioms across 102 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Eventual exponential rate proved.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,7 +63,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **101** (+InvariantBox) |
+| Total .lean files | **102** (+EventualRate) |
 | Comprehensive build | **101/101 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -857,6 +857,24 @@ The strongest convergence theorem, covering ALL initial data except the incohere
 All components in (0,1), so `parametric_convergence` applies to the shifted data.
 
 **Significance**: The initial condition domain [0,1]^n \ {0} is MAXIMAL — the incoherent state α = 0 is an unstable equilibrium and genuinely cannot converge to r* (it stays at r = 0). Every other initial condition converges.
+
+## Eventual Exponential Rate (EventualRate.lean)
+
+**Status**: 0 sorry.
+
+Proves that after a finite transient, the L² distance decays exponentially with explicit rate.
+
+| Theorem | Status |
+|---|---|
+| `eventual_exponential_V`: V(t) ≤ V(T₀)·exp(-μ(t-T₀)) for t ≥ T₀ | **proved** |
+| `eventual_exponential_r`: (r-r*)² ≤ V(T₀)·exp(-μ(t-T₀)) | **proved** |
+| `eventual_exponential_pointwise`: (α_k-α*_k)² ≤ (V₀/c_min)·exp(-μ(t-T₀)) | **proved** |
+
+The rate μ = K·(δ*/2)·δ* where δ* = min_k α*_k is the equilibrium lower bound. The transient time T₀ is determined by V entering the exponential basin V < c_min·(δ*/2)².
+
+**Proof**: V → 0 (qualitative, FullChainConvergence) → V(T₀) < basin threshold → V antitone keeps V in basin → basin_component_lb gives α_k ≥ δ*/2 → l2_drop_from_bounds gives exponential decay on [T₀, t] for any t ≥ T₀.
+
+**Significance**: Upgrades the qualitative convergence r → r* to quantitative exponential decay. The rate depends only on the equilibrium structure (K, δ*), not on the initial data. This is useful for the passage-to-limit argument (Term 2 in PassageToLimit.lean).
 
 ## Open Problem
 
