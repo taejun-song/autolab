@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | minimal instance + convergence time bound
+
+- created: KuramotoLean/MinimalInstance.lean
+- LEAN: toMinimalData — constructs MinimalStabilityData from L² chain
+- LEAN: l2_pipeline_convergence — complete pipeline |r-r*| < ε
+- LEAN: convergence_time_bound — explicit k with q^k·V₀ < ε²
+- **Result**: Full pipeline: V antitone + exp drops + Cauchy-Schwarz ⟹ r→r* with explicit convergence count.
+- **Sorry count**: 0 (61 files)
+
 ## [2026-04-26] experiment | minimal proof (4-hypothesis convergence)
 
 - created: KuramotoLean/MinimalProof.lean

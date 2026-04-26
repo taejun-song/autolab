@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **60** |
+| Total .lean files | **61** |
 
 ### Axiom Inventory
 
@@ -362,6 +362,19 @@ The simplest possible end-to-end theorem for r → r*, using only 4 non-trivial 
 | `minimal_tendsto`: Filter.Tendsto form | **proved** |
 
 This proof path requires NO: Φ, gap exclusion, self-consistency decay, Lipschitz bound, step-size constraint, or scalar ODE analysis. Only: V monotone + persistence drops + Cauchy-Schwarz.
+
+### Minimal Instance (MinimalInstance.lean)
+
+**Status**: 0 sorry.
+
+Constructs MinimalStabilityData from the L² Lyapunov chain:
+
+| Theorem | Status |
+|---|---|
+| `toMinimalData`: V + exp drops + Cauchy-Schwarz → MinimalStabilityData | **proved** |
+| `l2_pipeline_convergence`: complete pipeline, \|r-r*\| < ε | **proved** |
+| `l2_pipeline_tendsto`: Filter.Tendsto form | **proved** |
+| `convergence_time_bound`: explicit k with q^k·V₀ < ε² | **proved** |
 
 ## Open Problem
 
