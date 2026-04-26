@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | Lyapunov persistence (V < r*² → r > 0)
+
+- created: KuramotoLean/LyapunovPersistence.lean
+- updated: KuramotoLean.lean (+LyapunovPersistence import, 67/67)
+- updated: syntheses/lean-proof-status.md (+persistence section, file count 67)
+- index.md: regenerated
+- LEAN: lyapunov_basin_persistence — V(T) < r*² → |r(t)-r*| < r* for t ≥ T
+- LEAN: lyapunov_persistence — V(T) < r*² → r(t) > 0 for t ≥ T
+- LEAN: basin_entry — drops → ∃ T, V(T) < r*²
+- **Result**: Persistence is self-reinforcing: once V enters the basin V < r*², r > 0 and convergence strengthens. This shows the drops → persistence → more drops cycle.
+- **Sorry count**: 0 (67 files)
+
 ## [2026-04-26] experiment | Fubini Lyapunov identity + linter fixes
 
 - updated: KuramotoLean/ContinuumIdentity.lean (+inner_term12, +inner_term21, +pair_fubini_identity)

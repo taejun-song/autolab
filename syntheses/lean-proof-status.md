@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **66** |
-| Comprehensive build | **66/66 files** (all name conflicts resolved via namespaces) |
+| Total .lean files | **67** |
+| Comprehensive build | **67/67 files** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -397,6 +397,20 @@ The simplest possible end-to-end theorem for r → r*, using only 4 non-trivial 
 | `minimal_tendsto`: Filter.Tendsto form | **proved** |
 
 This proof path requires NO: Φ, gap exclusion, self-consistency decay, Lipschitz bound, step-size constraint, or scalar ODE analysis. Only: V monotone + persistence drops + Cauchy-Schwarz.
+
+### Lyapunov Persistence (LyapunovPersistence.lean)
+
+**Status**: 0 sorry.
+
+Derives persistence from Lyapunov monotonicity: once V enters the basin V < r*², the order parameter r(t) > 0 for all subsequent time.
+
+| Theorem | Status |
+|---|---|
+| `lyapunov_basin_persistence`: V(T) < r*² → \|r(t)-r*\| < r* for t ≥ T | **proved** |
+| `lyapunov_persistence`: V(T) < r*² → r(t) > 0 for t ≥ T | **proved** |
+| `basin_entry`: drops → ∃ T, V(T) < r*² | **proved** |
+
+This shows persistence is self-reinforcing: drops → V enters basin → r > 0 → more drops → V → 0.
 
 ### Minimal Instance (MinimalInstance.lean)
 
