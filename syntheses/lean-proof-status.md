@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **54** |
+| Total .lean files | **55** |
 
 ### Axiom Inventory
 
@@ -291,6 +291,24 @@ Continuous-time analogue of barbalat_from_persistence (NPoleGlobalStability.lean
 | `LyapunovConvergence.zero_from_drops`: V → 0 for Lyapunov structures | **proved** |
 
 Combined with pair coercivity: at persistence times, dV/dt ≤ -Kδδ*V gives V drops by factor q = exp(-Kδδ*) < 1. Then this Barbalat theorem gives V → 0 on the locked region.
+
+## Continuum Global Stability (ContinuumGlobalStability.lean)
+
+**Status**: 0 sorry.
+
+Closes the continuum Lyapunov gap V∞ → L = 0 by two independent paths:
+
+| Theorem | Status |
+|---|---|
+| `coercive_convergence`: Path A, V → 0 from coercive drops | **proved** |
+| `coercive_limit_zero`: Path A implies L = 0 | **proved** |
+| `scalar_autonomy_convergence`: each oscillator V_ω → 0 | **proved** |
+| `pointwise_convergence`: Path B, V → 0 from pointwise convergence | **proved** |
+| `pointwise_limit_zero`: Path B implies L = 0 | **proved** |
+
+**Path A** (Coercive Barbalat): pair coercivity + persistence → V drops by q < 1 infinitely often → ContinuumBarbalat → V → 0.
+
+**Path B** (Scalar Asymptotic Autonomy): r → r* (MainTheorem) → each α(ω,t) → α*(ω) (scalar_oa_decay_rate + discrete_decay_with_perturbation) → dominated convergence → V∞ → 0.
 
 ## Open Problem
 

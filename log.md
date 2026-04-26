@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuum global stability (two paths)
+
+- created: KuramotoLean/ContinuumGlobalStability.lean
+- updated: syntheses/lean-proof-status.md (+continuum global stability section)
+- LEAN: coercive_convergence — Path A: V→0 from coercive drops (Barbalat)
+- LEAN: scalar_autonomy_convergence — Path B: V_ω→0 from scalar decay + perturbation
+- LEAN: pointwise_convergence — Path B: V∞→0 from pointwise convergence
+- index.md: regenerated
+- **Result**: Two independent paths closing V∞ → L = 0 gap. Both 0 sorry.
+- **Sorry count**: 0 (55 files)
+
 ## [2026-04-26] experiment | continuous Barbalat from persistence drops
 
 - created: KuramotoLean/ContinuumBarbalat.lean
