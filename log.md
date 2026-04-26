@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | pair rigidity (LaSalle characterization)
+
+- updated: KuramotoLean/ContinuumLyapunov.lean (+pair_eq_zero_iff, pair_rigidity_sos)
+- updated: syntheses/lean-proof-status.md (+pair rigidity theorems)
+- LEAN: pair_eq_zero_iff — pairIntegrand = 0 iff both α₁=α*₁ and α₂=α*₂
+- LEAN: pair_rigidity_sos — SOS decomposition for the equality case
+- index.md: regenerated
+- **Result**: dV∞/dt = 0 only at equilibrium. Key ingredient for LaSalle convergence.
+- **Sorry count**: 0 (50 files)
+
 ## [2026-04-26] experiment | antitone convergence for Lyapunov limits
 
 - created: KuramotoLean/AntitoneConvergence.lean

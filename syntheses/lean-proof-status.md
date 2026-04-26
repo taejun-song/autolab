@@ -229,6 +229,8 @@ The finite-sum `pair_bound` is purely algebraic — it holds pointwise for any �
 |---|---|
 | `continuum_pair_nonneg`: ∫∫ pair_term(ω₁,ω₂) dμ dμ ≥ 0 | **proved** |
 | `pairIntegrand_nonneg`: pointwise pair bound | **proved** |
+| `pair_eq_zero_iff`: pair = 0 ↔ α₁=α*₁ ∧ α₂=α*₂ | **proved** |
+| `pair_rigidity_sos`: SOS decomposition for equality case | **proved** |
 
 This gives dV∞/dt ≤ 0 for the continuum OA flow where V∞ = ∫g|α-α*|²dω. The proof:
 1. dV∞/dt = K·(DS - r*Q) (Lyapunov identity, same algebra as n-pole)
