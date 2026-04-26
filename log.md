@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuum product integral + pair decomposition
+
+- created: KuramotoLean/ContinuumIdentity.lean
+- updated: KuramotoLean.lean (+ContinuumIdentity import, 66/66)
+- LEAN: integral_mul_integral — (∫f)(∫g) = ∫∫f·g (no integrability needed)
+- LEAN: pair_integrand_decomp — pair = Term₁₂ + Term₂₁ (algebraic)
+- LEAN: pair_bound_from_products — ∫∫(Term₁₂+Term₂₁) ≥ 0
+- **Result**: Bridges algebraic pair bound to measure-theoretic double integrals. Each term corresponds to one product-integral expansion of r*Q-DS.
+- **Sorry count**: 0 (66 files, 66/66 comprehensive)
+
 ## [2026-04-26] experiment | instability of incoherence + full comprehensive build
 
 - created: KuramotoLean/IncoherenceInstability.lean
