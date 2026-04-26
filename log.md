@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-27] experiment | subcritical Filter.Tendsto convergence
+
+- updated: KuramotoLean/SubcriticalConvergence.lean (+tendsto_r_subcritical, +tendsto_component_subcritical, +subcritical_rate_pos, build fix)
+- updated: syntheses/lean-proof-status.md (+SubcriticalConvergence section)
+- LEAN: subcritical_rate_pos — μ = γ_min(1-K/K_c) > 0
+- LEAN: tendsto_r_subcritical — Filter.Tendsto r atTop (nhds 0) via exp squeeze
+- LEAN: tendsto_component_subcritical — Filter.Tendsto (α_k(·)) atTop (nhds 0) via r → 0
+- **Result**: Upgraded subcritical exponential bounds to Filter.Tendsto forms. Fix: subcritical_r_decay calc step (r ≤ γ_max·W using field_simp), hasDerivAt_weightedW (HasDerivAt.fun_sum not .sum for pointwise sums). The squeeze proof uses tendsto_exp_atBot.comp for C·exp(-μt) → 0, then Metric.tendsto_atTop sandwich.
+- **Sorry count**: 0 (106 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | subcritical convergence K < K_c → r → 0
 
 - created: KuramotoLean/SubcriticalConvergence.lean

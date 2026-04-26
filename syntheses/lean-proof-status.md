@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 106 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Bifurcation complete: K_c exact threshold + square root law r* = Θ(√(K-K_c)).
+Machine-checked proof status: 0 sorry, 0 axioms across 106 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Bifurcation complete: K_c exact threshold + square root law r* = Θ(√(K-K_c)). Subcritical convergence: K < K_c → r(t) → 0 + α_k(t) → 0 (Filter.Tendsto).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -942,6 +942,26 @@ Complete bifurcation analysis at incoherence: h(λ) = (K/2)Σc_k/(λ+γ_k) is st
 | `no_pls_subcritical`: K ≤ K_c → Φ(r) < r ∀ r > 0 | **proved** |
 
 **Significance**: K_c is the EXACT bifurcation threshold. Below: linear stability + no PLS. At: marginal stability + no PLS. Above: unique unstable eigenvalue + unique PLS. The eigenvalue bounds give λ* = Θ(K-K_c) near K_c.
+
+## Subcritical Convergence (SubcriticalConvergence.lean)
+
+**Status**: 0 sorry.
+
+Proves K < K_c → r(t) → 0 exponentially via the weighted Lyapunov W₀ = Σ c_k α_k/γ_k.
+
+| Theorem | Status |
+|---|---|
+| `r_ge_gmin_W`: γ_min · W₀ ≤ r (lower bound) | **proved** |
+| `weightedW_deriv_le`: dW₀/dt ≤ -(γ_min(1-K/K_c)) · W₀ | **proved** |
+| `subcritical_W_decay`: W₀(t) ≤ W₀(0)·exp(-μt) | **proved** |
+| `subcritical_r_decay`: r(t) ≤ C·exp(-μt) | **proved** |
+| `subcritical_rate_pos`: μ = γ_min(1-K/K_c) > 0 | **proved** |
+| `tendsto_r_subcritical`: Filter.Tendsto r atTop (nhds 0) | **proved** |
+| `tendsto_component_subcritical`: Filter.Tendsto α_k atTop (nhds 0) | **proved** |
+
+**Proof**: W₀ = Σ c_k α_k/γ_k satisfies dW₀/dt = Σ(c_k/γ_k)·f_k(α) ≤ r·(K/K_c - 1) (SubcriticalLyapunov). Since r ≥ γ_min · W₀ (lower bound via γ_min/γ_k ≤ 1) and K/K_c - 1 < 0, multiplying gives dW₀/dt ≤ -μ · W₀ with μ = γ_min(1 - K/K_c). The comparison principle (GronwallBridge) gives exponential decay. Squeeze with 0 ≤ r ≤ γ_max · W₀ gives r → 0, then c_k α_k ≤ r gives α_k → 0.
+
+**Significance**: Completes the subcritical side of the bifurcation: K < K_c → r → 0 (incoherence is globally attracting). Combined with the supercritical convergence (K > K_c → r → r*), this gives a complete machine-checked bifurcation theorem.
 
 ## Open Problem
 
