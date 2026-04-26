@@ -1,5 +1,11 @@
 # Activity Log
 
+## [2026-04-26] query+page | continuum L2 Lyapunov synthesis
+
+- created: syntheses/continuum-l2-lyapunov.md
+- updated: index.md (+continuum-l2-lyapunov entry)
+- **Result**: Documented the discovery that pair_bound transfers to Lebesgue integrals, giving dV∞/dt ≤ 0 directly. Identified remaining gap: V∞ → 0 needs LaSalle or near-diagonal bound.
+
 ## [2026-04-26] experiment | continuum L2 Lyapunov via pair bound transfer
 
 - created: KuramotoLean/ContinuumLyapunov.lean
