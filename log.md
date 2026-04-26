@@ -1,5 +1,23 @@
 # Activity Log
 
+## [2026-04-26] experiment | instability of incoherence + full comprehensive build
+
+- created: KuramotoLean/IncoherenceInstability.lean
+- updated: KuramotoLean.lean (65/65 imports, all name conflicts resolved)
+- updated: KuramotoLean/OADynamics.lean (+OADyn namespace)
+- updated: KuramotoLean/RiccatiContraction.lean (+OADyn prefix)
+- updated: KuramotoLean/GlobalStability.lean (+GlobalStab namespace)
+- updated: KuramotoLean/Montel.lean (+MontelFile namespace)
+- updated: syntheses/lean-proof-status.md (+comprehensive build, +instability)
+- index.md: regenerated
+- LEAN: npoleDispersion — h(λ) = (K/2)Σc_k/(λ+γ_k)
+- LEAN: npoleCriticalK — K_c = 2/(Σc_k/γ_k)
+- LEAN: incoherence_unstable — K > K_c implies ∃ λ* > 0 (IVT on dispersion)
+- LEAN: jacobianAtZero — rank-1 structure J = -diag(γ) + (K/2)c⊗1
+- LEAN: jacobian_action — Σ J_{kj}v_j = -γ_k v_k + (K/2)(Σc_jv_j)
+- **Result**: Full comprehensive build (65/65 files, 0 sorry). Instability of incoherence formalized via dispersion relation + IVT.
+- **Sorry count**: 0 (65 files)
+
 ## [2026-04-26] experiment | continuum product integral identity + pair decomposition
 
 - created: KuramotoLean/ContinuumIdentity.lean
