@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | strict Lyapunov decrease (LaSalle characterization)
+
+- created: KuramotoLean/StrictLyapunov.lean
+- updated: syntheses/lean-proof-status.md (+strict Lyapunov section)
+- LEAN: pair_double_sum_pos — V > 0 → pair double sum > 0
+- LEAN: l2_strict_lyapunov — V > 0 → dV/dt < 0
+- LEAN: l2_lyapunov_zero_iff — dV/dt = 0 ↔ α = α*
+- index.md: regenerated
+- **Result**: LaSalle characterization proved. dV/dt vanishes only at equilibrium.
+- **Sorry count**: 0 (62 files)
+
 ## [2026-04-26] experiment | continuum Jensen inequality (variance bound)
 
 - updated: KuramotoLean/ContinuumUniformRate.lean (+sq_integral_le_integral_sq, +continuum_order_parameter_bound)

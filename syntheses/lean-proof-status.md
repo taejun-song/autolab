@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **61** |
-| Comprehensive build | **57/61 files** (4 excluded for legacy name conflicts) |
+| Total .lean files | **62** |
+| Comprehensive build | **58/62 files** (4 excluded for legacy name conflicts) |
 
 ### Axiom Inventory
 
@@ -378,6 +378,20 @@ Constructs MinimalStabilityData from the L² Lyapunov chain:
 | `l2_pipeline_convergence`: complete pipeline, \|r-r*\| < ε | **proved** |
 | `l2_pipeline_tendsto`: Filter.Tendsto form | **proved** |
 | `convergence_time_bound`: explicit k with q^k·V₀ < ε² | **proved** |
+
+## Strict Lyapunov Decrease (StrictLyapunov.lean)
+
+**Status**: 0 sorry.
+
+The LaSalle characterization: dV/dt = 0 if and only if α = α*.
+
+| Theorem | Status |
+|---|---|
+| `pair_double_sum_pos`: V > 0 → Σ Σ c_j c_k pair > 0 | **proved** |
+| `l2_strict_lyapunov`: V > 0 → dV/dt < 0 | **proved** |
+| `l2_lyapunov_zero_iff`: dV/dt = 0 ↔ α = α* | **proved** |
+
+Proof: V > 0 means some α_k ≠ α*_k. By pair_eq_zero_iff, pair(k,k) > 0. Since all pair terms are ≥ 0 (pair_bound) and one is > 0, the double sum is > 0. The Lyapunov identity then gives dV/dt = K(DS - r*Q) < 0.
 
 ## Open Problem
 
