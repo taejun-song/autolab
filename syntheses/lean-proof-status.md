@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **96** |
-| Comprehensive build | **96/96 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **97** |
+| Comprehensive build | **97/97 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -807,6 +807,19 @@ The first proof path that derives persistence FROM instability, requiring NO per
 **Chain**: InfiniteEscape (K > K_c → trajectory escapes ε-ball ∞ often) → shifted barrier (α_k(s) ≥ ε·exp(-γ·Δ)) → r-persistence on propagation interval → RPersistenceComponent (all components ≥ β) → ComponentForwardInvariance → shifted barrier on drop interval → l2_drop_from_bounds (exponential V-drop) → continuous_barbalat_general → V → 0 → Cauchy-Schwarz → r → r*.
 
 **Significance**: This is the 12th independent proof path and the FIRST that derives persistence from instability rather than assuming it. All previous paths required `hpersist` (liminf|r| > 0) as a hypothesis, grounded on [DF18 Prop 4.3]. This path needs only: ODE solution, equilibrium data, instability eigenvalue, and bounds (γ_max, δ*, c_min). The persistence mechanism: K > K_c → unstable eigenvalue → Chetaev escape → components grow → pair coercivity → V drops → V → 0.
+
+## Global Stability from K > K_c (GlobalStabilitySupercritical.lean)
+
+**Status**: 0 sorry.
+
+The cleanest theorem statement: NPoleBarrierData + K > K_c + gmax/cmin bounds → ∃ r* ∈ (0,1), r(t) → r*. Combines SelfConsistencyFixedPoint (r* exists) + IncoherenceInstability (λ* exists) + FullChainConvergence (r → r*) into a single end-to-end theorem.
+
+| Theorem | Status |
+|---|---|
+| `suitable_epsilon`: ∃ ε satisfying instability conditions | **proved** |
+| `global_stability_supercritical`: K > K_c → r → r* | **proved** |
+
+**Significance**: The most user-facing theorem. Given an ODE solution, K > K_c, and α(0) ∈ (0,1)^n, the fixed point r*, the unstable eigenvalue λ*, the instability parameter ε, and all intermediate data are computed internally. The user provides only the ODE solution, coupling strength, and basic bounds.
 
 ## Open Problem
 

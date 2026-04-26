@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-27] experiment | global stability from K > K_c (minimal inputs)
+
+- created: KuramotoLean/GlobalStabilitySupercritical.lean
+- updated: KuramotoLean.lean (+GlobalStabilitySupercritical import, 97/97)
+- updated: syntheses/lean-proof-status.md (+GlobalStabilitySupercritical section, file count 97)
+- index.md: regenerated
+- LEAN: suitable_epsilon — ∃ ε satisfying both instability conditions
+- LEAN: global_stability_supercritical — NPoleBarrierData + K > K_c + bounds → ∃ r* ∈ (0,1), r → r*
+- **Result**: Cleanest theorem statement. Given NPoleBarrierData + K > K_c + gmax/cmin bounds + α(0) ∈ (0,1)^n, internally constructs r* (SelfConsistencyFixedPoint), λ* (IncoherenceInstability), ε (suitable_epsilon), and all FullChainData fields, then invokes full_chain_convergence. The epsilon eps = min(lam/(K+lam), 2·gmax·exp(2)/(K·cmin)) satisfies both (K/2)·ε² ≤ lam/2 (from K·lam ≤ (K+lam)²) and K·cmin·ε·exp(-2) ≤ 2·gmax (from cancellation of exp(2)·exp(-2) = 1).
+- **Sorry count**: 0 (97 files)
+
 ## [2026-04-27] experiment | full chain: instability → convergence without persistence
 
 - created: KuramotoLean/FullChainConvergence.lean
