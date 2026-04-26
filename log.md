@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | multiplicative V-drop from component bounds
+
+- created: KuramotoLean/DropFromComponentBound.lean
+- updated: KuramotoLean.lean (+DropFromComponentBound import, 87/87)
+- LEAN: l2_drop_from_bounds — V(a+Δ) ≤ V(a)·exp(-Kδδ*Δ) when all α_k ≥ δ on [a,a+Δ]
+- **Result**: Connects component lower bounds (from ComponentForwardInvariance) to multiplicative V-drops (needed for SelfContainedData.hdrops). Uses l2_uniform_rate (dV/dt ≤ -Kδδ*V) + comparison_decay_interval (Gronwall). This is the final connection in the chain: r-persistence → component persistence → uniform rate → V drops → V → 0.
+- **Sorry count**: 0 (87 files)
+
 ## [2026-04-27] experiment | shifted component barrier
 
 - created: KuramotoLean/ShiftedBarrier.lean
