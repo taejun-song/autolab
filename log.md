@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | locked exponential + split convergence
+
+- created: KuramotoLean/LockedExponential.lean
+- LEAN: LockedTrajectoryData.convergence — locked trajectories → 0 via Barbalat
+- LEAN: split_convergence — V_locked + V_tail both → 0 ⟹ V_total → 0
+- LEAN: continuum_limit_zero — L = 0 from locked + tail convergence
+- **Result**: Complete chain for continuum V∞ → 0 via locked/tail splitting.
+- **Sorry count**: 0 (56 files)
+
 ## [2026-04-26] experiment | continuum global stability (two paths)
 
 - created: KuramotoLean/ContinuumGlobalStability.lean
