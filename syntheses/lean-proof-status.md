@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 88 files. End-to-end convergence: ODE trajectory data → V antitone (derived) → component persistence → V drops → r → r*.
+Machine-checked proof status: 0 sorry, 0 axioms across 89 files. Upper barrier α_k < 1 + end-to-end convergence from initial conditions.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **88** |
-| Comprehensive build | **88/88 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **89** |
+| Comprehensive build | **89/89 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 

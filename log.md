@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-27] experiment | upper barrier α_k < 1 + hypothesis elimination
+
+- created: KuramotoLean/UpperBarrier.lean
+- updated: KuramotoLean.lean (+UpperBarrier import, 89/89)
+- LEAN: component_lt_one — α_k(t) < 1 from Grönwall multiplier G_k = (1-α_k)exp(Mt)
+- LEAN: component_lt_one_uniform — M = K·c_sum works universally
+- **Result**: Derives α_k(t) < 1 from the ODE structure using upper Grönwall multiplier. G_k(t) = (1-α_k(t))exp(Mt) is monotone non-decreasing when M ≥ (K/2)r(1+α_k). Since G_k(0) > 0 and G_k is non-decreasing, G_k(t) > 0 for all t, hence 1-α_k(t) > 0. This eliminates the hα_strict_lt hypothesis from EndToEndData and InitialConditionData. Combined with component_positive (lower barrier), gives α_k(t) ∈ (0,1) for all t ≥ 0.
+- **Sorry count**: 0 (89 files)
+
 ## [2026-04-27] experiment | initial condition → convergence (full chain)
 
 - updated: KuramotoLean/EndToEndConvergence.lean (+InitialConditionData, full chain from α(0) ∈ (0,2α*))
