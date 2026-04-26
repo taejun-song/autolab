@@ -242,16 +242,17 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Decomposition: h_decomp [integral splitting]
 
 ### What is open
-- Assembling full persistence chain: ChetaevEscape → V drops → EnergyExclusion → r > 0 forever
-- Building self-contained n-pole theorem (ODE data → r → r* without persistence hypothesis)
+- Wire full NPoleBarrierData → SelfContainedData construction (all pieces exist, need assembly)
 - Filling ContinuumGlobalStability structure hypotheses with LEAN proofs
 - Reducing hypothesis count (some hypotheses are consequences of others)
 
 ### Key new results (this session)
-- **ChetaevEscape**: trajectories must leave ε-ball of α = 0 (instability_escape)
-- **EnergyExclusion**: V < V_incoherent → r > 0 (energy_exclusion_persistence)
-- **ComparisonGrowth**: V' ≥ μV → V(t) ≥ V₀·exp(μt) (comparison_growth)
-- Together these provide the mechanism for deriving persistence from instability
+- **SelfContainedConvergence**: V < V_incoherent → quantitative persistence → V → 0
+- **ComponentForwardInvariance**: {α_k ≥ β} forward invariant under r ≥ δ
+- **DropFromComponentBound**: component bounds → multiplicative V-drop via comparison_decay
+- **ShiftedBarrier**: α_k(t) ≥ α_k(t₀)·exp(-γ_k(t-t₀)) for t ≥ t₀
+- **RPersistenceComponent**: r ≥ δ → component propagation → α_k exceeds threshold
+- All building blocks for self-contained assembly now exist (87 files)
 
 ### Independent proof paths (all 0 sorry)
 1. **MainTheorem**: gap exclusion + Lipschitz trapping (14-field KuramotoData)
@@ -263,6 +264,7 @@ hsc_gap + persistence + Lipschitz → r → r*
 7. **ContinuumGlobalStability**: V∞ → 0 via coercive Barbalat (Path A) or scalar autonomy (Path B)
 8. **UniformRate**: dV/dt ≤ -Kδδ*V (n-independent, full pair sum)
 9. **InstabilityExclusion**: V antitone + instability escape drops → V → 0 (no persistence)
+10. **SelfContainedConvergence**: V gap → quantitative persistence → iterated drops → V → 0
 
 ## NEVER STOP
 
