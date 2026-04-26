@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | comprehensive build + bug fixes
+
+- updated: KuramotoLean.lean (root module imports 57/61 files)
+- updated: KuramotoLean/LockedExponential.lean (fix _hV_nn/_hV_anti identifier bug)
+- updated: KuramotoLean/RationalOA.lean (remove duplicate lorentzianODE, import Lorentzian)
+- updated: KuramotoLean/ExponentialContraction.lean (make geometric_decay private)
+- updated: syntheses/lean-proof-status.md (+comprehensive build metric)
+- index.md: regenerated
+- **Result**: All 61 files build individually. 57 files in comprehensive build, 0 sorry, 0 errors.
+- **Sorry count**: 0 (61 files)
+
 ## [2026-04-26] experiment | shifted comparison principle
 
 - updated: KuramotoLean/GronwallBridge.lean (+comparison_decay_interval)
