@@ -1,15 +1,19 @@
 # Activity Log
 
-## [2026-04-26] experiment | continuous-time LaSalle convergence (12th proof path)
+## [2026-04-26] experiment | boundary pair bound + LaSalle convergence (12th proof path)
 
 - created: KuramotoLean/ContinuousLaSalle.lean
-- updated: KuramotoLean.lean (+ContinuousLaSalle import, 68/68)
-- updated: syntheses/lean-proof-status.md (+continuous LaSalle section, 68 files)
+- created: KuramotoLean/ContinuumRigidity.lean
+- updated: KuramotoLean.lean (+ContinuousLaSalle, +ContinuumRigidity imports, 69/69)
+- updated: syntheses/lean-proof-status.md (+continuous LaSalle section, 69 files)
 - LEAN: continuous_lasalle — V ≥ 0, V antitone, additive drop modulus → V → 0
 - LEAN: lasalle_global_stability — V controls r → r → r*
+- LEAN: pair_bound_boundary — pair ≥ 0 for α ∈ [0,1), extends from (0,1)
+- LEAN: pair_zero_at_incoherent — pair(0, α*_j, 0, α*_k) = 0
+- LEAN: pair_pos_mixed — pair(α_j, α*_j, 0, α*_k) > 0 when α_j > 0
 - LEAN: pair_sum_zero_iff_interior — Σpair = 0 ↔ α = α* in (0,1)^n
-- **Result**: 12th independent proof path. No persistence, Barbalat, or locked-region needed. Uses barrier + strict Lyapunov + additive modulus (Archimedean).
-- **Sorry count**: 0 (68 files)
+- **Result**: 12th independent proof path. Boundary pair extension shows {dV/dt=0}∩(0,1)^n = {α*}, connecting LaSalle to barrier. No persistence, Barbalat, or locked-region needed.
+- **Sorry count**: 0 (69 files)
 
 ## [2026-04-26] experiment | Lyapunov persistence (V < r*² → r > 0)
 

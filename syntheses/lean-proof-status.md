@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **68** |
-| Comprehensive build | **68/68 files** (all name conflicts resolved via namespaces) |
+| Total .lean files | **69** |
+| Comprehensive build | **69/69 files** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -305,6 +305,19 @@ Under integrability, the double integral of the pair integrand decomposes exactl
 | `pair_fubini_identity`: ∫∫ pair = 2(r*·Q - D·S) | **proved** |
 
 This connects the algebraic pair bound to the Lyapunov derivative: dV∞/dt = K(DS - r*Q) = -K/2 · ∫∫ pair ≤ 0. Step 2 above is now machine-checked (not just a comment).
+
+### Continuum Pair Rigidity (ContinuumRigidity.lean)
+
+**Status**: 0 sorry.
+
+The LaSalle characterization for the continuum: ∫∫ pair = 0 implies α = α* μ-a.e.
+
+| Theorem | Status |
+|---|---|
+| `double_integral_rigidity`: ∫∫f = 0 with f ≥ 0 → f = 0 a.e.×a.e. | **proved** |
+| `continuum_pair_rigidity`: ∫∫ pair = 0 → α = α* μ-a.e. | **proved** |
+
+Uses Mathlib's `integral_eq_zero_iff_of_nonneg` (twice: outer then inner) to transfer vanishing integral to a.e. vanishing, then `pair_eq_zero_iff` for the pointwise conclusion. Requires `IsProbabilityMeasure μ` for extracting from the a.e. constant.
 
 **Significance**: This bypasses the passage to limit entirely. The continuum Lyapunov is a DIRECT result, not a limit of finite approximations. V∞ is finite at PLS (unlike Ψ), resolving the core obstruction identified in the subproblem decomposition.
 
