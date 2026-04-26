@@ -15,8 +15,12 @@
 - LEAN: sc_fixed_point_grounds — r* + α*_k + equilibrium + self-consistency
 - LEAN: scSlope_strictAntiOn — S(r) strictly decreasing on [0,∞)
 - LEAN: sc_fixed_point_unique — r₁, r₂ > 0 with Φ(rᵢ)=rᵢ implies r₁=r₂
+- created: KuramotoLean/GroundedConvergence.lean
+- updated: KuramotoLean.lean (+GroundedConvergence import, 93/93)
+- LEAN: fixed_point_nPoleODE — componentEquil=0 + self-consistency → nPoleODE=0
+- LEAN: grounded_convergence — NPoleBarrierData + r* + α(0)∈(0,2α*) → r→r*
 - **Result**: Grounds the equilibrium hypothesis r* from the parameters (K, γ, c). The slope function S(r) = Σ c_k·K/(γ_k+√(γ_k²+K²r²)) is continuous, equals K/K_c at r=0 (supercritical: > 1), and < 1 at r=1 (dissipation from √(γ²+K²) > K). Since Φ(r) = r·S(r), we get Φ(r₀) > r₀ for small r₀ and Φ(1) < 1. IVT gives the fixed point. The corollary sc_fixed_point_grounds produces: r* ∈ (0,1), each α*_k ∈ (0,1), each α*_k solves the component equilibrium, and Σ c_k·α*_k = r*. This grounds all equilibrium hypotheses in EndToEndData and InitialConditionData.
-- **Sorry count**: 0 (92 files)
+- **Sorry count**: 0 (93 files)
 
 ## [2026-04-27] experiment | V < V_incoherent convergence chain
 
