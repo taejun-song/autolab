@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-26] experiment | quantitative velocity lower bound at boundary
+
+- updated: KuramotoLean/ContinuousLaSalle.lean (+npole_velocity_lower_bound, +npole_velocity_pos_at_boundary)
+- LEAN: npole_velocity_lower_bound — r ≥ δ, α_k small → nPoleODE ≥ Kδ/8
+- LEAN: npole_velocity_pos_at_boundary — same, positivity form
+- **Result**: When r ≥ δ and α_k ≤ min(Kδ/(4γ_k), 1/2), the ODE pushes α_k upward at rate ≥ Kδ/8. Foundation for component persistence from order-parameter persistence.
+- **Sorry count**: 0 (69 files)
+
 ## [2026-04-26] experiment | continuum pair rigidity (LaSalle for continuum)
 
 - created: KuramotoLean/ContinuumRigidity.lean
