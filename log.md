@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-27] experiment | extended convergence — α(0) ∈ [0,1)^n
+
+- created: KuramotoLean/ExtendedConvergence.lean
+- updated: KuramotoLean.lean (+ExtendedConvergence import, 100/100)
+- LEAN: NPoleBarrierData.shift — time-shifted ODE data starting at ε > 0
+- LEAN: parametric_convergence_general — α(0) ∈ [0,1)^n with ∃j, α_j(0)>0 → r → r*
+- **Result**: Extends parametric_convergence from α(0) ∈ (0,1)^n to α(0) ∈ [0,1)^n with at least one positive component. Uses zero_component_activation to show all components positive at time ε, then time-shifts NPoleBarrierData and applies parametric_convergence. The time-shift construction verifies all NPoleBarrierData fields for the shifted ODE via chain rule (HasDerivAt.add_const).
+- **Sorry count**: 0 (100 files)
+
 ## [2026-04-27] experiment | zero component activation
 
 - created: KuramotoLean/ZeroActivation.lean
