@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-26] experiment | order parameter escape + quantitative pair bound
+
+- created: KuramotoLean/OrderParameterEscape.lean
+- updated: KuramotoLean.lean (+OrderParameterEscape import, 81/81)
+- updated: syntheses/lean-proof-status.md (+order parameter escape section, file count 81)
+- index.md: regenerated
+- LEAN: order_parameter_infinite_escape — ∀ T≥0, ∃ t≥T, c_min·ε < r(t)
+- LEAN: order_parameter_not_tendsto_zero — r(t) ↛ 0 (weak persistence)
+- LEAN: pair_self_ge_cross — pair(j,j) ≥ 2·α*_j·α_j·(α_j-α*_j)²
+- LEAN: pair_sum_lower_from_component — Σpair ≥ 2·c_j²·α*_j·ε·(α_j-α*_j)² when α_j ≥ ε
+- **Result**: Connects infinite escape to order parameter: r escapes c_min·ε infinitely often. Proves r(t) does NOT converge to 0 (¬ Tendsto r atTop (nhds 0)). Quantitative diagonal pair bound from single bounded component — key building block for V-drop without needing all components bounded below.
+- **Sorry count**: 0 (81 files)
+
 ## [2026-04-26] experiment | infinite escape from instability (comparison_growth_from)
 
 - created: KuramotoLean/InfiniteEscape.lean

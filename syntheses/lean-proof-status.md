@@ -18,7 +18,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 78 files. Infinite escape: trajectories leave ε-ball of incoherence infinitely often.
+Machine-checked proof status: 0 sorry, 0 axioms across 81 files. Order parameter escape + quantitative pair bound from single component.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **80** |
-| Comprehensive build | **78/78 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **81** |
+| Comprehensive build | **81/81 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
