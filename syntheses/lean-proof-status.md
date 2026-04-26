@@ -257,6 +257,21 @@ l2_exponential_rate → trajectory_lyapunov_bound → comparison_decay
 
 The **shifted comparison principle** `comparison_decay_interval` extends this to arbitrary time intervals [a, a+Δ], enabling persistence-based drop construction: if dV/dt ≤ -μV during a persistence window of length Δ, then V(a+Δ) ≤ V(a)·exp(-μΔ).
 
+### Order Parameter Exponential Rate (NPoleInstance.lean)
+
+**Status**: 0 sorry.
+
+For probability weights (Σ c_k = 1), Cauchy-Schwarz gives (r-r*)² ≤ V directly, bypassing the pointwise detour that loses a c_min factor. Combined with exponential L² decay:
+
+| Theorem | Status |
+|---|---|
+| `r_diff_eq`: r(t)-r* = Σ c_k(α_k-α*_k) | **proved** |
+| `r_sq_le_V`: (r-r*)² ≤ V for probability weights | **proved** |
+| `r_exponential_bound`: (r-r*)² ≤ V₀·exp(-μt) | **proved** |
+| `npole_r_cauchy_schwarz`: \|r-r*\| < ε for large t | **proved** |
+
+The rate μ = K·c_min·δ·(δ+δ*) is inherited at full strength from the L² chain. The existing `npole_r_convergence` goes pointwise → order parameter (losing 1/√c_min), while this route goes L² → order parameter directly via the Cauchy-Schwarz inequality `order_parameter_sq_le_l2`.
+
 ## Continuous-Time Global Stability (ContinuousStability.lean)
 
 **Status**: 0 sorry.

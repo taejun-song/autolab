@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-26] experiment | order parameter exponential rate via Cauchy-Schwarz
+
+- updated: KuramotoLean/NPoleInstance.lean (+r_diff_eq, +r_sq_le_V, +r_exponential_bound, +npole_r_cauchy_schwarz)
+- updated: KuramotoLean/VolterraTrapping.lean (linter fix: unused variable)
+- updated: KuramotoLean/WeightedEnergy.lean (linter fix: unused variables)
+- updated: syntheses/lean-proof-status.md (+order parameter exponential rate section)
+- index.md: regenerated
+- LEAN: r_sq_le_V — (r-r*)² ≤ V for probability weights (Cauchy-Schwarz)
+- LEAN: r_exponential_bound — (r-r*)² ≤ V₀·exp(-μt), direct from L² decay
+- LEAN: npole_r_cauchy_schwarz — |r-r*| < ε, no c_min loss
+- **Result**: Direct order parameter exponential convergence via Cauchy-Schwarz, bypassing pointwise extraction. The rate μ = K·c_min·δ·(δ+δ*) is preserved at full strength. Tighter than the existing npole_r_convergence which loses a factor through c_min.
+- **Sorry count**: 0 (69 files)
+
 ## [2026-04-26] experiment | quantitative velocity lower bound at boundary
 
 - updated: KuramotoLean/ContinuousLaSalle.lean (+npole_velocity_lower_bound, +npole_velocity_pos_at_boundary)
