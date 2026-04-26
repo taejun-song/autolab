@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 90 files. Barrier drop extends convergence basin + end-to-end convergence from initial conditions.
+Machine-checked proof status: 0 sorry, 0 axioms across 92 files. Self-consistency fixed point from K > K_c via IVT.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **90** |
-| Comprehensive build | **90/90 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **92** |
+| Comprehensive build | **92/92 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -766,6 +766,25 @@ Uses the component Grönwall barrier (α_k(t) ≥ α_k(0)·exp(-γ_max·t)) with
 **Significance**: Extends convergence from α(0) ∈ (0, 2α*)^n (SelfContainedConvergence) to the broader basin where the initial barrier drop suffices. The drop condition V(0)·exp(-C) < V_incoherent (C = K·α_min·exp(-γ_max·T)·δ*·T) covers all initial data with sufficiently large minimum component, including α near 1.
 
 The chain: component barrier on [0,T] → pair coercivity → exponential V-drop → V < V_incoherent → quantitative r-persistence → component propagation → EndToEndConvergence → V → 0 → r → r*.
+
+## Self-Consistency Fixed Point (SelfConsistencyFixedPoint.lean)
+
+**Status**: 0 sorry.
+
+Proves the existence of a self-consistency fixed point r* ∈ (0,1) when K > K_c. Uses the rationalized form α*_k(r) = Kr/(γ_k + √(γ_k²+K²r²)) and the slope decomposition Φ(r) = r·S(r).
+
+| Theorem | Status |
+|---|---|
+| `scSlope_at_zero`: S(0) = K/K_c | **proved** |
+| `scSlope_zero_gt_one`: K > K_c → S(0) > 1 | **proved** |
+| `scSlope_one_lt`: S(1) < 1 (dissipation) | **proved** |
+| `scSlope_continuous`: S continuous | **proved** |
+| `exists_slope_gt_one`: ∃ r₀ > 0, S(r₀) > 1 | **proved** |
+| `sc_fixed_point_exists`: ∃ r* ∈ (0,1), Φ(r*) = r* | **proved** |
+| `explicitEquil_rationalized`: α* = Kr/(γ+√(γ²+K²r²)) | **proved** |
+| `sc_fixed_point_grounds`: r* + α*_k + equilibrium + self-consistency | **proved** |
+
+**Significance**: Grounds the r* and α* hypotheses in EndToEndData and InitialConditionData from first principles. Given K > K_c = 2/(Σ c_k/γ_k) and Σ c_k = 1, produces: r* ∈ (0,1), α*_k = explicitEquil(γ_k, K, r*) ∈ (0,1), each α*_k solves the component equilibrium equation, and Σ c_k α*_k = r* (self-consistency). Combined with EquilibriumFormula (closed-form) and EquilibriumUniqueness (unique root), this fully determines the PLS equilibrium from the parameters (K, γ, c).
 
 ## Open Problem
 
