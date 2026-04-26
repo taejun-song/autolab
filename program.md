@@ -246,15 +246,14 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Reducing hypothesis count (some hypotheses are consequences of others)
 
 ### Key new results (this session)
-- **UpperBarrier**: α_k(t) < 1 from Grönwall multiplier (eliminates hα_strict_lt hypothesis)
-- **EndToEndConvergence**: ODE data + component persistence → V antitone (DERIVED) → V drops → r → r*
-- **l2_antitoneOn**: First result deriving V antitone from ODE pair bound (eliminates hV_anti hypothesis)
-- **SelfContainedConvergence**: V < V_incoherent → quantitative persistence → V → 0
-- **ComponentForwardInvariance**: {α_k ≥ β} forward invariant under r ≥ δ
-- **DropFromComponentBound**: component bounds → multiplicative V-drop via comparison_decay
-- **ShiftedBarrier**: α_k(t) ≥ α_k(t₀)·exp(-γ_k(t-t₀)) for t ≥ t₀
-- **RPersistenceComponent**: r ≥ δ → component propagation → α_k exceeds threshold
-- Assembly complete: NPoleBarrierData → EndToEndData → r → r* (89 files)
+- **SelfConsistencyFixedPoint**: ∃! r* ∈ (0,1) with Φ(r*) = r* when K > K_c (IVT + strict monotonicity)
+- **explicitEquil_rationalized**: α* = Kr/(γ+√(γ²+K²r²)) — connects closed-form to slope analysis
+- **sc_map_above_r / sc_map_below_r**: Φ pushes toward r* from both sides (attractive fixed point)
+- **explicitEquil_anti_gamma**: larger damping → smaller equilibrium (strict anti-monotone)
+- **explicitEquil_mono_r**: larger order parameter → larger equilibrium (strict monotone)
+- **GroundedConvergence**: NPoleBarrierData + r* + α(0)∈(0,2α*) → r → r*
+- **grounded_convergence_auto**: δ_star = explicitEquil(γ_max, K, r*) computed automatically
+- Assembly complete: K > K_c → r* exists unique → equilibrium grounded → convergence (93 files)
 
 ### Independent proof paths (all 0 sorry)
 1. **MainTheorem**: gap exclusion + Lipschitz trapping (14-field KuramotoData)
