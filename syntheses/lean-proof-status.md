@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **104** (+BifurcationAnalysis) |
-| Comprehensive build | **103/103 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **107** (+BifurcationDichotomy, SubcriticalConvergence) |
+| Comprehensive build | **107/107 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -958,10 +958,27 @@ Proves K < K_c → r(t) → 0 exponentially via the weighted Lyapunov W₀ = Σ 
 | `subcritical_rate_pos`: μ = γ_min(1-K/K_c) > 0 | **proved** |
 | `tendsto_r_subcritical`: Filter.Tendsto r atTop (nhds 0) | **proved** |
 | `tendsto_component_subcritical`: Filter.Tendsto α_k atTop (nhds 0) | **proved** |
+| `subcritical_component_decay`: α_k(t) ≤ (γ_k/c_k)·W₀(0)·exp(-μt) | **proved** |
+| `subcritical_r_convergence`: ∀ε>0, ∃T, ∀t≥T, r(t)<ε | **proved** |
+| `parametric_subcritical_convergence`: auto γ_min/γ_max extraction | **proved** |
 
 **Proof**: W₀ = Σ c_k α_k/γ_k satisfies dW₀/dt = Σ(c_k/γ_k)·f_k(α) ≤ r·(K/K_c - 1) (SubcriticalLyapunov). Since r ≥ γ_min · W₀ (lower bound via γ_min/γ_k ≤ 1) and K/K_c - 1 < 0, multiplying gives dW₀/dt ≤ -μ · W₀ with μ = γ_min(1 - K/K_c). The comparison principle (GronwallBridge) gives exponential decay. Squeeze with 0 ≤ r ≤ γ_max · W₀ gives r → 0, then c_k α_k ≤ r gives α_k → 0.
 
 **Significance**: Completes the subcritical side of the bifurcation: K < K_c → r → 0 (incoherence is globally attracting). Combined with the supercritical convergence (K > K_c → r → r*), this gives a complete machine-checked bifurcation theorem.
+
+## Bifurcation Dichotomy (BifurcationDichotomy.lean)
+
+**Status**: 0 sorry.
+
+Unified statement of the complete bifurcation: for K ≠ K_c, either r → 0 (subcritical) or r → r* (supercritical).
+
+| Theorem | Status |
+|---|---|
+| `bifurcation_dichotomy`: K≠K_c → (K<K_c ∧ r→0) ∨ (K>K_c ∧ ∃r*, r→r*) | **proved** |
+
+**Hypotheses**: NPoleBarrierData + n > 0 + Σc = 1 + K ≠ K_c + α(0) ∈ (0,1)^n.
+
+**Significance**: The first machine-checked complete bifurcation theorem for the Kuramoto model. Dispatches on `lt_or_gt_of_ne` to apply either `parametric_subcritical_convergence` or `parametric_convergence`. The subcritical branch is new (this session); the supercritical branch chains through the full instability-exclusion path.
 
 ## Open Problem
 

@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | bifurcation dichotomy K≠K_c
+
+- created: KuramotoLean/BifurcationDichotomy.lean
+- updated: KuramotoLean.lean (+BifurcationDichotomy import, 107/107)
+- updated: KuramotoLean/SubcriticalConvergence.lean (+parametric_subcritical_convergence)
+- updated: syntheses/lean-proof-status.md (+BifurcationDichotomy, +parametric forms, file count 107)
+- LEAN: bifurcation_dichotomy — K≠K_c → (K<K_c ∧ r→0) ∨ (K>K_c ∧ ∃r*, r→r*)
+- LEAN: parametric_subcritical_convergence — auto γ_min/γ_max via Finset.exists_min/max_image
+- **Result**: First machine-checked complete bifurcation theorem for the Kuramoto model. Combines subcritical convergence (parametric_subcritical_convergence) with supercritical convergence (parametric_convergence) via lt_or_gt_of_ne. Hypotheses: NPoleBarrierData + n>0 + Σc=1 + K≠K_c + α(0)∈(0,1)^n.
+- **Sorry count**: 0 (107 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | subcritical Filter.Tendsto convergence
 
 - updated: KuramotoLean/SubcriticalConvergence.lean (+tendsto_r_subcritical, +tendsto_component_subcritical, +subcritical_rate_pos, build fix)
