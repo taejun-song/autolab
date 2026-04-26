@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 92 files. Self-consistency fixed point from K > K_c via IVT.
+Machine-checked proof status: 0 sorry, 0 axioms across 93 files. Full chain: instability → convergence without persistence.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -787,6 +787,26 @@ Proves the existence of a self-consistency fixed point r* ∈ (0,1) when K > K_c
 | `sc_fixed_point_unique`: r₁, r₂ > 0 with Φ(rᵢ) = rᵢ → r₁ = r₂ | **proved** |
 
 **Significance**: Grounds the r* and α* hypotheses in EndToEndData and InitialConditionData from first principles. Given K > K_c = 2/(Σ c_k/γ_k) and Σ c_k = 1, produces: r* ∈ (0,1), α*_k = explicitEquil(γ_k, K, r*) ∈ (0,1), each α*_k solves the component equilibrium equation, and Σ c_k α*_k = r* (self-consistency). Combined with EquilibriumFormula (closed-form) and EquilibriumUniqueness (unique root), this fully determines the PLS equilibrium from the parameters (K, γ, c).
+
+## Full Chain Convergence (FullChainConvergence.lean)
+
+**Status**: 0 sorry.
+
+The first proof path that derives persistence FROM instability, requiring NO persistence hypothesis. Given NPoleBarrierData + K > K_c (dispersion relation) + α(0) ∈ (0,1)^n, proves r → r*.
+
+| Theorem | Status |
+|---|---|
+| `r_bound_from_escape`: escape α_k > ε → r ≥ δ₁ on [t₀, t₀+S] | **proved** |
+| `component_at_prop`: r-bound → all α_k ≥ β after propagation | **proved** |
+| `component_on_drop`: shifted barrier → δ_drop bound on drop interval | **proved** |
+| `V_drop_from_escape`: escape event → V drops by exp(-Kδδ*) | **proved** |
+| `infinite_drops`: InfiniteEscape → drops ∀ T | **proved** |
+| `V_tendsto_zero`: Barbalat → V → 0 | **proved** |
+| `full_chain_convergence`: |r-r*| → 0 | **proved** |
+
+**Chain**: InfiniteEscape (K > K_c → trajectory escapes ε-ball ∞ often) → shifted barrier (α_k(s) ≥ ε·exp(-γ·Δ)) → r-persistence on propagation interval → RPersistenceComponent (all components ≥ β) → ComponentForwardInvariance → shifted barrier on drop interval → l2_drop_from_bounds (exponential V-drop) → continuous_barbalat_general → V → 0 → Cauchy-Schwarz → r → r*.
+
+**Significance**: This is the 12th independent proof path and the FIRST that derives persistence from instability rather than assuming it. All previous paths required `hpersist` (liminf|r| > 0) as a hypothesis, grounded on [DF18 Prop 4.3]. This path needs only: ODE solution, equilibrium data, instability eigenvalue, and bounds (γ_max, δ*, c_min). The persistence mechanism: K > K_c → unstable eigenvalue → Chetaev escape → components grow → pair coercivity → V drops → V → 0.
 
 ## Open Problem
 

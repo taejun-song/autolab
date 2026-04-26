@@ -1,5 +1,21 @@
 # Activity Log
 
+## [2026-04-27] experiment | full chain: instability → convergence without persistence
+
+- created: KuramotoLean/FullChainConvergence.lean
+- updated: KuramotoLean.lean (+FullChainConvergence import, 93/93)
+- updated: syntheses/lean-proof-status.md (+full chain section, file count 93)
+- index.md: regenerated
+- LEAN: r_bound_from_escape — escape α_k > ε → r ≥ δ₁ on propagation interval
+- LEAN: component_at_prop — r-bound → all α_k ≥ β after propagation time
+- LEAN: component_on_drop — shifted barrier → δ_drop on drop interval
+- LEAN: V_drop_from_escape — escape → multiplicative V-drop via pair coercivity
+- LEAN: infinite_drops — InfiniteEscape → drops ∀ T (feeds Barbalat)
+- LEAN: V_tendsto_zero — continuous_barbalat_general → V → 0
+- LEAN: full_chain_convergence — |r-r*| → 0 from FullChainData
+- **Result**: First proof path deriving persistence FROM instability. Given NPoleBarrierData + K > K_c (dispersion relation) + α(0) ∈ (0,1)^n, proves r → r* WITHOUT assuming persistence (liminf|r| > 0). The chain: K > K_c → unstable eigenvalue (IncoherenceInstability) → trajectory escapes ε-ball infinitely often (InfiniteEscape) → shifted barrier gives r ≥ δ₁ on propagation interval → RPersistenceComponent propagates to all components ≥ β → shifted barrier on drop interval → l2_drop_from_bounds gives V-drop by exp(-Kδδ*) → continuous_barbalat_general → V → 0 → Cauchy-Schwarz → r → r*. Key constants: S_prop = 2/γ_max (propagation time), δ₁ = c_min·ε·exp(-2) (r-bound), β = Kδ₁/(4γ_max) (component threshold), δ_drop = β·exp(-γ_max) (drop interval bound).
+- **Sorry count**: 0 (93 files)
+
 ## [2026-04-27] experiment | self-consistency fixed point from K > K_c
 
 - created: KuramotoLean/SelfConsistencyFixedPoint.lean
