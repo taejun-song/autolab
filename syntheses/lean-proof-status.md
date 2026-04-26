@@ -3,6 +3,7 @@ type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
 updated: 2026-04-26
+
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -61,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **50** |
+| Total .lean files | **52** |
 
 ### Axiom Inventory
 
@@ -239,6 +240,24 @@ This gives dV∞/dt ≤ 0 for the continuum OA flow where V∞ = ∫g|α-α*|²d
 4. ∫∫ pair_term dμ dμ ≥ 0 (integral_nonneg twice)
 
 **Significance**: This bypasses the passage to limit entirely. The continuum Lyapunov is a DIRECT result, not a limit of finite approximations. V∞ is finite at PLS (unlike Ψ), resolving the core obstruction identified in the subproblem decomposition.
+
+## Pair Coercivity (PairCoercivity.lean)
+
+**Status**: 0 sorry.
+
+Quantitative lower bound on the pair integrand: when α_j, α_k ≥ δ > 0,
+
+  pair ≥ δ · min(α*_j, α*_k) · (p_j² + p_k²)
+
+| Theorem | Status |
+|---|---|
+| `pair_ge_cross`: pair ≥ α*_j·α_k·p_k² + α*_k·α_j·p_j² | **proved** |
+| `pair_coercive`: pair ≥ δ·min(α*_j,α*_k)·(p_j²+p_k²) | **proved** |
+| `continuum_coercive`: pointwise coercivity for measure spaces | **proved** |
+
+The proof clears fractions (multiply by α*_j·α*_k > 0), decomposes the numerator as SOS + sign-definite term, and chains with min/δ bounds.
+
+Combined with dV∞/dt = -K·∫∫ pair/2, this gives exponential convergence dV∞/dt ≤ -Kδδ*·V∞ on the locked region where α ≥ δ and α* ≥ δ*. The rate degenerates for tail oscillators where α* → 0.
 
 ## Open Problem
 

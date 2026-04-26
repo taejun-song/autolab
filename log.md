@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | pair coercivity: quantitative lower bound
+
+- created: KuramotoLean/PairCoercivity.lean
+- updated: syntheses/lean-proof-status.md (+pair coercivity section)
+- LEAN: pair_ge_cross — pair ≥ α*_j·α_k·p_k² + α*_k·α_j·p_j²
+- LEAN: pair_coercive — pair ≥ δ·min(α*_j,α*_k)·(p_j²+p_k²)
+- LEAN: continuum_coercive — pointwise coercivity for measure spaces
+- **Result**: Exponential rate dV∞/dt ≤ -Kδδ*·V∞ on locked region. Degenerates in tails.
+- **Sorry count**: 0 (52 files)
+
 ## [2026-04-26] experiment | pair rigidity (LaSalle characterization)
 
 - updated: KuramotoLean/ContinuumLyapunov.lean (+pair_eq_zero_iff, pair_rigidity_sos)
