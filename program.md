@@ -203,7 +203,7 @@ Commit frequently — every successful experiment should be committed. This pres
 
 ## Current state
 
-`MainTheorem.lean`: **0 sorry, 0 axioms.** All hypotheses in `KuramotoData` are grounded. **104 files total.**
+`MainTheorem.lean`: **0 sorry, 0 axioms.** All hypotheses in `KuramotoData` are grounded. **113 files total.**
 
 **`hsc_gap` is PROVED** (not assumed) from:
 1. Φ continuous → gap_min via Weierstrass EVT (Mathlib)
@@ -242,8 +242,12 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Decomposition: h_decomp [integral splitting]
 
 ### What is open
-- **Subcritical convergence**: K < K_c → α → 0. Approach: W₀ = Σ c_k α_k/γ_k satisfies dW₀/dt ≤ r(K/K_c-1) ≤ -μW₀, giving exp decay. Needs HasDerivAt for sums.
+- ~~Subcritical convergence~~ DONE (SubcriticalConvergence.lean, 0 sorry)
+- ~~Critical convergence~~ DONE (CriticalConvergence.lean, K=K_c → r→0)
+- ~~Complete trifurcation~~ DONE (CompleteTrifurcation.lean + Trifurcation.lean)
+- ~~Bifurcation monotonicity~~ DONE (BifurcationMonotonicity.lean, r* increasing in K)
 - Filling ContinuumGlobalStability structure hypotheses with LEAN proofs
+- Passage to continuum limit (PassageToLimit.lean — argument level, 3 True placeholders)
 - Reducing hypothesis count (some hypotheses are consequences of others)
 
 ### Key new results (this session)
@@ -264,6 +268,12 @@ hsc_gap + persistence + Lipschitz → r → r*
 - **scalar_oa_improved_rate**: rate 2γ + Kr*α* (vs basic 2γ)
 - **BifurcationAnalysis**: K_c exact threshold — subcritical stability + eigenvalue bounds
 - **no_pls_subcritical**: K ≤ K_c → Φ(r) < r (no PLS)
+- **SubcriticalConvergence**: K < K_c → r → 0 exponentially, Filter.Tendsto form
+- **CriticalConvergence**: K = K_c → r → 0 (cubic Lyapunov bound + contradiction)
+- **BifurcationDichotomy**: K ≠ K_c → (K<K_c ∧ r→0) ∨ (K>K_c ∧ r→r*)
+- **CompleteTrifurcation**: K ≤ K_c → r→0, K > K_c → r→r* (Filter.Tendsto, maximal data)
+- **BifurcationMonotonicity**: K₁ < K₂ → r*(K₁) < r*(K₂) (PLS monotone in coupling)
+- **trifurcation_from_ode**: Complete result from NPoleODEData (minimal hypotheses)
 
 ### Independent proof paths (all 0 sorry)
 1. **MainTheorem**: gap exclusion + Lipschitz trapping (14-field KuramotoData)
