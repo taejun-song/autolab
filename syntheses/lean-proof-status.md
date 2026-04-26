@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 89 files. Upper barrier α_k < 1 + end-to-end convergence from initial conditions.
+Machine-checked proof status: 0 sorry, 0 axioms across 90 files. Barrier drop extends convergence basin + end-to-end convergence from initial conditions.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **89** |
-| Comprehensive build | **89/89 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **90** |
+| Comprehensive build | **90/90 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -749,6 +749,23 @@ Assembles all building blocks into a single theorem from ODE trajectory data to 
 **Key new result**: `l2_antitoneOn` DERIVES V antitone from the ODE structure using `trajectory_lyapunov_qualitative` (dV/dt ≤ 0) + `component_positive` (α_k > 0 from Gronwall barrier) + `antitoneOn_of_deriv_nonpos` (Mathlib MVT). This eliminates the `hV_anti` hypothesis that all previous proof paths assumed.
 
 The `EndToEndData` structure packages: NPoleBarrierData + equilibrium + initial positivity + component persistence bounds. The proof chain: component_lb on [T₀,∞) → l2_drop_from_bounds → multiplicative V-drops → continuous_barbalat_tendsto → V → 0 → Cauchy-Schwarz → |r-r*| → 0.
+
+## Initial Barrier V-Drop (BarrierDrop.lean)
+
+**Status**: 0 sorry.
+
+Uses the component Grönwall barrier (α_k(t) ≥ α_k(0)·exp(-γ_max·t)) with pair coercivity to prove V drops below V_incoherent in finite time, then chains into EndToEndConvergence.
+
+| Theorem | Status |
+|---|---|
+| `barrier_drop_V`: V(T) ≤ V(0)·exp(-K·δ₀·δ*·T) | **proved** |
+| `BarrierBasinData.V_at_T_lt_Vinc`: V(T) < V_incoherent | **proved** |
+| `BarrierBasinData.quantitative_r_persist`: r ≥ δ₁ permanently | **proved** |
+| `barrier_basin_convergence`: r → r* | **proved** |
+
+**Significance**: Extends convergence from α(0) ∈ (0, 2α*)^n (SelfContainedConvergence) to the broader basin where the initial barrier drop suffices. The drop condition V(0)·exp(-C) < V_incoherent (C = K·α_min·exp(-γ_max·T)·δ*·T) covers all initial data with sufficiently large minimum component, including α near 1.
+
+The chain: component barrier on [0,T] → pair coercivity → exponential V-drop → V < V_incoherent → quantitative r-persistence → component propagation → EndToEndConvergence → V → 0 → r → r*.
 
 ## Open Problem
 

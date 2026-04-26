@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-27] experiment | barrier drop extends convergence basin
+
+- created: KuramotoLean/BarrierDrop.lean
+- updated: KuramotoLean.lean (+BarrierDrop import, 90/90)
+- updated: syntheses/lean-proof-status.md (+barrier drop section, file count 90)
+- index.md: regenerated
+- LEAN: barrier_drop_V — V(T) ≤ V(0)·exp(-K·δ₀·δ*·T) using component Grönwall barrier
+- LEAN: BarrierBasinData.V_at_T_lt_Vinc — V(T) < V_incoherent from barrier drop condition
+- LEAN: BarrierBasinData.quantitative_r_persist — r ≥ δ₁ > 0 permanently from T_drop
+- LEAN: barrier_basin_convergence — |r-r*| → 0 from barrier basin entry
+- **Result**: Extends convergence from α(0) ∈ (0, 2α*)^n to the broader basin where the initial component barrier gives a sufficient V-drop. On [0, T]: component barrier α_k ≥ α_min·exp(-γ_max·T) + pair coercivity → V drops exponentially → V < V_incoherent → quantitative r-persistence → component propagation → EndToEndConvergence → r → r*. The drop condition V(0)·exp(-C) < V_incoherent (C = K·α_min·exp(-γ_max·T)·δ*·T) is satisfiable for initial data with large enough minimum component (e.g., all α near 1, or α well away from 0).
+- **Sorry count**: 0 (90 files)
+
 ## [2026-04-27] experiment | explicit equilibrium formula
 
 - created: KuramotoLean/EquilibriumFormula.lean
