@@ -528,6 +528,24 @@ Formalizes the dispersion relation for the n-pole Jacobian at α = 0 and proves 
 
 The unstable eigenvector is positive (all components > 0), pointing into the trapping region (0,1)^n. The order parameter r = Σc_k·v_k = 2/K > 0 along this direction.
 
+## Component Barrier via Grönwall Multiplier (ComponentBarrier.lean)
+
+**Status**: 0 sorry.
+
+Derives a component-wise lower bound from the n-pole ODE structure using the Grönwall multiplier F_k(t) = α_k(t)·exp(γ_k t).
+
+| Theorem | Status |
+|---|---|
+| `component_barrier`: α_k(t) ≥ α_k(0)·exp(-γ_k t) | **proved** |
+| `component_positive`: α_k(0) > 0 → α_k(t) > 0 for t ≥ 0 | **proved** |
+| `order_parameter_lower`: r(t) ≥ r(0)·exp(-γ_max t) | **proved** |
+| `order_parameter_positive`: r(0) > 0 → r(t) > 0 for t ≥ 0 | **proved** |
+| `component_lower_on_interval`: α_k(t) ≥ α_k(0)·exp(-γ_k T) on [0,T] | **proved** |
+
+The proof: dF_k/dt = (K/2)·r(t)·(1-α_k²)·exp(γ_k t) ≥ 0 when r ≥ 0 and α_k ∈ [0,1]. By `monotoneOn_of_deriv_nonneg` (Mathlib mean value theorem): F_k is monotone on [0,∞). Dividing by exp(γ_k t) gives the barrier.
+
+**Significance**: This derives component positivity and order parameter positivity directly from the ODE, without assuming persistence. Combined with the Lyapunov basin argument (LyapunovPersistence.lean), this gives a mechanism for eventual persistence: once V enters the basin V < r*², persistence holds permanently; and the initial order parameter r(0) > 0 provides the first drop needed for basin entry.
+
 ## Open Problem
 
 The genuinely open assumption **unstable_manifold_to_pls** (H2) is now an explicit structure field in `OmegaLimitData.h_unstable_to_pls`, not a LEAN axiom. To use the FullRangeStability proof path, one must construct an `OmegaLimitData` satisfying this property. This is proved for finite-dimensional OA (Lorentzian mixtures) but open for the continuum semiflow.

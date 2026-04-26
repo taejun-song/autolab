@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-26] experiment | component barrier via Grönwall multiplier
+
+- created: KuramotoLean/ComponentBarrier.lean
+- updated: KuramotoLean.lean (+ComponentBarrier import, 70/70)
+- updated: syntheses/lean-proof-status.md (+component barrier section, file count 70)
+- index.md: regenerated
+- LEAN: component_barrier — α_k(t) ≥ α_k(0)·exp(-γ_k t) from ODE
+- LEAN: component_positive — α_k(0) > 0 → α_k(t) > 0 for all t ≥ 0
+- LEAN: order_parameter_lower — r(t) ≥ r(0)·exp(-γ_max t) for t ≥ 0
+- LEAN: order_parameter_positive — r(0) > 0 → r(t) > 0 for all t ≥ 0
+- **Result**: Grönwall multiplier F_k(t) = α_k(t)·exp(γ_k t) has dF_k/dt ≥ 0, giving F_k monotone via Mathlib mean value theorem. Derives component positivity and order parameter positivity directly from the n-pole ODE without assuming persistence.
+- **Sorry count**: 0 (70 files)
+
 ## [2026-04-26] experiment | basin component persistence (Lyapunov basin → α_k ≥ δ*/2)
 
 - updated: KuramotoLean/L2Convergence.lean (+basin_component_lb, +basin_forward, +basin_component_ub)
