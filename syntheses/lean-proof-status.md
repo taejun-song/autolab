@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **58** |
+| Total .lean files | **60** |
 
 ### Axiom Inventory
 
@@ -341,6 +341,27 @@ Closes the continuum Lyapunov gap V∞ → L = 0 by two independent paths:
 **Path A** (Coercive Barbalat): pair coercivity + persistence → V drops by q < 1 infinitely often → ContinuumBarbalat → V → 0.
 
 **Path B** (Scalar Asymptotic Autonomy): r → r* (MainTheorem) → each α(ω,t) → α*(ω) (scalar_oa_decay_rate + discrete_decay_with_perturbation) → dominated convergence → V∞ → 0.
+
+## Minimal Proof (MinimalProof.lean)
+
+**Status**: 0 sorry.
+
+The simplest possible end-to-end theorem for r → r*, using only 4 non-trivial hypotheses:
+
+| Hypothesis | Origin |
+|---|---|
+| V ≥ 0, V antitone | L² Lyapunov (pair bound) |
+| q-drops infinitely often | Persistence + pair coercivity |
+| (r-r*)² ≤ V | Weighted Cauchy-Schwarz |
+
+| Theorem | Status |
+|---|---|
+| `minimal_V_zero`: V → 0 from drops | **proved** |
+| `minimal_r_sq_zero`: (r-r*)² → 0 | **proved** |
+| `minimal_global_stability`: \|r-r*\| → 0 | **proved** |
+| `minimal_tendsto`: Filter.Tendsto form | **proved** |
+
+This proof path requires NO: Φ, gap exclusion, self-consistency decay, Lipschitz bound, step-size constraint, or scalar ODE analysis. Only: V monotone + persistence drops + Cauchy-Schwarz.
 
 ## Open Problem
 

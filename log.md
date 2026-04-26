@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | minimal proof (4-hypothesis convergence)
+
+- created: KuramotoLean/MinimalProof.lean
+- updated: syntheses/lean-proof-status.md (+minimal proof section)
+- LEAN: minimal_V_zero — V → 0 from drops (via continuous_barbalat_general)
+- LEAN: minimal_r_sq_zero — (r-r*)² → 0 from V → 0 + Cauchy-Schwarz
+- LEAN: minimal_global_stability — |r-r*| < ε (abs_lt_of_sq_lt_sq)
+- LEAN: minimal_tendsto — Filter.Tendsto form
+- index.md: regenerated
+- **Result**: Simplest possible proof: V antitone + drops + (r-r*)²≤V ⟹ r→r*. No Φ, no gap exclusion, no hsc_decay. 10th independent proof path.
+- **Sorry count**: 0 (60 files)
+
 ## [2026-04-26] experiment | continuum uniform rate via measure theory
 
 - created: KuramotoLean/ContinuumUniformRate.lean
