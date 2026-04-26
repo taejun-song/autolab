@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-27] experiment | equilibrium quantitative bounds + improved scalar rate
+
+- updated: KuramotoLean/SelfConsistencyFixedPoint.lean (+explicitEquil_upper, +explicitEquil_lower, +explicitEquil_tail_bound, +explicitEquil_lower_from_gamma_max)
+- updated: KuramotoLean/ScalarConvergence.lean (+scalar_oa_improved_rate)
+- updated: syntheses/lean-proof-status.md (+bounds section, +improved rate)
+- index.md: regenerated
+- LEAN: explicitEquil_upper — α*(γ,K,r) ≤ Kr/(2γ) (from √(γ²+K²r²) ≥ γ)
+- LEAN: explicitEquil_lower — α*(γ,K,r) ≥ Kr/(2γ+Kr) (from √(γ²+K²r²) ≤ γ+Kr)
+- LEAN: explicitEquil_lower_from_gamma_max — uniform bound δ* ≥ Kr*/(2γ_max+Kr*)
+- LEAN: scalar_oa_improved_rate — rate 2γ + Kr*α* (vs. 2γ basic rate)
+- **Result**: Two-sided equilibrium bounds tight to factor 2 for all parameter ranges. The improved scalar rate keeps the coupling contribution Kr*α*/2, which upgrades locked-oscillator decay from 2γ to 2γ + Kr* ≈ Kr* for γ << Kr*.
+- **Sorry count**: 0 (103 files)
+
 ## [2026-04-27] experiment | PLS fixed point monotone in coupling K
 
 - updated: KuramotoLean/SelfConsistencyFixedPoint.lean (+summand_mono_K, +scSlope_mono_K, +sc_fixed_point_mono_K)

@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 102 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Eventual exponential rate + Filter.Tendsto forms proved.
+Machine-checked proof status: 0 sorry, 0 axioms across 103 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Bifurcation analysis complete: K_c is the exact threshold.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **103** (+EventualRate, +ExplicitRate) |
-| Comprehensive build | **102/102 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **103** (+BifurcationAnalysis) |
+| Comprehensive build | **103/103 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -380,10 +380,11 @@ Proves the scalar OA velocity g(x) = -γx + (K/2)r*(1-x²) has a globally attrac
 | `scalar_oa_factor`: g(x) = (x-α*)·[-γ-(K/2)r*(x+α*)] | **proved** |
 | `scalar_oa_strict_lyapunov`: (x-α*)·g(x) < 0 for x ≠ α* | **proved** |
 | `scalar_oa_decay_rate`: (x-α*)·g(x) ≤ -γ·(x-α*)² | **proved** |
+| `scalar_oa_improved_rate`: (x-α*)·g(x) ≤ -(γ+Kr*α*/2)·(x-α*)² | **proved** |
 | `scalar_oa_perturbation_bound`: \|f(r_t,x)-f(r*,x)\| ≤ K/2·\|r_t-r*\| | **proved** |
 | `discrete_decay_with_perturbation`: V(n+1) ≤ (1-μ)V(n)+ε(n), ε→0 ⟹ V→0 | **proved** |
 
-The factorization uses g(α*) = 0 to write g(x) - g(α*) = (x-α*)·[bracket]. The Lyapunov attractivity (x-α*)·g(x) = (x-α*)²·[bracket] < 0 follows from bracket = -γ - (K/2)r*(x+α*) < 0. The rate ≥ 2γ comes from dropping the positive (K/2)r*(x+α*) term.
+The factorization uses g(α*) = 0 to write g(x) - g(α*) = (x-α*)·[bracket]. The Lyapunov attractivity (x-α*)·g(x) = (x-α*)²·[bracket] < 0 follows from bracket = -γ - (K/2)r*(x+α*) < 0. The basic rate ≥ 2γ comes from dropping the (K/2)r*(x+α*) term entirely. The improved rate ≥ 2γ + Kr*α* keeps the α* contribution (using x ≥ 0), which is significant for locked oscillators (α* ≈ 1 gives rate ≈ 2γ + Kr*).
 
 **Application**: Combined with r(t) → r* (MainTheorem), each oscillator α(ω,t) satisfies an asymptotically autonomous scalar ODE with globally attracting equilibrium α*(ω). The Markus theorem gives α(ω,t) → α*(ω) pointwise, and dominated convergence gives V∞ = ∫g|α-α*|²dω → 0.
 
@@ -785,6 +786,11 @@ Proves the existence of a self-consistency fixed point r* ∈ (0,1) when K > K_c
 | `sc_fixed_point_grounds`: r* + α*_k + equilibrium + self-consistency | **proved** |
 | `scSlope_strictAntiOn`: S(r) strictly decreasing on [0,∞) | **proved** |
 | `sc_fixed_point_unique`: r₁, r₂ > 0 with Φ(rᵢ) = rᵢ → r₁ = r₂ | **proved** |
+| `explicitEquil_upper`: α* ≤ Kr/(2γ) | **proved** |
+| `explicitEquil_lower`: α* ≥ Kr/(2γ+Kr) | **proved** |
+| `explicitEquil_lower_from_gamma_max`: α* ≥ Kr/(2γ_max+Kr) | **proved** |
+
+**Equilibrium bounds**: The two-sided bound Kr/(2γ+Kr) ≤ α*(γ,K,r) ≤ Kr/(2γ) captures the tail/locked asymptotics: for tail oscillators (γ >> Kr), α* ≈ Kr/(2γ) → 0; for locked oscillators (Kr >> γ), α* ≈ 1 - γ/(Kr). The gamma_max variant gives a uniform lower bound δ* ≥ Kr*/(2γ_max+Kr*) on min_k α*_k.
 
 **Significance**: Grounds the r* and α* hypotheses in EndToEndData and InitialConditionData from first principles. Given K > K_c = 2/(Σ c_k/γ_k) and Σ c_k = 1, produces: r* ∈ (0,1), α*_k = explicitEquil(γ_k, K, r*) ∈ (0,1), each α*_k solves the component equilibrium equation, and Σ c_k α*_k = r* (self-consistency). Combined with EquilibriumFormula (closed-form) and EquilibriumUniqueness (unique root), this fully determines the PLS equilibrium from the parameters (K, γ, c).
 
