@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **72** |
+| Total .lean files | **73** |
 | Comprehensive build | **72/72 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -578,6 +578,26 @@ Extends pair_double_sum_pos from the interior (0,1)^n to the boundary [0,1)^n. T
 {dV/dt = 0} ∩ {V > 0} ∩ [0,1)^n = {(0,...,0)}
 
 The only point where the Lyapunov derivative vanishes with V > 0 is the fully incoherent state α = 0. Combined with instability_growth_rate (InstabilityLyapunov.lean), this gives the complete mechanism for V → 0: the strict decrease excludes all V-critical points except α = 0, and the instability excludes α = 0. Therefore V → 0.
+
+## Instability Exclusion Convergence (InstabilityExclusion.lean)
+
+**Status**: 0 sorry.
+
+Abstract convergence theorem combining instability repulsion with Barbalat drops to prove V → 0. This is the 14th independent proof path.
+
+| Theorem | Status |
+|---|---|
+| `instability_exclusion_convergence`: V → 0 from drops + instability escape | **proved** |
+| `instability_exclusion_tendsto`: Filter.Tendsto form | **proved** |
+| `instability_exclusion_global_stability`: r → r* | **proved** |
+
+The `InstabilityExclusionData` structure packages:
+- V ≥ 0, V antitone (Lyapunov)
+- W ≥ 0 (instability function)
+- When W ≥ η, V drops by factor q < 1 (pair coercivity from bounded-below components)
+- W escapes [0,η) infinitely often (instability repulsion prevents W staying small)
+
+The drops are infinitely often (from W escaping), and each drop is multiplicative (q < 1), so Barbalat gives V → 0. This is the cleanest proof path combining instability + Lyapunov: NO persistence hypothesis, NO self-consistency map, NO gap exclusion. Only: V antitone + instability-driven drops.
 
 ## Open Problem
 

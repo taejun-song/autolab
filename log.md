@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | instability exclusion convergence (14th proof path)
+
+- created: KuramotoLean/InstabilityExclusion.lean
+- updated: KuramotoLean.lean (+InstabilityExclusion import, 75/75)
+- updated: syntheses/lean-proof-status.md (+instability exclusion section, file count 73)
+- index.md: regenerated
+- LEAN: instability_exclusion_convergence — V → 0 from drops + instability escape
+- LEAN: instability_exclusion_global_stability — r → r* from V → 0 + Cauchy-Schwarz
+- **Result**: 14th independent proof path. Combines instability repulsion (W can't stay small) with Barbalat drops (V drops when W large) to prove V → 0 without persistence, self-consistency, or gap exclusion. Only needs: V antitone + instability-driven drops.
+- **Sorry count**: 0 (73 files)
+
 ## [2026-04-26] experiment | boundary strict Lyapunov ({dV/dt=0} ∩ {V>0} = {0})
 
 - created: KuramotoLean/BoundaryStrictLyapunov.lean
