@@ -62,8 +62,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **69** |
-| Comprehensive build | **69/69 files** (all name conflicts resolved via namespaces) |
+| Total .lean files | **70** |
+| Comprehensive build | **70/70 files** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -199,6 +199,20 @@ Extends the n-pole uniform rate to the continuum via Mathlib measure theory. For
 | `continuum_V_tendsto_zero`: Filter.Tendsto V atTop (nhds 0) | **proved** |
 
 The double integral identity uses `integral_const` + `IsProbabilityMeasure` (μ(Ω)=1). The coercive bound uses `integral_mono` with the pointwise pair coercivity. Convergence chains through `continuous_barbalat_general`. The rate K·δ·δ* is identical to the n-pole rate, confirming the n → ∞ uniformity.
+
+### Basin Component Persistence (L2Convergence.lean)
+
+**Status**: 0 sorry.
+
+Derives component-wise persistence from Lyapunov basin entry: when V < c_min·(δ*/2)², each α_k ≥ δ*/2. Combined with V antitone (unconditional dV/dt ≤ 0), this gives forward invariance: once V enters the basin, all components stay bounded below forever.
+
+| Theorem | Status |
+|---|---|
+| `basin_component_lb`: V < threshold → α_k ≥ δ*/2 | **proved** |
+| `basin_forward`: V antitone + basin entry → α_k ≥ δ*/2 for all future t | **proved** |
+| `basin_component_ub`: V < threshold → α_k < 1 | **proved** |
+
+This breaks the circularity between component persistence and the exponential rate: the unconditional pair bound gives V antitone → V enters basin → components bounded below → exponential rate applies → V → 0.
 
 ### Direct L² Convergence (L2Convergence.lean)
 

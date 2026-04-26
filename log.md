@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | basin component persistence (Lyapunov basin → α_k ≥ δ*/2)
+
+- updated: KuramotoLean/L2Convergence.lean (+basin_component_lb, +basin_forward, +basin_component_ub)
+- updated: syntheses/lean-proof-status.md (+basin persistence section)
+- index.md: regenerated
+- LEAN: basin_component_lb — V < c_min·(δ*/2)² → α_k ≥ δ*/2
+- LEAN: basin_forward — V antitone + basin entry → component persistence for all future time
+- LEAN: basin_component_ub — V < threshold → α_k < 1
+- **Result**: Breaks the circularity between component persistence and exponential rate. The unconditional pair bound gives V antitone; once V enters the basin, basin_component_lb derives the lower bound needed for the exponential rate. No a priori persistence hypothesis needed.
+- **Sorry count**: 0 (69 files)
+
 ## [2026-04-26] experiment | order parameter exponential rate via Cauchy-Schwarz
 
 - updated: KuramotoLean/NPoleInstance.lean (+r_diff_eq, +r_sq_le_V, +r_exponential_bound, +npole_r_cauchy_schwarz)
