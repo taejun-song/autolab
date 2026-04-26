@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | l2_diagonal_lower_bound proved (0 sorry project-wide)
+
+- updated: syntheses/lean-proof-status.md (+diagonal bound now proved)
+- LEAN: l2_diagonal_lower_bound — proved via symmetrized double sum + diagonal extraction + self_pair_identity
+- LEAN: l2_exponential_rate — now 0 sorry (was 1)
+- index.md: regenerated
+- **Result**: Entire project at 0 sorry, 0 axioms, including L2 exponential rate
+- **Sorry count**: 0 (all files)
+
 ## [2026-04-26] experiment | L2 exponential rate for n-pole system
 
 - updated: syntheses/lean-proof-status.md (+L2 exponential rate section)

@@ -143,10 +143,10 @@ The remaining external hypotheses:
 | Theorem | Status |
 |---|---|
 | `l2_lyapunov_theorem`: dV/dt ≤ 0 for all n | **proved** (0 sorry) |
-| `l2_diagonal_lower_bound`: r*Q-DS ≥ diagonal | **1 sorry** (double-sum diagonal extraction) |
-| `l2_exponential_rate`: dV/dt ≤ -Kμ·V | depends on diagonal bound |
+| `l2_diagonal_lower_bound`: r*Q-DS ≥ diagonal | **proved** (0 sorry) |
+| `l2_exponential_rate`: dV/dt ≤ -Kμ·V | **proved** (0 sorry) |
 
-The sorry is a standard finset decomposition (diagonal ≤ total for non-negative double sum). The mathematical proof is clear; the LEAN formalization of the double-sum splitting is the gap.
+The diagonal extraction uses the symmetrized double-sum from `ds_le_rstarQ`, applies `double_sum_ge_diagonal` (non-negative terms), and simplifies the self-pair via `self_pair_identity`.
 
 ## Open Problem
 
