@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | antitone convergence for Lyapunov limits
+
+- created: KuramotoLean/AntitoneConvergence.lean
+- LEAN: antitone_bounded_converges — V ≥ 0 antitone ⟹ V(t) → L ≥ 0
+- LEAN: LyapunovConvergence.converges — Lyapunov function has a limit
+- LEAN: LyapunovConvergence.converges_to_zero — limit 0 criterion
+- **Result**: V∞ → L for continuum Lyapunov. Remaining: L = 0 (LaSalle)
+- **Sorry count**: 0 (51 files)
+
 ## [2026-04-26] query+page | continuum L2 Lyapunov synthesis
 
 - created: syntheses/continuum-l2-lyapunov.md
