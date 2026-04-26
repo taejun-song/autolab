@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-26] experiment | Lorentzian K_c = 2γ specialization
+
+- updated: KuramotoLean/IncoherenceInstability.lean (+lorentzian_critical_coupling, +lorentzian_incoherence_unstable)
+- LEAN: lorentzian_critical_coupling — K_c = 2γ for the single Lorentzian
+- LEAN: lorentzian_incoherence_unstable — K > 2γ → ∃ λ* > 0
+- **Result**: Connects general n-pole instability to the known Lorentzian threshold.
+- **Sorry count**: 0 (65 files)
+
 ## [2026-04-26] experiment | unstable eigenvector at incoherence
 
 - updated: KuramotoLean/IncoherenceInstability.lean (+eigenvector equation, +order parameter)
