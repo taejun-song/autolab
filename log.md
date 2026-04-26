@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-04-26] experiment | trajectory Lyapunov bridge (chain rule + derivative bound)
+
+- created: KuramotoLean/TrajectoryLyapunov.lean
+- LEAN: hasDerivAt_l2_component — chain rule for c_k(α_k(t)-α*_k)² 
+- LEAN: hasDerivAt_l2Distance_along — chain rule for V(α(t))
+- LEAN: trajectory_lyapunov_bound — dV/dt ≤ -μ·V along n-pole trajectory
+- **Result**: Bridges L2 exponential rate to ODE trajectories via HasDerivAt
+- **Sorry count**: 0 (46 files)
+
 ## [2026-04-26] experiment | exponential convergence via Mathlib Gronwall
 
 - created: KuramotoLean/ExponentialConvergence.lean
