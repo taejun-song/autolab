@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-27] experiment | subcritical no-PLS fixed point
+
+- updated: KuramotoLean/SelfConsistencyFixedPoint.lean (+scSlope_zero_le_one, +no_pls_subcritical, +no_pls_fixed_point_subcritical)
+- updated: syntheses/lean-proof-status.md (+BifurcationAnalysis section, file count 104)
+- index.md: regenerated
+- LEAN: no_pls_subcritical — K ≤ K_c → Φ(r) < r for all r > 0 (self-consistency contraction)
+- LEAN: no_pls_fixed_point_subcritical — K ≤ K_c → no positive self-consistency fixed point
+- **Result**: Complements BifurcationAnalysis: below K_c, not only is incoherence linearly stable, but the self-consistency map strictly contracts (Φ(r) < r). This gives a second, independent proof that no PLS exists for K ≤ K_c.
+- **Sorry count**: 0 (104 files)
+
 ## [2026-04-27] experiment | eigenvalue bounds + K_c monotonicity
 
 - updated: KuramotoLean/BifurcationAnalysis.lean (+eigenvalue_upper_bound, +eigenvalue_lower_bound, +npoleCriticalK_mono_gamma, +dispersion_difference)

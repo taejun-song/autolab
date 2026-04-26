@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 103 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Bifurcation analysis complete: K_c is the exact threshold.
+Machine-checked proof status: 0 sorry, 0 axioms across 104 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*. Bifurcation analysis complete: K_c is the exact threshold.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,7 +63,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **103** (+BifurcationAnalysis) |
+| Total .lean files | **104** (+BifurcationAnalysis) |
 | Comprehensive build | **103/103 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -924,6 +924,24 @@ The convergence time T = max(0, log(V₀/ε²)/μ + 1) is explicit and computabl
 **Proof**: `exp_decay_lt` shows t > log(V₀/ε²)/μ implies V₀·exp(-μt) < ε² by log-exp inversion. Combined with (r-r*)² ≤ V and √ monotonicity, this gives |r-r*| < ε. The square root decomposition √(V₀·exp(-μt)) = √V₀·exp(-μt/2) uses √(exp x) = exp(x/2) via the identity exp x = (exp(x/2))².
 
 **Significance**: First fully quantitative convergence theorem. All previous paths prove convergence non-constructively (∀ε, ∃T). This gives an explicit formula for T, enabling numerical prediction of convergence time from system parameters.
+
+## Bifurcation Analysis (BifurcationAnalysis.lean)
+
+**Status**: 0 sorry.
+
+Complete bifurcation analysis at incoherence: h(λ) = (K/2)Σc_k/(λ+γ_k) is strictly decreasing.
+
+| Theorem | Status |
+|---|---|
+| `npoleDispersion_strictAntiOn`: h strict anti on [0,∞) | **proved** |
+| `incoherence_stable_subcritical`: K < K_c → h(λ) < 1 ∀ λ ≥ 0 | **proved** |
+| `bifurcation_iff`: ∃ λ* > 0 with h(λ*)=1 ↔ K > K_c | **proved** |
+| `unstable_eigenvalue_unique`: λ* unique | **proved** |
+| `eigenvalue_upper_bound`: λ* ≤ K/2 - γ_min | **proved** |
+| `eigenvalue_lower_bound`: λ* ≥ 2(K-K_c)/(K·K_c·Σc_k/γ_k²) | **proved** |
+| `no_pls_subcritical`: K ≤ K_c → Φ(r) < r ∀ r > 0 | **proved** |
+
+**Significance**: K_c is the EXACT bifurcation threshold. Below: linear stability + no PLS. At: marginal stability + no PLS. Above: unique unstable eigenvalue + unique PLS. The eigenvalue bounds give λ* = Θ(K-K_c) near K_c.
 
 ## Open Problem
 
