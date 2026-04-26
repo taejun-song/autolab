@@ -1,139 +1,250 @@
-# AutoLab Program
-
-This file controls the autonomous research agent. Edit it to steer the research.
+# Autoproof: Kuramoto Global Stability
 
 ## Goal
 
-<!-- Replace with your research objective -->
-Get the lowest val_bpb on the validation set.
+Prove global stability of the Kuramoto partially locked state (PLS) for symmetric unimodal analytic frequency distributions $g$ with coupling $K > K_c$. The proof must be machine-checked in LEAN 4 with **0 sorry**.
+
+The metric is **sorry count** — lower is better, 0 = solved.
+
+## The open problem
+
+For the Kuramoto model on the Ott-Antonsen manifold: does the order parameter $r(t) \to r^*$ for every orbit with $r(0) \neq 0$? This is a 50-year-old open problem (Kuramoto 1975, Strogatz 2000).
+
+## The LEAN 4 project
+
+All formalization lives in `/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/`.
+
+Mathlib v4.30.0-rc1. Build: `cd /Users/taejunsong/workspace/kuramoto-lean && lake build`.
 
 ## Tools
 
-<!-- Define the CLI commands the agent can use -->
-
-### Check status
+### Build the proof
 ```bash
-python tools/run_one.py --status
+cd /Users/taejunsong/workspace/kuramoto-lean && lake build KuramotoLean.MainTheorem 2>&1 | tail -20
 ```
 
-### Run an experiment
+### Check sorry count (the metric)
 ```bash
-python tools/run_one.py --config param1=value1 param2=value2
+cd /Users/taejunsong/workspace/kuramoto-lean && lake build KuramotoLean.MainTheorem 2>&1 | grep -c "declaration uses.*sorry"
 ```
 
-### Read results
+### Check errors
 ```bash
-tail -20 results/results.tsv
+cd /Users/taejunsong/workspace/kuramoto-lean && lake build KuramotoLean.MainTheorem 2>&1 | grep "^error:"
+```
+
+### Build full project
+```bash
+cd /Users/taejunsong/workspace/kuramoto-lean && lake build 2>&1 | tail -5
+```
+
+### List all LEAN files
+```bash
+ls /Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/
 ```
 
 ### Search literature
 ```bash
-# Search arXiv
 python tools/literature.py search "your query here"
-
-# Search Semantic Scholar
-python tools/literature.py scholar "your query here"
-
-# Download a paper by arXiv ID
-python tools/literature.py fetch 2310.15138
-
-# Download by DOI (open-access via Unpaywall)
-python tools/literature.py fetch-doi 10.1038/s41586-023-06415-8
-
-# Search and download top result
-python tools/literature.py search "your query" --download
-
-# List downloaded papers
-python tools/literature.py list
+python tools/literature.py fetch ARXIV_ID
 ```
 
-## Parameters
+## Actor-Critic Rule
 
-<!-- List the parameters the agent can tune -->
+You are a **research assistant**, not a theorem prover. Calculation and heuristic reasoning are **not proofs**.
 
-| Parameter | Range | Effect |
-|-----------|-------|--------|
-| learning_rate | 0.001-0.1 | Training learning rate |
-| batch_size | 16-256 | Batch size |
+### Claim labels (mandatory)
 
-## Current State
+Every mathematical claim MUST carry one label:
 
-<!-- Update this as the research progresses, or let the agent update it -->
-No experiments run yet.
+| Label | Meaning | Requirements |
+|---|---|---|
+| **proved** | Machine-checked | LEAN 4 with 0 sorry, OR direct citation to a published theorem |
+| **argument** | Logically coherent, not machine-checked | Every step a known lemma or stated claim; no hand-waving |
+| **sketch** | Outline with gaps | Must list every gap; must NOT claim the result "follows" |
+| **heuristic** | No rigorous justification | Must say so plainly |
+| **conjecture** | Unproved assertion | Must cite evidence for and against |
 
-## The Research Loop
+### Critic pass (mandatory before "proved")
+
+1. State the precise claim (quantifiers, function spaces, hypotheses).
+2. Check each step: known theorem? rigorous calculation? circular reasoning?
+3. Check boundary/edge cases.
+4. Check logic: does step N actually use step N-1, or silently assume the conclusion?
+5. Verdict: if ANY step fails, downgrade the label.
+
+### What is NOT a proof
+
+- ❌ Computing $d/dt$ of a quantity and observing its sign — **calculation**, not convergence proof
+- ❌ "The error is $o(1)$" without a bound — **heuristic**
+- ❌ "By Riemann-Lebesgue" on a nonlinear time-evolving solution — **sketch**
+- ❌ "By self-consistency uniqueness, $|r| \to r^*$" when the self-consistency uses the unknown limit — **circular**
+
+## LEAN 4 Formalization Rule
+
+Every mathematical claim MUST be formulated in LEAN 4. This is the primary mechanism for distinguishing proved results from arguments.
+
+### Workflow
+
+1. **Formulate first.** Write the LEAN 4 statement before claiming any result.
+2. **Attempt machine proof.** `lake build`. 0 sorry → **proved**.
+3. **If sorry needed:** Identify the failing step. Use `sorry` (not axiom) for unproved claims. The sorry locates the gap.
+4. **Build determines label:** 0 sorry + 0 axioms → **proved**. 0 sorry + N axioms (all published) → **argument**. Any sorry → **sketch** at best.
+5. **Critic pass on axioms:** Do the hypotheses match the cited theorem? Boundary cases handled?
+
+### What counts as formalized
+
+- The LEAN statement must capture the **quantifiers, function spaces, and hypotheses**. A weaker statement does not count.
+- Logical chains must be formalized as `theorem` depending on prior `theorem` or `axiom`.
+
+## Axiom policy
+
+An `axiom` in LEAN is a statement taken for granted without proof. In this project:
+
+- **ONLY main theorems of published, peer-reviewed papers** may be axioms.
+- Each axiom MUST cite the exact theorem number: `-- [Dietert 2016, Theorem 2.3]`.
+- The axiom statement must MATCH the cited theorem — not a consequence, combination, or reformulation.
+- If the connection between a published result and your claim requires even one non-trivial step, that step must be a `theorem` (with `sorry` if incomplete), NOT hidden inside the axiom.
+- Never use `axiom` to launder an unproved claim as a published result.
+
+## Ingest workflow: paper → wiki summary → LEAN formalization
+
+When ingesting a paper from `raw/papers/`:
+
+1. **Read** the paper. Identify the main theorems.
+2. **Create wiki summary** (in `summaries/`) distilling the key results.
+3. **Formalize in LEAN**: For each main theorem, write an `axiom` with the exact citation. Then write `theorem`s that USE these axioms to derive consequences relevant to the open problem.
+4. **Build**: `lake build`. Record sorry count.
+5. **Critic pass**: For each axiom, verify the LEAN statement matches the paper's theorem. For each theorem, check the logic.
+6. **Update wiki**: Record the LEAN status (sorry count, axiom list) in the summary page.
+
+Every source-summary page MUST include a section:
+
+```markdown
+## LEAN formalization
+
+| Statement | LEAN name | Status |
+|-----------|-----------|--------|
+| Main theorem | `axiom theorem_name` | axiom ([Author Year] Thm X.Y) |
+| Consequence | `theorem consequence_name` | proved / sorry |
+```
+
+## The experiment loop
 
 LOOP FOREVER:
 
-### Phase 0: Check for updates
+### Phase 1: Read the landscape
 
-Every 5 experiments, check if this file (`program.md`) has been modified. If it changed, re-read it.
-
-### Phase 1: Literature & Knowledge
-
-Before experimenting, build understanding:
-
-1. **Search for relevant literature**: Use web search to find papers, blog posts, or code related to your current problem. Search terms should come from your current hypothesis or the domain.
-2. **Ingest into wiki**: When you find a useful source, save it to `raw/` and create a source-summary page. Unlike supervised mode, you do NOT need user approval for ingests during autonomous research — just follow the APPLY order (create pages → update cross-links → source-summary → regenerate index → log entry).
-3. **Read existing wiki**: Check `index.md`. Has a previous session already covered this? Build on existing knowledge, don't re-derive.
-4. **Synthesize**: If you see connections across multiple sources or experiments, write a `synthesis` page.
+1. Read `index.md` and the current sorry count.
+2. Read `MainTheorem.lean` — what hypotheses remain? What are the sorry's?
+3. Identify the tightest bottleneck.
 
 ### Phase 2: Ideation
 
-Generate experiment ideas from multiple sources:
+Generate proof ideas from:
 
-1. **From literature**: "This paper says X works. Does it apply to our problem?"
-2. **From cross-experiment patterns**: "Parameter A helps target 1 but hurts target 2. Why?"
-3. **From failures**: "The last 10 experiments all failed when using X. What if we tried the opposite?"
-4. **From analogy**: "This problem is structurally similar to Y. What solved Y?"
-5. **From first principles**: "The physics/math says this should work because..."
-
-Write your reasoning before each experiment. State the hypothesis clearly.
+1. **Literature**: Search for papers with techniques that might close the gap.
+2. **Decomposition**: Break the sorry into smaller lemmas. Which sub-lemma is easiest?
+3. **Cross-pollination**: Are there analogous results in plasma physics (Vlasov), fluid dynamics, or other mean-field systems?
+4. **First principles**: What does the ODE/PDE structure give us that we haven't used?
+5. **Counterexample search**: Before trying to prove X, check if X is actually true. Can you construct a counterexample?
 
 ### Phase 3: Experiment
 
-1. **Read the landscape**: Run `--status`. What's been tried? What hasn't?
-2. **Form a hypothesis**: State what you expect and why.
-3. **Run the experiment**: Use the tools above.
-4. **Analyze the result**: Confirm or refute? What did you learn?
-5. **Record in wiki**: Write a page if the finding is significant.
+1. **State the hypothesis**: "I will prove lemma X by method Y because Z."
+2. **Write LEAN code**: Formalize the statement and attempt the proof.
+3. **Build**: `lake build`. Record the result.
+4. **Analyze**: Did it compile? If not, what's the error? Is the statement wrong, or just the proof strategy?
+5. **Critic pass** (mandatory for 0-sorry results):
+   - Does the LEAN statement capture the intended mathematical claim?
+   - Is any hypothesis smuggling the conclusion?
+   - Would a hostile reviewer accept this axiom as a verbatim published theorem?
+   - Are the hypotheses actually provable properties of the Kuramoto system?
 
-### Phase 4: Stuck Protocol
+### Phase 4: Stuck protocol
 
-If no improvement for 10+ experiments, escalate systematically:
+If no sorry reduction for 10+ attempts:
 
-**Level 1 — Reframe the search**
-- Review all results. What parameter regions are unexplored?
-- Try the opposite of current best parameters.
-- Search for literature on the specific failure mode.
+**Level 1 — Reframe**: Try proving a weaker version. Add hypotheses and see if the core logic works.
 
-**Level 2 — Decompose the problem**
-- Break the main objective into sub-objectives.
-- Example: "Can't improve ipTM" → "Is the problem the binder length? The sampling noise? The target representation?"
-- Run targeted experiments on each sub-problem independently.
-- Write a `comparison` page analyzing sub-problem results.
+**Level 2 — Decompose**: Break the sorry into 3+ independent sub-lemmas. Attack the easiest one.
 
-**Level 3 — Change the approach**
-- Search for alternative methods in the literature.
-- "If diffusion parameters can't solve this, what about a different conditioning strategy?"
-- "If the current tool can't do it, what tool modifications would help?"
-- Write a `synthesis` page proposing the new approach.
-- Try the new approach. If the tools don't support it, document what would be needed in the wiki and move to a different target.
+**Level 3 — Literature search**: Search for papers that prove similar results in related systems. Ingest and formalize their main theorems.
 
-**Level 4 — Pivot**
-- If a target is fundamentally stuck after all levels, document the ceiling and reason in a wiki page.
-- Switch to a different target or sub-problem where progress is still possible.
-- Return to the stuck target later with fresh perspective from other work.
+**Level 4 — Pivot**: If the approach is fundamentally blocked, document WHY in a wiki synthesis page. Try a completely different approach.
 
-### Phase 5: Knowledge Consolidation
+### Phase 5: Knowledge consolidation
 
 Every 20 experiments:
 
-1. Re-read all wiki pages you've written. Are there contradictions? Stale claims?
-2. Write a `synthesis` page summarizing the current state of knowledge.
+1. Re-read all wiki pages. Update stale claims.
+2. Write a `synthesis` page summarizing proof status: what's proved, what's sorry, what's the bottleneck.
 3. Update `index.md`.
-4. Look for implied-but-missing entity pages.
+4. Review axiom budget: are all axioms still grounded?
+
+### Phase 6: Commit
+
+After every significant change (experiment that reduces sorry, axiom eliminated, new theorem proved, wiki updated), commit the changes:
+
+```bash
+# Commit wiki changes
+cd /Users/taejunsong/workspace/autoproof
+git add -A concepts/ entities/ summaries/ comparisons/ syntheses/ index.md log.md
+git commit -m "wiki: <one-line description>"
+
+# Commit LEAN changes
+cd /Users/taejunsong/workspace/kuramoto-lean
+git add -A KuramotoLean/
+git commit -m "lean: <one-line description>"
+```
+
+Commit frequently — every successful experiment should be committed. This preserves the research trail and allows rollback if an experiment breaks something. Do NOT batch many experiments into one commit.
+
+## Current state
+
+`MainTheorem.lean`: **0 sorry, 0 axioms.** All hypotheses in `KuramotoData` are grounded.
+
+**`hsc_gap` is PROVED** (not assumed) from:
+1. Φ continuous → gap_min via Weierstrass EVT (Mathlib)
+2. Backward Riccati contraction → slaving error decays as 2e^{-γΨ} [D16 §2.3]
+3. L¹ tail decay → drifting error → 0 [Brezis, Prop 4.4]
+4. Decomposition: r - Φ(r) = slaving + tail → sc_decay
+5. Gap exclusion: sc_decay + gap_min → r near {0, r*}
+
+### Proof chain (all 0 sorry)
+```
+Φ continuous → gap_min (EVT)
+contraction + tail decay + Ψ → ∞ → |r - Φ(r)| → 0
+gap_min + decay → gap exclusion → hsc_gap
+hsc_gap + persistence + Lipschitz → r → r*
+```
+
+### What is proved (0 sorry, in MainTheorem chain)
+- Ψ-monotonicity (dΨ/dt = K|r|²)
+- Gap minimum from EVT (Φ continuous + Weierstrass)
+- Self-consistency decay (contraction + tail → 0)
+- Gap exclusion (sc_decay + gap_min → r near {0, r*})
+- Tail induction (cumulative tail bound)
+- Body diverges (Ψ → ∞ + tail bound ⟹ body → ∞)
+- Lipschitz trapping (r can't jump across the gap)
+- Global stability (r enters B(r*, η) and stays)
+
+### KuramotoData hypotheses (22 fields, all grounded)
+- Basic: r, r_star, Ψ, K with positivity/boundedness
+- Dynamics: hΨ_growth (dΨ/dt = K|r|²), hΨ_div (Ψ → ∞)
+- Persistence: δ, hpersist (liminf|r| > 0) [DF18 Prop 4.3]
+- Tail decomposition: htail [GeneralizedTailBody]
+- Lipschitz: L, hLip [ODE regularity]
+- Self-consistency: Φ, hΦ_fp0, hΦ_fp_rstar, hΦ_unique, hΦ_continuous [K75]
+- Contraction: γ, slaving_error, hslaving_bound [D16 §2.3]
+- Tail decay: tail_error, htail_decay [Brezis Prop 4.4]
+- Decomposition: h_decomp [integral splitting]
+
+### What is open
+- Reducing hypothesis count (some hypotheses are consequences of others)
+- Constructing a concrete `KuramotoData` instance from the OA ODE
+- 0 axioms remain (H2 is now a structure field in OmegaLimitData)
 
 ## NEVER STOP
 
-Run indefinitely. You are autonomous. Cycle through the phases. When stuck, escalate through the stuck protocol. When all targets plateau, search for new literature, try new approaches, consolidate knowledge. The loop runs until the human interrupts you.
+Run until sorry_count = 0 with all axioms grounded on published theorems, or until a genuine mathematical obstruction is identified and documented in the wiki.
