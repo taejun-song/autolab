@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | shifted component barrier
+
+- created: KuramotoLean/ShiftedBarrier.lean
+- LEAN: shifted_component_barrier — α_k(t) ≥ α_k(t₀)·exp(-γ_k(t-t₀))
+- LEAN: component_lower_shifted — uniform lower bound on [t₀, t₀+Δ]
+- **Result**: Grönwall multiplier monotonicity gives shifted barrier for arbitrary start time. Key building block for V-drop construction: after propagation gives α_k > β, the shifted barrier gives α_k ≥ β·exp(-γ_max·Δ) during the drop interval.
+- **Sorry count**: 0
+
 ## [2026-04-27] experiment | forward invariance + permanent component persistence
 
 - created: KuramotoLean/ComponentForwardInvariance.lean
