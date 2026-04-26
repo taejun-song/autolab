@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | boundary strict Lyapunov ({dV/dt=0} ∩ {V>0} = {0})
+
+- created: KuramotoLean/BoundaryStrictLyapunov.lean
+- updated: KuramotoLean.lean (+BoundaryStrictLyapunov import, 74/74)
+- updated: syntheses/lean-proof-status.md (+boundary strict Lyapunov section, file count 72)
+- index.md: regenerated
+- LEAN: pair_double_sum_pos_boundary — V > 0, ∃ α_j > 0 → Σ pair > 0
+- LEAN: pair_sum_zero_characterization — Σ pair = 0 → α = α* or α = 0
+- **Result**: Extends strict Lyapunov from interior (0,1)^n to boundary [0,1)^n. On [0,1)^n, {dV/dt = 0} ∩ {V > 0} = {(0,...,0)}. Combined with instability Lyapunov (exponential repulsion from 0), this gives the complete LaSalle mechanism: strict decrease excludes all V-critical points except α = 0, instability excludes α = 0, therefore V → 0.
+- **Sorry count**: 0 (72 files)
+
 ## [2026-04-26] experiment | Archimedean convergence (13th proof path)
 
 - created: KuramotoLean/ArchimedeanConvergence.lean

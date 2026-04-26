@@ -62,7 +62,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **71** |
+| Total .lean files | **72** |
 | Comprehensive build | **72/72 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
@@ -561,6 +561,23 @@ The Chetaev-type Lyapunov function W(α) = Σ c_k v_k α_k, where v_k = 1/(λ*+�
 The identity decomposes dW/dt into a linear growth term λ*W (from the unstable eigenvalue) and a quadratic correction (from nonlinearity). When all α_k < √(2λ*/(K·Sc)), the correction is dominated by the growth, giving dW/dt ≥ (λ*/2)W — exponential repulsion from α = 0.
 
 **Significance**: Combined with ComponentBarrier (α_k(t) > 0 for all t) and the V antitone property, this gives the mechanism for excluding convergence to the incoherent state: near α = 0, W grows exponentially, pushing the trajectory away. This is the formal foundation for deriving persistence (liminf r > 0) from instability, which would eliminate the persistence hypothesis from all n-pole proof paths.
+
+## Boundary Strict Lyapunov (BoundaryStrictLyapunov.lean)
+
+**Status**: 0 sorry.
+
+Extends pair_double_sum_pos from the interior (0,1)^n to the boundary [0,1)^n. The pair double sum is > 0 whenever V > 0 and at least one α_j > 0.
+
+| Theorem | Status |
+|---|---|
+| `pair_double_sum_pos_boundary`: V > 0, ∃ α_j > 0 → Σ pair > 0 | **proved** |
+| `pair_sum_zero_characterization`: Σ pair = 0 → α = α* or α = 0 | **proved** |
+
+**Significance**: This completes the LaSalle characterization on the full domain [0,1)^n:
+
+{dV/dt = 0} ∩ {V > 0} ∩ [0,1)^n = {(0,...,0)}
+
+The only point where the Lyapunov derivative vanishes with V > 0 is the fully incoherent state α = 0. Combined with instability_growth_rate (InstabilityLyapunov.lean), this gives the complete mechanism for V → 0: the strict decrease excludes all V-critical points except α = 0, and the instability excludes α = 0. Therefore V → 0.
 
 ## Open Problem
 
