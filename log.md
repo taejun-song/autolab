@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuous Barbalat from persistence drops
+
+- created: KuramotoLean/ContinuumBarbalat.lean
+- updated: syntheses/lean-proof-status.md (+continuous Barbalat section)
+- LEAN: continuous_barbalat_persistence — V ≥ 0 antitone + q-drops → V → 0
+- LEAN: continuous_barbalat_tendsto — Filter.Tendsto form
+- LEAN: continuous_barbalat_general — general drop interval Δ
+- LEAN: LyapunovConvergence.zero_from_drops — V → 0 for Lyapunov structures
+- **Result**: Continuous-time Barbalat closes the Lyapunov gap with pair coercivity.
+- **Sorry count**: 0 (54 files)
+
 ## [2026-04-26] experiment | scalar OA convergence + discrete decay with perturbation
 
 - created: KuramotoLean/ScalarConvergence.lean
