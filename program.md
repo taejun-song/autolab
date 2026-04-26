@@ -253,6 +253,7 @@ hsc_gap + persistence + Lipschitz → r → r*
 - **explicitEquil_mono_r**: larger order parameter → larger equilibrium (strict monotone)
 - **GroundedConvergence**: NPoleBarrierData + r* + α(0)∈(0,2α*) → r → r*
 - **grounded_convergence_auto**: δ_star = explicitEquil(γ_max, K, r*) computed automatically
+- **FullChainConvergence**: InfiniteEscape → V-drop → r → r* (NO persistence hypothesis, first such path)
 - Assembly complete: K > K_c → r* exists unique → equilibrium grounded → convergence (93 files)
 
 ### Independent proof paths (all 0 sorry)
@@ -267,6 +268,7 @@ hsc_gap + persistence + Lipschitz → r → r*
 9. **InstabilityExclusion**: V antitone + instability escape drops → V → 0 (no persistence)
 10. **SelfContainedConvergence**: V gap → quantitative persistence → iterated drops → V → 0
 11. **EndToEndConvergence**: ODE data → V antitone (derived) → component drops → Barbalat → r → r*
+12. **FullChainConvergence**: InfiniteEscape → ShiftedBarrier → RPersistence → V-drop → Barbalat → r → r* (NO persistence hypothesis)
 
 ## NEVER STOP
 
