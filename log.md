@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-26] experiment | order parameter convergence rate
+
+- created: KuramotoLean/OrderParameterRate.lean
+- LEAN: weighted_cauchy_schwarz — (Σ c_k p_k)² ≤ (Σ c_k)(Σ c_k p_k²)
+- LEAN: order_parameter_sq_le_l2 — (r-r*)² ≤ V for probability weights
+- **Result**: With uniform rate V ≤ V₀·e^{-2Kδδ*t}: |r-r*| ≤ √V₀·e^{-Kδδ*t}
+- **Sorry count**: 0 (58 files)
+
 ## [2026-04-26] experiment | pair expansion identity + l2_uniform_rate
 
 - updated: KuramotoLean/UniformRate.lean (+pair_expansion_identity, +l2_uniform_rate)
