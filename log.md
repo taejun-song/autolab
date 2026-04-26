@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuum pair rigidity (LaSalle for continuum)
+
+- created: KuramotoLean/ContinuumRigidity.lean
+- updated: KuramotoLean.lean (+ContinuumRigidity import, 69/69)
+- updated: syntheses/lean-proof-status.md (+rigidity section, file count 69)
+- index.md: regenerated
+- LEAN: double_integral_rigidity — ∫∫f=0 with f≥0 → f=0 a.e.×a.e.
+- LEAN: continuum_pair_rigidity — ∫∫ pair = 0 → α = α* μ-a.e.
+- **Result**: LaSalle characterization for the continuum OA flow. dV∞/dt = 0 iff α = α*. Uses integral_eq_zero_iff_of_nonneg from Mathlib + pair_eq_zero_iff.
+- **Sorry count**: 0 (69 files)
+
 ## [2026-04-26] experiment | boundary pair bound + LaSalle convergence (12th proof path)
 
 - created: KuramotoLean/ContinuousLaSalle.lean
