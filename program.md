@@ -203,7 +203,7 @@ Commit frequently — every successful experiment should be committed. This pres
 
 ## Current state
 
-`MainTheorem.lean`: **0 sorry, 0 axioms.** All hypotheses in `KuramotoData` are grounded. **102 files total.**
+`MainTheorem.lean`: **0 sorry, 0 axioms.** All hypotheses in `KuramotoData` are grounded. **104 files total.**
 
 **`hsc_gap` is PROVED** (not assumed) from:
 1. Φ continuous → gap_min via Weierstrass EVT (Mathlib)
@@ -242,6 +242,7 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Decomposition: h_decomp [integral splitting]
 
 ### What is open
+- **Subcritical convergence**: K < K_c → α → 0. Approach: W₀ = Σ c_k α_k/γ_k satisfies dW₀/dt ≤ r(K/K_c-1) ≤ -μW₀, giving exp decay. Needs HasDerivAt for sums.
 - Filling ContinuumGlobalStability structure hypotheses with LEAN proofs
 - Reducing hypothesis count (some hypotheses are consequences of others)
 
@@ -259,6 +260,10 @@ hsc_gap + persistence + Lipschitz → r → r*
 - **one_component_deactivation**: α_k(0)=1 → α_k(t)<1 for t>0 (upper Grönwall + strictAntiOn)
 - **EventualRate**: V(t) ≤ V(T₀)·exp(-μ(t-T₀)) eventual exponential rate (102 files)
 - **tendsto_r / tendsto_component**: Filter.Tendsto forms for r → r* and α_k → α*_k
+- **explicitEquil_upper / _lower**: Kr/(2γ+Kr) ≤ α* ≤ Kr/(2γ) (tight two-sided bounds)
+- **scalar_oa_improved_rate**: rate 2γ + Kr*α* (vs basic 2γ)
+- **BifurcationAnalysis**: K_c exact threshold — subcritical stability + eigenvalue bounds
+- **no_pls_subcritical**: K ≤ K_c → Φ(r) < r (no PLS)
 
 ### Independent proof paths (all 0 sorry)
 1. **MainTheorem**: gap exclusion + Lipschitz trapping (14-field KuramotoData)
