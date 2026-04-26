@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-26] experiment | n-pole ODE instance (general convergence)
+
+- created: KuramotoLean/NPoleInstance.lean
+- updated: syntheses/lean-proof-status.md (49 files)
+- LEAN: NPoleODESolution structure — packages n-pole trajectory with bounds
+- LEAN: npole_ode_l2_decay — L² distance decays exponentially
+- LEAN: npole_ode_convergence — α_k(t) → α*_k for all k
+- LEAN: npole_r_convergence — r(t) → r* (order parameter)
+- index.md: regenerated
+- **Result**: First general n-pole concrete instance, applies to all n ≥ 1
+- **Sorry count**: 0 (49 files)
+
 ## [2026-04-26] experiment | Gronwall bridge: continuous-time exponential decay
 
 - created: KuramotoLean/GronwallBridge.lean
