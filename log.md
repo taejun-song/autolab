@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-27] experiment | equilibrium uniqueness via IVT + strict monotonicity
+
+- created: KuramotoLean/EquilibriumUniqueness.lean
+- updated: KuramotoLean.lean (+EquilibriumUniqueness import, 90/90)
+- LEAN: componentEquil_strictAntiOn — f(α) = -γα + (K/2)r(1-α²) is strictly decreasing on [0,1]
+- LEAN: equilibrium_exists — ∃ α* ∈ (0,1), f(α*) = 0 (IVT from f(0) > 0, f(1) < 0)
+- LEAN: equilibrium_unique — at most one root in [0,1] (strict monotonicity)
+- LEAN: equilibrium_unique_in_open — ∃! α* ∈ (0,1), nPoleODE = 0 (ExistsUnique)
+- **Result**: Grounds the α* hypotheses (hα_star_pos, hα_star_lt, h_equil) in EndToEndData. For each component k and order parameter r > 0, the equilibrium equation has exactly one root in (0,1).
+- **Sorry count**: 0 (90 files)
+
 ## [2026-04-27] experiment | upper barrier α_k < 1 + hypothesis elimination
 
 - created: KuramotoLean/UpperBarrier.lean
