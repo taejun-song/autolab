@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-26] experiment | continuum product integral identity + pair decomposition
+
+- created: KuramotoLean/ContinuumIdentity.lean
+- LEAN: integral_mul_integral — (∫f dμ)(∫g dμ) = ∫∫ f(ω₁)g(ω₂) dμ dμ (no integrability needed)
+- LEAN: pair_integrand_decomp — pair = Term₁₂ + Term₂₁ (algebraic decomposition into r*Q-DS forms)
+- LEAN: pair_bound_from_products — ∫∫ (Term₁₂+Term₂₁) ≥ 0 (via pair_bound)
+- index.md: regenerated
+- **Result**: Bridges the algebraic pair bound to measure-theoretic double integrals. The product integral identity connects (∫α*)(∫p²q) and (∫p)(∫p(1-α²)) to ∫∫ terms, and the pair decomposition shows their difference is (1/2)∫∫pair ≥ 0.
+- **Sorry count**: 0 (64 files)
+
 ## [2026-04-26] experiment | Lorentzian envelope convergence (no hL_small, no hr0_ne)
 
 - created: KuramotoLean/LorentzianEnvelope.lean
