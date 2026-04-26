@@ -19,7 +19,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 97 files. Fully parametric: K > K_c + α(0) ∈ (0,1)^n → r → r*.
+Machine-checked proof status: 0 sorry, 0 axioms across 101 files. Maximal initial domain: K > K_c + α(0) ∈ [0,1]^n with ∃j α_j(0)>0 → r → r*.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +63,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **97** |
-| Comprehensive build | **97/97 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **101** |
+| Comprehensive build | **101/101 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -821,6 +821,42 @@ The cleanest theorem statement: NPoleBarrierData + K > K_c + gmax/cmin bounds �
 | `parametric_convergence`: K > K_c → r → r* (no bounds params) | **proved** |
 
 **Significance**: `parametric_convergence` is the cleanest theorem. Given an ODE solution with K > K_c and α(0) ∈ (0,1)^n, it derives r*, λ*, γ_max (via `Finset.exists_max_image`), c_min (via `Finset.exists_min_image`), and ε automatically. No external uniform bounds needed — everything computed from the finite arrays.
+
+## Upper Boundary Deactivation (OneDeactivation.lean)
+
+**Status**: 0 sorry.
+
+Components starting at α_k(0) = 1 drop strictly below 1 for all t > 0.
+
+| Theorem | Status |
+|---|---|
+| `alpha_one_backward`: α_k(t)=1, 0≤s≤t → α_k(s)=1 | **proved** |
+| `one_component_deactivation`: α_k(0)=1 → α_k(t)<1 for t>0 | **proved** |
+
+**Proof**: The upper Grönwall multiplier G(t) = (1-α_k(t))·exp(Mt) is non-decreasing. If α_k(t₀) = 1, then G(t₀) = 0 and G(s) ≤ G(t₀) = 0 for s ≤ t₀. Combined with G ≥ 0: α_k(s) = 1 on [0, t₀]. But the ODE forces dα_k/dt = -γ_k < 0, making α_k strictly decreasing — contradicting α_k ≡ 1.
+
+**Significance**: Combined with ZeroActivation (α_k(0)=0 → α_k(t)>0 for t>0) and UpperBarrier (α_k(0)<1 → α_k(t)<1), this completes the boundary analysis: ALL initial data in [0,1]^n with at least one positive component enters (0,1)^n immediately.
+
+## Maximal Convergence (ExtendedConvergence.lean)
+
+**Status**: 0 sorry.
+
+The strongest convergence theorem, covering ALL initial data except the incoherent equilibrium.
+
+| Theorem | Status |
+|---|---|
+| `maximal_convergence`: α(0)∈[0,1]^n, ∃j α_j(0)>0 → r→r* | **proved** |
+
+**Hypotheses**: NPoleBarrierData + n > 0 + Σc = 1 + K > K_c + ∃j, α_j(0) > 0. That's it — no condition on upper bounds of initial data.
+
+**Proof**: Time-shift by ε=1. At time 1:
+1. Components starting at 0: now > 0 (ZeroActivation)
+2. Components starting in (0,1): still in (0,1) (barriers)
+3. Components starting at 1: now < 1 (OneDeactivation)
+
+All components in (0,1), so `parametric_convergence` applies to the shifted data.
+
+**Significance**: The initial condition domain [0,1]^n \ {0} is MAXIMAL — the incoherent state α = 0 is an unstable equilibrium and genuinely cannot converge to r* (it stays at r = 0). Every other initial condition converges.
 
 ## Open Problem
 

@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-04-27] experiment | maximal convergence — α(0) ∈ [0,1]^n \ {0}
+
+- created: KuramotoLean/OneDeactivation.lean
+- updated: KuramotoLean/UpperBarrier.lean (+alpha_one_backward)
+- updated: KuramotoLean/ExtendedConvergence.lean (+maximal_convergence)
+- updated: KuramotoLean.lean (+OneDeactivation import, 101/101)
+- updated: syntheses/lean-proof-status.md (+OneDeactivation, +MaximalConvergence sections, file count 101)
+- index.md: regenerated
+- LEAN: alpha_one_backward — if α_k(t)=1 and 0≤s≤t then α_k(s)=1 (upper Grönwall squeeze)
+- LEAN: one_component_deactivation — α_k(0)=1 → α_k(t)<1 for all t>0
+- LEAN: maximal_convergence — NPoleBarrierData + K>K_c + ∃j α_j(0)>0 → ∃r*∈(0,1), r→r*
+- **Result**: Extends the initial condition domain from [0,1)^n to [0,1]^n, covering ALL initial data with at least one active component. Proof: at α_k=1, the upper Grönwall multiplier G=(1-α_k)·exp(Mt) is non-decreasing with G(t₀)=0, so G≡0 on [0,t₀], giving α_k≡1. But the ODE forces dα_k/dt=-γ_k<0 at α_k=1 — strictAntiOn_of_deriv_neg contradicts α_k constant. Time shift to ε=1 then places all components in (0,1). Combined with ZeroActivation, the domain [0,1]^n\{0} is maximal (α=0 is an unstable equilibrium that stays at r=0).
+- **Sorry count**: 0 (101 files)
+
 ## [2026-04-27] experiment | extended convergence — α(0) ∈ [0,1)^n
 
 - created: KuramotoLean/ExtendedConvergence.lean
