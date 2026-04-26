@@ -242,9 +242,18 @@ hsc_gap + persistence + Lipschitz → r → r*
 - Decomposition: h_decomp [integral splitting]
 
 ### What is open
+- Proving V∞ → 0 for the continuum (dV∞/dt ≤ 0 proved; V∞ → L ≥ 0 proved; L = 0 needs LaSalle or near-diagonal bound)
+- Continuum diagonal bound degenerates (diagonal has measure zero in product space)
 - Reducing hypothesis count (some hypotheses are consequences of others)
-- Constructing a concrete `KuramotoData` instance from the OA ODE
 - 0 axioms remain (H2 is now a structure field in OmegaLimitData)
+
+### Independent proof paths (all 0 sorry)
+1. **MainTheorem**: gap exclusion + Lipschitz trapping (14-field KuramotoData)
+2. **ContinuousStability**: IVT trapping, no step-size (11-field ContinuousKuramotoData)
+3. **NPoleGlobalStability**: L² Barbalat + persistence drops (discrete n-pole)
+4. **GronwallBridge + NPoleInstance**: L² Gronwall + exponential rate (continuous n-pole)
+5. **ContinuumLyapunov**: dV∞/dt ≤ 0 directly (pair bound → integrals, any measure)
+6. **AntitoneConvergence**: V∞ → L ≥ 0 (bounded antitone function converges)
 
 ## NEVER STOP
 
