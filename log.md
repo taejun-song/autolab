@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-28] experiment | lorentzian_explicit_convergence: parameter-only end-to-end convergence (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_convergence)
+- updated: syntheses/lean-proof-status.md (+lorentzian_explicit_convergence entry)
+- LEAN: `lorentzian_explicit_convergence` — chains LorentzianExistence (existence) with lorentzian_convergence_from_ode (convergence) to prove r(n) → r* = √(1-2γ/K) from parameters (K,γ,r₀) alone. Proof: construct LorentzianContinuousSolution inline, apply lorentzian_convergence_from_ode.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-28] experiment | LorentzianExistence: global ODE existence via explicit Bernoulli formula (120 files, 3434 jobs)
 
 - created: KuramotoLean/LorentzianExistence.lean

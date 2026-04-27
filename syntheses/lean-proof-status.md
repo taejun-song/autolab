@@ -586,6 +586,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_hasDerivAt`: r satisfies the ODE | **proved** |
 | `lorentzian_explicit_continuousOn`: r continuous on [0,∞) | **proved** |
 | `lorentzian_continuous_solution_exists`: ∃ LorentzianContinuousSolution with r(0) = r₀ | **proved** |
+| `lorentzian_explicit_convergence`: r(n) → r* = √(1-2γ/K) (parameters only, 0 assumed) | **proved** |
 
 ### Key Proof Steps
 
@@ -594,7 +595,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 - **lorentzian_explicit_hasDerivAt**: chains `w_func_hasDerivAt → HasDerivAt.inv → HasDerivAt.sqrt`, then applies `bernoulli_deriv_eq` via the `▸` rewrite.
 - **Continuity**: `ContinuousOn.sqrt ∘ ContinuousOn.inv₀` with explicit `change` to expose the w_func formula for `fun_prop`.
 
-**Significance**: `LorentzianContinuousSolution` previously required the user to provide an ODE solution as a hypothesis. This file constructs the solution explicitly from parameters alone, making the structure truly self-contained. Every concrete instantiation of the Lorentzian analysis can now use `lorentzian_continuous_solution_exists` to get an ODE solution without additional hypotheses.
+**Significance**: `LorentzianContinuousSolution` previously required the user to provide an ODE solution as a hypothesis. This file constructs the solution explicitly from parameters alone, making the structure truly self-contained. `lorentzian_explicit_convergence` chains this with `lorentzian_convergence_from_ode` to prove r(n) → r* from parameters (K, γ, r₀) with 0 assumed fields — the first parameter-only convergence theorem for the Lorentzian ODE.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 
