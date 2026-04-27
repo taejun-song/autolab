@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | convergence_time_from_persist — explicit T from global persistence (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_convergence_time_from_persist)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 74)
+- index.md: regenerated (session 8, experiment 74)
+- LEAN: explicit_convergence_time applied to v_uniform_exp_decay; sq_pos_of_ne_zero (no _). Build: 3434 jobs.
+
 ## [2026-04-27] experiment | r_dist_from_persist — |r(t)-r*|≤|r₀-r*|·exp(-Kδr*/2·t) from persistence (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_dist_from_persist)
