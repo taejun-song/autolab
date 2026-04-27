@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-04-27] experiment | subcritical Lorentzian convergence: K < 2γ → r(t) → 0 proved (116 files)
+
+- updated: KuramotoLean/LorentzianFromODE.lean (+lorentzian_sq_deriv_subcritical, +lorentzian_subcritical_sq_bound, +lorentzian_subcritical_tendsto)
+- updated: syntheses/lean-proof-status.md (+subcritical section)
+- LEAN: `lorentzian_sq_deriv_subcritical` — 2r·ṙ ≤ -2(γ-K/2)·r² for K < 2γ, for ANY r ∈ ℝ. Key: 2r·((K/2-γ)r-(K/2)r³) = -2μr² - Kr⁴ ≤ -2μr² since Kr⁴ ≥ 0.
+- LEAN: `lorentzian_subcritical_sq_bound` — r(t)² ≤ r(0)²·exp(-2(γ-K/2)t) via comparison_decay on V = r². No sign constraint on r.
+- LEAN: `lorentzian_subcritical_tendsto` — Filter.Tendsto r atTop (nhds 0) for K < 2γ. Chain: sq_bound → (r(0)²+1)·exp(-2μt) → 0 → |r(t)|² < ε² → √ monotone → |r(t)| < ε.
+- **Lorentzian bifurcation now complete**: K < 2γ → r→0 (new); K > 2γ → r→r* (existing via LorentzianEnvelope).
+- **Sorry count**: 0 (116 files, 3430 build jobs)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | LorentzianSolution gap CLOSED: toLorentzianSolution_noninc now 0 assumed (116 files)
 
 - updated: KuramotoLean/LorentzianFromODE.lean (removed hpersist external parameter; derived via hpersist_from_convergence)

@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-04-27 (session 3)_
+_Last regenerated: 2026-04-27 (session 4)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 116 files, 0 sorry, 0 assumed fields. Both ODE-derived constructors (nondec and noninc) now prove ALL LorentzianSolution fields — LorentzianSolution gap CLOSED.
+- [[lean-proof-status]] — Machine-checked proof status: 116 files, 0 sorry, 0 assumed fields. Lorentzian bifurcation complete: K < 2γ → r→0 (new), K > 2γ → r→r* (existing). 3430 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.

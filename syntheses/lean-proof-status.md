@@ -54,6 +54,18 @@ All hypotheses are transparent and individually groundable:
 
 The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc_decay from Lyapunov identity via SelfConsistencyDecay).
 
+## Lorentzian Bifurcation (LorentzianFromODE.lean)
+
+**Complete bifurcation picture for the Lorentzian ODE ṙ = (K/2-γ)r - (K/2)r³:**
+
+| Regime | Condition | Result | Status |
+|---|---|---|---|
+| Subcritical | K < 2γ | r(t) → 0 exponentially | **proved** (`lorentzian_subcritical_tendsto`) |
+| Supercritical (nondec) | K > 2γ, r(0) ≤ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_nondec_convergence`) |
+| Supercritical (noninc) | K > 2γ, r(0) ≥ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_noninc_convergence`) |
+
+The subcritical proof uses V = r²: d(r²)/dt = 2r·ṙ = -2μr² - Kr⁴ ≤ -2μr² for ALL r ∈ ℝ (no positivity needed, since Kr⁴ ≥ 0). Then comparison_decay and |r(t)| < ε from r(t)² < ε² via Real.sqrt_lt_sqrt.
+
 ## Project-Wide Status
 
 | Metric | Value |
@@ -62,7 +74,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **116** |
-| Comprehensive build | **115/115 imports** (all name conflicts resolved via namespaces) |
+| Comprehensive build | **3430 build jobs** (up from 3286 after subcritical addition) |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
