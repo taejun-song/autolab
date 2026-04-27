@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, V-ODE, forward invariance from both sides, Gronwall V/W-decay, and unified exponential rate |r(t)-r*| ≤ |r₀²-r*²|·exp(-K·min(r₀²,r*²)·t)/r*. 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability, Gronwall V/W-decay, unified rate, LorentzianContinuousSolution.tendsto, and lorentzian_ode_continuous_convergence (0-assumption continuous-time r(t)→r*). 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -610,6 +610,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_rate_eq_linearized`: K·r*² = K-2γ (Gronwall rate = linearized rate) | **proved** |
 | `lorentzian_v_decay_uniform`: r₀ ≥ δ → V(t) ≤ V(0)·exp(-K·δ²·t) (uniform rate) | **proved** |
 | `lorentzian_uniform_r_decay`: r₀ ≥ δ → \|r(t)-r*\| ≤ (r*²-δ²)·exp(-K·δ²·t)/r* | **proved** |
+| `LorentzianContinuousSolution.tendsto`: S.r → r* as t → ∞ for any ODE solution | **proved** |
+| `lorentzian_ode_continuous_convergence`: ∃r with r(0)=r₀ and r(t)→r* (0 assumptions) | **proved** |
 
 ### Key Proof Steps
 
@@ -633,6 +635,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 `lorentzian_v_exponential_decay` proves the **Gronwall V-decay**: when r₀² < r*², V(t) = r*²-r(t)² ≤ (r*²-r₀²)·exp(-K·r₀²·t). The key chain: V'(t) = -K·r(t)²·V(t) (from `v_hasDerivAt`); r(t)² ≥ r₀² (`sq_ge_init`); V(t) ≥ 0 (`sq_lt_rstar`); so V'(t) ≤ -(K·r₀²)·V(t). Then `comparison_decay` from GronwallBridge.lean gives the bound. The V(0) identity uses `lorentzian_explicit_init` (which only requires `hr₀_pos`, not all hypotheses), and `Real.sq_sqrt` (with `rw [sub_nonneg, div_le_one hK]; linarith` for nonnegativity of 1-2γ/K). This is the first explicit exponential decay rate for V: the rate K·r₀² depends only on the initial condition, not on the proximity to r*.
 
 **Gronwall chain (experiments 13–20)**: The final block of LorentzianExistence.lean proves a complete Gronwall analysis of the Lorentzian ODE from both sides of the equilibrium. `sq_lt/gt_rstar` prove **forward invariance** of the sublevel/superlevel sets {r² < r*²} and {r² > r*²} — once r₀ starts below (resp. above) r*, it stays there forever. `sq_ge_init/sq_le_init` prove **monotone r²**: below r*, r(t)² is non-decreasing from r₀²; above r*, it is non-increasing. These combine with `v/w_hasDerivAt` to derive **Gronwall V/W-decay**: V(t) = r*²-r(t)² ≤ V(0)·exp(-K·r₀²·t) below r*, and W(t) = r(t)²-r*² ≤ W(0)·exp(-K·r*²·t) above r*. The rate K·r*² = K-2γ (proved by `rate_eq_linearized` via `field_simp`) matches the linearized rate at r*, confirming the Gronwall approach is optimal. Converting to |r(t)-r*| via the factorization r*²-r(t)² = (r*-r(t))·(r*+r(t)) ≥ r*·|r(t)-r*| gives `r_from_v/w_decay`. The **unified rate** `lorentzian_unified_rate` combines both via `rcases lt_or_gt_of_ne`: |r(t)-r*| ≤ |r₀²-r*²|·exp(-K·min(r₀²,r*²)·t)/r* for all r₀ ≠ r*. For compact families r₀ ∈ [δ, r*), `v_decay_uniform` and `uniform_r_decay` give the **uniform rate** K·δ² independent of r₀, enabling compact-set convergence arguments.
+
+**Continuous-time ODE convergence (experiment 21)**: `LorentzianContinuousSolution.tendsto` proves that any solution of the Lorentzian ODE converges to r* in continuous time: `Tendsto S.r atTop (nhds r*)`. The proof uses `Tendsto.congr'` with `eq_explicit` to identify S.r with the explicit Bernoulli formula for all t > 0 (eventually in atTop), then applies `lorentzian_explicit_tendsto` directly. `lorentzian_ode_continuous_convergence` packages this into the ultimate parameter-only theorem: for any K > 2γ and r₀ ∈ (0,1), there exists a solution r(t) with r(0) = r₀ and r(t) → r* as t → ∞, with zero external hypotheses.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 

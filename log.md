@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | tendsto + ode_continuous_convergence: 0-assumption continuous-time r(t)→r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.tendsto, +lorentzian_ode_continuous_convergence)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 21)
+- LEAN: `LorentzianContinuousSolution.tendsto` — any ODE solution r(t)→r* as t→∞ via `Tendsto.congr'` + `eq_explicit` + `lorentzian_explicit_tendsto`. `lorentzian_ode_continuous_convergence` — parameter-only ∃ solution with r(0)=r₀ and r(t)→r*, 0 external hypotheses.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | uniform_r_decay: |r(t)-r*|≤(r*²-δ²)·exp(-Kδ²t)/r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_uniform_r_decay)
