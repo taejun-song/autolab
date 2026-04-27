@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, and governing identity d(r²)/dt = K·r²·(r*²-r²). 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, governing identity d(r²)/dt = K·r²·(r*²-r²), and V-ODE d(r*²-r²)/dt = -K·r²·V. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -597,6 +597,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_ode_hasDerivAt_rstar`: HasDerivAt (lorentzianODE K γ) (-(K-2γ)) r* | **proved** |
 | `lorentzian_local_stability`: for \|r₀-r*\| < r*/2, \|r(t)-r*\| ≤ 10·\|r₀-r*\|·exp(-μt)/r*⁴ | **proved** |
 | `lorentzian_explicit_sq_hasDerivAt`: d(r²)/dt = K·r²·(r*²-r²) | **proved** |
+| `lorentzian_explicit_v_hasDerivAt`: d(r*²-r²)/dt = -K·r²·(r*²-r²) | **proved** |
 
 ### Key Proof Steps
 

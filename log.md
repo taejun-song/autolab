@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_hasDerivAt: d(r*²-r²)/dt = -K·r²·(r*²-r²) (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_v_hasDerivAt)
+- updated: syntheses/lean-proof-status.md (+v_hasDerivAt entry)
+- index.md: regenerated (session 8, experiment 12)
+- LEAN: `lorentzian_explicit_v_hasDerivAt` — d(r*²-r²)/dt = -K·r²·(r*²-r²). Direct corollary of sq_hasDerivAt via hasDerivAt_const.sub. The V-ODE shows V = r*²-r² decays exponentially at rate K·r²; combined with r² > 0 this confirms convergence from both sides.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | sq_hasDerivAt: d(r²)/dt = K·r²·(r*²-r²) (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_sq_hasDerivAt)
