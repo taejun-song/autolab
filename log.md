@@ -8,6 +8,14 @@
 - LEAN: v_antitone = rcases lt_or_eq_of_le; convergence_time = v_exp_bound + explicit_convergence_time with lt_min hr₀_pos hrs_pos for hμ_pos.
 - Build: 3336 jobs, 0 sorry, 0 axioms.
 
+## [2026-04-27] experiment | r_dist unified + v_coeff_le (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_dist, +lorentzian_lyapunov_v_coeff_le)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph for experiment 54)
+- index.md: regenerated (session 8, experiment 54)
+- LEAN: r_dist uses order_parameter_exp_decay + rwa sqrt_sq_eq_abs; v_coeff_le uses mul_le_mul for r²≤1 and r·r*≤1, then nlinarith.
+- Build: 3336 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | convergence_time_above — explicit T for supercritical regime (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_convergence_time_above)
