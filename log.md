@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-28] experiment | lorentzian_explicit_rate: pointwise rate |r(t)-r*| ≤ |A|·exp(-μt)/r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_rate)
+- updated: syntheses/lean-proof-status.md (+lorentzian_explicit_rate entry and rate significance paragraph)
+- index.md: regenerated
+- LEAN: `lorentzian_explicit_rate` — |r(t)-r*| ≤ |A|·exp(-μt)/r*. Chain: |r-r*| = |r²-r*²|/(r+r*) ≤ |r²-r*²|/r*; |r²-r*²| ≤ |A|·exp(-μt) via sqrt_le_sqrt from sq_diff_bound; combined via le_div_iff₀.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-28] experiment | lorentzian_explicit_sq_diff_bound: explicit exponential rate (r(t)²-r*²)² ≤ A²·exp(-2μt) (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_sq_diff_bound)

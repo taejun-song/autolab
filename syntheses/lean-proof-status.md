@@ -589,6 +589,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_convergence`: r(n) → r* = √(1-2γ/K) (parameters only, 0 assumed) | **proved** |
 | `lorentzian_explicit_tendsto`: r(t) → r* as t → ∞ (continuous time, 0 assumed) | **proved** |
 | `lorentzian_explicit_sq_diff_bound`: (r(t)²-r*²)² ≤ A²·exp(-2μt) | **proved** |
+| `lorentzian_explicit_rate`: \|r(t)-r*\| ≤ \|A\|·exp(-μt)/r* | **proved** |
 
 ### Key Proof Steps
 
@@ -602,6 +603,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 `lorentzian_explicit_tendsto` extends this to **continuous time**: the explicit Bernoulli solution converges as t → ∞ (not just at integer times). The proof chain: exp(-(K-2γ)t) → 0 via `Real.tendsto_exp_neg_atTop_nhds_zero` composed with `(K-2γ)*t → ∞`; then w(t) → B via limit arithmetic; then w⁻¹ → B⁻¹ via `continuousAt_inv₀`; then √(w⁻¹) → √(B⁻¹) via `continuous_sqrt.continuousAt`; finally `field_simp` identifies B⁻¹ = 1-2γ/K.
 
 `lorentzian_explicit_sq_diff_bound` gives the **explicit exponential rate**: (r(t)²-r*²)² ≤ A²·exp(-2μt) where A = 1/r₀²-B, B = K/(K-2γ), μ = K-2γ. The key inequality is (w⁻¹-B⁻¹)² ≤ (w⁻¹-B⁻¹)²·(wB)² because wB > 1 (from w > 1 and B > 1). Then `hprod` computes (w⁻¹-B⁻¹)·(wB) = -(A·exp(-μt)) algebraically, so the product-squared equals A²·exp(-2μt) via `mul_pow`, `neg_sq`, `sq (Real.exp _)`, and `← Real.exp_add`.
+
+`lorentzian_explicit_rate` upgrades this to **|r(t)-r*| ≤ |A|·exp(-μt)/r***. Proof: |r-r*| = |r²-r*²|/(r+r*) ≤ |r²-r*²|/r* (since r ≥ 0); |r²-r*²| ≤ |A|·exp(-μt) from sq_diff_bound via `Real.sqrt_le_sqrt` + `Real.sqrt_sq_eq_abs`. This is the sharpest pointwise rate for the Lorentzian OA ODE in the explicit Bernoulli formula: exponential rate μ = K-2γ is the linear rate of the ODE at r = 0, and the amplitude A depends on the initial distance from equilibrium.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 
