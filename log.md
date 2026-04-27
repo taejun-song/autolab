@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | order_preserving — flow monotone in initial condition (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_order_preserving)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph)
+- index.md: regenerated (session 8, experiment 35)
+- LEAN: `lorentzian_explicit_order_preserving` — r₀<r₀' → r(t,r₀)<r(t,r₀') for all t≥0; proof: sq_lt_sq'→r₀²<r₀'²→h_coeff>0 via div_lt_div_iff₀; w_func_diff+mul_pos→w(r₀)>w(r₀'); inv_lt_inv₀→1/w(r₀)<1/w(r₀'); sqrt_lt_sqrt closes. Key fix: inv_lt_inv_of_lt→inv_lt_inv₀.mpr (Mathlib name).
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | neg_deriv + strictly_decreasing — monotone trajectories above r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_neg_deriv, +lorentzian_explicit_strictly_decreasing)
