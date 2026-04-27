@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-04-28 (session 8, experiment 7)_
+_Last regenerated: 2026-04-27 (session 8, experiment 8)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence proves global ODE existence, continuous-time convergence r(t) → r*, and explicit exponential rate (r(t)²-r*²)² ≤ A²·exp(-2μt). 3335 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence proves global ODE existence, continuous-time r(t)→r*, explicit rate A²·exp(-2μt), and initial-displacement rate |r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³). 3335 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.

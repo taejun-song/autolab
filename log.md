@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | rate_initial: initial-displacement explicit rate (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_rate_initial)
+- updated: syntheses/lean-proof-status.md (+rate_initial entry, updated significance paragraph)
+- index.md: regenerated (session 8, experiment 8)
+- LEAN: `lorentzian_explicit_rate_initial` — |r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³). Uses B = 1/r*² to rewrite |A| = |r*²-r₀²|/(r₀²·r*²); dividing by r* yields the initial-displacement form. Key: `field_simp` closes both `h_num_eq` and the final calc step directly without `ring`.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-28] experiment | dist_bound: two-solution exponential contraction (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_dist_bound)
