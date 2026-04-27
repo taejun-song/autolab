@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | eq_explicit_of_nonneg + unique — t≥0 ODE uniqueness (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+eq_explicit_of_nonneg, +unique)
+- updated: syntheses/lean-proof-status.md (+2 entries)
+- LEAN: `eq_explicit_of_nonneg` extends eq_explicit to t=0 via rcases ht.eq_or_lt (t=0: init; t>0: eq_explicit). `unique` proves any two LorentzianContinuousSolution with same (K,γ,r₀) are equal for t≥0, by rewriting both to the explicit formula.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+- Note: program.md check — primary metric (0 assumed fields) achieved. Instructions to focus on concrete instance are fulfilled.
+
 ## [2026-04-27] experiment | ode_global_stability billboard — r∈(0,1), r→r*, explicit rate (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_ode_global_stability)
