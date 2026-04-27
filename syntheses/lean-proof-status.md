@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich, Lyapunov stability (δ=ε). 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich, Lyapunov stability (δ=ε), strict Lyapunov function. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -647,6 +647,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_dist_strict_decreasing`: r₀ ≠ r*, 0 ≤ s < t → \|r(t)-r*\| < \|r(s)-r*\| (distance to equilibrium strictly decreasing) | **proved** |
 | `lorentzian_explicit_rstar_const`: r(t, r*) = r* for all t (equilibrium trajectory is constant) | **proved** |
 | `lorentzian_explicit_lyapunov_stable`: ∀ ε>0, ∃ δ=ε>0, \|r₀-r*\|<δ → \|r(t)-r*\|<ε for all t≥0 (Lyapunov stability) | **proved** |
+| `lorentzian_lyapunov_v_hasDerivAt`: d/dt (r(t)-r*)² = 2(r(t)-r*)·ṙ(t) (chain rule for V=(r-r*)²) | **proved** |
+| `lorentzian_lyapunov_v_deriv_neg`: r₀ ≠ r* → d/dt (r(t)-r*)² < 0 for all t ≥ 0 (V is a strict Lyapunov function) | **proved** |
 
 ### Key Proof Steps
 
@@ -684,6 +686,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Equilibrium characterization (experiment 32)**: `lorentzian_unique_pos_fixed_point` proves that r* is the only positive zero of the Lorentzian ODE: from `lorentzian_ode_factored`, ṙ=0 factors as (K/2)·r·(r*²-r²)=0; with r>0 and K>0 both non-zero, the bracket must vanish: r²=1-2γ/K; then `Real.sqrt_sq hr_pos.le` recovers r = √(1-2γ/K) = r*. `lorentzian_fixed_point_iff` packages this into a complete iff: ṙ=0 on [0,∞) iff r=0 or r=r*. The r=0 case closes via `simp [lorentzianODE]`; the r=r* case uses `lorentzian_rstar_is_fixed_point`. Together these two theorems give the full global portrait: exactly two fixed points (0 and r*), with positive velocity between them and negative above.
 
 **Linearized instability at origin (experiment 31)**: `lorentzian_ode_hasDerivAt_zero` proves that the derivative of the Lorentzian ODE at r=0 is K/2-γ, positive for K > 2γ. The proof follows the same pattern as `ode_hasDerivAt_rstar`: construct `HasDerivAt` for the polynomial (K/2-γ)r-(K/2)r³ via `h1.sub h2`, convert via `hconv`, then `convert hderiv using 1; ring` closes the derivative value. `lorentzian_ode_neg_above_one` extends the sign analysis to all r > 1: the ODE velocity is negative (not just for r ∈ (r*,1)). The proof uses the factored form (K/2)·r·(r*²-r²) and shows r*²-r² < 0 for r > 1 via `linarith [div_pos (2γ>0) (K>0)]` (giving r*² = 1-2γ/K < 1 < r²) — much simpler than the sign analysis for r ∈ (r*,1) which required nlinarith.
+
+**Strict Lyapunov function (experiment 41)**: `lorentzian_lyapunov_v_hasDerivAt` proves that d/dt (r(t)-r*)² = 2(r(t)-r*)·ṙ(t) via the chain rule: `(HasDerivAt.sub_const r*).pow 2` gives the derivative of (r(s)-r*)², then `convert ... using 1; push_cast; ring` normalizes the Nat-to-Real coercions from `.pow`. `lorentzian_lyapunov_v_deriv_neg` then proves d/dt V < 0 for all t ≥ 0 when r₀ ≠ r*: dispatch on `lt_or_gt_of_ne (lorentzian_explicit_ne_rstar ...)`: below r*, `ode_pos_below_rstar` gives ṙ>0 and r(t)-r*<0, so `mul_neg_of_neg_of_pos (mul_neg_of_pos_of_neg two_pos ...)` closes; above r*, `ode_neg_above_rstar` gives ṙ<0 and r(t)-r*>0, so `mul_neg_of_pos_of_neg (mul_pos two_pos ...)` closes. This is the first machine-checked strict Lyapunov function theorem for the Lorentzian ODE: V = (r-r*)² satisfies V'<0 for all non-equilibrium trajectories.
 
 **Lyapunov stability (experiment 40)**: `lorentzian_explicit_rstar_const` proves that r* is a fixed trajectory: r(t, r*) = r* for all t. The proof: the Bernoulli amplitude A = 1/r*² - B = 0 (since r*² = B⁻¹), so w(t, r*) = B, and r(t)² = B⁻¹ = r*². The key lemma is `heq : 1/r*² = K/(K-2γ)` (from `hrstar_sq + field_simp`), then `simp only [w_func, heq, sub_self, zero_mul, zero_add]` collapses the formula. `lorentzian_explicit_lyapunov_stable` packages this into a formal Lyapunov stability theorem: for any ε > 0, taking δ = ε works. Proof: if r₀ = r*, use `rstar_const`; if r₀ ≠ r* and t = 0, use `lorentzian_explicit_init`; if r₀ ≠ r* and t > 0, use `dist_strict_decreasing` at s = 0 with `calc` to chain |r(t)-r*| < |r(0)-r*| = |r₀-r*| < ε. This is the machine-checked Lyapunov stability theorem for the Lorentzian Kuramoto equilibrium, with explicit δ = ε.
 

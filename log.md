@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | lyapunov_v_hasDerivAt + v_deriv_neg — strict Lyapunov function (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_hasDerivAt, +lorentzian_lyapunov_v_deriv_neg)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 41)
+- LEAN: `v_hasDerivAt` — HasDerivAt (r-r*)² (2(r-r*)·ṙ) t; proof: (hasDerivAt.sub_const).pow 2 + convert+push_cast+ring. `v_deriv_neg` — r₀≠r* → d/dt(r-r*)²<0; proof: rw deriv; lt_or_gt_of_ne (ne_rstar); below: ode_pos_below_rstar + mul_neg_of_neg_of_pos; above: ode_neg_above_rstar + mul_neg_of_pos_of_neg.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | rstar_const + lyapunov_stable — equilibrium trajectory + Lyapunov stability (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_rstar_const, +lorentzian_explicit_lyapunov_stable)
