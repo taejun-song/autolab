@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | ode_global_stability billboard — r∈(0,1), r→r*, explicit rate (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_ode_global_stability)
+- updated: syntheses/lean-proof-status.md (+1 entry)
+- LEAN: `lorentzian_ode_global_stability` — clean billboard combining (1) r∈(0,1), (2) r→r*, (3) rate |r-r*|≤|A|exp(-μt)/r*. Assembles lorentzian_explicit_pos, lorentzian_explicit_lt_one, lorentzian_explicit_tendsto, lorentzian_explicit_rate.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | dist_tendsto — exponential synchronization |r(t,r₀)-r(t,r₀')|→0 (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_dist_tendsto)

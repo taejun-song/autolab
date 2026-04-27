@@ -615,6 +615,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.tendsto_nat`: r(n)→r* as n:ℕ→∞ (Filter.Tendsto form) | **proved** |
 | `lorentzian_explicit_tendsto_nat`: explicit formula n:ℕ→r* (Filter.Tendsto form) | **proved** |
 | `lorentzian_explicit_dist_tendsto`: \|r(t,r₀)-r(t,r₀')\|→0 (exponential synchronization) | **proved** |
+| `lorentzian_ode_global_stability`: billboard — r∈(0,1), r→r*, rate bound (0 assumptions) | **proved** |
 
 ### Key Proof Steps
 
