@@ -649,6 +649,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_lyapunov_stable`: ∀ ε>0, ∃ δ=ε>0, \|r₀-r*\|<δ → \|r(t)-r*\|<ε for all t≥0 (Lyapunov stability) | **proved** |
 | `lorentzian_lyapunov_v_hasDerivAt`: d/dt (r(t)-r*)² = 2(r(t)-r*)·ṙ(t) (chain rule for V=(r-r*)²) | **proved** |
 | `lorentzian_lyapunov_v_deriv_neg`: r₀ ≠ r* → d/dt (r(t)-r*)² < 0 for all t ≥ 0 (V is a strict Lyapunov function) | **proved** |
+| `lorentzian_lyapunov_v_strict_anti`: r₀ ≠ r*, 0 ≤ s < t → (r(t)-r*)² < (r(s)-r*)² (V strictly decreasing along trajectories) | **proved** |
 
 ### Key Proof Steps
 

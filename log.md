@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | lyapunov_v_strict_anti — V=(r-r*)² strictly decreasing (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_strict_anti)
+- updated: syntheses/lean-proof-status.md (+1 entry)
+- index.md: regenerated (session 8, experiment 42)
+- LEAN: `v_strict_anti` — (r(t)-r*)²<(r(s)-r*)² for 0≤s<t, r₀≠r*; proof: continuousOn (.mono hs.trans).sub.pow + interior v_deriv_neg → strictAntiOn_of_deriv_neg.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | lyapunov_v_hasDerivAt + v_deriv_neg — strict Lyapunov function (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_hasDerivAt, +lorentzian_lyapunov_v_deriv_neg)
