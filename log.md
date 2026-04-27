@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | pos_deriv + strictly_increasing — monotone trajectories below r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_pos_deriv, +lorentzian_explicit_strictly_increasing)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 33)
+- LEAN: `lorentzian_explicit_pos_deriv` — d/dt r(t)>0 when r₀<r*; chain: sq_lt_sq'+hrstar_sq → r₀²<1-2γ/K → sq_lt_rstar → sqrt_lt_sqrt → r(t)<r* → ode_pos_below_rstar → HasDerivAt.deriv. `lorentzian_explicit_strictly_increasing` — r(s)<r(t) for 0≤s<t; uses strictMonoOn_of_deriv_pos (Mathlib) with continuity+interior pos_deriv.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | unique_pos_fixed_point + fixed_point_iff — complete equilibrium characterization (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_unique_pos_fixed_point, +lorentzian_fixed_point_iff)
