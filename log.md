@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_dist_lb — lower distance bound |r(t)-r*| ≥ |r₀-r*|·exp(-Kt) (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_dist_lb)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 57)
+- index.md: regenerated (session 8, experiment 57)
+- LEAN: sqrt(v_lb) via Real.sqrt_le_sqrt; hsqrt_exp via rw[sq, ← exp_add]; congr 1; ring + sqrt_sq; calc chain with sqrt_mul + sqrt_sq_eq_abs.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_antitone + unified convergence_time (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_antitone, +lorentzian_lyapunov_convergence_time)
