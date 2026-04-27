@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution strict decrease + order preservation + ball invariance — 6 theorems lifted (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+6 theorems: dist_strict_decreasing, v_strict_anti, v_lt_init', v_tendsto_zero, order_preserving, r_ball_fwd_inv)
+- updated: syntheses/lean-proof-status.md (+6 entries, total 33 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 108)
+- LEAN: dist_strict_decreasing/v_strict_anti via eq_explicit_of_nonneg + underlying lorentzian_explicit_dist_strict_decreasing/v_strict_anti; v_lt_init' via eq_explicit_of_nonneg + lorentzian_explicit_init; v_tendsto_zero via tendsto.sub_const + .pow 2; order_preserving via eq_explicit_of_nonneg + ← hK_eq + ← hγ_eq; r_ball_fwd_inv via eq_explicit_of_nonneg + lorentzian_lyapunov_r_ball_fwd_inv. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution invariance + monotonicity — lt/gt_rstar_of_init, ge/le_init_of_lt/gt_rstar, semigroup (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+8 theorems: ne_rstar, strictly_increasing, strictly_decreasing, semigroup, lt_rstar_of_init, gt_rstar_of_init, ge_init_of_lt_rstar, le_init_of_gt_rstar)

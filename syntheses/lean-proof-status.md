@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (27 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (33 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -718,6 +718,12 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.gt_rstar_of_init`: r*<S.r 0 → r*<S.r t for all t≥0 | **proved** |
 | `LorentzianContinuousSolution.ge_init_of_lt_rstar`: S.r 0<r* → S.r 0≤S.r t for all t≥0 | **proved** |
 | `LorentzianContinuousSolution.le_init_of_gt_rstar`: r*<S.r 0 → S.r t≤S.r 0 for all t≥0 | **proved** |
+| `LorentzianContinuousSolution.dist_strict_decreasing`: S.r 0≠r*, 0≤s<t → \|S.r t-r*\|<\|S.r s-r*\| (distance to equilibrium strictly decreasing) | **proved** |
+| `LorentzianContinuousSolution.v_strict_anti`: S.r 0≠r*, 0≤s<t → V(t)<V(s) (Lyapunov function strictly anti-tone) | **proved** |
+| `LorentzianContinuousSolution.v_lt_init'`: S.r 0≠r*, t>0 → V(t)<V(0) (V strictly below initial for t>0) | **proved** |
+| `LorentzianContinuousSolution.v_tendsto_zero`: (S.r t-r*)²→0 as t→∞ (Lyapunov function converges to 0) | **proved** |
+| `LorentzianContinuousSolution.order_preserving`: S.r 0<S'.r 0, same K,γ → S.r t<S'.r t for all t≥0 (flow order-preserving) | **proved** |
+| `LorentzianContinuousSolution.r_ball_fwd_inv`: \|S.r 0-r*\|<ε → \|S.r t-r*\|<ε for all t≥0 (ε-ball forward-invariant) | **proved** |
 
 ### Key Proof Steps
 
