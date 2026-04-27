@@ -1,5 +1,34 @@
 # Activity Log
 
+## [2026-04-27] experiment | toLorentzianSolution_nondec: all LorentzianSolution fields proved from ODE (116 files)
+
+- updated: KuramotoLean/LorentzianFromODE.lean (+toLorentzianSolution_nondec, +lorentzian_nondec_convergence, +LorentzianEnvelope import)
+- updated: syntheses/lean-proof-status.md (116 files, 0 assumed fields)
+- LEAN: `toLorentzianSolution_nondec` — constructor from LorentzianContinuousSolution (non-decreasing r) to LorentzianSolution with ALL fields proved:
+  - hr_bdd: InvariantBox lower/upper barrier
+  - hr_lip: ODE velocity bound via MVT (lorentzian_ode_abs_le + norm_image_sub_le_of_norm_deriv_le_segment')
+  - hpersist: trivial — r(n) ≥ r(0) > 0 (monotone non-decreasing, no circularity)
+  - hlyap: hlyap_from_nondecreasing (left Riemann sum ≤ integral for non-decreasing r²)
+- LEAN: `lorentzian_nondec_convergence` — r(n) → r* via lorentzian_envelope_stability with 0 assumed fields
+- **Key insight**: hlyap (W(n) ≤ W(0)·exp(-2Ψ(n))) holds for non-decreasing r only. For non-increasing r, the left Riemann sum exceeds the integral, so the bound reverses. The non-decreasing case (r(0) ≤ r*) is the natural convergence from low to high synchrony.
+- **Sorry count**: 0 (116 files)
+- index.md: regenerated
+
+## [2026-04-27] experiment | LorentzianFromODE: ODE-derived Lyapunov, persistence, Lipschitz (0 sorry)
+
+- created: KuramotoLean/LorentzianFromODE.lean
+- updated: KuramotoLean.lean (+LorentzianFromODE import, 115/115)
+- updated: syntheses/lean-proof-status.md (115 files)
+- LEAN: LorentzianContinuousSolution — continuous ODE solution structure bridging to NPoleODEData
+- LEAN: hr_bdd_discrete — 0 ≤ r(n) ≤ 1 from InvariantBox lower_barrier + upper_barrier
+- LEAN: hr_lip_discrete — |r(n+1)-r(n)| ≤ K-γ via MVT + |lorentzianODE| ≤ K-γ
+- LEAN: hpersist_from_convergence — ∃ δ>0, r(n) ≥ δ i.o. via parametric_convergence_from_ode
+- LEAN: lorentzian_lyap_step — W(m+1) ≤ W(m)·exp(-2Kr(m)²) via comparison_decay_interval + dW/dt=-2Kr²W identity (HasDerivAt via mul rule)
+- LEAN: hlyap_from_nondecreasing — W(n) ≤ W(0)·exp(-2Σ K·r(k)²) by induction on lyap_step (requires r non-decreasing: r(0)≤r*)
+- **Key insight**: hlyap bound via left Riemann sum is valid only for non-decreasing r (r(0)≤r*), because then r(t)≥r(m) on [m,m+1] → exp underestimates. For r(0)>r* case, bound direction reverses.
+- **Sorry count**: 0 (115 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | bifurcation limits (near K_c and strong coupling)
 
 - created: KuramotoLean/BifurcationLimits.lean

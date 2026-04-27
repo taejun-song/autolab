@@ -3,8 +3,6 @@ type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
 updated: 2026-04-27
-
-
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -19,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 113 files. Complete trifurcation with Filter.Tendsto for ALL K. Bifurcation monotonicity: r* strictly increasing in K. Square root law: r*=Θ(√(K-K_c)).
+Machine-checked proof status: 0 sorry, 0 axioms across 116 files. toLorentzianSolution_nondec: ALL LorentzianSolution fields proved from ODE for non-decreasing r (0 assumed). lorentzian_nondec_convergence: r(n) → r* with 0 external hypotheses beyond the ODE solution.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -63,8 +61,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **113** (+BifurcationMonotonicity, CriticalAlgebraicRate) |
-| Comprehensive build | **107/107 imports** (all name conflicts resolved via namespaces) |
+| Total .lean files | **116** (+toLorentzianSolution_nondec) |
+| Comprehensive build | **115/115 imports** (all name conflicts resolved via namespaces) |
 
 ### Axiom Inventory
 
@@ -154,6 +152,23 @@ The proof uses the Lyapunov envelope V(n) = W₀·exp(-2Ψ(n))/r*² where W₀ =
 2. (r-r*)² ≤ V: from (r-r*)²·(r+r*)² = (r²-r*²)² and r+r* ≥ r*
 3. Persistence drops: when r(n) ≥ δ, V(n+1) ≤ exp(-2Kδ²)·V(n)
 4. Barbalat: V → 0 → |r-r*| → 0
+
+### ODE-Derived Constructor (LorentzianFromODE.lean)
+
+**Status**: 0 sorry. 116 files.
+
+`toLorentzianSolution_nondec`: For a continuous ODE solution with non-decreasing r (r(0) ≤ r*), ALL `LorentzianSolution` fields are proved from the ODE — **0 assumed**.
+
+| Field | Method | Status |
+|---|---|---|
+| `hr_bdd` | InvariantBox lower/upper barrier | **proved** |
+| `hr_lip` | ODE velocity bound ≤ K-γ via MVT | **proved** |
+| `hpersist` | Trivial: r(n) ≥ r(0) > 0 (non-decreasing) | **proved** |
+| `hlyap` | Left Riemann sum ≤ integral for non-decreasing r² | **proved** |
+
+`lorentzian_nondec_convergence`: r(n) → r* with 0 assumed fields. Chain: ODE existence → invariance → lip bound → persistence → Lyapunov → envelope stability.
+
+**Mathematical note on hlyap for non-decreasing r**: The identity W'(t) = -2Kr²W gives W(t) = W(0)·exp(-2K∫₀ᵗ r²ds) (exact). For non-decreasing r, ∫₀ⁿ r² ≥ Σₖ₌₀ⁿ⁻¹ r(k)² (left Riemann sum ≤ integral), so W(n) ≤ W(0)·exp(-2Ψ(n)). For non-increasing r the inequality reverses — hlyap as stated fails. The non-decreasing case (r starting below PLS, converging up) is the physically natural convergence from partial synchrony to full PLS.
 
 This is the cleanest Lorentzian instance: works for ALL K > 2γ with only the `LorentzianSolution` structure.
 

@@ -4,7 +4,7 @@ _Last regenerated: 2026-04-27_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 114 files, 0 sorry. Trifurcation for ALL K. r*(K) strictly increasing, r*→0 near K_c, r*→1 for K→∞.
+- [[lean-proof-status]] — Machine-checked proof status: 116 files, 0 sorry. toLorentzianSolution_nondec: ALL LorentzianSolution fields proved from ODE (0 assumed) for non-decreasing r. lorentzian_nondec_convergence: r(n) → r* with 0 external hypotheses.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +58,7 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 107 files. Complete bifurcation dichotomy: K<K_c→r→0, K>K_c→r→r*.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 116 files. toLorentzianSolution_nondec: ALL fields proved from ODE (0 assumed).
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.
