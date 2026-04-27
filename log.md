@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | tendsto_nat + explicit tendsto_nat — discrete Filter.Tendsto via ℕ→ℝ composition (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.tendsto_nat, +lorentzian_explicit_tendsto_nat)
+- updated: syntheses/lean-proof-status.md (+2 entries)
+- LEAN: both theorems proved in one line each via `Tendsto.comp tendsto_natCast_atTop_atTop`. Gives Filter.Tendsto form for discrete-time (ℕ) convergence, matching the interface of continuous-time tendsto.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | tendsto + ode_continuous_convergence: 0-assumption continuous-time r(t)→r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.tendsto, +lorentzian_ode_continuous_convergence)

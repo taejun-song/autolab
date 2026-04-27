@@ -612,6 +612,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_uniform_r_decay`: r₀ ≥ δ → \|r(t)-r*\| ≤ (r*²-δ²)·exp(-K·δ²·t)/r* | **proved** |
 | `LorentzianContinuousSolution.tendsto`: S.r → r* as t → ∞ for any ODE solution | **proved** |
 | `lorentzian_ode_continuous_convergence`: ∃r with r(0)=r₀ and r(t)→r* (0 assumptions) | **proved** |
+| `LorentzianContinuousSolution.tendsto_nat`: r(n)→r* as n:ℕ→∞ (Filter.Tendsto form) | **proved** |
+| `lorentzian_explicit_tendsto_nat`: explicit formula n:ℕ→r* (Filter.Tendsto form) | **proved** |
 
 ### Key Proof Steps
 
