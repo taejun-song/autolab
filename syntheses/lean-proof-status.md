@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ. NPoleContinuumBridge, FullChainContinuumBridge, LorentzianContinuumBridge instantiate all ContinuumGlobalStability proof paths. LorentzianExistence proves global ODE existence and continuous-time convergence r(t) → r* via explicit Bernoulli formula. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ. NPoleContinuumBridge, FullChainContinuumBridge, LorentzianContinuumBridge instantiate all ContinuumGlobalStability proof paths. LorentzianExistence proves global ODE existence, continuous-time convergence r(t) → r*, and explicit exponential rate (r(t)²-r*²)² ≤ A²·exp(-2μt). 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -588,6 +588,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_continuous_solution_exists`: ∃ LorentzianContinuousSolution with r(0) = r₀ | **proved** |
 | `lorentzian_explicit_convergence`: r(n) → r* = √(1-2γ/K) (parameters only, 0 assumed) | **proved** |
 | `lorentzian_explicit_tendsto`: r(t) → r* as t → ∞ (continuous time, 0 assumed) | **proved** |
+| `lorentzian_explicit_sq_diff_bound`: (r(t)²-r*²)² ≤ A²·exp(-2μt) | **proved** |
 
 ### Key Proof Steps
 
@@ -599,6 +600,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Significance**: `LorentzianContinuousSolution` previously required the user to provide an ODE solution as a hypothesis. This file constructs the solution explicitly from parameters alone, making the structure truly self-contained. `lorentzian_explicit_convergence` chains this with `lorentzian_convergence_from_ode` to prove r(n) → r* from parameters (K, γ, r₀) with 0 assumed fields — the first parameter-only convergence theorem for the Lorentzian ODE.
 
 `lorentzian_explicit_tendsto` extends this to **continuous time**: the explicit Bernoulli solution converges as t → ∞ (not just at integer times). The proof chain: exp(-(K-2γ)t) → 0 via `Real.tendsto_exp_neg_atTop_nhds_zero` composed with `(K-2γ)*t → ∞`; then w(t) → B via limit arithmetic; then w⁻¹ → B⁻¹ via `continuousAt_inv₀`; then √(w⁻¹) → √(B⁻¹) via `continuous_sqrt.continuousAt`; finally `field_simp` identifies B⁻¹ = 1-2γ/K.
+
+`lorentzian_explicit_sq_diff_bound` gives the **explicit exponential rate**: (r(t)²-r*²)² ≤ A²·exp(-2μt) where A = 1/r₀²-B, B = K/(K-2γ), μ = K-2γ. The key inequality is (w⁻¹-B⁻¹)² ≤ (w⁻¹-B⁻¹)²·(wB)² because wB > 1 (from w > 1 and B > 1). Then `hprod` computes (w⁻¹-B⁻¹)·(wB) = -(A·exp(-μt)) algebraically, so the product-squared equals A²·exp(-2μt) via `mul_pow`, `neg_sq`, `sq (Real.exp _)`, and `← Real.exp_add`.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 

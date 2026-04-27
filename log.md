@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-28] experiment | lorentzian_explicit_sq_diff_bound: explicit exponential rate (r(t)²-r*²)² ≤ A²·exp(-2μt) (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_sq_diff_bound)
+- updated: syntheses/lean-proof-status.md (+lorentzian_explicit_sq_diff_bound entry and rate bound significance paragraph)
+- index.md: regenerated
+- LEAN: `lorentzian_explicit_sq_diff_bound` — proves (r(t)²-r*²)² ≤ A²·exp(-2μt) where A = 1/r₀²-B, B = K/(K-2γ), μ = K-2γ. Key: (w⁻¹-B⁻¹)² ≤ (w⁻¹-B⁻¹)²·(wB)² from wB > 1; hprod: (w⁻¹-B⁻¹)·(wB) = -(A·exp(-μt)); hkey: product-squared = A²·exp(-2μt) via mul_pow, neg_sq, sq (Real.exp _), ← Real.exp_add.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-28] experiment | lorentzian_explicit_tendsto: continuous-time convergence r(t) → r* via Bernoulli formula (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_tendsto)
