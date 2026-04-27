@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-28] experiment | dist_bound: two-solution exponential contraction (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_dist_bound)
+- updated: syntheses/lean-proof-status.md (+dist_bound entry)
+- index.md: regenerated
+- LEAN: `lorentzian_explicit_dist_bound` — |r(t,r₀)-r(t,r₀')| ≤ (|A_r₀|+|A_r₀'|)·exp(-μt)/r*. Triangle through r* via dist_triangle + rate bound for each solution. Shows exponential contraction between solutions at rate μ = K-2γ.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-28] experiment | eq_explicit + rate_bound: ODE uniqueness + universal rate bound (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+eq_explicit, +rate_bound)

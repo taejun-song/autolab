@@ -1,6 +1,6 @@
 # Wiki Index
 
-_Last regenerated: 2026-04-28 (session 8, experiment 6)_
+_Last regenerated: 2026-04-28 (session 8, experiment 7)_
 
 ## Recently Updated
 
