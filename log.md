@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution convergence_time_below/above + convergence_time + dist_tendsto — 4 theorems lifted (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+4 theorems: convergence_time_below, convergence_time_above, convergence_time, dist_tendsto)
+- updated: syntheses/lean-proof-status.md (+4 entries, total 42 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 117)
+- LEAN: convergence_time_below/above/unified via eq_explicit_of_nonneg + underlying theorem (htime hypothesis passes S.r 0 directly as r₀); dist_tendsto via triangle inequality + squeeze using dist_tendsto_zero for each solution + tendsto_of_tendsto_of_tendsto_of_le_of_le'. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution sublevel_fwd_inv + trap_below/above + two_traj_dist + v_ratio_bound — 5 theorems lifted (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+5 theorems: sublevel_fwd_inv, trap_below, trap_above, two_traj_dist, v_ratio_bound)

@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (38 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, trajectory distance, V ratio. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (42 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -729,6 +729,10 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.trap_above`: r*<S.r 0 → lb·exp(-Kt) ≤ dist ≤ lb·exp(-K·(1-2γ/K)·t) (above-r* two-sided trap) | **proved** |
 | `LorentzianContinuousSolution.two_traj_dist`: S.r 0≠r*, S'.r 0≠r* (same K,γ) → \|S.r t-S'.r t\|≤sum of individual bounds (trajectory distance via triangle) | **proved** |
 | `LorentzianContinuousSolution.v_ratio_bound`: S.r 0≠r* → exp(-2Kt) ≤ V(t)/V(0) ≤ exp(-K·min·r*·t) (V ratio two-sided bound) | **proved** |
+| `LorentzianContinuousSolution.convergence_time_below`: S.r 0<r* → t>log(V₀/ε²)/(K·S.r 0·r*) → \|S.r t-r*\|<ε (explicit convergence time below r*) | **proved** |
+| `LorentzianContinuousSolution.convergence_time_above`: r*<S.r 0 → t>log(V₀/ε²)/(2K·r*²) → \|S.r t-r*\|<ε (explicit convergence time above r*) | **proved** |
+| `LorentzianContinuousSolution.convergence_time`: S.r 0≠r* → t>log(V₀/ε²)/(K·min·r*) → \|S.r t-r*\|<ε (unified explicit convergence time) | **proved** |
+| `LorentzianContinuousSolution.dist_tendsto`: same K,γ → \|S.r t-S'.r t\|→0 as t→∞ (exponential synchronization of ODE solutions) | **proved** |
 
 ### Key Proof Steps
 
