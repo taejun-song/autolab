@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-04-27 (session 8, experiment 12)_
+_Last regenerated: 2026-04-27 (session 8, experiment 13)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴. 3335 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, governing identity, V-ODE, forward invariance. 3335 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.

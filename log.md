@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | sq_lt_rstar: forward invariance r(t)² < r*² when r₀² < r*² (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_sq_lt_rstar)
+- updated: syntheses/lean-proof-status.md (+sq_lt_rstar entry + significance paragraph)
+- index.md: regenerated (session 8, experiment 13)
+- LEAN: `lorentzian_explicit_sq_lt_rstar` — when r₀² < r*², r(t)² < r*² for all t ≥ 0. Key: A = 1/r₀²-B > 0 (from r₀² < r*² = B⁻¹ via div_lt_div_iff₀), so w(t) > B; then inv_lt_inv₀ hw_pos hB_pos gives w⁻¹ < B⁻¹ = r*².
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_hasDerivAt: d(r*²-r²)/dt = -K·r²·(r*²-r²) (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_v_hasDerivAt)

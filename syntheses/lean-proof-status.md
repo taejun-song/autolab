@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, governing identity d(r²)/dt = K·r²·(r*²-r²), and V-ODE d(r*²-r²)/dt = -K·r²·V. 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, governing identity, V-ODE, and forward invariance r(t)² < r*² when r₀² < r*². 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -598,6 +598,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_local_stability`: for \|r₀-r*\| < r*/2, \|r(t)-r*\| ≤ 10·\|r₀-r*\|·exp(-μt)/r*⁴ | **proved** |
 | `lorentzian_explicit_sq_hasDerivAt`: d(r²)/dt = K·r²·(r*²-r²) | **proved** |
 | `lorentzian_explicit_v_hasDerivAt`: d(r*²-r²)/dt = -K·r²·(r*²-r²) | **proved** |
+| `lorentzian_explicit_sq_lt_rstar`: r₀² < r*² → r(t)² < r*² for all t ≥ 0 | **proved** |
 
 ### Key Proof Steps
 
@@ -613,6 +614,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 `lorentzian_explicit_sq_diff_bound` gives the **explicit exponential rate**: (r(t)²-r*²)² ≤ A²·exp(-2μt) where A = 1/r₀²-B, B = K/(K-2γ), μ = K-2γ. The key inequality is (w⁻¹-B⁻¹)² ≤ (w⁻¹-B⁻¹)²·(wB)² because wB > 1 (from w > 1 and B > 1). Then `hprod` computes (w⁻¹-B⁻¹)·(wB) = -(A·exp(-μt)) algebraically, so the product-squared equals A²·exp(-2μt) via `mul_pow`, `neg_sq`, `sq (Real.exp _)`, and `← Real.exp_add`.
 
 `lorentzian_explicit_rate` upgrades this to **|r(t)-r*| ≤ |A|·exp(-μt)/r***. `lorentzian_explicit_dist_bound` further gives **|r(t,r₀)-r(t,r₀')| ≤ (|A_r₀|+|A_r₀'|)·exp(-μt)/r*** — exponential contraction between any two solutions at rate μ = K-2γ. This is a key ingredient for the passage-to-limit argument: solutions initialized close together stay exponentially close. `LorentzianContinuousSolution.eq_explicit` then proves **ODE uniqueness**: any solution of the Lorentzian ODE with initial condition r₀ equals the explicit Bernoulli formula for all t > 0, via `ODE_solution_unique_of_mem_Icc_right` with Lipschitz constant 2K. This immediately yields `rate_bound`: |r(t)-r*| ≤ |A|·exp(-μt)/r* for any `LorentzianContinuousSolution`, not just the explicitly constructed one. Proof: |r-r*| = |r²-r*²|/(r+r*) ≤ |r²-r*²|/r* (since r ≥ 0); |r²-r*²| ≤ |A|·exp(-μt) from sq_diff_bound via `Real.sqrt_le_sqrt` + `Real.sqrt_sq_eq_abs`. `lorentzian_explicit_rate_initial` rewrites the amplitude in terms of the initial displacement: **|r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³)**. Using B = K/(K-2γ) = 1/r*², the amplitude |A| = |1/r₀²-B| = |r*²-r₀²|/(r₀²·r*²), so dividing by r* gives the r₀-explicit bound. `lorentzian_ode_hasDerivAt_rstar` verifies that the **linearized rate equals the Bernoulli rate**: the derivative of `lorentzianODE K γ` at r* is -(K-2γ) = -μ. Proof: f'(r) = (K/2-γ) - (3K/2)r²; at r*² = 1-2γ/K gives (K/2-γ) - (3K/2)(1-2γ/K) = -K+2γ. This confirms the explicit formula achieves the optimal exponential rate — neither faster nor slower than the linearization predicts. `lorentzian_local_stability` gives the **quantitative Lyapunov stability bound**: for |r₀-r*| < r*/2, |r(t)-r*| ≤ 10·|r₀-r*|·exp(-μt)/r*⁴. The constant 10/r*⁴ comes from two nearness estimates: |r*²-r₀²| ≤ (5r*/2)·|r₀-r*| (from |r*+r₀| ≤ 5r*/2) and r₀² ≥ r*²/4 (from r₀ > r*/2), combined with `rate_initial`. These give the same bound (5/2)·δ·exp·r*⁵ from both sides, confirming the constant is tight.
+
+`lorentzian_explicit_sq_lt_rstar` proves **forward invariance of the sublevel set** {r² < r*²}: when r₀² < r*² the solution satisfies r(t)² < r*² for all t ≥ 0. Proof: from `lorentzian_explicit_sq`, r(t)² = w(t)⁻¹; and A = 1/r₀²-B > 0 (by `inv_lt_inv₀` applied to r₀² < r*² = B⁻¹, converting to B < 1/r₀²); so w(t) = A·exp(-μt)+B > B for all t ≥ 0; then `inv_lt_inv₀ hw_pos hB_pos` converts w(t) > B to w(t)⁻¹ < B⁻¹ = r*². The key lemma call is `rw [inv_lt_inv₀ hw_pos hB_pos]` (positivity of w and B as first arguments), and A > 0 is proved via `div_lt_div_iff₀` + `mul_lt_mul_of_pos_left hr₀_sq_lt hK` + `field_simp`. This gives a machine-checked proof that the sublevel set below r*² is forward-invariant under the Lorentzian ODE.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 
