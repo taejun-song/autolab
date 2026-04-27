@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_persistence_drop — r(t)≥δ on [t₀,t₀+Δ] → V drops by exp(-Kδr*Δ) (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_persistence_drop)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 71)
+- index.md: regenerated (session 8, experiment 71)
+- LEAN: comparison_decay_interval; fix lt_of_lt_of_le for strict positivity. Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_interval_decay — V(t₀+Δ) ≤ V(t₀)·exp(-K·min(r(t₀),r*)·r*·Δ) via semigroup shift (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_interval_decay)
