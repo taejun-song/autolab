@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | convergence_time_below — explicit T via Lyapunov (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_convergence_time_below)
+- updated: syntheses/lean-proof-status.md (+1 entry)
+- index.md: regenerated (session 8, experiment 50)
+- LEAN: explicit_convergence_time from ExplicitRate.lean; sq_pos_of_ne_zero (sub_ne_zero.mpr (ne_of_lt hr₀_lt_rstar)) for V₀ > 0; mul_pos chain for μ > 0.
+- Build: 3336 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_dist bounds — cleaner form + above case (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+r_dist_below', +r_dist_above)
