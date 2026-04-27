@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_exponential_decay: V(t) ≤ (r*²-r₀²)·exp(-K·r₀²·t) (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_sq_ge_init, +lorentzian_v_exponential_decay)
+- updated: syntheses/lean-proof-status.md (+sq_ge_init and v_exponential_decay entries + significance)
+- index.md: regenerated (session 8, experiment 14)
+- LEAN: `lorentzian_explicit_sq_ge_init` — r₀² < r*² → r(t)² ≥ r₀². Via exp(-μt) ≤ 1 → w(t) ≤ 1/r₀² → inv_anti₀. `lorentzian_v_exponential_decay` — Gronwall V-decay via comparison_decay: V' = -K·r²·V and r² ≥ r₀² gives V' ≤ -(K·r₀²)·V → exponential bound. Rate K·r₀² depends only on initial condition.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | sq_lt_rstar: forward invariance r(t)² < r*² when r₀² < r*² (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_sq_lt_rstar)

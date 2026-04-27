@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, governing identity, V-ODE, and forward invariance r(t)² < r*² when r₀² < r*². 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, governing identity, V-ODE, forward invariance, monotone r², and explicit Gronwall V-decay. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -599,6 +599,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_sq_hasDerivAt`: d(r²)/dt = K·r²·(r*²-r²) | **proved** |
 | `lorentzian_explicit_v_hasDerivAt`: d(r*²-r²)/dt = -K·r²·(r*²-r²) | **proved** |
 | `lorentzian_explicit_sq_lt_rstar`: r₀² < r*² → r(t)² < r*² for all t ≥ 0 | **proved** |
+| `lorentzian_explicit_sq_ge_init`: r₀² < r*² → r(t)² ≥ r₀² for all t ≥ 0 | **proved** |
+| `lorentzian_v_exponential_decay`: r₀² < r*² → r*²-r(t)² ≤ (r*²-r₀²)·exp(-K·r₀²·t) | **proved** |
 
 ### Key Proof Steps
 
@@ -616,6 +618,10 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 `lorentzian_explicit_rate` upgrades this to **|r(t)-r*| ≤ |A|·exp(-μt)/r***. `lorentzian_explicit_dist_bound` further gives **|r(t,r₀)-r(t,r₀')| ≤ (|A_r₀|+|A_r₀'|)·exp(-μt)/r*** — exponential contraction between any two solutions at rate μ = K-2γ. This is a key ingredient for the passage-to-limit argument: solutions initialized close together stay exponentially close. `LorentzianContinuousSolution.eq_explicit` then proves **ODE uniqueness**: any solution of the Lorentzian ODE with initial condition r₀ equals the explicit Bernoulli formula for all t > 0, via `ODE_solution_unique_of_mem_Icc_right` with Lipschitz constant 2K. This immediately yields `rate_bound`: |r(t)-r*| ≤ |A|·exp(-μt)/r* for any `LorentzianContinuousSolution`, not just the explicitly constructed one. Proof: |r-r*| = |r²-r*²|/(r+r*) ≤ |r²-r*²|/r* (since r ≥ 0); |r²-r*²| ≤ |A|·exp(-μt) from sq_diff_bound via `Real.sqrt_le_sqrt` + `Real.sqrt_sq_eq_abs`. `lorentzian_explicit_rate_initial` rewrites the amplitude in terms of the initial displacement: **|r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³)**. Using B = K/(K-2γ) = 1/r*², the amplitude |A| = |1/r₀²-B| = |r*²-r₀²|/(r₀²·r*²), so dividing by r* gives the r₀-explicit bound. `lorentzian_ode_hasDerivAt_rstar` verifies that the **linearized rate equals the Bernoulli rate**: the derivative of `lorentzianODE K γ` at r* is -(K-2γ) = -μ. Proof: f'(r) = (K/2-γ) - (3K/2)r²; at r*² = 1-2γ/K gives (K/2-γ) - (3K/2)(1-2γ/K) = -K+2γ. This confirms the explicit formula achieves the optimal exponential rate — neither faster nor slower than the linearization predicts. `lorentzian_local_stability` gives the **quantitative Lyapunov stability bound**: for |r₀-r*| < r*/2, |r(t)-r*| ≤ 10·|r₀-r*|·exp(-μt)/r*⁴. The constant 10/r*⁴ comes from two nearness estimates: |r*²-r₀²| ≤ (5r*/2)·|r₀-r*| (from |r*+r₀| ≤ 5r*/2) and r₀² ≥ r*²/4 (from r₀ > r*/2), combined with `rate_initial`. These give the same bound (5/2)·δ·exp·r*⁵ from both sides, confirming the constant is tight.
 
 `lorentzian_explicit_sq_lt_rstar` proves **forward invariance of the sublevel set** {r² < r*²}: when r₀² < r*² the solution satisfies r(t)² < r*² for all t ≥ 0. Proof: from `lorentzian_explicit_sq`, r(t)² = w(t)⁻¹; and A = 1/r₀²-B > 0 (by `inv_lt_inv₀` applied to r₀² < r*² = B⁻¹, converting to B < 1/r₀²); so w(t) = A·exp(-μt)+B > B for all t ≥ 0; then `inv_lt_inv₀ hw_pos hB_pos` converts w(t) > B to w(t)⁻¹ < B⁻¹ = r*². The key lemma call is `rw [inv_lt_inv₀ hw_pos hB_pos]` (positivity of w and B as first arguments), and A > 0 is proved via `div_lt_div_iff₀` + `mul_lt_mul_of_pos_left hr₀_sq_lt hK` + `field_simp`. This gives a machine-checked proof that the sublevel set below r*² is forward-invariant under the Lorentzian ODE.
+
+`lorentzian_explicit_sq_ge_init` proves **monotone increase of r²** when r₀ < r*: r(t)² ≥ r₀² for all t ≥ 0. Proof: A > 0 and `Real.exp_le_one_iff` gives exp(-μt) ≤ 1 for t ≥ 0 and μ > 0; so w(t) = A·exp(-μt)+B ≤ A+B = 1/r₀²; then `inv_anti₀ hw_pos hw_le` (antimonotonicity of inv) gives w(t)⁻¹ ≥ (1/r₀²)⁻¹ = r₀².
+
+`lorentzian_v_exponential_decay` proves the **Gronwall V-decay**: when r₀² < r*², V(t) = r*²-r(t)² ≤ (r*²-r₀²)·exp(-K·r₀²·t). The key chain: V'(t) = -K·r(t)²·V(t) (from `v_hasDerivAt`); r(t)² ≥ r₀² (`sq_ge_init`); V(t) ≥ 0 (`sq_lt_rstar`); so V'(t) ≤ -(K·r₀²)·V(t). Then `comparison_decay` from GronwallBridge.lean gives the bound. The V(0) identity uses `lorentzian_explicit_init` (which only requires `hr₀_pos`, not all hypotheses), and `Real.sq_sqrt` (with `rw [sub_nonneg, div_le_one hK]; linarith` for nonnegativity of 1-2γ/K). This is the first explicit exponential decay rate for V: the rate K·r₀² depends only on the initial condition, not on the proximity to r*.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 
