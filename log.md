@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_strict_contraction — |r(t)-r*| < |r₀-r*| for t > 0 (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_strict_contraction)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 61)
+- index.md: regenerated (session 8, experiment 61)
+- LEAN: Real.sqrt_lt_sqrt (sq_nonneg _) hV_lt; rwa [Real.sqrt_sq_eq_abs, ...] — three lines.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | two_traj_dist — triangle inequality bound between trajectories (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_two_traj_dist)
