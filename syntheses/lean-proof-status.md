@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 116 files. Complete Lorentzian trichotomy: lorentzian_convergence_from_ode covers all K>2γ, r(0)∈(0,1) via lt_trichotomy on r(0) vs r*. The r(0)=r* case uses ODE_solution_unique_of_mem_Icc_right (Gronwall forward uniqueness). 3430 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 116 files (+ NPoleContinuumBridge.lean = 117 files). Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ, r(0)∈(0,1) via lt_trichotomy; r(0)=r* by Gronwall forward uniqueness. NPoleContinuumBridge.lean instantiates both ContinuumGlobalStability proof paths from n-pole ODE data. PassageToLimit.lean grounding theorems connect True placeholders to proved results. 3431 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -84,7 +84,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **116** |
-| Comprehensive build | **3430 build jobs** |
+| Comprehensive build | **3431 build jobs** |
+| Total .lean files | **117** (NPoleContinuumBridge added) |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -477,6 +478,53 @@ Closes the continuum Lyapunov gap V∞ → L = 0 by two independent paths:
 **Path A** (Coercive Barbalat): pair coercivity + persistence → V drops by q < 1 infinitely often → ContinuumBarbalat → V → 0.
 
 **Path B** (Scalar Asymptotic Autonomy): r → r* (MainTheorem) → each α(ω,t) → α*(ω) (scalar_oa_decay_rate + discrete_decay_with_perturbation) → dominated convergence → V∞ → 0.
+
+## N-Pole to Continuum Bridge (NPoleContinuumBridge.lean)
+
+**Status**: 0 sorry. NEW FILE (Experiment 1, session 7).
+
+Instantiates both abstract proof paths of ContinuumGlobalStability from n-pole ODE data via `NPoleStabilityData`.
+
+### Path B: Direct field mapping (ContinuumPointwiseData)
+
+`l2Distance(c, α(m), α*)` satisfies all three `ContinuumPointwiseData` fields directly:
+
+| Field | Source | Status |
+|---|---|---|
+| `hV_nn`: V(m) ≥ 0 | `l2Distance_nonneg` | **proved** |
+| `hV_anti`: V non-increasing | `NPoleStabilityData.hV_mono` | **proved** |
+| `hV_zero`: V → 0 | `npole_stability_l2` (Barbalat) | **proved** |
+
+`npole_convergence_via_path_b`: l2Distance(c, α(m), α*) → 0 as m → ∞.
+
+### Path A: Step-function lift (CoerciveConvergenceData)
+
+Step lift `stepLift V t = V(Int.toNat ⌊t⌋)` embeds discrete V into continuous antitone:
+
+| Theorem | Method | Status |
+|---|---|---|
+| `stepLift_antitone` | Int.floor_le_floor + Int.toNat_le_toNat + nat_antitone_succ | **proved** |
+| `stepLift_drops` | Nat.ceil T as threshold; Nat.le_ceil + exact_mod_cast | **proved** |
+| `NPoleStabilityData.toCoerciveConvergenceData` | q, Δ=1, hΔ=one_pos | **proved** |
+
+`npole_convergence_via_path_a`: stepLift(l2Distance) → 0 via coercive_convergence.
+
+The key insight: `stepLift_drops` uses `Nat.ceil T` (not `Int.toNat ⌈T⌉`) to get `T ≤ m` via `Nat.le_ceil` + `exact_mod_cast`. This avoids the `le_or_lt` tactic which was not in scope.
+
+## PassageToLimit Grounding Theorems (PassageToLimit.lean)
+
+**New section added (Experiment 2, session 7)**.
+
+Two grounding theorems connect the `True` placeholder hypotheses to actual proved results:
+
+| Theorem | Delegates to | Status |
+|---|---|---|
+| `npole_convergence_proved` | `trifurcation_from_ode` (InvariantBox.lean) | **proved** |
+| `npole_exp_decay_proved` | `FullChainData.eventual_exponential_V` (EventualRate.lean) | **proved** |
+
+`npole_convergence_proved`: for any `NPoleODEData n` with `0 < n` and `Σ c_k = 1`, ∃ r_limit ∈ [0,1] with r(t) → r_limit. Covers all K > 0 via trifurcation_from_ode's lt_trichotomy dispatch.
+
+`npole_exp_decay_proved`: shows the exponential rate μ = K·(δ*/2)·δ* (independent of n) available from `FullChainData.exp_rate`, enabling the uniform-in-n passage to limit argument.
 
 ## Minimal Proof (MinimalProof.lean)
 

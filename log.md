@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-04-27] experiment | NPoleContinuumBridge + PassageToLimit grounding (117 files, 3431 jobs)
+
+- created: KuramotoLean/NPoleContinuumBridge.lean (Path B: NPoleStabilityData → ContinuumPointwiseData via direct field mapping; Path A: stepLift construction → CoerciveConvergenceData)
+- updated: KuramotoLean/KuramotoLean.lean (+import KuramotoLean.NPoleContinuumBridge)
+- updated: KuramotoLean/PassageToLimit.lean (+import InvariantBox, +import EventualRate, +npole_convergence_proved, +npole_exp_decay_proved)
+- updated: syntheses/lean-proof-status.md (+NPoleContinuumBridge section, +PassageToLimit grounding section, updated build count 3431)
+- index.md: regenerated
+- LEAN Exp 1: `NPoleStabilityData.toContinuumPointwiseData` — direct field mapping for Path B. `npole_convergence_via_path_b` delegates to `pointwise_convergence`.
+- LEAN Exp 1: `stepLift`, `stepLift_antitone`, `stepLift_drops`, `NPoleStabilityData.toCoerciveConvergenceData`, `npole_convergence_via_path_a` — Path A via step-function lift. Key fix: use `Nat.ceil T` (not `Int.toNat ⌈T⌉`) for T ≤ m bound via `Nat.le_ceil` + `exact_mod_cast`.
+- LEAN Exp 2: `npole_convergence_proved` — wraps `trifurcation_from_ode` to ground `h_npole : True` placeholder.
+- LEAN Exp 2: `npole_exp_decay_proved` — wraps `FullChainData.eventual_exponential_V` to show uniform exponential rate μ = K·(δ*/2)·δ* independent of n.
+- Build: 3431 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | lorentzian_convergence_from_ode: full trichotomy closing r(0)=r* case
 
 - updated: KuramotoLean/LorentzianFromODE.lean (+r_constant_at_rstar, +lorentzian_at_rstar_convergence, +lorentzian_convergence_from_ode)
