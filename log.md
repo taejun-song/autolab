@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | w_exponential_decay: above-equilibrium Gronwall decay (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+sq_gt_rstar, +sq_le_init, +w_exponential_decay)
+- updated: syntheses/lean-proof-status.md (+3 above-equilibrium entries)
+- index.md: regenerated (session 8, experiment 16)
+- LEAN: sq_gt_rstar — forward invariance {r²>r*²} when r₀>r* (via A<0→w<B→w⁻¹>B⁻¹). sq_le_init — r(t)²≤r₀² when r₀>r* (via A<0 and exp≤1→w≥1/r₀²→inv_anti₀). w_exponential_decay — r(t)²-r*² ≤ (r₀²-r*²)·exp(-K·r*²·t) via comparison_decay with W'=K·r²·(r*²-r²)≤K·r*²·(r*²-r²) (nlinarith sq_nonneg).
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_from_v_decay: |r(t)-r*| ≤ (r*²-r₀²)·exp(-K·r₀²·t)/r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_r_from_v_decay)
