@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_uniform_exp_decay — r(t)≥δ globally → V≤V(0)·exp(-Kδr*t) (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_uniform_exp_decay)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 72)
+- index.md: regenerated (session 8, experiment 72)
+- LEAN: one-liner corollary of v_persistence_drop at t₀=0. Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_persistence_drop — r(t)≥δ on [t₀,t₀+Δ] → V drops by exp(-Kδr*Δ) (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_persistence_drop)

@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, V' ODE, exp bounds (below/above/unified/lower), distance bounds (below/above/unified/lower/trap), convergence times (below/above/unified), V antitone, V positivity/zero characterization, V coefficient bounds, interval decay (semigroup shift), persistence drop (comparison_decay_interval). 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, V' ODE, exp bounds (below/above/unified/lower), distance bounds (below/above/unified/lower/trap), convergence times (below/above/unified), V antitone, V positivity/zero characterization, V coefficient bounds, interval decay, persistence drop, uniform exp decay. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -687,6 +687,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_r_in_ball`: r(t) ∈ [r*-\|r₀-r*\|, r*+\|r₀-r*\|] for all t ≥ 0 | **proved** |
 | `lorentzian_lyapunov_v_interval_decay`: V(t₀+Δ) ≤ V(t₀)·exp(-K·min(r(t₀),r*)·r*·Δ) for 0≤t₀, 0≤Δ | **proved** |
 | `lorentzian_lyapunov_v_persistence_drop`: r(t)≥δ on [t₀,t₀+Δ] → V(t₀+Δ) ≤ V(t₀)·exp(-K·δ·r*·Δ) | **proved** |
+| `lorentzian_lyapunov_v_uniform_exp_decay`: r(t)≥δ for all t≥0 → V(t) ≤ V(0)·exp(-K·δ·r*·t) | **proved** |
 
 ### Key Proof Steps
 
@@ -740,6 +741,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Regime-specific traps (experiment 59)**: `lorentzian_lyapunov_r_trap_below` and `lorentzian_lyapunov_r_trap_above` specialize the universal trap to each regime. Both are one-liner conjunctions pairing `r_dist_lb` with the regime-specific upper bound (`r_dist_below'` or `r_dist_above`). Below-r*: rate pair (K, K·r₀·r*/2); above-r*: rate pair (K, K·r*²=K-2γ). For trajectories starting above r*, the upper rate K·r*² = K-2γ equals the linearized rate — tight, not a loose bound. The lower bound K is always a weaker (slower-decay) floor valid universally, while the upper bound is tight near r*. This gives a complete two-rate picture for each regime, machine-checked.
 
 **Two-sided exponential trap (experiment 58)**: `lorentzian_lyapunov_r_trap` packages `r_dist_lb` (lower bound) and `r_dist` (upper bound) as a single conjunction: `⟨r_dist_lb ..., r_dist ...⟩`. The proof is a one-liner — both sub-theorems are already available. The result is a machine-checked sandwich: for all t ≥ 0 and r₀ ≠ r*, the distance |r(t)-r*| is exponentially trapped between |r₀-r*|·exp(-K·t) and |r₀-r*|·exp(-K·min(r₀,r*)·r*/2·t). This is the Lorentzian analog of the classical two-sided Gronwall estimate: the lower bound proves the orbit does not converge too fast (no super-exponential collapse), while the upper bound proves global exponential convergence. For r₀ → r*, both rates approach K-2γ (the linearized rate), confirming exponential stability is sharp at the linearization. This closes the Lyapunov distance analysis for the Lorentzian ODE: existence, convergence, rate (upper), rate (lower), trap — all machine-verified.
+
+**V uniform exponential decay from global persistence (experiment 72)**: `lorentzian_lyapunov_v_uniform_exp_decay` proves V(t) ≤ V(0)·exp(-K·δ·r*·t) whenever r(t) ≥ δ for all t ≥ 0. One-line proof: apply `v_persistence_drop` at t₀=0, Δ=t, then rewrite `0+t → t` (zero_add) and `(r(0)-r*)² → (r₀-r*)²` (v_at_zero). This is the global form of the persistence drop — when the persistence bound δ holds uniformly over the whole timeline, the V decay is globally exponential at rate K·δ·r*. Combined with `r(t) → r*` (so liminf r > 0 gives eventual δ-persistence), this provides the bridge between the asymptotic dynamics and quantitative decay rates.
 
 **Persistence drop (experiment 71)**: `lorentzian_lyapunov_v_persistence_drop` proves V(t₀+Δ) ≤ V(t₀)·exp(-K·δ·r*·Δ) whenever r(t) ≥ δ for all t ∈ [t₀, t₀+Δ]. The proof applies `comparison_decay_interval` with V'(t) = -(K·r(t)·(r(t)+r*)·V(t)) from `v_deriv_formula`. The coefficient bound K·r(t)·(r(t)+r*) ≥ K·δ·r* follows from two steps: first `r(t) ≥ δ` → `K·r(t)·r* ≥ K·δ·r*`; then `r(t)+r* ≥ r*` → `K·r(t)·(r(t)+r*) ≥ K·r(t)·r*`. The `ContinuousOn V` comes from restricting `lorentzian_explicit_continuousOn` to [t₀, t₀+Δ] ⊆ [0,∞). The `HasDerivAt` at interior points uses `ht₀ ≤ t` (since `t ∈ (t₀, t₀+Δ)` and `ht₀ : 0 ≤ t₀`). This is the key building block for persistence-based Barbalat arguments: if a trajectory spends Δ time with r ≥ δ, V drops by exp(-K·δ·r*·Δ) regardless of what happened before, enabling iterative drop constructions that chain into V → 0 via Barbalat.
 
