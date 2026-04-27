@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | w_semigroup + explicit_semigroup — ODE flow semigroup property (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_w_semigroup, +lorentzian_explicit_semigroup)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 37)
+- LEAN: `lorentzian_w_semigroup` — w(t₁+t₂,r₀)=w(t₂,r(t₁,r₀)); proof: lorentzian_explicit_sq gives 1/r(t₁)²=w(t₁); hkey rewrites coefficient 1/r(t₁)²-B=(1/r₀²-B)·exp(-μt₁); then exp_add+ring closes. `lorentzian_explicit_semigroup` — r(t₁+t₂,r₀)=r(t₂,r(t₁,r₀)); proof: have h:=w_semigroup; simp only [lorentzian_explicit, h]. Key fix: cannot simp then rw separately — must pass h into simp to avoid unfolded-form mismatch.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | ne_rstar + sq_diff_ne_zero — orbit avoids equilibrium in finite time (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_ne_rstar, +lorentzian_sq_diff_ne_zero)
