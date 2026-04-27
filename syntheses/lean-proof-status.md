@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: Gronwall chain, tendsto, ode_global_stability, unique, rstar_mono_K, rstar_anti_gamma, rstar_lt_one, rstar_tendsto_one (K→∞ limit). 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: Gronwall chain, tendsto, ode_global_stability, unique, parameter monotonicity, rstar_lt_one, rstar_tendsto_one, w_func_diff (Bernoulli linearization). 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -622,6 +622,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_rstar_anti_gamma`: γ₁ < γ₂ → r*(K,γ₂) < r*(K,γ₁) (PLS decreasing in damping) | **proved** |
 | `lorentzian_rstar_lt_one`: r*(K,γ) < 1 for all K > 2γ (PLS never full synchronization) | **proved** |
 | `lorentzian_rstar_tendsto_one`: Tendsto r*(K,γ) atTop (nhds 1) as K → ∞ (strong coupling limit) | **proved** |
+| `w_func_diff`: w(t,r₀) - w(t,r₀') = (1/r₀²-1/r₀'²)·exp(-μt) (Bernoulli linearizes init-data) | **proved** |
+| `w_func_diff_tendsto`: \|w(t,r₀) - w(t,r₀')\| → 0 as t → ∞ | **proved** |
 
 ### Key Proof Steps
 
@@ -649,6 +651,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Continuous-time ODE convergence (experiment 21)**: `LorentzianContinuousSolution.tendsto` proves that any solution of the Lorentzian ODE converges to r* in continuous time: `Tendsto S.r atTop (nhds r*)`. The proof uses `Tendsto.congr'` with `eq_explicit` to identify S.r with the explicit Bernoulli formula for all t > 0 (eventually in atTop), then applies `lorentzian_explicit_tendsto` directly. `lorentzian_ode_continuous_convergence` packages this into the ultimate parameter-only theorem: for any K > 2γ and r₀ ∈ (0,1), there exists a solution r(t) with r(0) = r₀ and r(t) → r* as t → ∞, with zero external hypotheses.
 
 **Parameter monotonicity (experiment 26)**: `lorentzian_rstar_mono_K` and `lorentzian_rstar_anti_gamma` prove that the Lorentzian equilibrium r* = √(1-2γ/K) is strictly monotone in parameters. Increasing coupling K (with γ fixed) increases r* — more coupling → larger partially locked state. Increasing damping γ (with K fixed) decreases r* — more damping → smaller PLS. Both proofs reduce to `Real.sqrt_lt_sqrt` applied to the inequality 1-2γ/K₁ < 1-2γ/K₂ (resp. 1-2γ₂/K < 1-2γ₁/K), which follows from `div_lt_div_iff₀` + `nlinarith`. These are the Lorentzian explicit analogs of `BifurcationMonotonicity` (which works for general g) — now machine-checked directly from the formula r* = √(1-2γ/K).
+
+**Bernoulli linearization (experiment 28)**: `w_func_diff` proves the exact identity w(t,r₀) - w(t,r₀') = (1/r₀²-1/r₀'²)·exp(-μt). The B = K/(K-2γ) terms cancel algebraically (proof: `simp [w_func]; ring`). This is the key structural fact about the Bernoulli transform: it linearizes the initial-data dependence. `w_func_diff_tendsto` proves |w(t,r₀) - w(t,r₀')| → 0 as t → ∞ by `simp_rw [abs_mul, abs_of_pos (Real.exp_pos _)]` + `tendsto_inv_atTop_zero.const_mul`. Together these show the Bernoulli transform contracts any two initial conditions at the uniform rate μ = K-2γ.
 
 **Global boundary behavior (experiment 27)**: `lorentzian_rstar_lt_one` proves r*(K,γ) < 1 for all supercritical (K,γ) — the PLS is always strictly below full synchronization in the Lorentzian case. Proof: calc through Real.sqrt_one via sqrt_lt_sqrt. `lorentzian_rstar_tendsto_one` proves the strong coupling limit: Tendsto (fun K => r*(K,γ)) atTop (nhds 1). Proof: 2γ/K → 0 via `tendsto_inv_atTop_zero.const_mul + congr`; then `tendsto_const_nhds.sub` gives 1-2γ/K → 1; then `continuous_sqrt.continuousAt.tendsto.comp` + `sqrt_one` closes. These establish the complete picture: r* is bounded in (0,1), increases with K from 0 (at K=2γ) to 1 (at K=∞).
 

@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | w_func_diff + w_func_diff_tendsto — Bernoulli linearization of init-data (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+w_func_diff, +w_func_diff_tendsto)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 28)
+- LEAN: `w_func_diff` — exact algebraic identity w(t,r₀)-w(t,r₀')=(1/r₀²-1/r₀'²)·exp(-μt); proof: simp[w_func];ring (B-terms cancel). `w_func_diff_tendsto` — |w diff|→0; proof: simp_rw[abs_mul,abs_of_pos]+tendsto_inv_atTop_zero+const_mul. Key insight: Bernoulli transform linearizes initial-data dependence.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | rstar_lt_one + rstar_tendsto_one — global boundary behavior (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_rstar_lt_one, +lorentzian_rstar_tendsto_one)
