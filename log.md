@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution classical stability — v_pos, r_strict_contraction, dist_tendsto_zero, lyapunov_stable (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+4 theorems, forward ref fix for lyapunov_stable)
+- updated: syntheses/lean-proof-status.md (+4 entries for experiments 91-94)
+- index.md: regenerated (session 8, experiment 94)
+- LEAN: v_pos via sq_pos_of_ne_zero + ne_rstar; r_strict_contraction via eq_explicit_of_nonneg; dist_tendsto_zero via tendsto.sub_const + .abs; lyapunov_stable placed after dist_le_init. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution.dist_trap — two-sided exponential trap lifted to ODE solution (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.dist_trap)

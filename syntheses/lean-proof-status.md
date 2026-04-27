@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (15 theorems) — v_exp, dist, v_nonincreasing, v_le_init, dist_le_init, r_in_ball, v_lb, dist_lb, dist_trap, v_interval_decay, v_persistence_drop, v_uniform_exp_decay, r_dist_from_persist, convergence_time, two_traj_sync. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (19 theorems) — v_exp, dist, v_pos, v_nonincreasing, v_le_init, v_lb, dist_le_init, dist_lb, dist_trap, dist_tendsto_zero, r_in_ball, r_strict_contraction, lyapunov_stable, v_interval_decay, v_persistence_drop, v_uniform_exp_decay, r_dist_from_persist, convergence_time, two_traj_sync. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -706,6 +706,10 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.v_lb`: V(t) ≥ (S.r 0-r*)²·exp(-2K·t) for all t ≥ 0 | **proved** |
 | `LorentzianContinuousSolution.dist_lb`: \|S.r t-r*\| ≥ \|S.r 0-r*\|·exp(-K·t) for all t ≥ 0 | **proved** |
 | `LorentzianContinuousSolution.dist_trap`: \|S.r 0-r*\|·exp(-Kt) ≤ dist ≤ \|S.r 0-r*\|·exp(-μt) for S.r 0≠r* | **proved** |
+| `LorentzianContinuousSolution.v_pos`: V(t) > 0 for all t ≥ 0 when S.r 0 ≠ r* | **proved** |
+| `LorentzianContinuousSolution.r_strict_contraction`: \|S.r t-r*\| < \|S.r 0-r*\| for t > 0, S.r 0≠r* | **proved** |
+| `LorentzianContinuousSolution.dist_tendsto_zero`: \|S.r t-r*\| → 0 as t → ∞ | **proved** |
+| `LorentzianContinuousSolution.lyapunov_stable`: \|S.r 0-r*\|<ε → \|S.r t-r*\|<ε for all t≥0 | **proved** |
 
 ### Key Proof Steps
 
@@ -767,6 +771,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Convergence time lifted to LorentzianContinuousSolution (experiment 80)**: `LorentzianContinuousSolution.convergence_time_from_persist` gives the explicit ε-time T = log((S.r 0 - r*)²/ε²)/(K·δ·r*) for any abstract ODE solution with global persistence. Uses the same lifting pattern: `rw [eq_explicit_of_nonneg t ht, ...]` + `lorentzian_explicit_init` to convert the goal, then `exact lorentzian_lyapunov_convergence_time_from_persist ...` with persistence converted via `(S.eq_explicit_of_nonneg s hs) ▸ h_persist s hs`. This closes the abstract-solution convergence-time chain: after experiment 78 gives V decay and 79 gives distance decay, 80 gives the quantitative time-to-ε.
 
 **Distance from persistence lifted to LorentzianContinuousSolution (experiment 79)**: `LorentzianContinuousSolution.r_dist_from_persist` gives |S.r t - r*| ≤ |S.r 0 - r*|·exp(-K·δ·r*/2·t) for any ODE solution with global persistence S.r t ≥ δ. Same lifting pattern: rewrite via `eq_explicit_of_nonneg` + `lorentzian_explicit_init`, then `exact lorentzian_lyapunov_r_dist_from_persist ...` with the persistence-conversion `(S.eq_explicit_of_nonneg s hs) ▸ h_persist s hs`. This is the abstract-solution distance-decay companion to the explicit-formula version (experiment 73).
+
+**Classical stability package lifted to LorentzianContinuousSolution (experiments 91–94)**: `v_pos` proves V(t) > 0 by `sq_pos_of_ne_zero (sub_ne_zero.mpr (...))` — the orbit never reaches r* — after `eq_explicit_of_nonneg`. `r_strict_contraction` gives |S.r t - r*| < |S.r 0 - r*| for t > 0 by `eq_explicit_of_nonneg + explicit_init` then `lorentzian_lyapunov_r_strict_contraction`. `dist_tendsto_zero` proves |S.r t - r*| → 0 via `S.tendsto.sub_const + .abs + simp [abs_zero]`. `lyapunov_stable` is the formal Lyapunov stability theorem: |S.r 0 - r*| < ε → |S.r t - r*| < ε for all t ≥ 0, proved by `(S.dist_le_init t ht).trans_lt hε` — a one-liner using the abstract universal bound. Note: `lyapunov_stable` required placing after `dist_le_init` (forward reference fix). Together these four theorems complete the classical stability picture for any `LorentzianContinuousSolution`: positivity, strict contraction, convergence, and Lyapunov stability — all without reference to the explicit Bernoulli formula.
 
 **Two-sided trap, lower bounds, ball lifted to LorentzianContinuousSolution (experiments 86–90)**: `dist_le_init` (|S.r t-r*| ≤ |S.r 0-r*|) and `r_in_ball` follow from `v_le_init` via `Real.sqrt_le_sqrt + sqrt_sq_eq_abs` and `abs_le` respectively — one-liner proofs. `v_lb` and `dist_lb` give the lower exponential bounds: V(t) ≥ V(0)·exp(-2Kt) and |S.r t-r*| ≥ |S.r 0-r*|·exp(-Kt), using the same `eq_explicit_of_nonneg + explicit_init` lifting pattern before applying the explicit-formula versions. `dist_trap` combines `dist_lb` (lower) and `r_dist_bound` (upper) as a single conjunction `⟨S.dist_lb t ht, S.r_dist_bound hr₀_ne t ht⟩` — a one-line proof that the abstract distance is exponentially trapped between two rates. This closes the two-sided Lyapunov analysis for `LorentzianContinuousSolution`: every bound available for the explicit Bernoulli formula is now machine-verified for any abstract ODE solution.
 
