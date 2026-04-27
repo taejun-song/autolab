@@ -1,5 +1,26 @@
 # Activity Log
 
+## [2026-04-27] experiment | LorentzianSolution gap CLOSED: toLorentzianSolution_noninc now 0 assumed (116 files)
+
+- updated: KuramotoLean/LorentzianFromODE.lean (removed hpersist external parameter; derived via hpersist_from_convergence)
+- updated: syntheses/lean-proof-status.md (0 assumed fields for both constructors; gap CLOSED)
+- LEAN: `toLorentzianSolution_noninc` now takes no external persistence hypothesis. hpersist is derived internally via `S.hpersist_from_convergence`, which uses `parametric_convergence_from_ode` (already in scope via InvariantBox → GlobalStabilitySupercritical). The full chain: ODE → n-pole NPoleODEData → instability escape → V-drops → r → r* > 0 → liminf r > 0.
+- `lorentzian_noninc_convergence` signature simplified: `(S) (hr_noninc) →` (hpersist parameter removed).
+- **Primary metric**: LorentzianSolution assumed fields = **0** (both constructors, all initial conditions).
+- **Sorry count**: 0 (116 files)
+- index.md: regenerated
+
+## [2026-04-27] experiment | toLorentzianSolution_noninc: non-increasing constructor added; hlyap_from_nonincreasing proved (116 files)
+
+- updated: KuramotoLean/LorentzianFromODE.lean (+lorentzian_sum_right_eq, +lorentzian_lyap_step_noninc, +lorentzian_hlyap_noninc_raw, +hlyap_from_nonincreasing, +toLorentzianSolution_noninc, +lorentzian_noninc_convergence)
+- updated: syntheses/lean-proof-status.md (noninc constructor section added)
+- LEAN: `hlyap_from_nonincreasing` — right Riemann sum bound: W(n) ≤ W(0)·exp(2K)·exp(-2Ψ(n)) for non-increasing r. Key step: Σ_right = Ψ(n) + K·(r(n)²-r(0)²) ≥ Ψ(n) - K, so exp(-2·Σ_right) ≤ exp(2K)·exp(-2Ψ(n)).
+- LEAN: `toLorentzianSolution_noninc` — constructor for r(0) ≥ r* with hlyap_coeff = W(0)·exp(2K)+1 (1 assumed: persistence)
+- LEAN: `lorentzian_noninc_convergence` — r(n) → r* for non-increasing ODE solutions
+- **Key fix**: `lorentzian_lyap_step_noninc` needed `simp only [← h_cast] at hV_bound` to normalize ↑(m+1) → ↑m+1 before passing to comparison_decay_interval; exp_add step used `ring` not `mul_assoc`
+- **Sorry count**: 0 (116 files)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | toLorentzianSolution_nondec: all LorentzianSolution fields proved from ODE (116 files)
 
 - updated: KuramotoLean/LorentzianFromODE.lean (+toLorentzianSolution_nondec, +lorentzian_nondec_convergence, +LorentzianEnvelope import)

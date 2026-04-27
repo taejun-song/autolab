@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 116 files. toLorentzianSolution_nondec: ALL LorentzianSolution fields proved from ODE for non-decreasing r (0 assumed). lorentzian_nondec_convergence: r(n) → r* with 0 external hypotheses beyond the ODE solution.
+Machine-checked proof status: 0 sorry, 0 axioms across 116 files. Two ODE-derived constructors: toLorentzianSolution_nondec (0 assumed) and toLorentzianSolution_noninc (0 assumed). Both prove ALL LorentzianSolution fields from the ODE alone — **LorentzianSolution gap CLOSED**.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -61,8 +61,9 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **116** (+toLorentzianSolution_nondec) |
+| Total .lean files | **116** |
 | Comprehensive build | **115/115 imports** (all name conflicts resolved via namespaces) |
+| LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
 
@@ -155,22 +156,41 @@ The proof uses the Lyapunov envelope V(n) = W₀·exp(-2Ψ(n))/r*² where W₀ =
 
 ### ODE-Derived Constructor (LorentzianFromODE.lean)
 
-**Status**: 0 sorry. 116 files.
+**Status**: 0 sorry. 116 files. Two constructors: nondec and noninc.
 
-`toLorentzianSolution_nondec`: For a continuous ODE solution with non-decreasing r (r(0) ≤ r*), ALL `LorentzianSolution` fields are proved from the ODE — **0 assumed**.
+#### Non-decreasing constructor (`toLorentzianSolution_nondec`)
+
+For a continuous ODE solution with non-decreasing r (r(0) ≤ r*), ALL `LorentzianSolution` fields are proved from the ODE — **0 assumed**.
 
 | Field | Method | Status |
 |---|---|---|
 | `hr_bdd` | InvariantBox lower/upper barrier | **proved** |
 | `hr_lip` | ODE velocity bound ≤ K-γ via MVT | **proved** |
 | `hpersist` | Trivial: r(n) ≥ r(0) > 0 (non-decreasing) | **proved** |
-| `hlyap` | Left Riemann sum ≤ integral for non-decreasing r² | **proved** |
+| `hlyap` | Left Riemann sum ≤ integral (non-decreasing r²) | **proved** |
+| `hlyap_coeff` | W(0)² + 1 | **proved** |
 
-`lorentzian_nondec_convergence`: r(n) → r* with 0 assumed fields. Chain: ODE existence → invariance → lip bound → persistence → Lyapunov → envelope stability.
+`lorentzian_nondec_convergence`: r(n) → r* with 0 assumed fields.
 
-**Mathematical note on hlyap for non-decreasing r**: The identity W'(t) = -2Kr²W gives W(t) = W(0)·exp(-2K∫₀ᵗ r²ds) (exact). For non-decreasing r, ∫₀ⁿ r² ≥ Σₖ₌₀ⁿ⁻¹ r(k)² (left Riemann sum ≤ integral), so W(n) ≤ W(0)·exp(-2Ψ(n)). For non-increasing r the inequality reverses — hlyap as stated fails. The non-decreasing case (r starting below PLS, converging up) is the physically natural convergence from partial synchrony to full PLS.
+#### Non-increasing constructor (`toLorentzianSolution_noninc`)
 
-This is the cleanest Lorentzian instance: works for ALL K > 2γ with only the `LorentzianSolution` structure.
+For a continuous ODE solution with non-increasing r (r(0) ≥ r*), ALL `LorentzianSolution` fields are proved from the ODE — **0 assumed**.
+
+| Field | Method | Status |
+|---|---|---|
+| `hr_bdd` | InvariantBox lower/upper barrier | **proved** |
+| `hr_lip` | ODE velocity bound ≤ K-γ via MVT | **proved** |
+| `hpersist` | `hpersist_from_convergence` (ODE → parametric_convergence_from_ode) | **proved** |
+| `hlyap` | Right Riemann sum: W(n) ≤ W(0)·exp(2K)·exp(-2Ψ(n)) | **proved** |
+| `hlyap_coeff` | W(0)²·exp(2K) + 1 | **proved** |
+
+`lorentzian_noninc_convergence`: r(n) → r* with **0 assumed fields**.
+
+**Key insight for hpersist**: `hpersist_from_convergence` derives persistence from `parametric_convergence_from_ode` (already imported via InvariantBox → GlobalStabilitySupercritical). The n-pole convergence chain (instability escape → V-drops → Barbalat → r → r*) proves r → r* > 0, giving liminf r > 0 without any external hypothesis. The parameter was simply unnecessary.
+
+**Mathematical note on hlyap**: The identity W'(t) = -2Kr²W gives W(t) = W(0)·exp(-2K∫₀ᵗ r²ds). For non-decreasing r, the left Riemann sum Ψ(n) = Σ r(k)² ≤ ∫₀ⁿ r²dt so W(n) ≤ W(0)·exp(-2Ψ(n)). For non-increasing r, the LEFT sum overestimates the integral by at most K·r(0)² ≤ K, giving W(n) ≤ W(0)·exp(2K)·exp(-2Ψ(n)). The factor exp(2K) is absorbed into hlyap_coeff. Both cases use right Riemann sum: Σ r(k+1)² = Ψ(n) + K·(r(n)²-r(0)²) ≥ Ψ(n) - K.
+
+Both constructors work for ALL K > 2γ with only the `LorentzianSolution` structure and **0 assumed fields**.
 
 ## L² Exponential Rate (L2Lyapunov.lean)
 
