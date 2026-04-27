@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | rstar_const + lyapunov_stable — equilibrium trajectory + Lyapunov stability (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_rstar_const, +lorentzian_explicit_lyapunov_stable)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 40)
+- LEAN: `rstar_const` — r(t,r*)=r*; proof: heq: 1/r*²=K/(K-2γ) via field_simp; simp [w_func, heq, sub_self, zero_mul, zero_add] collapses to sqrt((K/(K-2γ))⁻¹)=r*; congr 1+field_simp closes. `lyapunov_stable` — ∀ε>0, δ=ε works; proof: eq_or_ne dispatch; r₀=r*: rstar_const+abs_zero; t=0: lorentzian_explicit_init; t>0: calc via dist_strict_decreasing at s=0.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | dist_strict_decreasing — |r(t)-r*| strictly decreasing in time (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_dist_strict_decreasing)
