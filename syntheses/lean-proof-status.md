@@ -658,6 +658,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_v_exp_bound_above`: r* < r₀ → V(t) ≤ V(0)·exp(-2K·r*²·t) (Lyapunov bound above) | **proved** |
 | `lorentzian_lyapunov_v_exp_bound`: r₀≠r* → V(t) ≤ V(0)·exp(-K·min(r₀,r*)·r*·t) (unified) | **proved** |
 | `lorentzian_lyapunov_r_dist_below`: r₀<r* → \|r(t)-r*\| ≤ \|r₀-r*\|·exp(-K·r₀·r*/2·t) | **proved** |
+| `lorentzian_lyapunov_r_dist_below'`: cleaner form, √((r₀-r*)²) → \|r₀-r*\| | **proved** |
+| `lorentzian_lyapunov_r_dist_above`: r*<r₀ → \|r(t)-r*\| ≤ \|r₀-r*\|·exp(-K·r*²·t) | **proved** |
 
 ### Key Proof Steps
 

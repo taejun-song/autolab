@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_dist bounds — cleaner form + above case (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+r_dist_below', +r_dist_above)
+- updated: syntheses/lean-proof-status.md (+2 entries)
+- index.md: regenerated (session 8, experiment 49)
+- LEAN: r_dist_below' rwa sqrt_sq_eq_abs; r_dist_above uses order_parameter_exp_decay with 2K·r*² then ring_nf for -(2K·r*²)/2 = -K·r*².
+- Build: 3336 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_dist_below — |r(t)-r*|≤|r₀-r*|·exp(-K·r₀·r*/2·t) (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+import ExplicitRate, +lorentzian_lyapunov_r_dist_below)
