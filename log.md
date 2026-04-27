@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | rate_eq_linearized + v_decay_uniform (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+rate_eq_linearized, +v_decay_uniform)
+- updated: syntheses/lean-proof-status.md (+2 entries)
+- index.md: regenerated (session 8, experiment 19)
+- LEAN: `lorentzian_rate_eq_linearized`: K·r*² = K-2γ — Gronwall W-decay rate equals linearized rate at r*. Proof: rw sq_sqrt + field_simp. `lorentzian_v_decay_uniform`: for r₀≥δ, V(t)≤V(0)·exp(-K·δ²·t). Via exp_le_exp + pow_le_pow_left₀.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | unified_rate: |r(t)-r*| ≤ |r₀²-r*²|·exp(-K·min(r₀²,r*²)·t)/r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_unified_rate)

@@ -607,6 +607,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_w_exponential_decay`: r₀² > r*² → r(t)²-r*² ≤ (r₀²-r*²)·exp(-K·r*²·t) | **proved** |
 | `lorentzian_r_from_w_decay`: r₀² > r*² → \|r(t)-r*\| ≤ (r₀²-r*²)·exp(-K·r*²·t)/r* | **proved** |
 | `lorentzian_unified_rate`: r₀²≠r*² → \|r(t)-r*\| ≤ \|r₀²-r*²\|·exp(-K·min(r₀²,r*²)·t)/r* | **proved** |
+| `lorentzian_rate_eq_linearized`: K·r*² = K-2γ (Gronwall rate = linearized rate) | **proved** |
+| `lorentzian_v_decay_uniform`: r₀ ≥ δ → V(t) ≤ V(0)·exp(-K·δ²·t) (uniform rate) | **proved** |
 
 ### Key Proof Steps
 
