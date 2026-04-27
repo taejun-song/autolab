@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | neg_deriv + strictly_decreasing — monotone trajectories above r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_neg_deriv, +lorentzian_explicit_strictly_decreasing)
+- updated: syntheses/lean-proof-status.md (+2 entries)
+- index.md: regenerated (session 8, experiment 34)
+- LEAN: `lorentzian_explicit_neg_deriv` — d/dt r(t)<0 when r₀∈(r*,1); chain: sq_lt_sq'+hrstar_sq → r₀²>1-2γ/K → sq_gt_rstar → sqrt_lt_sqrt → r*<r(t)<1 → ode_neg_above_rstar → HasDerivAt.deriv. `lorentzian_explicit_strictly_decreasing` — r(t)<r(s) for 0≤s<t; uses strictAntiOn_of_deriv_neg (Mathlib).
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | pos_deriv + strictly_increasing — monotone trajectories below r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_pos_deriv, +lorentzian_explicit_strictly_increasing)

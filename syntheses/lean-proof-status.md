@@ -633,6 +633,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_fixed_point_iff`: r ≥ 0 → (ṙ=0 ↔ r=0 ∨ r=r*) (complete equilibrium characterization) | **proved** |
 | `lorentzian_explicit_pos_deriv`: r₀ < r*, t ≥ 0 → d/dt r(t) > 0 (derivative positive below r*) | **proved** |
 | `lorentzian_explicit_strictly_increasing`: r₀ < r*, 0 ≤ s < t → r(s) < r(t) (trajectory strictly increasing) | **proved** |
+| `lorentzian_explicit_neg_deriv`: r₀ ∈ (r*,1), t ≥ 0 → d/dt r(t) < 0 (derivative negative above r*) | **proved** |
+| `lorentzian_explicit_strictly_decreasing`: r₀ ∈ (r*,1), 0 ≤ s < t → r(t) < r(s) (trajectory strictly decreasing) | **proved** |
 
 ### Key Proof Steps
 
