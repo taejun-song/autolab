@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_uniform_from_ode + dist_from_gronwall — uniform decay + dist bound from abstract ODE (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: v_uniform_from_ode, dist_from_gronwall)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 66 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 132)
+- LEAN: v_uniform_from_ode: corollary of v_gronwall_from_ode with a=0, Δ=t (simpa). dist_from_gronwall: sqrt-algebra path — prove (|r0-rs|*exp(-μ/2*t))²=|r0-rs|²*exp(-μ*t) via sq+exp_add, then sqrt_le_sqrt + sqrt_sq. Rate K·δ·(δ+r*)/2 > K·δ·r*/2 since δ > 0. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.v_gronwall_from_ode — Gronwall V-bound from abstract ODE, tighter rate K·δ·(δ+r*) (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: v_gronwall_from_ode)
