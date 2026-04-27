@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | trajectory sandwich — one-sided invariance + init comparison (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+4 theorems: lt_rstar_of_init, gt_rstar_of_init, ge_r0, le_r0)
+- updated: syntheses/lean-proof-status.md (+4 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 38)
+- LEAN: `lt_rstar_of_init` — r₀<r*→r(t)<r*; proof: sq_lt_sq'+hrstar_sq→r₀²<r*²; sq_lt_rstar→r(t)²<r*²; sqrt_lt_sqrt+sqrt_sq closes. `gt_rstar_of_init` — r*<r₀→r*<r(t); dual via sq_gt_rstar+sqrt_sq on both sides. `ge_r0` — r₀<r*→r₀≤r(t); uses sq_ge_init+sqrt_le_sqrt+sqrt_sq. `le_r0` — r*<r₀→r(t)≤r₀; uses sq_le_init+sqrt_le_sqrt+sqrt_sq. Together: r₀≤r(t)<r* below, r*<r(t)≤r₀ above.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | w_semigroup + explicit_semigroup — ODE flow semigroup property (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_w_semigroup, +lorentzian_explicit_semigroup)

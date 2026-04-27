@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property. 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -640,6 +640,10 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_sq_diff_ne_zero`: r₀ ≠ r* → r(t)²-r*² ≠ 0 for all t ≥ 0 (Lyapunov V(t) > 0 until convergence) | **proved** |
 | `lorentzian_w_semigroup`: w(t₁+t₂, r₀) = w(t₂, r(t₁,r₀)) (Bernoulli linearization satisfies semigroup) | **proved** |
 | `lorentzian_explicit_semigroup`: r(t₁+t₂, r₀) = r(t₂, r(t₁,r₀)) (ODE flow semigroup property) | **proved** |
+| `lorentzian_explicit_lt_rstar_of_init`: r₀ < r* → r(t) < r* for all t ≥ 0 (sublevel set forward-invariant) | **proved** |
+| `lorentzian_explicit_gt_rstar_of_init`: r* < r₀ → r* < r(t) for all t ≥ 0 (superlevel set forward-invariant) | **proved** |
+| `lorentzian_explicit_ge_r0`: r₀ < r* → r₀ ≤ r(t) for all t ≥ 0 (trajectory non-decreasing from r₀) | **proved** |
+| `lorentzian_explicit_le_r0`: r* < r₀ → r(t) ≤ r₀ for all t ≥ 0 (trajectory non-increasing from r₀) | **proved** |
 
 ### Key Proof Steps
 
@@ -677,6 +681,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Equilibrium characterization (experiment 32)**: `lorentzian_unique_pos_fixed_point` proves that r* is the only positive zero of the Lorentzian ODE: from `lorentzian_ode_factored`, ṙ=0 factors as (K/2)·r·(r*²-r²)=0; with r>0 and K>0 both non-zero, the bracket must vanish: r²=1-2γ/K; then `Real.sqrt_sq hr_pos.le` recovers r = √(1-2γ/K) = r*. `lorentzian_fixed_point_iff` packages this into a complete iff: ṙ=0 on [0,∞) iff r=0 or r=r*. The r=0 case closes via `simp [lorentzianODE]`; the r=r* case uses `lorentzian_rstar_is_fixed_point`. Together these two theorems give the full global portrait: exactly two fixed points (0 and r*), with positive velocity between them and negative above.
 
 **Linearized instability at origin (experiment 31)**: `lorentzian_ode_hasDerivAt_zero` proves that the derivative of the Lorentzian ODE at r=0 is K/2-γ, positive for K > 2γ. The proof follows the same pattern as `ode_hasDerivAt_rstar`: construct `HasDerivAt` for the polynomial (K/2-γ)r-(K/2)r³ via `h1.sub h2`, convert via `hconv`, then `convert hderiv using 1; ring` closes the derivative value. `lorentzian_ode_neg_above_one` extends the sign analysis to all r > 1: the ODE velocity is negative (not just for r ∈ (r*,1)). The proof uses the factored form (K/2)·r·(r*²-r²) and shows r*²-r² < 0 for r > 1 via `linarith [div_pos (2γ>0) (K>0)]` (giving r*² = 1-2γ/K < 1 < r²) — much simpler than the sign analysis for r ∈ (r*,1) which required nlinarith.
+
+**Trajectory sandwich (experiment 38)**: `lorentzian_explicit_lt_rstar_of_init` and `lorentzian_explicit_gt_rstar_of_init` prove that the sublevel set {r < r*} and superlevel set {r > r*} are each forward-invariant: once a trajectory starts below (resp. above) r*, it stays there for all t ≥ 0. Both proofs follow the same chain: derive r₀² vs r*² comparison via `sq_lt_sq'`; apply `sq_lt/gt_rstar`; convert back via `sqrt_lt_sqrt` + `sqrt_sq`. `lorentzian_explicit_ge_r0` and `lorentzian_explicit_le_r0` complement these: below r*, r(t) ≥ r₀ (trajectory never retreats from initial); above r*, r(t) ≤ r₀ (trajectory never overshoots). These use `sq_ge/le_init` + `sqrt_le_sqrt` + `sqrt_sq`. Together, the four theorems establish the complete trajectory sandwich: for r₀ ∈ (0, r*), r₀ ≤ r(t) < r* for all t ≥ 0; for r₀ ∈ (r*, 1), r* < r(t) ≤ r₀ for all t ≥ 0. This is the machine-checked sandwich principle underlying every monotone convergence argument.
 
 **Semigroup property (experiment 37)**: `lorentzian_w_semigroup` proves that the Bernoulli linearization w satisfies the composition law: w(t₁+t₂, r₀) = w(t₂, r(t₁,r₀)). The proof uses `lorentzian_explicit_sq` (which gives r(t₁)² = w(t₁)⁻¹) to rewrite the coefficient 1/r(t₁)²-B as (1/r₀²-B)·exp(-μt₁), then `Real.exp_add` to factor the exponential at t₁+t₂. `lorentzian_explicit_semigroup` lifts this to the flow: r(t₁+t₂, r₀) = r(t₂, r(t₁,r₀)). Both proofs close via `simp only [lorentzian_explicit, h]; ring` — the semigroup law is purely algebraic once w_semigroup is established. This is the group law for the Lorentzian ODE flow: iterating the map t₁-time-flow then t₂-time-flow equals (t₁+t₂)-time-flow, machine-checked for all r₀ ∈ (0,1) and t₁ ≥ 0.
 
