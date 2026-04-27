@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_exp_bound — V≤V₀·exp(-μt) lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.v_exp_bound)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 76)
+- index.md: regenerated (session 8, experiment 76)
+- LEAN: eq_explicit_of_nonneg + explicit_init; placed after v_exp_bound (forward reference fix). Build: 3434 jobs.
+
 ## [2026-04-27] experiment | two_traj_sync_from_persist — bilateral persistence → synchronization (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_two_traj_sync_from_persist)
