@@ -1,5 +1,23 @@
 # Activity Log
 
+## [2026-04-28] experiment | LorentzianExistence: global ODE existence via explicit Bernoulli formula (120 files, 3434 jobs)
+
+- created: KuramotoLean/LorentzianExistence.lean
+- updated: KuramotoLean.lean (+import KuramotoLean.LorentzianExistence)
+- updated: syntheses/lean-proof-status.md (+LorentzianExistence section, updated build stats 119→120 files, 3433→3434 jobs)
+- index.md: regenerated
+- LEAN: `lorentzian_continuous_solution_exists` — for K > 2γ, r₀ ∈ (0,1), constructs a `LorentzianContinuousSolution` from the explicit Bernoulli formula r(t) = √(w(t)⁻¹) where w(t) = (1/r₀²-B)·exp(-(K-2γ)t) + B, B = K/(K-2γ). Key: `bernoulli_deriv_eq` proved by `linear_combination -(K-2γ)*h1 + K*h2` after `div_div`+`div_eq_iff`; derivative chain uses `HasDerivAt.inv` + `HasDerivAt.sqrt` + `▸` rewrite.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
+## [2026-04-27] experiment | FullChainContinuumBridge: SelfContainedData construction, order parameter convergence (119 files, 3433 jobs)
+
+- updated: KuramotoLean/FullChainContinuumBridge.lean (+toSelfContainedData + full_chain_r_tendsto)
+- updated: syntheses/lean-proof-status.md (+SelfContainedData extension section)
+- index.md: regenerated
+- LEAN: `FullChainData.toSelfContainedData` — extends Path A with `hV_controls_r: (r(t)-r*)² ≤ l2_ext(t)` via `order_parameter_sq_le_l2` (weighted Cauchy-Schwarz) + sum algebra. No new imports needed (SelfContainedConvergence + OrderParameterRate already transitive via EndToEndConvergence).
+- LEAN: `full_chain_r_tendsto` — direct application of `self_contained_tendsto`. One-liner proof: the definitional unfolding maps r(max t 0) → r* exactly to the abstract framework's conclusion.
+- Build: 3433 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | LorentzianContinuumBridge: LorentzianSolution → ContinuumPointwiseData (119 files, 3433 jobs)
 
 - created: KuramotoLean/LorentzianContinuumBridge.lean

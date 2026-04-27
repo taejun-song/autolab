@@ -2,7 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-04-27
+updated: 2026-04-28
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 119 files. Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ. NPoleContinuumBridge, FullChainContinuumBridge, LorentzianContinuumBridge instantiate all ContinuumGlobalStability proof paths from concrete ODE data. 3433 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ. NPoleContinuumBridge, FullChainContinuumBridge, LorentzianContinuumBridge instantiate all ContinuumGlobalStability proof paths. LorentzianExistence proves global ODE existence via explicit Bernoulli formula. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -83,9 +83,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **116** |
-| Comprehensive build | **3433 build jobs** |
-| Total .lean files | **119** (+ LorentzianContinuumBridge) |
+| Total .lean files | **120** (+ LorentzianExistence) |
+| Comprehensive build | **3434 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -528,6 +527,19 @@ Direct field mapping from `FullChainData` to `CoerciveConvergenceData` (Path A):
 
 `full_chain_convergence_via_path_a`: Tendsto (l2_ext c α α*) atTop (nhds 0) — second proof of V_tendsto_zero via the abstract framework. Validates that the ContinuumGlobalStability Path A interface exactly matches the FullChainConvergence structure.
 
+### SelfContainedData extension (Experiment 5, session 7)
+
+`FullChainData.toSelfContainedData` extends Path A with the order parameter control field `hV_controls_r`:
+
+| Field | FullChainData source | Status |
+|---|---|---|
+| `r(t) = D.r(max t 0)` | NPoleBarrierData.r via extension | **proved** |
+| `r_star = Σ c_k α*_k` | FullChainData.α_star | **proved** |
+| `hV_controls_r: (r(t)-r*)² ≤ V(t)` | `order_parameter_sq_le_l2` + sum algebra | **proved** |
+| All other fields | same as toCoerciveConvergenceData | **proved** |
+
+`full_chain_r_tendsto`: Tendsto (fun t => |D.r(max t 0) - Σ c_k α*_k|) atTop (nhds 0) — direct application of `self_contained_tendsto`. For t ≥ 0 this is the order parameter r(t) → r*.
+
 ## Lorentzian to Continuum Bridge (LorentzianContinuumBridge.lean)
 
 **Status**: 0 sorry. NEW FILE (Experiment 4, session 7).
@@ -545,6 +557,44 @@ Constructs `ContinuumPointwiseData` from `LorentzianSolution` using the Lyapunov
 `lorentzian_residual_tendsto_zero`: (r(m)² - r*²)² → 0 from hlyap + squeeze_zero.
 
 Key: `lorentzian_psi_mono`, `lorentzian_psi_mono_le`, `lorentzian_psi_diverges` exposed from LorentzianInstance.lean (renamed from private to avoid conflict with HomoclinicContradiction.Ψ_diverges).
+
+## Lorentzian ODE Global Existence (LorentzianExistence.lean)
+
+**Status**: 0 sorry. NEW FILE (Experiment 1, session 8).
+
+Proves global existence of the Lorentzian ODE ṙ = (K/2-γ)r - (K/2)r³ via the explicit Bernoulli formula, eliminating the need for users to provide ODE solutions when constructing `LorentzianContinuousSolution`.
+
+### Mathematical Approach
+
+The Lorentzian ODE is a Bernoulli equation. Under the substitution w = 1/r², it linearizes to:
+
+  w'(t) = -(K-2γ)·w(t) + K
+
+with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K-2γ). The original solution is r(t) = √(w(t)⁻¹).
+
+| Lemma/Theorem | Status |
+|---|---|
+| `w_func_zero`: w(0) = 1/r₀² | **proved** |
+| `w_func_pos`: w(t) > 0 for t ≥ 0 (convex combination) | **proved** |
+| `w_func_gt_one`: w(t) > 1 for t ≥ 0 (implies r < 1) | **proved** |
+| `w_func_hasDerivAt`: w satisfies linear ODE w' = -(K-2γ)w + K | **proved** |
+| `lorentzian_explicit_init`: r(0) = r₀ | **proved** |
+| `lorentzian_explicit_pos`: r(t) > 0 | **proved** |
+| `lorentzian_explicit_sq`: r(t)² = w(t)⁻¹ | **proved** |
+| `lorentzian_explicit_lt_one`: r(t) < 1 | **proved** |
+| `bernoulli_deriv_eq`: algebraic identity (w'(t)/w²)/(2r) = lorentzianODE K γ r | **proved** |
+| `lorentzian_explicit_hasDerivAt`: r satisfies the ODE | **proved** |
+| `lorentzian_explicit_continuousOn`: r continuous on [0,∞) | **proved** |
+| `lorentzian_continuous_solution_exists`: ∃ LorentzianContinuousSolution with r(0) = r₀ | **proved** |
+
+### Key Proof Steps
+
+- **w_func_hasDerivAt**: `HasDerivAt` chained via `const_mul` + `add` + Pi.add identification, with `field_simp [ne_of_gt hKγ]` to handle the K/(K-2γ) coefficient.
+- **bernoulli_deriv_eq**: after clearing denominators via `div_div` + `div_eq_iff`, the algebraic identity reduces to `linear_combination -(K-2γ)*h1 + K*h2` where h1: r²w² = w and h2: r⁴w² = 1 (both from r²w = 1).
+- **lorentzian_explicit_hasDerivAt**: chains `w_func_hasDerivAt → HasDerivAt.inv → HasDerivAt.sqrt`, then applies `bernoulli_deriv_eq` via the `▸` rewrite.
+- **Continuity**: `ContinuousOn.sqrt ∘ ContinuousOn.inv₀` with explicit `change` to expose the w_func formula for `fun_prop`.
+
+**Significance**: `LorentzianContinuousSolution` previously required the user to provide an ODE solution as a hypothesis. This file constructs the solution explicitly from parameters alone, making the structure truly self-contained. Every concrete instantiation of the Lorentzian analysis can now use `lorentzian_continuous_solution_exists` to get an ODE solution without additional hypotheses.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 
