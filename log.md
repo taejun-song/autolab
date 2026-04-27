@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | rstar_lt_one + rstar_tendsto_one — global boundary behavior (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_rstar_lt_one, +lorentzian_rstar_tendsto_one)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 27)
+- LEAN: `lorentzian_rstar_lt_one` — r*(K,γ) < 1 via calc+sqrt_lt_sqrt+sqrt_one. `lorentzian_rstar_tendsto_one` — Tendsto r*(K,γ) atTop nhds 1 via tendsto_inv_atTop_zero + const_mul + tendsto_const_nhds.sub + continuousAt.tendsto.comp + sqrt_one. Complete picture: r* ∈ (0,1), increasing in K from 0 (K→2γ⁺) to 1 (K→∞).
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | rstar_mono_K + rstar_anti_gamma — parameter monotonicity of Lorentzian equilibrium (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_rstar_mono_K, +lorentzian_rstar_anti_gamma)
