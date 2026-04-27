@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | unique_pos_fixed_point + fixed_point_iff — complete equilibrium characterization (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_unique_pos_fixed_point, +lorentzian_fixed_point_iff)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 32)
+- LEAN: `lorentzian_unique_pos_fixed_point` — r>0 ∧ ṙ=0 → r=r*; proof: rw ode_factored at hfixed, rcases mul_eq_zero (K/2·r=0 → contradiction, 1-2γ/K-r²=0 → r²=1-2γ/K → r=sqrt via sqrt_sq). `lorentzian_fixed_point_iff` — r≥0 → (ṙ=0 ↔ r=0 ∨ r=r*); proof: forward uses rcases eq_or_lt_of_le + unique_pos_fixed_point; backward: simp[lorentzianODE] (r=0) + rstar_is_fixed_point (r=r*).
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | hasDerivAt_zero + ode_neg_above_one — linearized instability at origin (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_ode_hasDerivAt_zero, +lorentzian_ode_neg_above_one)

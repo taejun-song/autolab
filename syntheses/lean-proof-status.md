@@ -629,6 +629,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_ode_neg_above_rstar`: r ∈ (r*, 1) → lorentzianODE K γ r < 0 (ODE negative above r*) | **proved** |
 | `lorentzian_ode_hasDerivAt_zero`: HasDerivAt (lorentzianODE K γ) (K/2-γ) 0 (linearized rate at origin) | **proved** |
 | `lorentzian_ode_neg_above_one`: r > 1 → lorentzianODE K γ r < 0 (ODE negative above 1, r ≤ 1 forward-invariant) | **proved** |
+| `lorentzian_unique_pos_fixed_point`: r > 0 ∧ ṙ=0 → r = r* (r* is the unique positive equilibrium) | **proved** |
+| `lorentzian_fixed_point_iff`: r ≥ 0 → (ṙ=0 ↔ r=0 ∨ r=r*) (complete equilibrium characterization) | **proved** |
 
 ### Key Proof Steps
 
@@ -658,6 +660,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Parameter monotonicity (experiment 26)**: `lorentzian_rstar_mono_K` and `lorentzian_rstar_anti_gamma` prove that the Lorentzian equilibrium r* = √(1-2γ/K) is strictly monotone in parameters. Increasing coupling K (with γ fixed) increases r* — more coupling → larger partially locked state. Increasing damping γ (with K fixed) decreases r* — more damping → smaller PLS. Both proofs reduce to `Real.sqrt_lt_sqrt` applied to the inequality 1-2γ/K₁ < 1-2γ/K₂ (resp. 1-2γ₂/K < 1-2γ₁/K), which follows from `div_lt_div_iff₀` + `nlinarith`. These are the Lorentzian explicit analogs of `BifurcationMonotonicity` (which works for general g) — now machine-checked directly from the formula r* = √(1-2γ/K).
 
 **Fixed point identity (experiment 29)**: `lorentzian_rstar_is_fixed_point` proves that r* is a genuine fixed point of the ODE: lorentzianODE K γ r* = 0. The proof substitutes r*² = 1-2γ/K via `Real.sq_sqrt`, then rewrites r*³ = (1-2γ/K)·r* via `pow_add + hrstar_sq + ring`. After the substitution, `field_simp [ne_of_gt hK]; ring` closes: (K/2-γ)·r* - (K/2)·(1-2γ/K)·r* = (K/2-γ-K/2+γ)·r* = 0. This is the algebraic foundation for the stability analysis: the Lorentzian ODE ṙ = (K/2-γ)r - (K/2)r³ has exactly r=0 and r=r*=√(1-2γ/K) as fixed points (for K > 2γ, r* > 0).
+
+**Equilibrium characterization (experiment 32)**: `lorentzian_unique_pos_fixed_point` proves that r* is the only positive zero of the Lorentzian ODE: from `lorentzian_ode_factored`, ṙ=0 factors as (K/2)·r·(r*²-r²)=0; with r>0 and K>0 both non-zero, the bracket must vanish: r²=1-2γ/K; then `Real.sqrt_sq hr_pos.le` recovers r = √(1-2γ/K) = r*. `lorentzian_fixed_point_iff` packages this into a complete iff: ṙ=0 on [0,∞) iff r=0 or r=r*. The r=0 case closes via `simp [lorentzianODE]`; the r=r* case uses `lorentzian_rstar_is_fixed_point`. Together these two theorems give the full global portrait: exactly two fixed points (0 and r*), with positive velocity between them and negative above.
 
 **Linearized instability at origin (experiment 31)**: `lorentzian_ode_hasDerivAt_zero` proves that the derivative of the Lorentzian ODE at r=0 is K/2-γ, positive for K > 2γ. The proof follows the same pattern as `ode_hasDerivAt_rstar`: construct `HasDerivAt` for the polynomial (K/2-γ)r-(K/2)r³ via `h1.sub h2`, convert via `hconv`, then `convert hderiv using 1; ring` closes the derivative value. `lorentzian_ode_neg_above_one` extends the sign analysis to all r > 1: the ODE velocity is negative (not just for r ∈ (r*,1)). The proof uses the factored form (K/2)·r·(r*²-r²) and shows r*²-r² < 0 for r > 1 via `linarith [div_pos (2γ>0) (K>0)]` (giving r*² = 1-2γ/K < 1 < r²) — much simpler than the sign analysis for r ∈ (r*,1) which required nlinarith.
 
