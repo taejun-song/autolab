@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: Gronwall chain, tendsto, ode_global_stability, unique, parameter monotonicity, rstar_lt_one, rstar_tendsto_one, w_func_diff (Bernoulli linearization). 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: Gronwall chain, tendsto, ode_global_stability, unique, parameter monotonicity, boundary behavior, Bernoulli linearization, rstar_is_fixed_point. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -624,6 +624,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_rstar_tendsto_one`: Tendsto r*(K,γ) atTop (nhds 1) as K → ∞ (strong coupling limit) | **proved** |
 | `w_func_diff`: w(t,r₀) - w(t,r₀') = (1/r₀²-1/r₀'²)·exp(-μt) (Bernoulli linearizes init-data) | **proved** |
 | `w_func_diff_tendsto`: \|w(t,r₀) - w(t,r₀')\| → 0 as t → ∞ | **proved** |
+| `lorentzian_rstar_is_fixed_point`: lorentzianODE K γ r* = 0 (velocity vanishes at equilibrium) | **proved** |
 
 ### Key Proof Steps
 
@@ -651,6 +652,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Continuous-time ODE convergence (experiment 21)**: `LorentzianContinuousSolution.tendsto` proves that any solution of the Lorentzian ODE converges to r* in continuous time: `Tendsto S.r atTop (nhds r*)`. The proof uses `Tendsto.congr'` with `eq_explicit` to identify S.r with the explicit Bernoulli formula for all t > 0 (eventually in atTop), then applies `lorentzian_explicit_tendsto` directly. `lorentzian_ode_continuous_convergence` packages this into the ultimate parameter-only theorem: for any K > 2γ and r₀ ∈ (0,1), there exists a solution r(t) with r(0) = r₀ and r(t) → r* as t → ∞, with zero external hypotheses.
 
 **Parameter monotonicity (experiment 26)**: `lorentzian_rstar_mono_K` and `lorentzian_rstar_anti_gamma` prove that the Lorentzian equilibrium r* = √(1-2γ/K) is strictly monotone in parameters. Increasing coupling K (with γ fixed) increases r* — more coupling → larger partially locked state. Increasing damping γ (with K fixed) decreases r* — more damping → smaller PLS. Both proofs reduce to `Real.sqrt_lt_sqrt` applied to the inequality 1-2γ/K₁ < 1-2γ/K₂ (resp. 1-2γ₂/K < 1-2γ₁/K), which follows from `div_lt_div_iff₀` + `nlinarith`. These are the Lorentzian explicit analogs of `BifurcationMonotonicity` (which works for general g) — now machine-checked directly from the formula r* = √(1-2γ/K).
+
+**Fixed point identity (experiment 29)**: `lorentzian_rstar_is_fixed_point` proves that r* is a genuine fixed point of the ODE: lorentzianODE K γ r* = 0. The proof substitutes r*² = 1-2γ/K via `Real.sq_sqrt`, then rewrites r*³ = (1-2γ/K)·r* via `pow_add + hrstar_sq + ring`. After the substitution, `field_simp [ne_of_gt hK]; ring` closes: (K/2-γ)·r* - (K/2)·(1-2γ/K)·r* = (K/2-γ-K/2+γ)·r* = 0. This is the algebraic foundation for the stability analysis: the Lorentzian ODE ṙ = (K/2-γ)r - (K/2)r³ has exactly r=0 and r=r*=√(1-2γ/K) as fixed points (for K > 2γ, r* > 0).
 
 **Bernoulli linearization (experiment 28)**: `w_func_diff` proves the exact identity w(t,r₀) - w(t,r₀') = (1/r₀²-1/r₀'²)·exp(-μt). The B = K/(K-2γ) terms cancel algebraically (proof: `simp [w_func]; ring`). This is the key structural fact about the Bernoulli transform: it linearizes the initial-data dependence. `w_func_diff_tendsto` proves |w(t,r₀) - w(t,r₀')| → 0 as t → ∞ by `simp_rw [abs_mul, abs_of_pos (Real.exp_pos _)]` + `tendsto_inv_atTop_zero.const_mul`. Together these show the Bernoulli transform contracts any two initial conditions at the uniform rate μ = K-2γ.
 

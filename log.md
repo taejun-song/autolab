@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | rstar_is_fixed_point — ODE velocity vanishes at equilibrium (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_rstar_is_fixed_point)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph)
+- index.md: regenerated (session 8, experiment 29)
+- LEAN: `lorentzian_rstar_is_fixed_point` — lorentzianODE K γ r* = 0. Proof: sq_sqrt gives r*²=1-2γ/K; hcube rewrites r*³=(1-2γ/K)·r* via pow_add+ring; then field_simp+ring closes (K/2-γ)·r*-(K/2)·(1-2γ/K)·r*=0.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | w_func_diff + w_func_diff_tendsto — Bernoulli linearization of init-data (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+w_func_diff, +w_func_diff_tendsto)
