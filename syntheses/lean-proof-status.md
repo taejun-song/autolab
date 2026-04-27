@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 118 files. Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ, r(0)∈(0,1) via lt_trichotomy. NPoleContinuumBridge instantiates both ContinuumGlobalStability paths from n-pole ODE data. FullChainContinuumBridge instantiates Path A from FullChainData via direct field mapping. 3432 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 119 files. Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ. NPoleContinuumBridge, FullChainContinuumBridge, LorentzianContinuumBridge instantiate all ContinuumGlobalStability proof paths from concrete ODE data. 3433 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -84,8 +84,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **116** |
-| Comprehensive build | **3432 build jobs** |
-| Total .lean files | **118** (NPoleContinuumBridge + FullChainContinuumBridge) |
+| Comprehensive build | **3433 build jobs** |
+| Total .lean files | **119** (+ LorentzianContinuumBridge) |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -527,6 +527,24 @@ Direct field mapping from `FullChainData` to `CoerciveConvergenceData` (Path A):
 | `hdrops` | `D.infinite_drops` (key: InfiniteEscape chain) | **proved** |
 
 `full_chain_convergence_via_path_a`: Tendsto (l2_ext c α α*) atTop (nhds 0) — second proof of V_tendsto_zero via the abstract framework. Validates that the ContinuumGlobalStability Path A interface exactly matches the FullChainConvergence structure.
+
+## Lorentzian to Continuum Bridge (LorentzianContinuumBridge.lean)
+
+**Status**: 0 sorry. NEW FILE (Experiment 4, session 7).
+
+Constructs `ContinuumPointwiseData` from `LorentzianSolution` using the Lyapunov envelope:
+
+| Field | Method | Status |
+|---|---|---|
+| `V m = hlyap_coeff · exp(-2Ψ(m))` | envelope dominates (r²-r*²)² | **proved** |
+| `hV_nn` | coeff > 0, exp > 0 | **proved** |
+| `hV_anti` | Ψ(m+1) = Ψ(m) + Kr(m)² ≥ Ψ(m) → exp(-2Ψ) non-increasing | **proved** |
+| `hV_zero` | Ψ → ∞ (from hpersist + Ψ_growth) → exp(-2Ψ) → 0 | **proved** |
+
+`lorentzian_envelope_via_path_b`: Tendsto V atTop (nhds 0) via Path B abstract framework.
+`lorentzian_residual_tendsto_zero`: (r(m)² - r*²)² → 0 from hlyap + squeeze_zero.
+
+Key: `lorentzian_psi_mono`, `lorentzian_psi_mono_le`, `lorentzian_psi_diverges` exposed from LorentzianInstance.lean (renamed from private to avoid conflict with HomoclinicContradiction.Ψ_diverges).
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 

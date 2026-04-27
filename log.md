@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-04-27] experiment | LorentzianContinuumBridge: LorentzianSolution → ContinuumPointwiseData (119 files, 3433 jobs)
+
+- created: KuramotoLean/LorentzianContinuumBridge.lean
+- updated: KuramotoLean/LorentzianInstance.lean (Ψ_mono/Ψ_mono_le/Ψ_diverges made public as lorentzian_psi_mono/mono_le/diverges)
+- updated: KuramotoLean/KuramotoLean.lean (+import LorentzianContinuumBridge)
+- updated: syntheses/lean-proof-status.md (+LorentzianContinuumBridge section, 3433 build jobs)
+- index.md: regenerated
+- LEAN: `LorentzianSolution.toContinuumPointwiseData` — V(m) = hlyap_coeff·exp(-2Ψ(m)) satisfies all 3 fields. hV_zero uses psi→∞ → exp(-2Ψ)→0 via tendsto_exp_atBot.comp.
+- LEAN: `lorentzian_envelope_via_path_b` — abstract Path B gives V→0.
+- LEAN: `lorentzian_residual_tendsto_zero` — (r²-r*²)²→0 via hlyap+squeeze_zero.
+- Build: 3433 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | FullChainContinuumBridge: FullChainData → CoerciveConvergenceData (118 files, 3432 jobs)
 
 - created: KuramotoLean/FullChainContinuumBridge.lean
