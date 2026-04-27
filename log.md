@@ -8,6 +8,14 @@
 - LEAN: v_antitone = rcases lt_or_eq_of_le; convergence_time = v_exp_bound + explicit_convergence_time with lt_min hr₀_pos hrs_pos for hμ_pos.
 - Build: 3336 jobs, 0 sorry, 0 axioms.
 
+## [2026-04-27] experiment | v_deriv_ge + v_coeff_pos (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_deriv_ge, +lorentzian_lyapunov_v_coeff_pos)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph for experiment 55)
+- index.md: regenerated (session 8, experiment 55)
+- LEAN: v_deriv_ge = nlinarith [v_coeff_le, sq_nonneg]; v_coeff_pos = mul_pos (mul_pos hK hr_pos) (by linarith [hrs_pos]).
+- Build: 3336 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_dist unified + v_coeff_le (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_dist, +lorentzian_lyapunov_v_coeff_le)
