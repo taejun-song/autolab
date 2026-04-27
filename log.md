@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | convergence_time_above — explicit T for supercritical regime (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_convergence_time_above)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 52)
+- index.md: regenerated (session 8, experiment 52)
+- LEAN: explicit_convergence_time with μ=2K(1-2γ/K); hμ_pos = mul_pos (mul_pos two_pos hK) (lorentzian_rstar_pos ...); hV₀_pos = sq_pos_of_ne_zero (sub_ne_zero.mpr (ne_of_gt hr₀_gt_rstar)).
+- Build: 3336 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_pos + v_eq_zero_iff — V>0 characterization (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_pos, +lorentzian_lyapunov_v_eq_zero_iff)
