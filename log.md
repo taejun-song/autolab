@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_exp_bound_below — V(t)≤V(0)·exp(-K·r₀·r*·t) for r₀<r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_exp_bound_below)
+- updated: syntheses/lean-proof-status.md (+1 entry, significance paragraph)
+- index.md: regenerated (session 8, experiment 45)
+- LEAN: comparison_decay with μ=K·r₀·r*; coeff bound r₀·r* ≤ r·(r+r*) via mul_le_mul chain; simp only [] beta-reduces lambdas; nlinarith [mul_nonneg hcoeff_nn sq_nonneg] closes.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_deriv_formula — V'=-(K·r·(r+r*)·V) ODE for Lyapunov function (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_deriv_formula)
