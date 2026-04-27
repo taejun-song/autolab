@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_deriv_nonpos — V derivative nonpositivity from abstract ODE (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: v_deriv_nonpos)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 70 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 135)
+- LEAN: -(K·r·(r+r*)·V) ≤ 0 from mul_nonneg chain (K > 0, r > 0, r+rs > 0, V = (r-rs)² ≥ 0) then linarith. Attempted v_nonincreasing_from_ode via antitoneOn_of_deriv_nonpos but Lean 4 generates DifferentiableWithinAt side goal (set abbreviation mismatch); pivoted to explicit v_deriv_nonpos instead. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.dist_from_gronwall_below/above — regime-specific abstract ODE dist bounds (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: dist_from_gronwall_below, dist_from_gronwall_above)

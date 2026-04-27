@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (69 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above). 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (70 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above), V derivative nonpositivity. 3336 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -754,6 +754,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.two_traj_from_gronwall`: \|S.r t-S'.r t\|≤(\|S.r 0-r*\|+\|S'.r 0-r*\|)·exp(-K·δ·(δ+r*)/2·t) when both solutions ≥δ globally (same K,γ) — triangle inequality + dist_from_gronwall; tighter rate than two_traj_sync_from_persist (factor (δ+r*)/r* > 1) | **proved** |
 | `LorentzianContinuousSolution.dist_from_gronwall_below`: S.r 0<r* → \|S.r t-r*\|≤\|S.r 0-r*\|·exp(-K·r₀·(r₀+r*)/2·t) — ge_init_of_lt_rstar gives global δ=r₀; rate K·r₀·(r₀+r*)/2 > K·r₀·r*/2 (strict improvement over dist_bound_below). NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.dist_from_gronwall_above`: r*<S.r 0 → \|S.r t-r*\|≤\|S.r 0-r*\|·exp(-K·r*·(r*+r*)/2·t) — gt_rstar_of_init gives global δ=r*; rate K·r*² = K-2γ matches dist_bound_above (abstract ODE proof). NO eq_explicit | **proved** |
+| `LorentzianContinuousSolution.v_deriv_nonpos`: -(K·r·(r+r*)·V) ≤ 0 for all t ≥ 0 — direct from v_deriv_formula + r > 0 + r+r* > 0 + V ≥ 0; the pointwise nonpositivity of the Lyapunov derivative. Proved via explicit mul_nonneg chain + linarith | **proved** |
 
 ### Key Proof Steps
 
