@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_trap_below/above — regime-specific two-sided traps (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_trap_below, +lorentzian_lyapunov_r_trap_above)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph for experiment 59)
+- index.md: regenerated (session 8, experiment 59)
+- LEAN: one-liner conjunctions; r_trap_above uses rate -(K*(1-2γ/K))*t to match r_dist_above form.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_trap — two-sided exponential sandwich on distance (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_trap)
