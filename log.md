@@ -1,5 +1,22 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.dist_trap — two-sided exponential trap lifted to ODE solution (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.dist_trap)
+- updated: syntheses/lean-proof-status.md (+entries for experiments 86-90)
+- index.md: regenerated (session 8, experiment 90)
+- LEAN: one-liner conjunction of dist_lb + r_dist_bound. Build: 3434 jobs.
+
+## [2026-04-27] experiment | Solution.v_lb + dist_lb — exponential lower bounds lifted to ODE solution (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.v_lb, dist_lb)
+- LEAN: standard eq_explicit_of_nonneg + explicit_init lifting. Build: 3434 jobs.
+
+## [2026-04-27] experiment | Solution.dist_le_init + r_in_ball — distance bound and ball membership lifted (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.dist_le_init, r_in_ball)
+- LEAN: dist_le_init via sqrt_le_sqrt + sqrt_sq_eq_abs from v_le_init; r_in_ball via abs_le. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution.v_nonincreasing + v_le_init — unconditional V antitone and universal bound lifted (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.v_nonincreasing, v_le_init)

@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift — v_exp, dist, v_nonincreasing, v_le_init, v_interval_decay, v_persistence_drop, v_uniform_exp_decay, r_dist_from_persist, convergence_time, two_traj_sync. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (15 theorems) — v_exp, dist, v_nonincreasing, v_le_init, dist_le_init, r_in_ball, v_lb, dist_lb, dist_trap, v_interval_decay, v_persistence_drop, v_uniform_exp_decay, r_dist_from_persist, convergence_time, two_traj_sync. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -701,6 +701,11 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.v_persistence_drop`: r(t)≥δ on [t₀,t₀+Δ] → V(t₀+Δ)≤V(t₀)·exp(-Kδr*Δ) for ODE solution | **proved** |
 | `LorentzianContinuousSolution.v_nonincreasing`: V = (S.r t - r*)² is AntitoneOn [0,∞) unconditionally | **proved** |
 | `LorentzianContinuousSolution.v_le_init`: V(t) ≤ (S.r 0 - r*)² for all t ≥ 0, all r₀ | **proved** |
+| `LorentzianContinuousSolution.dist_le_init`: \|S.r t-r*\| ≤ \|S.r 0-r*\| for all t ≥ 0 | **proved** |
+| `LorentzianContinuousSolution.r_in_ball`: S.r t ∈ [r*-\|r₀-r*\|, r*+\|r₀-r*\|] for all t ≥ 0 | **proved** |
+| `LorentzianContinuousSolution.v_lb`: V(t) ≥ (S.r 0-r*)²·exp(-2K·t) for all t ≥ 0 | **proved** |
+| `LorentzianContinuousSolution.dist_lb`: \|S.r t-r*\| ≥ \|S.r 0-r*\|·exp(-K·t) for all t ≥ 0 | **proved** |
+| `LorentzianContinuousSolution.dist_trap`: \|S.r 0-r*\|·exp(-Kt) ≤ dist ≤ \|S.r 0-r*\|·exp(-μt) for S.r 0≠r* | **proved** |
 
 ### Key Proof Steps
 
@@ -762,6 +767,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Convergence time lifted to LorentzianContinuousSolution (experiment 80)**: `LorentzianContinuousSolution.convergence_time_from_persist` gives the explicit ε-time T = log((S.r 0 - r*)²/ε²)/(K·δ·r*) for any abstract ODE solution with global persistence. Uses the same lifting pattern: `rw [eq_explicit_of_nonneg t ht, ...]` + `lorentzian_explicit_init` to convert the goal, then `exact lorentzian_lyapunov_convergence_time_from_persist ...` with persistence converted via `(S.eq_explicit_of_nonneg s hs) ▸ h_persist s hs`. This closes the abstract-solution convergence-time chain: after experiment 78 gives V decay and 79 gives distance decay, 80 gives the quantitative time-to-ε.
 
 **Distance from persistence lifted to LorentzianContinuousSolution (experiment 79)**: `LorentzianContinuousSolution.r_dist_from_persist` gives |S.r t - r*| ≤ |S.r 0 - r*|·exp(-K·δ·r*/2·t) for any ODE solution with global persistence S.r t ≥ δ. Same lifting pattern: rewrite via `eq_explicit_of_nonneg` + `lorentzian_explicit_init`, then `exact lorentzian_lyapunov_r_dist_from_persist ...` with the persistence-conversion `(S.eq_explicit_of_nonneg s hs) ▸ h_persist s hs`. This is the abstract-solution distance-decay companion to the explicit-formula version (experiment 73).
+
+**Two-sided trap, lower bounds, ball lifted to LorentzianContinuousSolution (experiments 86–90)**: `dist_le_init` (|S.r t-r*| ≤ |S.r 0-r*|) and `r_in_ball` follow from `v_le_init` via `Real.sqrt_le_sqrt + sqrt_sq_eq_abs` and `abs_le` respectively — one-liner proofs. `v_lb` and `dist_lb` give the lower exponential bounds: V(t) ≥ V(0)·exp(-2Kt) and |S.r t-r*| ≥ |S.r 0-r*|·exp(-Kt), using the same `eq_explicit_of_nonneg + explicit_init` lifting pattern before applying the explicit-formula versions. `dist_trap` combines `dist_lb` (lower) and `r_dist_bound` (upper) as a single conjunction `⟨S.dist_lb t ht, S.r_dist_bound hr₀_ne t ht⟩` — a one-line proof that the abstract distance is exponentially trapped between two rates. This closes the two-sided Lyapunov analysis for `LorentzianContinuousSolution`: every bound available for the explicit Bernoulli formula is now machine-verified for any abstract ODE solution.
 
 **V nonincreasing and universal bound lifted to LorentzianContinuousSolution (experiments 84–85)**: `LorentzianContinuousSolution.v_nonincreasing` proves `AntitoneOn (fun t => (S.r t - r*)²) (Set.Ici 0)` for any abstract ODE solution, including S.r 0 = r* (V ≡ 0). Uses `simp only []` to beta-reduce the lambda goal then rewrites via `eq_explicit_of_nonneg` before applying `lorentzian_lyapunov_v_nonincreasing`. `LorentzianContinuousSolution.v_le_init` is a one-liner corollary: `S.v_nonincreasing (Set.mem_Ici.mpr le_rfl) (Set.mem_Ici.mpr ht) ht`. Together these give unconditional V monotonicity for the abstract structure, usable in Barbalat-style arguments without any r₀ ≠ r* hypothesis.
 
