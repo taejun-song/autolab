@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-27] experiment | FullChainContinuumBridge: FullChainData → CoerciveConvergenceData (118 files, 3432 jobs)
+
+- created: KuramotoLean/FullChainContinuumBridge.lean
+- updated: KuramotoLean/KuramotoLean.lean (+import KuramotoLean.FullChainContinuumBridge)
+- updated: syntheses/lean-proof-status.md (+FullChainContinuumBridge section, updated build count 3432)
+- index.md: regenerated
+- LEAN: `FullChainData.toCoerciveConvergenceData` — direct field mapping: infinite_drops → hdrops, hV_anti → hV_anti, q_val/Δ_total → q/Δ. 0 non-trivial steps needed.
+- LEAN: `full_chain_convergence_via_path_a` — second proof of V_tendsto_zero via abstract Path A framework. Validates interface match between FullChainConvergence and ContinuumGlobalStability.
+- Build: 3432 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | NPoleContinuumBridge + PassageToLimit grounding (117 files, 3431 jobs)
 
 - created: KuramotoLean/NPoleContinuumBridge.lean (Path B: NPoleStabilityData → ContinuumPointwiseData via direct field mapping; Path A: stepLift construction → CoerciveConvergenceData)

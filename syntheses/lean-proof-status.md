@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 116 files (+ NPoleContinuumBridge.lean = 117 files). Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ, r(0)∈(0,1) via lt_trichotomy; r(0)=r* by Gronwall forward uniqueness. NPoleContinuumBridge.lean instantiates both ContinuumGlobalStability proof paths from n-pole ODE data. PassageToLimit.lean grounding theorems connect True placeholders to proved results. 3431 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 118 files. Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ, r(0)∈(0,1) via lt_trichotomy. NPoleContinuumBridge instantiates both ContinuumGlobalStability paths from n-pole ODE data. FullChainContinuumBridge instantiates Path A from FullChainData via direct field mapping. 3432 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -84,8 +84,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **116** |
-| Comprehensive build | **3431 build jobs** |
-| Total .lean files | **117** (NPoleContinuumBridge added) |
+| Comprehensive build | **3432 build jobs** |
+| Total .lean files | **118** (NPoleContinuumBridge + FullChainContinuumBridge) |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -510,6 +510,23 @@ Step lift `stepLift V t = V(Int.toNat ⌊t⌋)` embeds discrete V into continuou
 `npole_convergence_via_path_a`: stepLift(l2Distance) → 0 via coercive_convergence.
 
 The key insight: `stepLift_drops` uses `Nat.ceil T` (not `Int.toNat ⌈T⌉`) to get `T ≤ m` via `Nat.le_ceil` + `exact_mod_cast`. This avoids the `le_or_lt` tactic which was not in scope.
+
+## Full Chain to Continuum Bridge (FullChainContinuumBridge.lean)
+
+**Status**: 0 sorry. NEW FILE (Experiment 3, session 7).
+
+Direct field mapping from `FullChainData` to `CoerciveConvergenceData` (Path A):
+
+| Field | FullChainData source | Status |
+|---|---|---|
+| `V = l2_ext c α α_star` | definition | **proved** |
+| `hV_nn` | `l2_ext_nonneg D.c D.α D.α_star D.hc` | **proved** |
+| `hV_anti` | `D.hV_anti` (from `l2_ext_antitone`) | **proved** |
+| `q = q_val = exp(-(K·δ_drop·δ*))` | `D.hq_nn`, `D.hq_lt_one` | **proved** |
+| `Δ = Δ_total = 2/γ_max + 1` | `D.hΔ_total_pos` | **proved** |
+| `hdrops` | `D.infinite_drops` (key: InfiniteEscape chain) | **proved** |
+
+`full_chain_convergence_via_path_a`: Tendsto (l2_ext c α α*) atTop (nhds 0) — second proof of V_tendsto_zero via the abstract framework. Validates that the ContinuumGlobalStability Path A interface exactly matches the FullChainConvergence structure.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 

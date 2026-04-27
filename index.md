@@ -4,7 +4,7 @@ _Last regenerated: 2026-04-27 (session 7)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 117 files, 0 sorry, 0 assumed fields. NPoleContinuumBridge.lean instantiates both ContinuumGlobalStability paths from n-pole data. PassageToLimit grounding connects True placeholders to trifurcation_from_ode + eventual_exponential_V. 3431 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 118 files, 0 sorry, 0 assumed fields. NPoleContinuumBridge + FullChainContinuumBridge instantiate both ContinuumGlobalStability paths. FullChainData → CoerciveConvergenceData via direct field mapping. 3432 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +58,7 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 117 files. NPoleContinuumBridge instantiates both ContinuumGlobalStability paths. PassageToLimit grounding adds trifurcation_from_ode + uniform rate theorems.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 118 files. NPoleContinuumBridge + FullChainContinuumBridge instantiate all ContinuumGlobalStability proof paths from n-pole ODE data.
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.
