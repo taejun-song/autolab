@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution sq_lt/gt_rstar + sq_ge/le_init + v_exp_bound_below/above — 6 theorems lifted (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+6 theorems: sq_lt_rstar, sq_gt_rstar, sq_ge_init, sq_le_init, v_exp_bound_below, v_exp_bound_above)
+- updated: syntheses/lean-proof-status.md (+6 entries, total 48 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 123)
+- LEAN: sq_lt_rstar/sq_gt_rstar/sq_ge_init/sq_le_init via eq_explicit_of_nonneg + underlying lorentzian_explicit_sq_* (condition passes as hr₀_sq_*); v_exp_bound_below/above via eq_explicit chain + lorentzian_lyapunov_v_exp_bound_below/above. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution convergence_time_below/above + convergence_time + dist_tendsto — 4 theorems lifted (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+4 theorems: convergence_time_below, convergence_time_above, convergence_time, dist_tendsto)

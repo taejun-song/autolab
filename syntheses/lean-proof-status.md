@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (42 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (48 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -733,6 +733,12 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.convergence_time_above`: r*<S.r 0 → t>log(V₀/ε²)/(2K·r*²) → \|S.r t-r*\|<ε (explicit convergence time above r*) | **proved** |
 | `LorentzianContinuousSolution.convergence_time`: S.r 0≠r* → t>log(V₀/ε²)/(K·min·r*) → \|S.r t-r*\|<ε (unified explicit convergence time) | **proved** |
 | `LorentzianContinuousSolution.dist_tendsto`: same K,γ → \|S.r t-S'.r t\|→0 as t→∞ (exponential synchronization of ODE solutions) | **proved** |
+| `LorentzianContinuousSolution.sq_lt_rstar`: S.r 0²<r*² → S.r t²<r*² for t≥0 (r² sublevel set forward-invariant) | **proved** |
+| `LorentzianContinuousSolution.sq_gt_rstar`: r*²<S.r 0² → r*²<S.r t² for t≥0 (r² superlevel set forward-invariant) | **proved** |
+| `LorentzianContinuousSolution.sq_ge_init`: S.r 0²<r*² → S.r 0²≤S.r t² for t≥0 (r² non-decreasing when below r*) | **proved** |
+| `LorentzianContinuousSolution.sq_le_init`: r*²<S.r 0² → S.r t²≤S.r 0² for t≥0 (r² non-increasing when above r*) | **proved** |
+| `LorentzianContinuousSolution.v_exp_bound_below`: S.r 0<r* → V(t)≤V(0)·exp(-K·S.r 0·r*·t) (sharper V bound below r*) | **proved** |
+| `LorentzianContinuousSolution.v_exp_bound_above`: r*<S.r 0 → V(t)≤V(0)·exp(-2K·r*²·t) (sharper V bound above r*) | **proved** |
 
 ### Key Proof Steps
 
