@@ -590,6 +590,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_tendsto`: r(t) → r* as t → ∞ (continuous time, 0 assumed) | **proved** |
 | `lorentzian_explicit_sq_diff_bound`: (r(t)²-r*²)² ≤ A²·exp(-2μt) | **proved** |
 | `lorentzian_explicit_rate`: \|r(t)-r*\| ≤ \|A\|·exp(-μt)/r* | **proved** |
+| `LorentzianContinuousSolution.eq_explicit`: S.r t = lorentzian_explicit K γ r₀ t (ODE uniqueness) | **proved** |
+| `LorentzianContinuousSolution.rate_bound`: universal rate bound for any ODE solution | **proved** |
 
 ### Key Proof Steps
 
@@ -604,7 +606,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 
 `lorentzian_explicit_sq_diff_bound` gives the **explicit exponential rate**: (r(t)²-r*²)² ≤ A²·exp(-2μt) where A = 1/r₀²-B, B = K/(K-2γ), μ = K-2γ. The key inequality is (w⁻¹-B⁻¹)² ≤ (w⁻¹-B⁻¹)²·(wB)² because wB > 1 (from w > 1 and B > 1). Then `hprod` computes (w⁻¹-B⁻¹)·(wB) = -(A·exp(-μt)) algebraically, so the product-squared equals A²·exp(-2μt) via `mul_pow`, `neg_sq`, `sq (Real.exp _)`, and `← Real.exp_add`.
 
-`lorentzian_explicit_rate` upgrades this to **|r(t)-r*| ≤ |A|·exp(-μt)/r***. Proof: |r-r*| = |r²-r*²|/(r+r*) ≤ |r²-r*²|/r* (since r ≥ 0); |r²-r*²| ≤ |A|·exp(-μt) from sq_diff_bound via `Real.sqrt_le_sqrt` + `Real.sqrt_sq_eq_abs`. This is the sharpest pointwise rate for the Lorentzian OA ODE in the explicit Bernoulli formula: exponential rate μ = K-2γ is the linear rate of the ODE at r = 0, and the amplitude A depends on the initial distance from equilibrium.
+`lorentzian_explicit_rate` upgrades this to **|r(t)-r*| ≤ |A|·exp(-μt)/r***. `LorentzianContinuousSolution.eq_explicit` then proves **ODE uniqueness**: any solution of the Lorentzian ODE with initial condition r₀ equals the explicit Bernoulli formula for all t > 0, via `ODE_solution_unique_of_mem_Icc_right` with Lipschitz constant 2K. This immediately yields `rate_bound`: |r(t)-r*| ≤ |A|·exp(-μt)/r* for any `LorentzianContinuousSolution`, not just the explicitly constructed one. Proof: |r-r*| = |r²-r*²|/(r+r*) ≤ |r²-r*²|/r* (since r ≥ 0); |r²-r*²| ≤ |A|·exp(-μt) from sq_diff_bound via `Real.sqrt_le_sqrt` + `Real.sqrt_sq_eq_abs`. This is the sharpest pointwise rate for the Lorentzian OA ODE in the explicit Bernoulli formula: exponential rate μ = K-2γ is the linear rate of the ODE at r = 0, and the amplitude A depends on the initial distance from equilibrium.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 

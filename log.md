@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-28] experiment | eq_explicit + rate_bound: ODE uniqueness + universal rate bound (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+eq_explicit, +rate_bound)
+- updated: syntheses/lean-proof-status.md (+eq_explicit, +rate_bound entries)
+- index.md: regenerated
+- LEAN: `eq_explicit` — S.r t = lorentzian_explicit K γ r₀ t via ODE_solution_unique_of_mem_Icc_right. `rate_bound` — |S.r t - r*| ≤ |A|·exp(-μt)/r* for any LorentzianContinuousSolution, as a corollary of eq_explicit + lorentzian_explicit_rate.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-28] experiment | lorentzian_explicit_rate: pointwise rate |r(t)-r*| ≤ |A|·exp(-μt)/r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_rate)
