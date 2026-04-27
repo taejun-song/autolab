@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.r_dist_bound — distance decay lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.r_dist_bound)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 77)
+- index.md: regenerated (session 8, experiment 77)
+- LEAN: order_parameter_exp_decay applied to Solution.v_exp_bound; rwa [sqrt_sq_eq_abs]. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution.v_exp_bound — V≤V₀·exp(-μt) lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.v_exp_bound)
