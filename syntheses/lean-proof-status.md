@@ -681,6 +681,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_dist_tendsto_zero`: \|r(t)-r*\| → 0 as t→∞ (Lyapunov route) | **proved** |
 | `lorentzian_lyapunov_v_ratio_bound`: r₀≠r* → exp(-2Kt) ≤ V(t)/V(0) ≤ exp(-μt) | **proved** |
 | `lorentzian_lyapunov_v_nonincreasing`: V is AntitoneOn [0,∞) for ALL r₀ (including r₀=r*) | **proved** |
+| `lorentzian_lyapunov_sublevel_fwd_inv`: V(t₀)≤c → V(t)≤c for t≥t₀ (sublevel set fwd-invariant) | **proved** |
 
 ### Key Proof Steps
 

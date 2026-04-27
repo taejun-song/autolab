@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | sublevel_fwd_inv — {V ≤ c} forward-invariant (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_sublevel_fwd_inv)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 66)
+- index.md: regenerated (session 8, experiment 66)
+- LEAN: v_nonincreasing applied with Set.mem_Ici.mpr; one-liner .trans hV.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_nonincreasing — V AntitoneOn [0,∞) for all r₀ (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_nonincreasing)
