@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | unified_rate: |r(t)-r*| ≤ |r₀²-r*²|·exp(-K·min(r₀²,r*²)·t)/r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_unified_rate)
+- updated: syntheses/lean-proof-status.md (+unified_rate entry + header update)
+- index.md: regenerated (session 8, experiment 18)
+- LEAN: `lorentzian_unified_rate` — covers all r₀∈(0,1) with r₀²≠r*². Case split on r₀²<r*² (V-decay, min=r₀²) vs r₀²>r*² (W-decay, min=r*²). Uses simp[hrstar_sq] + linarith to close both cases.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_from_w_decay: |r(t)-r*| ≤ (r₀²-r*²)·exp(-K·r*²·t)/r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_r_from_w_decay)

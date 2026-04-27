@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, V-ODE, forward invariance from both sides, monotone r², Gronwall V/W-decay for both sub/supercritical initial conditions. 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability 10/r*⁴, V-ODE, forward invariance from both sides, Gronwall V/W-decay, and unified exponential rate |r(t)-r*| ≤ |r₀²-r*²|·exp(-K·min(r₀²,r*²)·t)/r*. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -606,6 +606,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_sq_le_init`: r₀² > r*² → r(t)² ≤ r₀² for all t ≥ 0 | **proved** |
 | `lorentzian_w_exponential_decay`: r₀² > r*² → r(t)²-r*² ≤ (r₀²-r*²)·exp(-K·r*²·t) | **proved** |
 | `lorentzian_r_from_w_decay`: r₀² > r*² → \|r(t)-r*\| ≤ (r₀²-r*²)·exp(-K·r*²·t)/r* | **proved** |
+| `lorentzian_unified_rate`: r₀²≠r*² → \|r(t)-r*\| ≤ \|r₀²-r*²\|·exp(-K·min(r₀²,r*²)·t)/r* | **proved** |
 
 ### Key Proof Steps
 
