@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_dist_below — |r(t)-r*|≤|r₀-r*|·exp(-K·r₀·r*/2·t) (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+import ExplicitRate, +lorentzian_lyapunov_r_dist_below)
+- updated: syntheses/lean-proof-status.md (+1 entry, updated header)
+- index.md: regenerated (session 8, experiment 48)
+- LEAN: order_parameter_exp_decay instantiated with V=(r-r*)², V₀=(r₀-r*)², μ=K·r₀·r*; v_exp_bound_below as hV_decay; le_refl as hr_sq. linarith closes.
+- Build: 3336 jobs (+1 from ExplicitRate import), 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_exp_bound (unified) — V(t)≤V(0)·exp(-K·min(r₀,r*)·r*·t) (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_exp_bound)

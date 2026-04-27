@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich, Lyapunov stability (δ=ε), strict Lyapunov function, V' ODE formula, exponential Lyapunov bound. 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich, Lyapunov stability (δ=ε), strict Lyapunov function, V' ODE, exp Lyapunov bounds (below/above/unified), half-rate distance bound. 3336 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -657,6 +657,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_v_exp_bound_below`: r₀ < r* → V(t) ≤ V(0)·exp(-K·r₀·r*·t) (Lyapunov bound below) | **proved** |
 | `lorentzian_lyapunov_v_exp_bound_above`: r* < r₀ → V(t) ≤ V(0)·exp(-2K·r*²·t) (Lyapunov bound above) | **proved** |
 | `lorentzian_lyapunov_v_exp_bound`: r₀≠r* → V(t) ≤ V(0)·exp(-K·min(r₀,r*)·r*·t) (unified) | **proved** |
+| `lorentzian_lyapunov_r_dist_below`: r₀<r* → \|r(t)-r*\| ≤ \|r₀-r*\|·exp(-K·r₀·r*/2·t) | **proved** |
 
 ### Key Proof Steps
 
