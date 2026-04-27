@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich. 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich, Lyapunov monotonicity. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -644,6 +644,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_gt_rstar_of_init`: r* < r₀ → r* < r(t) for all t ≥ 0 (superlevel set forward-invariant) | **proved** |
 | `lorentzian_explicit_ge_r0`: r₀ < r* → r₀ ≤ r(t) for all t ≥ 0 (trajectory non-decreasing from r₀) | **proved** |
 | `lorentzian_explicit_le_r0`: r* < r₀ → r(t) ≤ r₀ for all t ≥ 0 (trajectory non-increasing from r₀) | **proved** |
+| `lorentzian_explicit_dist_strict_decreasing`: r₀ ≠ r*, 0 ≤ s < t → \|r(t)-r*\| < \|r(s)-r*\| (distance to equilibrium strictly decreasing) | **proved** |
 
 ### Key Proof Steps
 
@@ -681,6 +682,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Equilibrium characterization (experiment 32)**: `lorentzian_unique_pos_fixed_point` proves that r* is the only positive zero of the Lorentzian ODE: from `lorentzian_ode_factored`, ṙ=0 factors as (K/2)·r·(r*²-r²)=0; with r>0 and K>0 both non-zero, the bracket must vanish: r²=1-2γ/K; then `Real.sqrt_sq hr_pos.le` recovers r = √(1-2γ/K) = r*. `lorentzian_fixed_point_iff` packages this into a complete iff: ṙ=0 on [0,∞) iff r=0 or r=r*. The r=0 case closes via `simp [lorentzianODE]`; the r=r* case uses `lorentzian_rstar_is_fixed_point`. Together these two theorems give the full global portrait: exactly two fixed points (0 and r*), with positive velocity between them and negative above.
 
 **Linearized instability at origin (experiment 31)**: `lorentzian_ode_hasDerivAt_zero` proves that the derivative of the Lorentzian ODE at r=0 is K/2-γ, positive for K > 2γ. The proof follows the same pattern as `ode_hasDerivAt_rstar`: construct `HasDerivAt` for the polynomial (K/2-γ)r-(K/2)r³ via `h1.sub h2`, convert via `hconv`, then `convert hderiv using 1; ring` closes the derivative value. `lorentzian_ode_neg_above_one` extends the sign analysis to all r > 1: the ODE velocity is negative (not just for r ∈ (r*,1)). The proof uses the factored form (K/2)·r·(r*²-r²) and shows r*²-r² < 0 for r > 1 via `linarith [div_pos (2γ>0) (K>0)]` (giving r*² = 1-2γ/K < 1 < r²) — much simpler than the sign analysis for r ∈ (r*,1) which required nlinarith.
+
+**Strictly decreasing distance (experiment 39)**: `lorentzian_explicit_dist_strict_decreasing` proves that for r₀ ≠ r* and 0 ≤ s < t, |r(t)-r*| < |r(s)-r*|. The proof dispatches on `lt_or_gt_of_ne hr₀_ne`: below r*, `lt_rstar_of_init` gives r(t) < r* and `strictly_increasing` gives r(s) < r(t), so `abs_of_neg` rewrites both to r*-r(t) < r*-r(s), closed by `linarith`; above r*, `gt_rstar_of_init` gives r* < r(t) and `strictly_decreasing` gives r(t) < r(s), so `abs_of_pos` rewrites both to r(t)-r* < r(s)-r*, closed by `linarith`. This theorem is the machine-checked form of the global attractor property: every trajectory not starting at r* moves strictly closer to r* with each passing unit of time.
 
 **Trajectory sandwich (experiment 38)**: `lorentzian_explicit_lt_rstar_of_init` and `lorentzian_explicit_gt_rstar_of_init` prove that the sublevel set {r < r*} and superlevel set {r > r*} are each forward-invariant: once a trajectory starts below (resp. above) r*, it stays there for all t ≥ 0. Both proofs follow the same chain: derive r₀² vs r*² comparison via `sq_lt_sq'`; apply `sq_lt/gt_rstar`; convert back via `sqrt_lt_sqrt` + `sqrt_sq`. `lorentzian_explicit_ge_r0` and `lorentzian_explicit_le_r0` complement these: below r*, r(t) ≥ r₀ (trajectory never retreats from initial); above r*, r(t) ≤ r₀ (trajectory never overshoots). These use `sq_ge/le_init` + `sqrt_le_sqrt` + `sqrt_sq`. Together, the four theorems establish the complete trajectory sandwich: for r₀ ∈ (0, r*), r₀ ≤ r(t) < r* for all t ≥ 0; for r₀ ∈ (r*, 1), r* < r(t) ≤ r₀ for all t ≥ 0. This is the machine-checked sandwich principle underlying every monotone convergence argument.
 

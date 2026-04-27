@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | dist_strict_decreasing — |r(t)-r*| strictly decreasing in time (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_dist_strict_decreasing)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph)
+- index.md: regenerated (session 8, experiment 39)
+- LEAN: `dist_strict_decreasing` — r₀≠r*, 0≤s<t → |r(t)-r*|<|r(s)-r*|; proof: lt_or_gt_of_ne hr₀_ne dispatch; below case: lt_rstar_of_init + strictly_increasing → abs_of_neg + linarith; above case: gt_rstar_of_init + strictly_decreasing → abs_of_pos + linarith.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | trajectory sandwich — one-sided invariance + init comparison (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+4 theorems: lt_rstar_of_init, gt_rstar_of_init, ge_r0, le_r0)
