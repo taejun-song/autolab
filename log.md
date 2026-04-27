@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_ratio_bound — exp(-2Kt) ≤ V(t)/V(0) ≤ exp(-μt) (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_ratio_bound)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 64)
+- index.md: regenerated (session 8, experiment 64)
+- LEAN: le_div_iff₀ + linarith [mul_comm exp V0] for both bounds; anonymous constructor syntax needs explicit constructor tactic (⟨..., by ...⟩ fails for multi-line by blocks).
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | dist_tendsto_zero — |r(t)-r*| → 0 Lyapunov route (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_dist_tendsto_zero)
