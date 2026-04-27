@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.two_traj_from_gronwall — two-trajectory abstract ODE sync bound, tighter rate (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: two_traj_from_gronwall)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 67 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 133)
+- LEAN: triangle inequality |S.r t-S'.r t| ≤ |S.r t-rs| + |S'.r t-rs| + dist_from_gronwall applied to each solution + ring to factor the exp. Rate K·δ·(δ+r*)/2 strictly tighter than two_traj_sync_from_persist's K·δ·r*/2 by factor (δ+r*)/r* > 1. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.v_uniform_from_ode + dist_from_gronwall — uniform decay + dist bound from abstract ODE (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: v_uniform_from_ode, dist_from_gronwall)
