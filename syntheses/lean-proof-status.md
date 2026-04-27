@@ -64,6 +64,9 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Critical | K = 2γ | r(t) → 0 algebraically | **proved** (`lorentzian_critical_tendsto`) |
 | Supercritical (nondec) | K > 2γ, r(0) ≤ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_nondec_convergence`) |
 | Supercritical (noninc) | K > 2γ, r(0) ≥ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_noninc_convergence`) |
+| **Unified** | **any K > 0, r(0) ∈ (0,1)** | **∃ r_∞ ∈ [0,1], r(t) → r_∞ (all cases)** | **proved** (`lorentzian_continuous_trifurcation`) |
+
+The **unified** theorem lifts to NPoleODEData n=1 and applies `trifurcation_from_ode` directly, covering all three regimes in one statement via `lorentzian_npole_critical_K_eq` (npoleCriticalK = 2γ for n=1).
 
 The subcritical proof uses V = r²: d(r²)/dt = 2r·ṙ = -2μr² - Kr⁴ ≤ -2μr² for ALL r ∈ ℝ (no positivity needed, since Kr⁴ ≥ 0). Then comparison_decay and |r(t)| < ε from r(t)² < ε² via Real.sqrt_lt_sqrt.
 
@@ -77,7 +80,7 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **116** |
-| Comprehensive build | **3430 build jobs** (up from 3286 after subcritical addition) |
+| Comprehensive build | **3333 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory

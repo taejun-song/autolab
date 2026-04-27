@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-27] experiment | lorentzian_continuous_trifurcation: unified Filter.Tendsto theorem for all K > 0
+
+- updated: KuramotoLean/LorentzianFromODE.lean (+lorentzian_npole_critical_K_eq, +lorentzian_to_npole, +lorentzian_continuous_trifurcation)
+- updated: syntheses/lean-proof-status.md (+unified row, updated build count)
+- updated: index.md (regenerated, updated lean-proof-status summary)
+- LEAN: `lorentzian_npole_critical_K_eq` — npoleCriticalK (fun _ => γ) (fun _ => 1) = 2γ (n=1 bridge).
+- LEAN: `lorentzian_to_npole` — builds NPoleODEData 1 from Lorentzian ODE data for any K > 0 (no K > 2γ constraint).
+- LEAN: `lorentzian_continuous_trifurcation` — ∃ r_∞, r(t) → r_∞; K ≤ 2γ → r_∞ = 0; K > 2γ → r_∞ ∈ (0,1). Proof lifts to NPoleODEData, applies trifurcation_from_ode, bridges via lorentzian_npole_critical_K_eq.
+- **Sorry count**: 0 (116 files, 3333 build jobs)
+
 ## [2026-04-27] experiment | critical Lorentzian convergence: K = 2γ → r(t) → 0 proved (116 files)
 
 - updated: KuramotoLean/LorentzianFromODE.lean (+lorentzian_sq_deriv_critical_linear, +lorentzian_critical_tendsto)
