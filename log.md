@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_trap — two-sided exponential sandwich on distance (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_trap)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 58)
+- index.md: regenerated (session 8, experiment 58)
+- LEAN: one-liner conjunction ⟨r_dist_lb, r_dist⟩; no new tactics needed.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_dist_lb — lower distance bound |r(t)-r*| ≥ |r₀-r*|·exp(-Kt) (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_dist_lb)

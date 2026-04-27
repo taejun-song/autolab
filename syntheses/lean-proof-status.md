@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, V' ODE, exp bounds (below/above/unified/lower), distance bounds (below/above/unified/lower), convergence times (below/above/unified), V antitone, V positivity/zero characterization, V coefficient bounds. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, V' ODE, exp bounds (below/above/unified/lower), distance bounds (below/above/unified/lower/trap), convergence times (below/above/unified), V antitone, V positivity/zero characterization, V coefficient bounds. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -672,6 +672,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_v_pos`: r₀≠r* → V(t) > 0 for all t ≥ 0 | **proved** |
 | `lorentzian_lyapunov_v_eq_zero_iff`: V(t) = 0 ↔ r(t) = r* | **proved** |
 | `lorentzian_lyapunov_r_dist_lb`: \|r(t)-r*\| ≥ \|r₀-r*\|·exp(-K·t) for all t ≥ 0 | **proved** |
+| `lorentzian_lyapunov_r_trap`: r₀≠r* → lower_lb ≤ \|r(t)-r*\| ≤ upper_ub (two-sided trap) | **proved** |
 
 ### Key Proof Steps
 
@@ -709,6 +710,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Equilibrium characterization (experiment 32)**: `lorentzian_unique_pos_fixed_point` proves that r* is the only positive zero of the Lorentzian ODE: from `lorentzian_ode_factored`, ṙ=0 factors as (K/2)·r·(r*²-r²)=0; with r>0 and K>0 both non-zero, the bracket must vanish: r²=1-2γ/K; then `Real.sqrt_sq hr_pos.le` recovers r = √(1-2γ/K) = r*. `lorentzian_fixed_point_iff` packages this into a complete iff: ṙ=0 on [0,∞) iff r=0 or r=r*. The r=0 case closes via `simp [lorentzianODE]`; the r=r* case uses `lorentzian_rstar_is_fixed_point`. Together these two theorems give the full global portrait: exactly two fixed points (0 and r*), with positive velocity between them and negative above.
 
 **Linearized instability at origin (experiment 31)**: `lorentzian_ode_hasDerivAt_zero` proves that the derivative of the Lorentzian ODE at r=0 is K/2-γ, positive for K > 2γ. The proof follows the same pattern as `ode_hasDerivAt_rstar`: construct `HasDerivAt` for the polynomial (K/2-γ)r-(K/2)r³ via `h1.sub h2`, convert via `hconv`, then `convert hderiv using 1; ring` closes the derivative value. `lorentzian_ode_neg_above_one` extends the sign analysis to all r > 1: the ODE velocity is negative (not just for r ∈ (r*,1)). The proof uses the factored form (K/2)·r·(r*²-r²) and shows r*²-r² < 0 for r > 1 via `linarith [div_pos (2γ>0) (K>0)]` (giving r*² = 1-2γ/K < 1 < r²) — much simpler than the sign analysis for r ∈ (r*,1) which required nlinarith.
+
+**Two-sided exponential trap (experiment 58)**: `lorentzian_lyapunov_r_trap` packages `r_dist_lb` (lower bound) and `r_dist` (upper bound) as a single conjunction: `⟨r_dist_lb ..., r_dist ...⟩`. The proof is a one-liner — both sub-theorems are already available. The result is a machine-checked sandwich: for all t ≥ 0 and r₀ ≠ r*, the distance |r(t)-r*| is exponentially trapped between |r₀-r*|·exp(-K·t) and |r₀-r*|·exp(-K·min(r₀,r*)·r*/2·t). This is the Lorentzian analog of the classical two-sided Gronwall estimate: the lower bound proves the orbit does not converge too fast (no super-exponential collapse), while the upper bound proves global exponential convergence. For r₀ → r*, both rates approach K-2γ (the linearized rate), confirming exponential stability is sharp at the linearization. This closes the Lyapunov distance analysis for the Lorentzian ODE: existence, convergence, rate (upper), rate (lower), trap — all machine-verified.
 
 **Distance lower bound (experiment 57)**: `lorentzian_lyapunov_r_dist_lb` proves |r(t)-r*| ≥ |r₀-r*|·exp(-K·t) for all t ≥ 0. The proof takes the square root of `v_lb`: from V(t) ≥ V(0)·exp(-2K·t), `Real.sqrt_le_sqrt` gives √(V(t)) ≥ √(V(0)·exp(-2K·t)). The LHS simplifies to |r(t)-r*| by `Real.sqrt_sq_eq_abs`. The RHS factors via `Real.sqrt_mul (sq_nonneg _)` and the key identity `√(exp(-2K·t)) = exp(-K·t)`, proved by writing `exp(-2K·t) = exp(-K·t)²` via `rw [sq, ← Real.exp_add]; congr 1; ring`, then `Real.sqrt_sq (le_of_lt (Real.exp_pos _))`. The `calc` chain is: `|r₀-r*|·exp(-Kt) = √((r₀-r*)²)·√(exp(-2Kt)) = √((r₀-r*)²·exp(-2Kt)) ≤ √((r(t)-r*)²) = |r(t)-r*|`. Together with `lorentzian_lyapunov_r_dist` (upper bound), this gives a complete **two-sided exponential trap** on the distance: |r₀-r*|·exp(-K·t) ≤ |r(t)-r*| ≤ |r₀-r*|·exp(-K·min(r₀,r*)·r*/2·t). The ratio of upper to lower rates is K versus K·min(r₀,r*)·r*/2; since min(r₀,r*)·r* ≤ r*² ≤ 1, the upper rate is ≥ K/2 times the lower rate. For r₀ near r*, both rates approach K·r*² = K-2γ (the linearized rate), so the trap narrows to the linearized exponential.
 
