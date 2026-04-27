@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.dist_from_gronwall_below/above — regime-specific abstract ODE dist bounds (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: dist_from_gronwall_below, dist_from_gronwall_above)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 69 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 134)
+- LEAN: dist_from_gronwall_below — ge_init_of_lt_rstar gives S.r t ≥ S.r 0 globally, so δ=S.r 0 in dist_from_gronwall; rate K·r₀·(r₀+r*)/2 strictly tighter than dist_bound_below's K·r₀·r*/2. dist_from_gronwall_above — gt_rstar_of_init gives S.r t > r* globally, so δ=r*; rate K·r*·2r*/2=K·r*²=K-2γ matches dist_bound_above. Both are one-line term-mode proofs. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.two_traj_from_gronwall — two-trajectory abstract ODE sync bound, tighter rate (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: two_traj_from_gronwall)
