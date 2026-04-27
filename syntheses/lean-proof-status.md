@@ -656,6 +656,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_v_deriv_formula`: d/dt V = -(K·r·(r+r*)·V) — explicit ODE for V = (r-r*)² | **proved** |
 | `lorentzian_lyapunov_v_exp_bound_below`: r₀ < r* → V(t) ≤ V(0)·exp(-K·r₀·r*·t) (Lyapunov bound below) | **proved** |
 | `lorentzian_lyapunov_v_exp_bound_above`: r* < r₀ → V(t) ≤ V(0)·exp(-2K·r*²·t) (Lyapunov bound above) | **proved** |
+| `lorentzian_lyapunov_v_exp_bound`: r₀≠r* → V(t) ≤ V(0)·exp(-K·min(r₀,r*)·r*·t) (unified) | **proved** |
 
 ### Key Proof Steps
 

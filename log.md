@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_exp_bound (unified) — V(t)≤V(0)·exp(-K·min(r₀,r*)·r*·t) (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_exp_bound)
+- updated: syntheses/lean-proof-status.md (+1 entry)
+- index.md: regenerated (session 8, experiment 47)
+- LEAN: dispatch on lt_or_gt_of_ne; below: min_eq_left + v_exp_bound_below; above: min_eq_right + calc chain with exp_le_exp.mpr; linear_combination K*t*hrs_sq + linarith closes rate comparison.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_exp_bound_above — V(t)≤V(0)·exp(-2K·r*²·t) for r*<r₀ (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_exp_bound_above)
