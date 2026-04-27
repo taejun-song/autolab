@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_nonincreasing_from_ode + dist_le_init_from_ode — abstract ODE Lyapunov monotonicity (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: v_nonincreasing_from_ode, dist_le_init_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 72 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 136)
+- LEAN: v_nonincreasing_from_ode uses antitoneOn_of_hasDerivWithinAt_nonpos (not antitoneOn_of_deriv_nonpos — the latter needs DifferentiableOn explicitly); hr_cont is ContinuousOn not Continuous, so use .sub continuousOn_const not .sub continuous_const; HasDerivWithinAt from v_deriv_formula.hasDerivWithinAt; f' ≤ 0 from v_deriv_nonpos. dist_le_init_from_ode: from v_nonincreasing_from_ode + sqrt_le_sqrt + sqrt_sq_eq_abs. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.v_deriv_nonpos — V derivative nonpositivity from abstract ODE (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: v_deriv_nonpos)
