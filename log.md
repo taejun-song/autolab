@@ -3,7 +3,7 @@
 ## [2026-04-27] experiment | Solution v_antitone + dist_bound_below/above + sq_diff_bound + rate_initial — 5 theorems lifted (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+5 theorems: v_antitone, dist_bound_below, dist_bound_above, sq_diff_bound, rate_initial)
-- updated: syntheses/lean-proof-status.md (+5 entries, total 53 LorentzianContinuousSolution theorems)
+- updated: syntheses/lean-proof-status.md (+5 entries, total 59 LorentzianContinuousSolution theorems; corrected count from 53 — prior tracking undercount by 6 due to /tmp/lifted.txt predating experiments 118-123)
 - index.md: regenerated (session 8, experiment 128)
 - LEAN: v_antitone via v_nonincreasing + Set.mem_Ici.mpr (covers r₀=r*); dist_bound_below/above via eq_explicit_of_nonneg + lorentzian_lyapunov_r_dist_below'/r_dist_above; sq_diff_bound/rate_initial via eq_explicit_of_nonneg + underlying lorentzian_explicit_sq_diff_bound/rate_initial (no hr₀_ne needed). Build: 3336 jobs.
 
