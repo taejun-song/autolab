@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 116 files. Two ODE-derived constructors: toLorentzianSolution_nondec (0 assumed) and toLorentzianSolution_noninc (0 assumed). Both prove ALL LorentzianSolution fields from the ODE alone — **LorentzianSolution gap CLOSED**.
+Machine-checked proof status: 0 sorry, 0 axioms across 116 files. Complete Lorentzian trifurcation: K < 2γ → r→0 (exponential), K = 2γ → r→0 (algebraic, contradiction+comparison), K > 2γ → r→r* (ODE constructors). LorentzianSolution gap CLOSED.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -61,10 +61,13 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Regime | Condition | Result | Status |
 |---|---|---|---|
 | Subcritical | K < 2γ | r(t) → 0 exponentially | **proved** (`lorentzian_subcritical_tendsto`) |
+| Critical | K = 2γ | r(t) → 0 algebraically | **proved** (`lorentzian_critical_tendsto`) |
 | Supercritical (nondec) | K > 2γ, r(0) ≤ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_nondec_convergence`) |
 | Supercritical (noninc) | K > 2γ, r(0) ≥ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_noninc_convergence`) |
 
 The subcritical proof uses V = r²: d(r²)/dt = 2r·ṙ = -2μr² - Kr⁴ ≤ -2μr² for ALL r ∈ ℝ (no positivity needed, since Kr⁴ ≥ 0). Then comparison_decay and |r(t)| < ε from r(t)² < ε² via Real.sqrt_lt_sqrt.
+
+The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (quadratic, not linear). By contradiction: if V ≥ δ forever, then V' ≤ -(Kδ)·V (linearize at δ), so comparison_decay gives V(t) ≤ C·exp(-Kδt) → 0, contradicting V ≥ δ. The antitone property of V follows from antitoneOn_of_deriv_nonpos (V' = -K·V² ≤ 0).
 
 ## Project-Wide Status
 

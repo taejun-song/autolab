@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-27] experiment | critical Lorentzian convergence: K = 2γ → r(t) → 0 proved (116 files)
+
+- updated: KuramotoLean/LorentzianFromODE.lean (+lorentzian_sq_deriv_critical_linear, +lorentzian_critical_tendsto)
+- updated: syntheses/lean-proof-status.md (+critical row, updated summary)
+- LEAN: `lorentzian_sq_deriv_critical_linear` — for K = 2γ and r² ≥ δ: 2r·ṙ ≤ -(Kδ)·r². Key: V' = -K·V², so V' ≤ -(Kδ)·V when V ≥ δ.
+- LEAN: `lorentzian_critical_tendsto` — Filter.Tendsto r atTop (nhds 0) for K = 2γ. Contradiction argument: assume V = r² ≥ ε² forever. antitoneOn_of_deriv_nonpos gives V antitone. Linear bound V' ≤ -(Kε²)·V. comparison_decay → C·exp(-Kε²t) → 0 → V(T) < ε². But V(T) ≥ ε². Contradiction.
+- **Lorentzian trifurcation now complete**: K < 2γ → r→0; K = 2γ → r→0; K > 2γ → r→r*.
+- **Sorry count**: 0 (116 files, 3430 build jobs)
+- index.md: regenerated
+
 ## [2026-04-27] experiment | subcritical Lorentzian convergence: K < 2γ → r(t) → 0 proved (116 files)
 
 - updated: KuramotoLean/LorentzianFromODE.lean (+lorentzian_sq_deriv_subcritical, +lorentzian_subcritical_sq_bound, +lorentzian_subcritical_tendsto)
