@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (63 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization. 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (64 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization. 3336 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -748,6 +748,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.v_hasDerivAt`: HasDerivAt (fun s => (S.r s-r*)²) (2(S.r t-r*)·ṙ(t)) t — proved directly from S.hr_ode (ODE structural, no eq_explicit) | **proved** |
 | `LorentzianContinuousSolution.v_deriv_formula`: HasDerivAt (fun s => (S.r s-r*)²) (-(K·r·(r+r*)·(r-r*)²)) t — factored derivative, V'=-K·r·(r+r*)·V self-similar ODE | **proved** |
 | `LorentzianContinuousSolution.v_eq_zero_iff`: (S.r t-r*)²=0 ↔ S.r t=r* — V vanishes exactly at equilibrium, pure algebra | **proved** |
+| `LorentzianContinuousSolution.v_gronwall_from_ode`: V(a+Δ)≤V(a)·exp(-K·δ·(δ+r*)·Δ) when S.r≥δ on [a,a+Δ] — proved via v_deriv_formula + comparison_decay_interval (NO eq_explicit); tighter rate than v_persistence_drop | **proved** |
 
 ### Key Proof Steps
 

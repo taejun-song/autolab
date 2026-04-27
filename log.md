@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_gronwall_from_ode — Gronwall V-bound from abstract ODE, tighter rate K·δ·(δ+r*) (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: v_gronwall_from_ode)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 64 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 131)
+- LEAN: V = (S.r u - rs)², V' = -(K·r·(r+rs)·V) from v_deriv_formula; persistence r≥δ gives V'≤-(K·δ·(δ+rs))·V via nlinarith; comparison_decay_interval closes the bound. NO eq_explicit_of_nonneg used — pure ODE structural argument. Rate K·δ·(δ+r*) is strictly tighter than v_persistence_drop's K·δ·r* by factor (δ+r*)/r* > 1. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.v_hasDerivAt + v_deriv_formula + v_eq_zero_iff — abstract Lyapunov HasDerivAt + factored ODE formula (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+3 theorems: v_hasDerivAt, v_deriv_formula, v_eq_zero_iff)
