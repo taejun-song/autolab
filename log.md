@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_exp_bound_above — V(t)≤V(0)·exp(-2K·r*²·t) for r*<r₀ (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_exp_bound_above)
+- updated: syntheses/lean-proof-status.md (+1 entry, significance paragraph)
+- index.md: regenerated (session 8, experiment 46)
+- LEAN: comparison_decay μ=2K*r*²; bound r*(r+r*)≥2r*² via mul_le_mul + hsum by linarith; mul_le_mul_of_nonneg_left + nlinarith[hrstar_sq] closes 2K*(1-2γ/K) ≤ K*r*(r+r*).
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_exp_bound_below — V(t)≤V(0)·exp(-K·r₀·r*·t) for r₀<r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_exp_bound_below)
