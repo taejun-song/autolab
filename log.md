@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | dist_tendsto_zero — |r(t)-r*| → 0 Lyapunov route (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_dist_tendsto_zero)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 63)
+- index.md: regenerated (session 8, experiment 63)
+- LEAN: explicit_tendsto.sub_const rs; simp [sub_self]; .abs; simp [abs_zero]. Fix: rw [sqrt_zero] at ContinuousAt h fails; use .sub_const + .abs route instead.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_ball_fwd_inv — B(r*, ε) forward-invariant (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_ball_fwd_inv)
