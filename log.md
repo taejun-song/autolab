@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_deriv_neg_at_nonequil — strict V derivative negativity off equilibrium (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: v_deriv_neg_at_nonequil)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 73 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 137)
+- LEAN: sq_pos_of_ne_zero proves (r-r*)²>0 when r≠r* (note: syntax is `apply sq_pos_of_ne_zero; exact ...` not `sq_pos_of_ne_zero _ h` which gives "Function expected"); then mul_pos chain + nlinarith. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.v_nonincreasing_from_ode + dist_le_init_from_ode — abstract ODE Lyapunov monotonicity (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: v_nonincreasing_from_ode, dist_le_init_from_ode)
