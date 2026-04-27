@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 116 files. Complete Lorentzian trifurcation: K < 2γ → r→0 (exponential), K = 2γ → r→0 (algebraic, contradiction+comparison), K > 2γ → r→r* (ODE constructors). LorentzianSolution gap CLOSED.
+Machine-checked proof status: 0 sorry, 0 axioms across 116 files. Complete Lorentzian trifurcation + ODE monotonicity: r(0)<r* → r nondecreasing (ODE sign + monotoneOn), r(0)>r* → r nonincreasing (ODE sign + antitoneOn). Constructors toLorentzianSolution_from_below/above eliminate all monotonicity assumptions. 3430 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -64,6 +64,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Critical | K = 2γ | r(t) → 0 algebraically | **proved** (`lorentzian_critical_tendsto`) |
 | Supercritical (nondec) | K > 2γ, r(0) ≤ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_nondec_convergence`) |
 | Supercritical (noninc) | K > 2γ, r(0) ≥ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_noninc_convergence`) |
+| **r(0) < r***, pure ODE | K > 2γ, r(0) < r* | r(n) → r* (0 assumptions) | **proved** (`lorentzian_below_rstar_convergence`) |
+| **r(0) > r***, pure ODE | K > 2γ, r(0) > r* | r(n) → r* (0 assumptions) | **proved** (`lorentzian_above_rstar_convergence`) |
 | **Unified** | **any K > 0, r(0) ∈ (0,1)** | **∃ r_∞ ∈ [0,1], r(t) → r_∞ (all cases)** | **proved** (`lorentzian_continuous_trifurcation`) |
 
 The **unified** theorem lifts to NPoleODEData n=1 and applies `trifurcation_from_ode` directly, covering all three regimes in one statement via `lorentzian_npole_critical_K_eq` (npoleCriticalK = 2γ for n=1).
@@ -80,7 +82,7 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **116** |
-| Comprehensive build | **3333 build jobs** |
+| Comprehensive build | **3430 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory

@@ -2751,3 +2751,18 @@ Major restructuring of MainTheorem.lean and companion files:
 - Fixed 6 stale companion files: IteratedContraction, ModulusLyapunov, Montel, OmegaLimitScalar, PassageToLimit, RateUniformity
 - **ALL 41 .lean files now build successfully**
 - Project: 0 sorry, 0 axioms, 41 .lean files (all building)
+
+## [2026-04-27] experiment | ODE monotonicity + backward uniqueness: from_below/above constructors (116 files)
+
+- updated: KuramotoLean/LorentzianFromODE.lean (+10 new theorems)
+- updated: syntheses/lean-proof-status.md (build count 3430, new theorems)
+- LEAN: `lorentzianODE_pos_of_below` — ṙ > 0 when 0 < r < r*. Proof: factored form K/2·r·(r*²-r²) > 0 via field_simp.
+- LEAN: `lorentzianODE_neg_of_above` — ṙ < 0 when r > r*. Proof: same factored form, negative gap.
+- LEAN: `r_sq_lt_of_lt_rstar`, `r_sq_gt_of_gt_rstar` — r vs r* comparison lifted to r² vs r*².
+- LEAN: `lorentzian_r_stays_above_rstar` — backward uniqueness: r(0) > r* → r(t) > r* for all t. Proof via IVT + ODE_solution_unique_of_mem_Icc_left (Gronwall).
+- LEAN: `r_nondecreasing_of_below` — r(0) < r* → r monotone non-decreasing. Proof via monotoneOn_of_deriv_nonneg (deriv = ODE > 0 below r*).
+- LEAN: `r_nonincreasing_of_above` — r(0) > r* → r monotone non-increasing. Proof via antitoneOn_of_deriv_nonpos.
+- LEAN: `toLorentzianSolution_from_below`, `toLorentzianSolution_from_above` — 0-assumption constructors directly from r(0) alone.
+- LEAN: `lorentzian_below_rstar_convergence`, `lorentzian_above_rstar_convergence` — global stability from r(0) < r* and r(0) > r* respectively.
+- **All monotonicity assumptions eliminated**: convergence proofs now require only K, γ, ODE solution, r(0) ∈ (0,1).
+- **Sorry count**: 0 (116 files, 3430 build jobs)
