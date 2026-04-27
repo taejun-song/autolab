@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-28] experiment | lorentzian_explicit_tendsto: continuous-time convergence r(t) → r* via Bernoulli formula (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_tendsto)
+- updated: syntheses/lean-proof-status.md (+lorentzian_explicit_tendsto entry, updated significance paragraph)
+- index.md: regenerated
+- LEAN: `lorentzian_explicit_tendsto` — proves Tendsto (lorentzian_explicit K γ r₀) atTop (nhds r*) in continuous time. Chain: (K-2γ)t → ∞ via tendsto_atTop_atTop.mpr; exp(-(K-2γ)t) → 0 via Real.tendsto_exp_neg_atTop_nhds_zero.comp; w(t) → B via limit arithmetic; w⁻¹ → B⁻¹ via continuousAt_inv₀; √(w⁻¹) → √(B⁻¹) via continuous_sqrt.continuousAt; field_simp shows B⁻¹ = 1-2γ/K.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-28] experiment | lorentzian_explicit_convergence: parameter-only end-to-end convergence (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_convergence)
