@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, V' ODE, exp bounds (below/above/unified/lower), distance bounds (below/above/unified/lower/trap/persistence), convergence times (below/above/unified), V antitone, V positivity/zero characterization, V coefficient bounds, interval decay, persistence drop, uniform exp decay; full LorentzianContinuousSolution lift (v_exp, dist, uniform-persist v, dist, convergence-time, two-traj-sync). 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift — v_exp, dist, v_nonincreasing, v_le_init, v_interval_decay, v_persistence_drop, v_uniform_exp_decay, r_dist_from_persist, convergence_time, two_traj_sync. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -697,6 +697,10 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.r_dist_from_persist`: global persistence → \|S.r t-r*\|≤\|S.r 0-r*\|·exp(-K·δ·r*/2·t) | **proved** |
 | `LorentzianContinuousSolution.convergence_time_from_persist`: global persistence → explicit ε-time T = log(V₀/ε²)/(K·δ·r*) lifted to ODE solution | **proved** |
 | `LorentzianContinuousSolution.two_traj_sync_from_persist`: bilateral persistence (same K,γ) → \|S.r t-S'.r t\|≤sum·exp(-K·δ·r*/2·t) | **proved** |
+| `LorentzianContinuousSolution.v_interval_decay`: V(t₀+Δ)≤V(t₀)·exp(-K·min(r(t₀),r*)·r*·Δ) for any ODE solution | **proved** |
+| `LorentzianContinuousSolution.v_persistence_drop`: r(t)≥δ on [t₀,t₀+Δ] → V(t₀+Δ)≤V(t₀)·exp(-Kδr*Δ) for ODE solution | **proved** |
+| `LorentzianContinuousSolution.v_nonincreasing`: V = (S.r t - r*)² is AntitoneOn [0,∞) unconditionally | **proved** |
+| `LorentzianContinuousSolution.v_le_init`: V(t) ≤ (S.r 0 - r*)² for all t ≥ 0, all r₀ | **proved** |
 
 ### Key Proof Steps
 
@@ -758,6 +762,10 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Convergence time lifted to LorentzianContinuousSolution (experiment 80)**: `LorentzianContinuousSolution.convergence_time_from_persist` gives the explicit ε-time T = log((S.r 0 - r*)²/ε²)/(K·δ·r*) for any abstract ODE solution with global persistence. Uses the same lifting pattern: `rw [eq_explicit_of_nonneg t ht, ...]` + `lorentzian_explicit_init` to convert the goal, then `exact lorentzian_lyapunov_convergence_time_from_persist ...` with persistence converted via `(S.eq_explicit_of_nonneg s hs) ▸ h_persist s hs`. This closes the abstract-solution convergence-time chain: after experiment 78 gives V decay and 79 gives distance decay, 80 gives the quantitative time-to-ε.
 
 **Distance from persistence lifted to LorentzianContinuousSolution (experiment 79)**: `LorentzianContinuousSolution.r_dist_from_persist` gives |S.r t - r*| ≤ |S.r 0 - r*|·exp(-K·δ·r*/2·t) for any ODE solution with global persistence S.r t ≥ δ. Same lifting pattern: rewrite via `eq_explicit_of_nonneg` + `lorentzian_explicit_init`, then `exact lorentzian_lyapunov_r_dist_from_persist ...` with the persistence-conversion `(S.eq_explicit_of_nonneg s hs) ▸ h_persist s hs`. This is the abstract-solution distance-decay companion to the explicit-formula version (experiment 73).
+
+**V nonincreasing and universal bound lifted to LorentzianContinuousSolution (experiments 84–85)**: `LorentzianContinuousSolution.v_nonincreasing` proves `AntitoneOn (fun t => (S.r t - r*)²) (Set.Ici 0)` for any abstract ODE solution, including S.r 0 = r* (V ≡ 0). Uses `simp only []` to beta-reduce the lambda goal then rewrites via `eq_explicit_of_nonneg` before applying `lorentzian_lyapunov_v_nonincreasing`. `LorentzianContinuousSolution.v_le_init` is a one-liner corollary: `S.v_nonincreasing (Set.mem_Ici.mpr le_rfl) (Set.mem_Ici.mpr ht) ht`. Together these give unconditional V monotonicity for the abstract structure, usable in Barbalat-style arguments without any r₀ ≠ r* hypothesis.
+
+**V interval and persistence drop lifted to LorentzianContinuousSolution (experiments 82–83)**: `LorentzianContinuousSolution.v_interval_decay` proves V(t₀+Δ) ≤ V(t₀)·exp(-K·min(r(t₀),r*)·r*·Δ) for any abstract ODE solution with t₀ ≥ 0, Δ ≥ 0. Uses `eq_explicit_of_nonneg (t₀+Δ) (by linarith)` and `eq_explicit_of_nonneg t₀ ht₀` to convert the goal, then applies `lorentzian_lyapunov_v_interval_decay`. `LorentzianContinuousSolution.v_persistence_drop` proves V(t₀+Δ) ≤ V(t₀)·exp(-K·δ·r*·Δ) whenever S.r t ≥ δ on [t₀,t₀+Δ], using the `▸` rewrite `(S.eq_explicit_of_nonneg t (le_trans ht₀ ht_lo)) ▸ h_persist t ht_lo ht_hi` to convert the pointwise persistence bound. These complete the interval-level toolkit for the abstract structure: every key building block of the persistence-chain analysis is now available at the `LorentzianContinuousSolution` level without reference to the explicit Bernoulli formula.
 
 **Uniform V decay lifted to LorentzianContinuousSolution (experiment 78)**: `LorentzianContinuousSolution.v_uniform_exp_decay` extends the explicit-formula `lorentzian_lyapunov_v_uniform_exp_decay` to any abstract ODE solution with global persistence S.r t ≥ δ. The code was initially placed before `lorentzian_lyapunov_v_uniform_exp_decay` (line ~1873), causing a forward-reference build error; it was moved to after the underlying theorem (~line 2466) to resolve it. The lifting pattern (`eq_explicit_of_nonneg` rewrite + persistence conversion) is the same as experiments 76–77. This completes the first tier of the abstract-solution persistence chain: V decay → distance decay → convergence time → two-traj synchronization.
 

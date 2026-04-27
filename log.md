@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_nonincreasing + v_le_init — unconditional V antitone and universal bound lifted (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.v_nonincreasing, v_le_init)
+- updated: syntheses/lean-proof-status.md (+2 entries for experiments 84-85)
+- index.md: regenerated (session 8, experiment 85)
+- LEAN: v_nonincreasing via simp only [] + eq_explicit_of_nonneg; v_le_init one-liner corollary. Build: 3434 jobs.
+
+## [2026-04-27] experiment | Solution.v_interval_decay + v_persistence_drop — interval/window V decay lifted (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.v_interval_decay, v_persistence_drop)
+- updated: syntheses/lean-proof-status.md (+2 entries for experiments 82-83)
+- index.md: regenerated (session 8, experiment 83)
+- LEAN: linarith for t₀+Δ ≥ 0; ▸ rewrite for pointwise persistence bound. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution.two_traj_sync_from_persist — inter-solution sync lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.two_traj_sync_from_persist)
