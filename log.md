@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | rstar_mono_K + rstar_anti_gamma — parameter monotonicity of Lorentzian equilibrium (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_rstar_mono_K, +lorentzian_rstar_anti_gamma)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 26)
+- LEAN: `lorentzian_rstar_mono_K` — K₁ < K₂ implies r*(K₁,γ) < r*(K₂,γ); proof via `Real.sqrt_lt_sqrt` + `div_lt_div_iff₀` + nlinarith. `lorentzian_rstar_anti_gamma` — γ₁ < γ₂ implies r*(K,γ₂) < r*(K,γ₁); same pattern. Both are machine-checked Lorentzian analogs of BifurcationMonotonicity.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | eq_explicit_of_nonneg + unique — t≥0 ODE uniqueness (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+eq_explicit_of_nonneg, +unique)

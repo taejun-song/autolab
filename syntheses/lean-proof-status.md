@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: full Bernoulli chain, linearized rate, local stability, Gronwall V/W-decay, unified rate, LorentzianContinuousSolution.tendsto, and lorentzian_ode_continuous_convergence (0-assumption continuous-time r(t)→r*). 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: Gronwall chain, tendsto (cts+discrete), ode_global_stability, eq_explicit_of_nonneg, unique, rstar_mono_K (r* ↑ in K), rstar_anti_gamma (r* ↓ in γ). 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -618,6 +618,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_ode_global_stability`: billboard — r∈(0,1), r→r*, rate bound (0 assumptions) | **proved** |
 | `LorentzianContinuousSolution.eq_explicit_of_nonneg`: S.r t = explicit for all t ≥ 0 | **proved** |
 | `LorentzianContinuousSolution.unique`: two solutions with same (K,γ,r₀) agree for t ≥ 0 | **proved** |
+| `lorentzian_rstar_mono_K`: K₁ < K₂ → r*(K₁,γ) < r*(K₂,γ) (PLS increasing in coupling) | **proved** |
+| `lorentzian_rstar_anti_gamma`: γ₁ < γ₂ → r*(K,γ₂) < r*(K,γ₁) (PLS decreasing in damping) | **proved** |
 
 ### Key Proof Steps
 
@@ -643,6 +645,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Gronwall chain (experiments 13–20)**: The final block of LorentzianExistence.lean proves a complete Gronwall analysis of the Lorentzian ODE from both sides of the equilibrium. `sq_lt/gt_rstar` prove **forward invariance** of the sublevel/superlevel sets {r² < r*²} and {r² > r*²} — once r₀ starts below (resp. above) r*, it stays there forever. `sq_ge_init/sq_le_init` prove **monotone r²**: below r*, r(t)² is non-decreasing from r₀²; above r*, it is non-increasing. These combine with `v/w_hasDerivAt` to derive **Gronwall V/W-decay**: V(t) = r*²-r(t)² ≤ V(0)·exp(-K·r₀²·t) below r*, and W(t) = r(t)²-r*² ≤ W(0)·exp(-K·r*²·t) above r*. The rate K·r*² = K-2γ (proved by `rate_eq_linearized` via `field_simp`) matches the linearized rate at r*, confirming the Gronwall approach is optimal. Converting to |r(t)-r*| via the factorization r*²-r(t)² = (r*-r(t))·(r*+r(t)) ≥ r*·|r(t)-r*| gives `r_from_v/w_decay`. The **unified rate** `lorentzian_unified_rate` combines both via `rcases lt_or_gt_of_ne`: |r(t)-r*| ≤ |r₀²-r*²|·exp(-K·min(r₀²,r*²)·t)/r* for all r₀ ≠ r*. For compact families r₀ ∈ [δ, r*), `v_decay_uniform` and `uniform_r_decay` give the **uniform rate** K·δ² independent of r₀, enabling compact-set convergence arguments.
 
 **Continuous-time ODE convergence (experiment 21)**: `LorentzianContinuousSolution.tendsto` proves that any solution of the Lorentzian ODE converges to r* in continuous time: `Tendsto S.r atTop (nhds r*)`. The proof uses `Tendsto.congr'` with `eq_explicit` to identify S.r with the explicit Bernoulli formula for all t > 0 (eventually in atTop), then applies `lorentzian_explicit_tendsto` directly. `lorentzian_ode_continuous_convergence` packages this into the ultimate parameter-only theorem: for any K > 2γ and r₀ ∈ (0,1), there exists a solution r(t) with r(0) = r₀ and r(t) → r* as t → ∞, with zero external hypotheses.
+
+**Parameter monotonicity (experiment 26)**: `lorentzian_rstar_mono_K` and `lorentzian_rstar_anti_gamma` prove that the Lorentzian equilibrium r* = √(1-2γ/K) is strictly monotone in parameters. Increasing coupling K (with γ fixed) increases r* — more coupling → larger partially locked state. Increasing damping γ (with K fixed) decreases r* — more damping → smaller PLS. Both proofs reduce to `Real.sqrt_lt_sqrt` applied to the inequality 1-2γ/K₁ < 1-2γ/K₂ (resp. 1-2γ₂/K < 1-2γ₁/K), which follows from `div_lt_div_iff₀` + `nlinarith`. These are the Lorentzian explicit analogs of `BifurcationMonotonicity` (which works for general g) — now machine-checked directly from the formula r* = √(1-2γ/K).
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 
