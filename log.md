@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | dist_le_init — |r(t)-r*| ≤ |r₀-r*| universally (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_dist_le_init)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 68)
+- index.md: regenerated (session 8, experiment 68)
+- LEAN: v_le_init → sqrt_le_sqrt → rwa [sqrt_sq_eq_abs, sqrt_sq_eq_abs]. Three lines.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_le_init — V(t) ≤ V(0) universal bound (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_le_init)

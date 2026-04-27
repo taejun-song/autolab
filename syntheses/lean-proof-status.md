@@ -683,6 +683,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_v_nonincreasing`: V is AntitoneOn [0,∞) for ALL r₀ (including r₀=r*) | **proved** |
 | `lorentzian_lyapunov_sublevel_fwd_inv`: V(t₀)≤c → V(t)≤c for t≥t₀ (sublevel set fwd-invariant) | **proved** |
 | `lorentzian_lyapunov_v_le_init`: V(t) ≤ V(0) = (r₀-r*)² for all t ≥ 0 (universal bound) | **proved** |
+| `lorentzian_lyapunov_dist_le_init`: \|r(t)-r*\| ≤ \|r₀-r*\| for all t ≥ 0 and all r₀ | **proved** |
 
 ### Key Proof Steps
 
