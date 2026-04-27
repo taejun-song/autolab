@@ -609,6 +609,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_unified_rate`: r₀²≠r*² → \|r(t)-r*\| ≤ \|r₀²-r*²\|·exp(-K·min(r₀²,r*²)·t)/r* | **proved** |
 | `lorentzian_rate_eq_linearized`: K·r*² = K-2γ (Gronwall rate = linearized rate) | **proved** |
 | `lorentzian_v_decay_uniform`: r₀ ≥ δ → V(t) ≤ V(0)·exp(-K·δ²·t) (uniform rate) | **proved** |
+| `lorentzian_uniform_r_decay`: r₀ ≥ δ → \|r(t)-r*\| ≤ (r*²-δ²)·exp(-K·δ²·t)/r* | **proved** |
 
 ### Key Proof Steps
 

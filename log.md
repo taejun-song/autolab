@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | uniform_r_decay: |r(t)-r*|≤(r*²-δ²)·exp(-Kδ²t)/r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_uniform_r_decay)
+- updated: syntheses/lean-proof-status.md (+uniform_r_decay entry)
+- index.md: regenerated (session 8, experiment 20)
+- LEAN: `lorentzian_uniform_r_decay` — uniform |r(t)-r*| bound for r₀∈[δ,r*). Rate K·δ² is independent of r₀. Proof chains v_decay_uniform → (r*²-r₀²)·exp ≤ (r*²-δ²)·exp → factor via le_div_iff₀.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | rate_eq_linearized + v_decay_uniform (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+rate_eq_linearized, +v_decay_uniform)
