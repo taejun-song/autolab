@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_le_init — V(t) ≤ V(0) universal bound (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_le_init)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 67)
+- index.md: regenerated (session 8, experiment 67)
+- LEAN: sublevel_fwd_inv at t₀=0 with rw [explicit_init] closes the V(0)=V(0) hypothesis.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | sublevel_fwd_inv — {V ≤ c} forward-invariant (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_sublevel_fwd_inv)
