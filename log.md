@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | local_stability: |r(t)-r*| ≤ 10·|r₀-r*|·exp(-μt)/r*⁴ (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_local_stability)
+- updated: syntheses/lean-proof-status.md (+local_stability entry)
+- index.md: regenerated (session 8, experiment 10)
+- LEAN: `lorentzian_local_stability` — for |r₀-r*| < r*/2: |r(t)-r*| ≤ 10·|r₀-r*|·exp(-μt)/r*⁴. Proof: two nearness estimates → LHS and RHS both = (5/2)δ·exp·r*⁵ at the bound. Key: mul_le_mul_of_nonneg_right chain for h1 and h2, then nlinarith closes.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | linearized_rate: HasDerivAt (lorentzianODE K γ) (-(K-2γ)) r* (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_ode_hasDerivAt_rstar)
