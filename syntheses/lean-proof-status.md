@@ -605,6 +605,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_sq_gt_rstar`: r₀² > r*² → r(t)² > r*² for all t ≥ 0 | **proved** |
 | `lorentzian_explicit_sq_le_init`: r₀² > r*² → r(t)² ≤ r₀² for all t ≥ 0 | **proved** |
 | `lorentzian_w_exponential_decay`: r₀² > r*² → r(t)²-r*² ≤ (r₀²-r*²)·exp(-K·r*²·t) | **proved** |
+| `lorentzian_r_from_w_decay`: r₀² > r*² → \|r(t)-r*\| ≤ (r₀²-r*²)·exp(-K·r*²·t)/r* | **proved** |
 
 ### Key Proof Steps
 

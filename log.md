@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_from_w_decay: |r(t)-r*| ≤ (r₀²-r*²)·exp(-K·r*²·t)/r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_r_from_w_decay)
+- updated: syntheses/lean-proof-status.md (+r_from_w_decay entry)
+- index.md: regenerated (session 8, experiment 17)
+- LEAN: `lorentzian_r_from_w_decay` — |r(t)-r*| ≤ (r₀²-r*²)·exp(-K·r*²·t)/r* for r₀>r*. Mirror of r_from_v_decay using w_exponential_decay. Key fix: hr_gt_rstar uses sqrt_lt_sqrt with explicit nonnegativity proof and rw[← hrstar_sq] to match sq_gt_rstar.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | w_exponential_decay: above-equilibrium Gronwall decay (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+sq_gt_rstar, +sq_le_init, +w_exponential_decay)
