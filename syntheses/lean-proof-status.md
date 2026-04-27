@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich, Lyapunov stability (δ=ε), strict Lyapunov function, V' ODE, exp Lyapunov bounds (below/above/unified), half-rate distance bound. 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis, semigroup property, trajectory sandwich, Lyapunov stability (δ=ε), strict Lyapunov function, V' ODE, exp Lyapunov bounds (below/above/unified), half-rate distance bounds, V positivity + zero characterization. 3336 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -661,6 +661,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_r_dist_below'`: cleaner form, √((r₀-r*)²) → \|r₀-r*\| | **proved** |
 | `lorentzian_lyapunov_r_dist_above`: r*<r₀ → \|r(t)-r*\| ≤ \|r₀-r*\|·exp(-K·r*²·t) | **proved** |
 | `lorentzian_lyapunov_convergence_time_below`: r₀<r* → explicit T = log(V₀/ε²)/(K·r₀·r*) | **proved** |
+| `lorentzian_lyapunov_v_pos`: r₀≠r* → V(t) > 0 for all t ≥ 0 | **proved** |
+| `lorentzian_lyapunov_v_eq_zero_iff`: V(t) = 0 ↔ r(t) = r* | **proved** |
 
 ### Key Proof Steps
 
@@ -698,6 +700,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Equilibrium characterization (experiment 32)**: `lorentzian_unique_pos_fixed_point` proves that r* is the only positive zero of the Lorentzian ODE: from `lorentzian_ode_factored`, ṙ=0 factors as (K/2)·r·(r*²-r²)=0; with r>0 and K>0 both non-zero, the bracket must vanish: r²=1-2γ/K; then `Real.sqrt_sq hr_pos.le` recovers r = √(1-2γ/K) = r*. `lorentzian_fixed_point_iff` packages this into a complete iff: ṙ=0 on [0,∞) iff r=0 or r=r*. The r=0 case closes via `simp [lorentzianODE]`; the r=r* case uses `lorentzian_rstar_is_fixed_point`. Together these two theorems give the full global portrait: exactly two fixed points (0 and r*), with positive velocity between them and negative above.
 
 **Linearized instability at origin (experiment 31)**: `lorentzian_ode_hasDerivAt_zero` proves that the derivative of the Lorentzian ODE at r=0 is K/2-γ, positive for K > 2γ. The proof follows the same pattern as `ode_hasDerivAt_rstar`: construct `HasDerivAt` for the polynomial (K/2-γ)r-(K/2)r³ via `h1.sub h2`, convert via `hconv`, then `convert hderiv using 1; ring` closes the derivative value. `lorentzian_ode_neg_above_one` extends the sign analysis to all r > 1: the ODE velocity is negative (not just for r ∈ (r*,1)). The proof uses the factored form (K/2)·r·(r*²-r²) and shows r*²-r² < 0 for r > 1 via `linarith [div_pos (2γ>0) (K>0)]` (giving r*² = 1-2γ/K < 1 < r²) — much simpler than the sign analysis for r ∈ (r*,1) which required nlinarith.
+
+**V positivity and zero characterization (experiment 51)**: `lorentzian_lyapunov_v_pos` and `lorentzian_lyapunov_v_eq_zero_iff` complete the Lyapunov function V = (r-r*)² characterization. `v_pos` proves V(t) > 0 whenever r₀ ≠ r*: `sq_pos_of_ne_zero (sub_ne_zero.mpr (lorentzian_explicit_ne_rstar ...))` chains `ne_rstar` (orbit never reaches r* in finite time when r₀ ≠ r*) with `sub_ne_zero` and `sq_pos_of_ne_zero` in a single term. `v_eq_zero_iff` proves V(t) = 0 ↔ r(t) = r*: the forward direction uses `nlinarith [sq_nonneg (r(t)-r*)]` (V = (r-r*)² = 0 with non-negativity forces r(t) = r*); the backward direction uses `rw [h, sub_self, sq, zero_mul]`. Together these close the Lyapunov characterization loop: V(t) ≥ 0 (from sq_nonneg), V(t) = 0 ↔ r(t) = r*, V(t) > 0 when r₀ ≠ r*, V'(t) < 0 when V(t) > 0 — making V = (r-r*)² a strict Lyapunov function for the Lorentzian ODE in the classical sense. This is the machine-checked version of the standard Lyapunov theory statement: a smooth function that is positive-definite and has strictly negative derivative along non-equilibrium trajectories implies global asymptotic stability.
 
 **Above-r* exponential Lyapunov bound (experiment 46)**: `lorentzian_lyapunov_v_exp_bound_above` proves V(t) ≤ V(0)·exp(-2K·r*²·t) for r* < r₀. The coefficient bound K·r·(r+r*) ≥ 2K·r*² uses r(t) ≥ r* (from `gt_rstar_of_init`): `mul_le_mul hrs_le hsum ...` gives rs*(rs+rs) ≤ r*(r+rs); then `mul_le_mul_of_nonneg_left (...) hK.le` gives K*rs*(rs+rs) ≤ K*r*(r+rs); and `nlinarith [hrstar_sq]` rewrites K*rs*(rs+rs) = 2K*rs² = 2K*(1-2γ/K). The rate 2K·r*² = 2(K-2γ) is twice the linearized rate — reflecting that above r*, the ODE velocity -K/2·r·(r²-r*²) scales as both r (larger above r*) and the gap (r²-r*²). For r₀ just above r*, V(0) = (r₀-r*)² is small, giving the local stability bound V(t) ≤ (r₀-r*)²·exp(-2(K-2γ)t).
 

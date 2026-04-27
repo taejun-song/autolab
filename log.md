@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_pos + v_eq_zero_iff — V>0 characterization (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_pos, +lorentzian_lyapunov_v_eq_zero_iff)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph for experiment 51)
+- index.md: regenerated (session 8, experiment 51)
+- LEAN: v_pos = sq_pos_of_ne_zero (sub_ne_zero.mpr (lorentzian_explicit_ne_rstar ...)); v_eq_zero_iff forward: nlinarith [sq_nonneg ...]; backward: rw [h, sub_self, sq, zero_mul].
+- Build: 3336 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | convergence_time_below — explicit T via Lyapunov (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_convergence_time_below)
