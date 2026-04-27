@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.dist_bound_explicit — Bernoulli two-solution dist bound at optimal rate μ=K-2γ (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: dist_bound_explicit)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 60 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 129)
+- LEAN: rw [eq_explicit_of_nonneg, ← hK_eq, ← hγ_eq]; exact lorentzian_explicit_dist_bound (S'.hr_init_pos/lt for r₀' positivity). Rate μ=K-2γ is the Bernoulli linearized rate, tighter than the Lyapunov K·min(r₀,r*)·r*/2 near equilibrium. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution v_antitone + dist_bound_below/above + sq_diff_bound + rate_initial — 5 theorems lifted (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+5 theorems: v_antitone, dist_bound_below, dist_bound_above, sq_diff_bound, rate_initial)
