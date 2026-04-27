@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | ode_pos_below_rstar + ode_neg_above_rstar — ODE sign analysis (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_ode_pos_below_rstar, +lorentzian_ode_neg_above_rstar)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 30)
+- LEAN: `lorentzian_ode_pos_below_rstar` — for r∈(0,r*), ṙ>0; proof: lorentzian_ode_factored then nlinarith[(r*-r)·(r*+r)>0] gives r²<r*². `lorentzian_ode_neg_above_rstar` — for r∈(r*,1), ṙ<0; proof: lorentzian_ode_factored then nlinarith[(r-r*)·(r+r*)>0] gives r²>r*². Both use mul_pos/mul_neg_of_pos_of_neg to split the product sign.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | rstar_is_fixed_point — ODE velocity vanishes at equilibrium (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_rstar_is_fixed_point)

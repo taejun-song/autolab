@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: Gronwall chain, tendsto, ode_global_stability, unique, parameter monotonicity, boundary behavior, Bernoulli linearization, rstar_is_fixed_point. 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, boundary behavior, Bernoulli linearization, fixed point, ODE sign analysis. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -625,6 +625,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `w_func_diff`: w(t,r₀) - w(t,r₀') = (1/r₀²-1/r₀'²)·exp(-μt) (Bernoulli linearizes init-data) | **proved** |
 | `w_func_diff_tendsto`: \|w(t,r₀) - w(t,r₀')\| → 0 as t → ∞ | **proved** |
 | `lorentzian_rstar_is_fixed_point`: lorentzianODE K γ r* = 0 (velocity vanishes at equilibrium) | **proved** |
+| `lorentzian_ode_pos_below_rstar`: r ∈ (0, r*) → lorentzianODE K γ r > 0 (ODE positive below r*) | **proved** |
+| `lorentzian_ode_neg_above_rstar`: r ∈ (r*, 1) → lorentzianODE K γ r < 0 (ODE negative above r*) | **proved** |
 
 ### Key Proof Steps
 
@@ -654,6 +656,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Parameter monotonicity (experiment 26)**: `lorentzian_rstar_mono_K` and `lorentzian_rstar_anti_gamma` prove that the Lorentzian equilibrium r* = √(1-2γ/K) is strictly monotone in parameters. Increasing coupling K (with γ fixed) increases r* — more coupling → larger partially locked state. Increasing damping γ (with K fixed) decreases r* — more damping → smaller PLS. Both proofs reduce to `Real.sqrt_lt_sqrt` applied to the inequality 1-2γ/K₁ < 1-2γ/K₂ (resp. 1-2γ₂/K < 1-2γ₁/K), which follows from `div_lt_div_iff₀` + `nlinarith`. These are the Lorentzian explicit analogs of `BifurcationMonotonicity` (which works for general g) — now machine-checked directly from the formula r* = √(1-2γ/K).
 
 **Fixed point identity (experiment 29)**: `lorentzian_rstar_is_fixed_point` proves that r* is a genuine fixed point of the ODE: lorentzianODE K γ r* = 0. The proof substitutes r*² = 1-2γ/K via `Real.sq_sqrt`, then rewrites r*³ = (1-2γ/K)·r* via `pow_add + hrstar_sq + ring`. After the substitution, `field_simp [ne_of_gt hK]; ring` closes: (K/2-γ)·r* - (K/2)·(1-2γ/K)·r* = (K/2-γ-K/2+γ)·r* = 0. This is the algebraic foundation for the stability analysis: the Lorentzian ODE ṙ = (K/2-γ)r - (K/2)r³ has exactly r=0 and r=r*=√(1-2γ/K) as fixed points (for K > 2γ, r* > 0).
+
+**ODE sign analysis (experiment 30)**: `lorentzian_ode_pos_below_rstar` and `lorentzian_ode_neg_above_rstar` prove that the Lorentzian ODE velocity has definite sign: positive for r ∈ (0, r*) and negative for r ∈ (r*, 1). Both proofs use `lorentzian_ode_factored` (ṙ = (K/2)·r·(r*²-r²)) then show the bracket (r*²-r²) has the correct sign via `nlinarith` with explicit `mul_pos` witnesses: for the below case, (r*-r)·(r*+r) > 0 gives r² < r*²; for the above case, (r-r*)·(r+r*) > 0 gives r² > r*². These are the sign lemmas underlying every monotonicity argument: solutions starting below r* are non-decreasing toward it, and solutions above are non-increasing toward it — now machine-checked from the factored ODE form.
 
 **Bernoulli linearization (experiment 28)**: `w_func_diff` proves the exact identity w(t,r₀) - w(t,r₀') = (1/r₀²-1/r₀'²)·exp(-μt). The B = K/(K-2γ) terms cancel algebraically (proof: `simp [w_func]; ring`). This is the key structural fact about the Bernoulli transform: it linearizes the initial-data dependence. `w_func_diff_tendsto` proves |w(t,r₀) - w(t,r₀')| → 0 as t → ∞ by `simp_rw [abs_mul, abs_of_pos (Real.exp_pos _)]` + `tendsto_inv_atTop_zero.const_mul`. Together these show the Bernoulli transform contracts any two initial conditions at the uniform rate μ = K-2γ.
 
