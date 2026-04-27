@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution invariance + monotonicity — lt/gt_rstar_of_init, ge/le_init_of_lt/gt_rstar, semigroup (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+8 theorems: ne_rstar, strictly_increasing, strictly_decreasing, semigroup, lt_rstar_of_init, gt_rstar_of_init, ge_init_of_lt_rstar, le_init_of_gt_rstar)
+- updated: syntheses/lean-proof-status.md (+8 entries for experiments 95-102, total 27 theorems)
+- index.md: regenerated (session 8, experiment 102)
+- LEAN: ne_rstar via lorentzian_explicit_ne_rstar; strictly_increasing/decreasing via lorentzian_explicit_strictly_increasing/decreasing; semigroup via lorentzian_explicit_semigroup (ht₂ added to signature); lt/gt_rstar_of_init via eq_explicit_of_nonneg + lorentzian_explicit_lt/gt_rstar_of_init; ge/le_init_of_lt/gt_rstar via lorentzian_explicit_ge/le_r0. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution classical stability — v_pos, r_strict_contraction, dist_tendsto_zero, lyapunov_stable (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+4 theorems, forward ref fix for lyapunov_stable)

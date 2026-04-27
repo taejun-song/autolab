@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (19 theorems) — v_exp, dist, v_pos, v_nonincreasing, v_le_init, v_lb, dist_le_init, dist_lb, dist_trap, dist_tendsto_zero, r_in_ball, r_strict_contraction, lyapunov_stable, v_interval_decay, v_persistence_drop, v_uniform_exp_decay, r_dist_from_persist, convergence_time, two_traj_sync. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (27 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -710,6 +710,14 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.r_strict_contraction`: \|S.r t-r*\| < \|S.r 0-r*\| for t > 0, S.r 0≠r* | **proved** |
 | `LorentzianContinuousSolution.dist_tendsto_zero`: \|S.r t-r*\| → 0 as t → ∞ | **proved** |
 | `LorentzianContinuousSolution.lyapunov_stable`: \|S.r 0-r*\|<ε → \|S.r t-r*\|<ε for all t≥0 | **proved** |
+| `LorentzianContinuousSolution.ne_rstar`: S.r 0≠r* → S.r t≠r* for all t≥0 | **proved** |
+| `LorentzianContinuousSolution.strictly_increasing`: S.r 0<r* → S.r s<S.r t for 0≤s<t | **proved** |
+| `LorentzianContinuousSolution.strictly_decreasing`: r*<S.r 0 → S.r t<S.r s for 0≤s<t | **proved** |
+| `LorentzianContinuousSolution.semigroup`: S.r(t₁+t₂) = lorentzian_explicit K γ (S.r t₁) t₂ for t₁,t₂≥0 | **proved** |
+| `LorentzianContinuousSolution.lt_rstar_of_init`: S.r 0<r* → S.r t<r* for all t≥0 | **proved** |
+| `LorentzianContinuousSolution.gt_rstar_of_init`: r*<S.r 0 → r*<S.r t for all t≥0 | **proved** |
+| `LorentzianContinuousSolution.ge_init_of_lt_rstar`: S.r 0<r* → S.r 0≤S.r t for all t≥0 | **proved** |
+| `LorentzianContinuousSolution.le_init_of_gt_rstar`: r*<S.r 0 → S.r t≤S.r 0 for all t≥0 | **proved** |
 
 ### Key Proof Steps
 
@@ -771,6 +779,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Convergence time lifted to LorentzianContinuousSolution (experiment 80)**: `LorentzianContinuousSolution.convergence_time_from_persist` gives the explicit ε-time T = log((S.r 0 - r*)²/ε²)/(K·δ·r*) for any abstract ODE solution with global persistence. Uses the same lifting pattern: `rw [eq_explicit_of_nonneg t ht, ...]` + `lorentzian_explicit_init` to convert the goal, then `exact lorentzian_lyapunov_convergence_time_from_persist ...` with persistence converted via `(S.eq_explicit_of_nonneg s hs) ▸ h_persist s hs`. This closes the abstract-solution convergence-time chain: after experiment 78 gives V decay and 79 gives distance decay, 80 gives the quantitative time-to-ε.
 
 **Distance from persistence lifted to LorentzianContinuousSolution (experiment 79)**: `LorentzianContinuousSolution.r_dist_from_persist` gives |S.r t - r*| ≤ |S.r 0 - r*|·exp(-K·δ·r*/2·t) for any ODE solution with global persistence S.r t ≥ δ. Same lifting pattern: rewrite via `eq_explicit_of_nonneg` + `lorentzian_explicit_init`, then `exact lorentzian_lyapunov_r_dist_from_persist ...` with the persistence-conversion `(S.eq_explicit_of_nonneg s hs) ▸ h_persist s hs`. This is the abstract-solution distance-decay companion to the explicit-formula version (experiment 73).
+
+**Flow structure lifted to LorentzianContinuousSolution (experiments 95–102)**: `ne_rstar` (orbit never reaches r*), `strictly_increasing` (below r* → monotone up), `strictly_decreasing` (above r* → monotone down), and `semigroup` (S.r(t₁+t₂) = explicit(K,γ,S.r t₁,t₂)) — all via the `eq_explicit_of_nonneg` lifting pattern. `lt_rstar_of_init` and `gt_rstar_of_init` prove that the sublevel/superlevel sets {r < r*} and {r > r*} are forward-invariant for any abstract ODE solution. `ge_init_of_lt_rstar` and `le_init_of_gt_rstar` give the trajectory sandwich: once below r*, the solution is non-decreasing from r₀; once above r*, non-increasing. These eight theorems close the qualitative analysis of `LorentzianContinuousSolution`: the complete global portrait — monotonicity, invariance, flow law — is now machine-verified at the abstract level.
 
 **Classical stability package lifted to LorentzianContinuousSolution (experiments 91–94)**: `v_pos` proves V(t) > 0 by `sq_pos_of_ne_zero (sub_ne_zero.mpr (...))` — the orbit never reaches r* — after `eq_explicit_of_nonneg`. `r_strict_contraction` gives |S.r t - r*| < |S.r 0 - r*| for t > 0 by `eq_explicit_of_nonneg + explicit_init` then `lorentzian_lyapunov_r_strict_contraction`. `dist_tendsto_zero` proves |S.r t - r*| → 0 via `S.tendsto.sub_const + .abs + simp [abs_zero]`. `lyapunov_stable` is the formal Lyapunov stability theorem: |S.r 0 - r*| < ε → |S.r t - r*| < ε for all t ≥ 0, proved by `(S.dist_le_init t ht).trans_lt hε` — a one-liner using the abstract universal bound. Note: `lyapunov_stable` required placing after `dist_le_init` (forward reference fix). Together these four theorems complete the classical stability picture for any `LorentzianContinuousSolution`: positivity, strict contraction, convergence, and Lyapunov stability — all without reference to the explicit Bernoulli formula.
 
