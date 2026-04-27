@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_ball_fwd_inv — B(r*, ε) forward-invariant (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_ball_fwd_inv)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 62)
+- index.md: regenerated (session 8, experiment 62)
+- LEAN: rcases on r₀=r* (rw rstar_const) + t=0 (rw explicit_init) + t>0 (r_strict_contraction.trans hε). Fixed: simp [rstar_const] fails (needs explicit args); use rw instead.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_strict_contraction — |r(t)-r*| < |r₀-r*| for t > 0 (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_strict_contraction)
