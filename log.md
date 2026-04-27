@@ -1,5 +1,33 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.two_traj_sync_from_persist — inter-solution sync lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.two_traj_sync_from_persist)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 81)
+- index.md: regenerated (session 8, experiment 81)
+- LEAN: triangle inequality through r* + two S.r_dist_from_persist calls + rwa [← hK_eq, ← hγ_eq]. Avoids ▸ on hr_init_pos. Build: 3434 jobs.
+
+## [2026-04-27] experiment | Solution.convergence_time_from_persist — explicit ε-time lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.convergence_time_from_persist)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 80)
+- index.md: regenerated (session 8, experiment 80)
+- LEAN: eq_explicit_of_nonneg + explicit_init + persistence ▸ conversion. Build: 3434 jobs.
+
+## [2026-04-27] experiment | Solution.r_dist_from_persist — persistence dist decay lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.r_dist_from_persist)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 79)
+- index.md: regenerated (session 8, experiment 79)
+- LEAN: same lifting pattern as 78 (eq_explicit_of_nonneg + explicit_init + persistence ▸). Build: 3434 jobs.
+
+## [2026-04-27] experiment | Solution.v_uniform_exp_decay — persistence V decay lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.v_uniform_exp_decay; moved after underlying theorem to fix forward reference)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 78)
+- index.md: regenerated (session 8, experiment 78)
+- LEAN: forward reference fix (moved from line ~1873 to after lorentzian_lyapunov_v_uniform_exp_decay ~line 2466). Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution.r_dist_bound — distance decay lifted to LorentzianContinuousSolution (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.r_dist_bound)
