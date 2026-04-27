@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (33 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (38 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, trajectory distance, V ratio. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -724,6 +724,11 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.v_tendsto_zero`: (S.r t-r*)²→0 as t→∞ (Lyapunov function converges to 0) | **proved** |
 | `LorentzianContinuousSolution.order_preserving`: S.r 0<S'.r 0, same K,γ → S.r t<S'.r t for all t≥0 (flow order-preserving) | **proved** |
 | `LorentzianContinuousSolution.r_ball_fwd_inv`: \|S.r 0-r*\|<ε → \|S.r t-r*\|<ε for all t≥0 (ε-ball forward-invariant) | **proved** |
+| `LorentzianContinuousSolution.sublevel_fwd_inv`: V(t₀)≤c → V(t)≤c for t≥t₀≥0 (sublevel set forward-invariant) | **proved** |
+| `LorentzianContinuousSolution.trap_below`: S.r 0<r* → lb·exp(-Kt) ≤ dist ≤ lb·exp(-K·S.r 0·r*/2·t) (below-r* two-sided trap) | **proved** |
+| `LorentzianContinuousSolution.trap_above`: r*<S.r 0 → lb·exp(-Kt) ≤ dist ≤ lb·exp(-K·(1-2γ/K)·t) (above-r* two-sided trap) | **proved** |
+| `LorentzianContinuousSolution.two_traj_dist`: S.r 0≠r*, S'.r 0≠r* (same K,γ) → \|S.r t-S'.r t\|≤sum of individual bounds (trajectory distance via triangle) | **proved** |
+| `LorentzianContinuousSolution.v_ratio_bound`: S.r 0≠r* → exp(-2Kt) ≤ V(t)/V(0) ≤ exp(-K·min·r*·t) (V ratio two-sided bound) | **proved** |
 
 ### Key Proof Steps
 

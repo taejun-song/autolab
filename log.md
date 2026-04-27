@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution sublevel_fwd_inv + trap_below/above + two_traj_dist + v_ratio_bound — 5 theorems lifted (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+5 theorems: sublevel_fwd_inv, trap_below, trap_above, two_traj_dist, v_ratio_bound)
+- updated: syntheses/lean-proof-status.md (+5 entries, total 38 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 113)
+- LEAN: sublevel_fwd_inv from v_nonincreasing (one-liner); trap_below via dist_lb + r_dist_bound + min_eq_left; trap_above via dist_lb + lorentzian_lyapunov_r_dist_above + eq_explicit; two_traj_dist via triangle + r_dist_bound (fix: hne' conversion via ← hγ_eq + ← hK_eq); v_ratio_bound via le_div_iff₀ + mul_comm + v_lb, div_le_iff₀ + linarith + v_exp_bound. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution strict decrease + order preservation + ball invariance — 6 theorems lifted (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+6 theorems: dist_strict_decreasing, v_strict_anti, v_lt_init', v_tendsto_zero, order_preserving, r_ball_fwd_inv)
