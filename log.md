@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | two_traj_dist — triangle inequality bound between trajectories (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_two_traj_dist)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 60)
+- index.md: regenerated (session 8, experiment 60)
+- LEAN: abs_sub_le + linarith [abs_sub_comm] + add_le_add (r_dist) (r_dist). One `set rs := ...`.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_trap_below/above — regime-specific two-sided traps (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_trap_below, +lorentzian_lyapunov_r_trap_above)
