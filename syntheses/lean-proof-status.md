@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (48 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds. 3434 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (53 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate. 3336 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -739,6 +739,11 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.sq_le_init`: r*²<S.r 0² → S.r t²≤S.r 0² for t≥0 (r² non-increasing when above r*) | **proved** |
 | `LorentzianContinuousSolution.v_exp_bound_below`: S.r 0<r* → V(t)≤V(0)·exp(-K·S.r 0·r*·t) (sharper V bound below r*) | **proved** |
 | `LorentzianContinuousSolution.v_exp_bound_above`: r*<S.r 0 → V(t)≤V(0)·exp(-2K·r*²·t) (sharper V bound above r*) | **proved** |
+| `LorentzianContinuousSolution.v_antitone`: 0≤s≤t → V(t)≤V(s) (weak antitone, no hr₀_ne; covers r₀=r* via v_nonincreasing) | **proved** |
+| `LorentzianContinuousSolution.dist_bound_below`: S.r 0<r* → \|S.r t-r*\|≤\|S.r 0-r*\|·exp(-K·S.r 0·r*/2·t) (below-r* dist bound) | **proved** |
+| `LorentzianContinuousSolution.dist_bound_above`: r*<S.r 0 → \|S.r t-r*\|≤\|S.r 0-r*\|·exp(-K·(1-2γ/K)·t) (above-r* dist bound, rate = linearized) | **proved** |
+| `LorentzianContinuousSolution.sq_diff_bound`: (S.r t²-(1-2γ/K))²≤A²·exp(-2μt), A=1/S.r 0²-K/(K-2γ) (Bernoulli amplitude square bound) | **proved** |
+| `LorentzianContinuousSolution.rate_initial`: \|S.r t-r*\|≤\|r*²-S.r 0²\|·exp(-μt)/(S.r 0²·r*³) (rate in terms of initial displacement) | **proved** |
 
 ### Key Proof Steps
 
@@ -792,6 +797,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Regime-specific traps (experiment 59)**: `lorentzian_lyapunov_r_trap_below` and `lorentzian_lyapunov_r_trap_above` specialize the universal trap to each regime. Both are one-liner conjunctions pairing `r_dist_lb` with the regime-specific upper bound (`r_dist_below'` or `r_dist_above`). Below-r*: rate pair (K, K·r₀·r*/2); above-r*: rate pair (K, K·r*²=K-2γ). For trajectories starting above r*, the upper rate K·r*² = K-2γ equals the linearized rate — tight, not a loose bound. The lower bound K is always a weaker (slower-decay) floor valid universally, while the upper bound is tight near r*. This gives a complete two-rate picture for each regime, machine-checked.
 
 **Two-sided exponential trap (experiment 58)**: `lorentzian_lyapunov_r_trap` packages `r_dist_lb` (lower bound) and `r_dist` (upper bound) as a single conjunction: `⟨r_dist_lb ..., r_dist ...⟩`. The proof is a one-liner — both sub-theorems are already available. The result is a machine-checked sandwich: for all t ≥ 0 and r₀ ≠ r*, the distance |r(t)-r*| is exponentially trapped between |r₀-r*|·exp(-K·t) and |r₀-r*|·exp(-K·min(r₀,r*)·r*/2·t). This is the Lorentzian analog of the classical two-sided Gronwall estimate: the lower bound proves the orbit does not converge too fast (no super-exponential collapse), while the upper bound proves global exponential convergence. For r₀ → r*, both rates approach K-2γ (the linearized rate), confirming exponential stability is sharp at the linearization. This closes the Lyapunov distance analysis for the Lorentzian ODE: existence, convergence, rate (upper), rate (lower), trap — all machine-verified.
+
+**Regime-specific distance bounds and amplitude bounds (experiments 124–128)**: `LorentzianContinuousSolution.v_antitone` derives the weak antitone property (s≤t → V(t)≤V(s), no hr₀_ne required) directly from `v_nonincreasing` via `Set.mem_Ici.mpr`; this covers r₀=r* as a degenerate case (V≡0). `dist_bound_below` and `dist_bound_above` lift `lorentzian_lyapunov_r_dist_below'` and `lorentzian_lyapunov_r_dist_above` to the abstract ODE solution: below r*, the rate is K·r₀·r*/2; above r*, the rate is K·r*²=K-2γ (the linearized rate — optimal). Both proofs are one-line `rw [eq_explicit_of_nonneg t ht]; exact ...` lifts, as the underlying theorems are stated in terms of `lorentzian_explicit` which eq_explicit_of_nonneg directly subsumes. `sq_diff_bound` lifts `lorentzian_explicit_sq_diff_bound` — (S.r t²-(1-2γ/K))² ≤ A²·exp(-2μt) — without any hr₀_ne hypothesis; this is the cleanest form of the Bernoulli amplitude decay. `rate_initial` lifts `lorentzian_explicit_rate_initial` — |r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³) — expressing the rate bound directly in terms of the physical initial displacement r*²-r₀² rather than the amplitude A=1/r₀²-B.
 
 **Distance bound lifted to LorentzianContinuousSolution (experiment 77)**: `LorentzianContinuousSolution.r_dist_bound` gives |S.r t - r*| ≤ |S.r 0 - r*|·exp(-K·min(S.r 0,r*)·r*/2·t) for any abstract ODE solution with S.r 0 ≠ r*. Uses `order_parameter_exp_decay` applied to `S.v_exp_bound` (experiment 76), with `hr_sq := fun _ => le_refl _` (V = (S.r-r*)² trivially bounds itself), then `rwa [sqrt_sq_eq_abs]` to convert √V₀. Together with `v_exp_bound`, this gives a complete two-level Lyapunov package for any `LorentzianContinuousSolution`: existence, uniqueness, V bound, and distance bound — all machine-checked for the abstract ODE structure, not just the explicit Bernoulli formula.
 
