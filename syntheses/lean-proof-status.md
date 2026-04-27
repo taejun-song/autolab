@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (60 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound. 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (63 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization. 3336 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -84,7 +84,7 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **120** (+ LorentzianExistence) |
-| Comprehensive build | **3434 build jobs** |
+| Comprehensive build | **3336 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -745,6 +745,9 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.sq_diff_bound`: (S.r t²-(1-2γ/K))²≤A²·exp(-2μt), A=1/S.r 0²-K/(K-2γ) (Bernoulli amplitude square bound) | **proved** |
 | `LorentzianContinuousSolution.rate_initial`: \|S.r t-r*\|≤\|r*²-S.r 0²\|·exp(-μt)/(S.r 0²·r*³) (rate in terms of initial displacement) | **proved** |
 | `LorentzianContinuousSolution.dist_bound_explicit`: \|S.r t-S'.r t\|≤(|A|+|A'|)·exp(-μt)/r*, A=1/S.r 0²-K/(K-2γ) (Bernoulli two-solution dist at optimal rate μ=K-2γ) | **proved** |
+| `LorentzianContinuousSolution.v_hasDerivAt`: HasDerivAt (fun s => (S.r s-r*)²) (2(S.r t-r*)·ṙ(t)) t — proved directly from S.hr_ode (ODE structural, no eq_explicit) | **proved** |
+| `LorentzianContinuousSolution.v_deriv_formula`: HasDerivAt (fun s => (S.r s-r*)²) (-(K·r·(r+r*)·(r-r*)²)) t — factored derivative, V'=-K·r·(r+r*)·V self-similar ODE | **proved** |
+| `LorentzianContinuousSolution.v_eq_zero_iff`: (S.r t-r*)²=0 ↔ S.r t=r* — V vanishes exactly at equilibrium, pure algebra | **proved** |
 
 ### Key Proof Steps
 

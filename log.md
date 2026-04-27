@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_hasDerivAt + v_deriv_formula + v_eq_zero_iff — abstract Lyapunov HasDerivAt + factored ODE formula (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+3 theorems: v_hasDerivAt, v_deriv_formula, v_eq_zero_iff)
+- updated: syntheses/lean-proof-status.md (+3 entries, total 63 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 130)
+- LEAN: v_hasDerivAt proved directly from S.hr_ode (ODE structural, no eq_explicit — uses HasDerivAt.sub_const + pow 2 + convert/ring). v_deriv_formula chains v_hasDerivAt + lorentzian_ode_factored (substitutes rs²=1-2γ/K) to get V'=-(K·r·(r+r*)·V) via ring. v_eq_zero_iff is pure algebra: nlinarith + zero_mul. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.dist_bound_explicit — Bernoulli two-solution dist bound at optimal rate μ=K-2γ (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: dist_bound_explicit)
