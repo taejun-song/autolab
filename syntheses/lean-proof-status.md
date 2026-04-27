@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. Full trichotomy: lorentzian_convergence_from_ode covers all K>2γ. NPoleContinuumBridge, FullChainContinuumBridge, LorentzianContinuumBridge instantiate all ContinuumGlobalStability proof paths. LorentzianExistence proves global ODE existence, continuous-time convergence r(t) → r*, explicit exponential rate (r(t)²-r*²)² ≤ A²·exp(-2μt), and initial-displacement rate |r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³). 3335 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence proves global ODE existence, continuous-time r(t)→r*, explicit rate A²·exp(-2μt), initial-displacement rate |r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³), and linearized rate -(K-2γ) at r*. 3335 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -594,6 +594,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.rate_bound`: universal rate bound for any ODE solution | **proved** |
 | `lorentzian_explicit_dist_bound`: \|r(t,r₀)-r(t,r₀')\| ≤ (\|A_r₀\|+\|A_r₀'\|)·exp(-μt)/r* | **proved** |
 | `lorentzian_explicit_rate_initial`: \|r(t)-r*\| ≤ \|r*²-r₀²\|·exp(-μt)/(r₀²·r*³) | **proved** |
+| `lorentzian_ode_hasDerivAt_rstar`: HasDerivAt (lorentzianODE K γ) (-(K-2γ)) r* | **proved** |
 
 ### Key Proof Steps
 
@@ -608,7 +609,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 
 `lorentzian_explicit_sq_diff_bound` gives the **explicit exponential rate**: (r(t)²-r*²)² ≤ A²·exp(-2μt) where A = 1/r₀²-B, B = K/(K-2γ), μ = K-2γ. The key inequality is (w⁻¹-B⁻¹)² ≤ (w⁻¹-B⁻¹)²·(wB)² because wB > 1 (from w > 1 and B > 1). Then `hprod` computes (w⁻¹-B⁻¹)·(wB) = -(A·exp(-μt)) algebraically, so the product-squared equals A²·exp(-2μt) via `mul_pow`, `neg_sq`, `sq (Real.exp _)`, and `← Real.exp_add`.
 
-`lorentzian_explicit_rate` upgrades this to **|r(t)-r*| ≤ |A|·exp(-μt)/r***. `lorentzian_explicit_dist_bound` further gives **|r(t,r₀)-r(t,r₀')| ≤ (|A_r₀|+|A_r₀'|)·exp(-μt)/r*** — exponential contraction between any two solutions at rate μ = K-2γ. This is a key ingredient for the passage-to-limit argument: solutions initialized close together stay exponentially close. `LorentzianContinuousSolution.eq_explicit` then proves **ODE uniqueness**: any solution of the Lorentzian ODE with initial condition r₀ equals the explicit Bernoulli formula for all t > 0, via `ODE_solution_unique_of_mem_Icc_right` with Lipschitz constant 2K. This immediately yields `rate_bound`: |r(t)-r*| ≤ |A|·exp(-μt)/r* for any `LorentzianContinuousSolution`, not just the explicitly constructed one. Proof: |r-r*| = |r²-r*²|/(r+r*) ≤ |r²-r*²|/r* (since r ≥ 0); |r²-r*²| ≤ |A|·exp(-μt) from sq_diff_bound via `Real.sqrt_le_sqrt` + `Real.sqrt_sq_eq_abs`. `lorentzian_explicit_rate_initial` rewrites the amplitude in terms of the initial displacement: **|r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³)**. Using B = K/(K-2γ) = 1/r*², the amplitude |A| = |1/r₀²-B| = |r*²-r₀²|/(r₀²·r*²), so dividing by r* gives the r₀-explicit bound. This is the sharpest pointwise rate for the Lorentzian OA ODE in the explicit Bernoulli formula: exponential rate μ = K-2γ is the linear rate of the ODE at r = 0, and the amplitude depends on the initial distance from equilibrium in units of r*³.
+`lorentzian_explicit_rate` upgrades this to **|r(t)-r*| ≤ |A|·exp(-μt)/r***. `lorentzian_explicit_dist_bound` further gives **|r(t,r₀)-r(t,r₀')| ≤ (|A_r₀|+|A_r₀'|)·exp(-μt)/r*** — exponential contraction between any two solutions at rate μ = K-2γ. This is a key ingredient for the passage-to-limit argument: solutions initialized close together stay exponentially close. `LorentzianContinuousSolution.eq_explicit` then proves **ODE uniqueness**: any solution of the Lorentzian ODE with initial condition r₀ equals the explicit Bernoulli formula for all t > 0, via `ODE_solution_unique_of_mem_Icc_right` with Lipschitz constant 2K. This immediately yields `rate_bound`: |r(t)-r*| ≤ |A|·exp(-μt)/r* for any `LorentzianContinuousSolution`, not just the explicitly constructed one. Proof: |r-r*| = |r²-r*²|/(r+r*) ≤ |r²-r*²|/r* (since r ≥ 0); |r²-r*²| ≤ |A|·exp(-μt) from sq_diff_bound via `Real.sqrt_le_sqrt` + `Real.sqrt_sq_eq_abs`. `lorentzian_explicit_rate_initial` rewrites the amplitude in terms of the initial displacement: **|r(t)-r*| ≤ |r*²-r₀²|·exp(-μt)/(r₀²·r*³)**. Using B = K/(K-2γ) = 1/r*², the amplitude |A| = |1/r₀²-B| = |r*²-r₀²|/(r₀²·r*²), so dividing by r* gives the r₀-explicit bound. `lorentzian_ode_hasDerivAt_rstar` verifies that the **linearized rate equals the Bernoulli rate**: the derivative of `lorentzianODE K γ` at r* is -(K-2γ) = -μ. Proof: f'(r) = (K/2-γ) - (3K/2)r²; at r*² = 1-2γ/K gives (K/2-γ) - (3K/2)(1-2γ/K) = -K+2γ. This confirms the explicit formula achieves the optimal exponential rate — neither faster nor slower than the linearization predicts.
 
 ## PassageToLimit Grounding Theorems (PassageToLimit.lean)
 

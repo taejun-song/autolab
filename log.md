@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | linearized_rate: HasDerivAt (lorentzianODE K γ) (-(K-2γ)) r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_ode_hasDerivAt_rstar)
+- updated: syntheses/lean-proof-status.md (+hasDerivAt entry, updated significance paragraph)
+- index.md: regenerated (session 8, experiment 9)
+- LEAN: `lorentzian_ode_hasDerivAt_rstar` — HasDerivAt (lorentzianODE K γ) (-(K-2γ)) r*. Proof: f'(r) = (K/2-γ)-(3K/2)r²; at r*²=1-2γ/K gives -K+2γ. Confirms the Bernoulli rate is the optimal linearized rate. Key fix: `convert h using 1` closes without ring; `simp [mul_one, id]` after const_mul to unfold `id`.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | rate_initial: initial-displacement explicit rate (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_rate_initial)
