@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_nonincreasing — V AntitoneOn [0,∞) for all r₀ (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_nonincreasing)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 65)
+- index.md: regenerated (session 8, experiment 65)
+- LEAN: rcases eq_or_ne; rfl case: simp [rstar_const], antitoneOn_const; ne case: v_antitone.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_ratio_bound — exp(-2Kt) ≤ V(t)/V(0) ≤ exp(-μt) (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_ratio_bound)
