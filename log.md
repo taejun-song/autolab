@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_at_zero + v_lt_init + v_tendsto_zero — V Lyapunov dynamics (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+3 theorems)
+- updated: syntheses/lean-proof-status.md (+3 entries)
+- index.md: regenerated (session 8, experiment 43)
+- LEAN: `v_at_zero` — rw lorentzian_explicit_init; trivial. `v_lt_init` — v_strict_anti at s=0 + rw v_at_zero. `v_tendsto_zero` — (tendsto.sub_const r*).pow 2 + simp sub_self zero_pow.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | lyapunov_v_strict_anti — V=(r-r*)² strictly decreasing (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_strict_anti)

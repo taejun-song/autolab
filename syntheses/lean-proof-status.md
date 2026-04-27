@@ -650,6 +650,9 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_v_hasDerivAt`: d/dt (r(t)-r*)² = 2(r(t)-r*)·ṙ(t) (chain rule for V=(r-r*)²) | **proved** |
 | `lorentzian_lyapunov_v_deriv_neg`: r₀ ≠ r* → d/dt (r(t)-r*)² < 0 for all t ≥ 0 (V is a strict Lyapunov function) | **proved** |
 | `lorentzian_lyapunov_v_strict_anti`: r₀ ≠ r*, 0 ≤ s < t → (r(t)-r*)² < (r(s)-r*)² (V strictly decreasing along trajectories) | **proved** |
+| `lorentzian_lyapunov_v_at_zero`: (r(0)-r*)² = (r₀-r*)² (Lyapunov value at t=0) | **proved** |
+| `lorentzian_lyapunov_v_lt_init`: r₀ ≠ r*, t > 0 → (r(t)-r*)² < (r₀-r*)² (V strictly below initial for t>0) | **proved** |
+| `lorentzian_lyapunov_v_tendsto_zero`: (r(t)-r*)² → 0 as t → ∞ (V converges to 0) | **proved** |
 
 ### Key Proof Steps
 
