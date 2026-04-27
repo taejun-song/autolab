@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_from_v_decay: |r(t)-r*| ≤ (r*²-r₀²)·exp(-K·r₀²·t)/r* (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_r_from_v_decay)
+- updated: syntheses/lean-proof-status.md (+r_from_v_decay entry)
+- index.md: regenerated (session 8, experiment 15)
+- LEAN: `lorentzian_r_from_v_decay` — |r(t)-r*| ≤ (r*²-r₀²)·exp(-K·r₀²·t)/r*. Via V-decay and (r*-r(t))·r* ≤ (r*-r(t))·(r*+r(t)) = r*²-r(t)² ≤ (r*²-r₀²)·exp. Key: le_div_iff₀ converts to product form; calc chain closes the inequality.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_exponential_decay: V(t) ≤ (r*²-r₀²)·exp(-K·r₀²·t) (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_sq_ge_init, +lorentzian_v_exponential_decay)
