@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | hasDerivAt_zero + ode_neg_above_one — linearized instability at origin (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_ode_hasDerivAt_zero, +lorentzian_ode_neg_above_one)
+- updated: syntheses/lean-proof-status.md (+2 entries, +significance paragraph)
+- index.md: regenerated (session 8, experiment 31)
+- LEAN: `lorentzian_ode_hasDerivAt_zero` — HasDerivAt (lorentzianODE K γ) (K/2-γ) 0; pattern: polynomial hasDerivAt via h1.sub h2 + hconv + convert+ring. `lorentzian_ode_neg_above_one` — for r>1, ṙ<0; key: r*²=1-2γ/K<1 (via div_pos) and r²>1 (nlinarith), so bracket negative → mul_neg. Note: lorentzian_ode_zero was already in Lorentzian.lean (removed duplicate).
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | ode_pos_below_rstar + ode_neg_above_rstar — ODE sign analysis (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_ode_pos_below_rstar, +lorentzian_ode_neg_above_rstar)
