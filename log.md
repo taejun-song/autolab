@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | r_in_ball — r(t) ∈ [r*-δ, r*+δ] for all t ≥ 0 (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_in_ball)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 69)
+- index.md: regenerated (session 8, experiment 69)
+- LEAN: dist_le_init → abs_le → linarith. Check: program.md re-read at experiment 68.
+- Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | dist_le_init — |r(t)-r*| ≤ |r₀-r*| universally (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_dist_le_init)
