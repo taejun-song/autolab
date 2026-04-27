@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, V' ODE, exp bounds (below/above/unified), distance bounds (below/above/unified), convergence times (below/above/unified), V antitone, V positivity/zero characterization, V coefficient cap. 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis — existence, uniqueness, convergence, rate, synchronization, parameter monotonicity, V' ODE, exp bounds (below/above/unified/lower), distance bounds (below/above/unified), convergence times (below/above/unified), V antitone, V positivity/zero characterization, V coefficient bounds. 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -668,6 +668,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_lyapunov_v_coeff_le`: K·r(t)·(r(t)+r*) ≤ 2K (V coefficient cap) | **proved** |
 | `lorentzian_lyapunov_v_deriv_ge`: V'(t) ≥ -2K·V(t) for all t > 0 | **proved** |
 | `lorentzian_lyapunov_v_coeff_pos`: K·r(t)·(r(t)+r*) > 0 for all t ≥ 0 | **proved** |
+| `lorentzian_lyapunov_v_lb`: V(t) ≥ V(0)·exp(-2K·t) for all t ≥ 0 | **proved** |
 | `lorentzian_lyapunov_v_pos`: r₀≠r* → V(t) > 0 for all t ≥ 0 | **proved** |
 | `lorentzian_lyapunov_v_eq_zero_iff`: V(t) = 0 ↔ r(t) = r* | **proved** |
 
@@ -707,6 +708,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 **Equilibrium characterization (experiment 32)**: `lorentzian_unique_pos_fixed_point` proves that r* is the only positive zero of the Lorentzian ODE: from `lorentzian_ode_factored`, ṙ=0 factors as (K/2)·r·(r*²-r²)=0; with r>0 and K>0 both non-zero, the bracket must vanish: r²=1-2γ/K; then `Real.sqrt_sq hr_pos.le` recovers r = √(1-2γ/K) = r*. `lorentzian_fixed_point_iff` packages this into a complete iff: ṙ=0 on [0,∞) iff r=0 or r=r*. The r=0 case closes via `simp [lorentzianODE]`; the r=r* case uses `lorentzian_rstar_is_fixed_point`. Together these two theorems give the full global portrait: exactly two fixed points (0 and r*), with positive velocity between them and negative above.
 
 **Linearized instability at origin (experiment 31)**: `lorentzian_ode_hasDerivAt_zero` proves that the derivative of the Lorentzian ODE at r=0 is K/2-γ, positive for K > 2γ. The proof follows the same pattern as `ode_hasDerivAt_rstar`: construct `HasDerivAt` for the polynomial (K/2-γ)r-(K/2)r³ via `h1.sub h2`, convert via `hconv`, then `convert hderiv using 1; ring` closes the derivative value. `lorentzian_ode_neg_above_one` extends the sign analysis to all r > 1: the ODE velocity is negative (not just for r ∈ (r*,1)). The proof uses the factored form (K/2)·r·(r*²-r²) and shows r*²-r² < 0 for r > 1 via `linarith [div_pos (2γ>0) (K>0)]` (giving r*² = 1-2γ/K < 1 < r²) — much simpler than the sign analysis for r ∈ (r*,1) which required nlinarith.
+
+**V lower exponential bound (experiment 56)**: `lorentzian_lyapunov_v_lb` proves V(t) ≥ V(0)·exp(-2K·t) for all t ≥ 0. The proof uses `comparison_growth` (ComparisonGrowth.lean) with μ = -(2K): `hW_bound` requires `(-2K) * V(t) ≤ V'(t)`, which is exactly `v_deriv_ge` via `linarith`. The `comparison_growth` conclusion `V(0) * exp((-2K)*t) ≤ V(t)` is beta-reduced by `simp only []`, then `lorentzian_explicit_init` (which takes only `hr₀_pos`) rewrites `r(0)=r₀`. Build count increased from 3336 to 3434 jobs due to the new `import KuramotoLean.ComparisonGrowth` dependency. Together with `v_exp_bound` (upper bound), this gives a **two-sided exponential envelope**: V(0)·exp(-2K·t) ≤ V(t) ≤ V(0)·exp(-K·r*²·t). The ratio exp(-K·r*²·t)/exp(-2K·t) = exp((2K-K·r*²)·t) = exp(K(2-r*²)·t) → ∞ confirms the upper and lower bounds diverge for large t (r* < 1, so r*² < 1, so 2-r*² > 1 > 0). The upper bound is tight (achieved for r₀=r*, degenerate case), while the lower bound exp(-2Kt) is a universal floor valid for all trajectories.
 
 **V' lower bound + coefficient positivity (experiment 55)**: `lorentzian_lyapunov_v_deriv_ge` proves V'(t) ≥ -2K·V(t): the HasDerivAt value `-(K·r·(r+r*)·V)` is ≥ `-2K·V` because `v_coeff_le` gives K·r·(r+r*) ≤ 2K, so `nlinarith [v_coeff_le ..., sq_nonneg ...]` closes. `lorentzian_lyapunov_v_coeff_pos` proves K·r·(r+r*) > 0: `mul_pos (mul_pos hK hr_pos) (by linarith [hrs_pos])` since r > 0 and r+r* > r* > 0. Together these give a **two-sided bound**: -2K·V(t) ≤ V'(t) < 0 (the upper bound V'(t) < 0 is `v_deriv_neg` when r₀ ≠ r*, equivalent to saying V decays). The lower bound -2K·V implies V(t) ≥ V(0)·exp(-2Kt) — V cannot vanish faster than the universal rate exp(-2Kt). This is the machine-checked form of the classical statement: "the Lyapunov function decays at a rate between the linearized rate and 2K".
 

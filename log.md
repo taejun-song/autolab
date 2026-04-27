@@ -8,6 +8,15 @@
 - LEAN: v_antitone = rcases lt_or_eq_of_le; convergence_time = v_exp_bound + explicit_convergence_time with lt_min hr₀_pos hrs_pos for hμ_pos.
 - Build: 3336 jobs, 0 sorry, 0 axioms.
 
+## [2026-04-27] experiment | v_lb — lower exponential bound V(t)≥V(0)·exp(-2Kt) (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+import ComparisonGrowth, +lorentzian_lyapunov_v_lb)
+- updated: KuramotoLean/GronwallBridge.lean (removed duplicate comparison_growth)
+- updated: syntheses/lean-proof-status.md (+1 entry, +significance paragraph for experiment 56, 3434 jobs)
+- index.md: regenerated (session 8, experiment 56)
+- LEAN: comparison_growth with μ=-(2*K); hW_bound via linarith from v_deriv_ge; simp only [] for beta-reduce; lorentzian_explicit_init takes only hr₀_pos.
+- Build: 3434 jobs (was 3336), 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_deriv_ge + v_coeff_pos (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_deriv_ge, +lorentzian_lyapunov_v_coeff_pos)
