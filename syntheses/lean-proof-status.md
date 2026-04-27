@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 116 files. Complete Lorentzian trifurcation + ODE monotonicity: r(0)<r* → r nondecreasing (ODE sign + monotoneOn), r(0)>r* → r nonincreasing (ODE sign + antitoneOn). Constructors toLorentzianSolution_from_below/above eliminate all monotonicity assumptions. 3430 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 116 files. Complete Lorentzian trichotomy: lorentzian_convergence_from_ode covers all K>2γ, r(0)∈(0,1) via lt_trichotomy on r(0) vs r*. The r(0)=r* case uses ODE_solution_unique_of_mem_Icc_right (Gronwall forward uniqueness). 3430 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -66,6 +66,8 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | Supercritical (noninc) | K > 2γ, r(0) ≥ r* | r(n) → r* = √(1-2γ/K) | **proved** (`lorentzian_noninc_convergence`) |
 | **r(0) < r***, pure ODE | K > 2γ, r(0) < r* | r(n) → r* (0 assumptions) | **proved** (`lorentzian_below_rstar_convergence`) |
 | **r(0) > r***, pure ODE | K > 2γ, r(0) > r* | r(n) → r* (0 assumptions) | **proved** (`lorentzian_above_rstar_convergence`) |
+| **r(0) = r***, pure ODE | K > 2γ, r(0) = r* | r(n) → r* (Gronwall uniqueness) | **proved** (`lorentzian_at_rstar_convergence`) |
+| **Full trichotomy** | **K > 2γ, r(0) ∈ (0,1)** | **r(n) → r* = √(1-2γ/K) (all cases)** | **proved** (`lorentzian_convergence_from_ode`) |
 | **Unified** | **any K > 0, r(0) ∈ (0,1)** | **∃ r_∞ ∈ [0,1], r(t) → r_∞ (all cases)** | **proved** (`lorentzian_continuous_trifurcation`) |
 
 The **unified** theorem lifts to NPoleODEData n=1 and applies `trifurcation_from_ode` directly, covering all three regimes in one statement via `lorentzian_npole_critical_K_eq` (npoleCriticalK = 2γ for n=1).

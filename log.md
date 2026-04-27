@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-04-27] experiment | lorentzian_convergence_from_ode: full trichotomy closing r(0)=r* case
+
+- updated: KuramotoLean/LorentzianFromODE.lean (+r_constant_at_rstar, +lorentzian_at_rstar_convergence, +lorentzian_convergence_from_ode)
+- updated: syntheses/lean-proof-status.md (+r(0)=r* row, updated summary)
+- updated: index.md (regenerated, updated lean-proof-status summary)
+- LEAN: `r_constant_at_rstar` — ODE_solution_unique_of_mem_Icc_right (Gronwall forward uniqueness) proves r(t)≡r* when r(0)=r*.
+- LEAN: `lorentzian_at_rstar_convergence` — |r(n)-r*|=0<ε trivially from constancy.
+- LEAN: `lorentzian_convergence_from_ode` — lt_trichotomy on r(0) vs r* dispatches to below/at/above cases; completes K>2γ supercritical convergence with 0 assumptions.
+- Build: 3430 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | lorentzian_continuous_trifurcation: unified Filter.Tendsto theorem for all K > 0
 
 - updated: KuramotoLean/LorentzianFromODE.lean (+lorentzian_npole_critical_K_eq, +lorentzian_to_npole, +lorentzian_continuous_trifurcation)
