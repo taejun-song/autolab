@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | two_traj_sync_from_persist — bilateral persistence → synchronization (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_two_traj_sync_from_persist)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 75)
+- index.md: regenerated (session 8, experiment 75)
+- LEAN: triangle through r* + two r_dist_from_persist; ring factors out exp. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | convergence_time_from_persist — explicit T from global persistence (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_convergence_time_from_persist)
