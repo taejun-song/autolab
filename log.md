@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_interval_decay — V(t₀+Δ) ≤ V(t₀)·exp(-K·min(r(t₀),r*)·r*·Δ) via semigroup shift (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_interval_decay)
+- updated: syntheses/lean-proof-status.md (+1 entry for experiment 70)
+- index.md: regenerated (session 8, experiment 70)
+- LEAN: rw direction fix (rw [hsemi] not rw [← hsemi]); semigroup arg order fix (t₁ t₂ ht₁, no ht₂). Build: 3434 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | r_in_ball — r(t) ∈ [r*-δ, r*+δ] for all t ≥ 0 (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_r_in_ball)
