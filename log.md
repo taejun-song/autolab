@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | v_deriv_formula — V'=-(K·r·(r+r*)·V) ODE for Lyapunov function (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_lyapunov_v_deriv_formula)
+- updated: syntheses/lean-proof-status.md (+1 entry, significance paragraph)
+- index.md: regenerated (session 8, experiment 44)
+- LEAN: `v_deriv_formula` — intermediate hode rewrite (ode_factored + congr linarith) converts ODE velocity to polynomial; convert v_hasDerivAt using 1 + rw hode; ring closes 2(r-r*)·(K/2)r(r*²-r²) = -K·r·(r+r*)·(r-r*)².
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | v_at_zero + v_lt_init + v_tendsto_zero — V Lyapunov dynamics (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+3 theorems)
