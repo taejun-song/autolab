@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | ne_rstar + sq_diff_ne_zero — orbit avoids equilibrium in finite time (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_ne_rstar, +lorentzian_sq_diff_ne_zero)
+- updated: syntheses/lean-proof-status.md (+2 entries)
+- index.md: regenerated (session 8, experiment 36)
+- LEAN: `lorentzian_explicit_ne_rstar` — r₀≠r* → r(t)≠r*; proof: r₀_ne_sq from sqrt_sq, rcases lt_or_gt; below case: sq_lt_rstar → lhs²<rstar² → rhs² = rstar² contradiction; above case symmetric. `lorentzian_sq_diff_ne_zero` — r(t)²-r*²≠0; proof: same dichotomy via sq_lt/gt_rstar + linarith.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | order_preserving — flow monotone in initial condition (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_order_preserving)

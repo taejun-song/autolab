@@ -636,6 +636,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzian_explicit_neg_deriv`: r₀ ∈ (r*,1), t ≥ 0 → d/dt r(t) < 0 (derivative negative above r*) | **proved** |
 | `lorentzian_explicit_strictly_decreasing`: r₀ ∈ (r*,1), 0 ≤ s < t → r(t) < r(s) (trajectory strictly decreasing) | **proved** |
 | `lorentzian_explicit_order_preserving`: r₀ < r₀' → r(t,r₀) < r(t,r₀') for all t ≥ 0 (flow order-preserving) | **proved** |
+| `lorentzian_explicit_ne_rstar`: r₀ ≠ r* → r(t) ≠ r* for all t ≥ 0 (orbit never reaches equilibrium) | **proved** |
+| `lorentzian_sq_diff_ne_zero`: r₀ ≠ r* → r(t)²-r*² ≠ 0 for all t ≥ 0 (Lyapunov V(t) > 0 until convergence) | **proved** |
 
 ### Key Proof Steps
 
