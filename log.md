@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-04-27] experiment | sq_hasDerivAt: d(r²)/dt = K·r²·(r*²-r²) (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_sq_hasDerivAt)
+- updated: syntheses/lean-proof-status.md (+sq_hasDerivAt entry)
+- index.md: regenerated (session 8, experiment 11)
+- LEAN: `lorentzian_explicit_sq_hasDerivAt` — d(r²)/dt = K·r²·(r*²-r²). Key algebraic identity: 2r·lorentzianODE(r) = K·r²·(r*²-r²). Proof: hr.pow 2 + Nat.cast_ofNat simp + field_simp [hK.ne'] + ring. This is the governing identity for all Lyapunov monotonicity.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | local_stability: |r(t)-r*| ≤ 10·|r₀-r*|·exp(-μt)/r*⁴ (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_local_stability)
