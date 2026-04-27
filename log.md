@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | dist_tendsto — exponential synchronization |r(t,r₀)-r(t,r₀')|→0 (120 files, 3335 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+lorentzian_explicit_dist_tendsto)
+- updated: syntheses/lean-proof-status.md (+1 entry)
+- LEAN: `lorentzian_explicit_dist_tendsto` — any two Lorentzian ODE solutions merge: |r(t,r₀)-r(t,r₀')|→0. Proof: Tendsto.sub gives (r-r')→0; then .norm + simp [norm_zero, Real.norm_eq_abs] gives |r-r'|→0. Triangle through r*.
+- Build: 3335 jobs, 0 sorry, 0 axioms.
+
 ## [2026-04-27] experiment | tendsto_nat + explicit tendsto_nat — discrete Filter.Tendsto via ℕ→ℝ composition (120 files, 3335 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+LorentzianContinuousSolution.tendsto_nat, +lorentzian_explicit_tendsto_nat)
