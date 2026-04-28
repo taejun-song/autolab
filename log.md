@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.abs_dist_strict_anti_from_ode — StrictAntiOn abs distance via v_strict_anti_from_ode (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: abs_dist_strict_anti_from_ode)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 76 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 140)
+- LEAN: StrictAntiOn |S.r t - r*| on [0,∞) for S.r 0 ≠ r*. intro s hs t ht hst; simp only [] for beta reduction; v_strict_anti_from_ode gives V(t) < V(s); sqrt_lt_sqrt gives |r(t)-r*| < |r(s)-r*|. simp only [] at hV needed to beta-reduce the v_strict_anti_from_ode output goal. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.v_strict_anti_from_ode + dist_strict_lt_init_from_ode — StrictAntiOn V + strict distance decrease via derivative path (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: v_strict_anti_from_ode, dist_strict_lt_init_from_ode)
