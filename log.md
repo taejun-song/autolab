@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_lb_from_ode + v_deriv_neg_from_ode — abstract ODE V lower bound + all-t strict negativity (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: v_lb_from_ode, v_deriv_neg_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 78 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 141-142)
+- LEAN: v_lb_from_ode uses comparison_growth with bound V' = -(K·r·(r+rs)·V) ≥ -2K·V (since r < 1, rs < 1 give r·(r+rs) ≤ 2); mul_le_mul_of_nonneg_left chain for the coefficient bound; simp only [neg_mul] to align comparison_growth output with goal form. v_deriv_neg_from_ode is a one-liner `S.v_deriv_neg_at_nonequil t ht (S.ne_rstar h0_ne t ht)`. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.abs_dist_strict_anti_from_ode — StrictAntiOn abs distance via v_strict_anti_from_ode (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: abs_dist_strict_anti_from_ode)
