@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.dist_lb_from_ode + dist_trap_from_ode — abstract ODE two-sided distance trap (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: dist_lb_from_ode, dist_trap_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 80 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 143-144)
+- LEAN: dist_lb_from_ode: from v_lb_from_ode + sqrt algebra; hsqrt_exp converts √(exp(-2K·t)) = exp(-K·t) via sq + sqrt_sq; Real.sqrt_mul + Real.sqrt_le_sqrt chain. dist_trap_from_ode: conjunction of dist_lb_from_ode + dist_le_init_from_ode. Both NO eq_explicit. Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.v_lb_from_ode + v_deriv_neg_from_ode — abstract ODE V lower bound + all-t strict negativity (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: v_lb_from_ode, v_deriv_neg_from_ode)
