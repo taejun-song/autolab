@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-04-27] experiment | Solution.v_strict_anti_from_ode + dist_strict_lt_init_from_ode — StrictAntiOn V + strict distance decrease via derivative path (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: v_strict_anti_from_ode, dist_strict_lt_init_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 75 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 8, experiment 138-139)
+- LEAN: v_strict_anti_from_ode uses strictAntiOn_of_hasDerivWithinAt_neg (Mathlib) with HasDerivWithinAt from v_deriv_formula.hasDerivWithinAt + strict negativity from v_deriv_neg_at_nonequil + ne_rstar (uses eq_explicit); StrictAntiOn reformulation of v_strict_anti via derivative path. dist_strict_lt_init_from_ode: from v_strict_anti_from_ode + Real.sqrt_lt_sqrt (sq_nonneg _ as nonneg hypothesis). Build: 3336 jobs.
+
 ## [2026-04-27] experiment | Solution.v_deriv_neg_at_nonequil — strict V derivative negativity off equilibrium (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: v_deriv_neg_at_nonequil)

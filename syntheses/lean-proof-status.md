@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (73 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above), V derivative nonpositivity, abstract ODE Lyapunov monotonicity (V non-increasing + dist le init), strict Lyapunov derivative negativity off equilibrium. 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (75 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above), V derivative nonpositivity, abstract ODE Lyapunov monotonicity (V non-increasing + dist le init), strict Lyapunov derivative negativity off equilibrium, StrictAntiOn V + strict distance decrease via derivative path. 3336 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -758,6 +758,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.v_nonincreasing_from_ode`: V = (S.r t-r*)² is AntitoneOn [0,∞) — uses antitoneOn_of_hasDerivWithinAt_nonpos with HasDerivWithinAt from v_deriv_formula + v_deriv_nonpos; hr_cont is ContinuousOn not Continuous. Alternative proof of v_nonincreasing. NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.dist_le_init_from_ode`: \|S.r t-r*\| ≤ \|S.r 0-r*\| — from v_nonincreasing_from_ode + Real.sqrt_le_sqrt + sqrt_sq_eq_abs. Alternative proof of dist_le_init. NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.v_deriv_neg_at_nonequil`: V'(t) < 0 when S.r t ≠ r* — sq_pos_of_ne_zero gives V > 0, then mul_pos chain gives -(K·r·(r+r*)·V) < 0. Enables strict V monotonicity off equilibrium. NO eq_explicit | **proved** |
+| `LorentzianContinuousSolution.v_strict_anti_from_ode`: StrictAntiOn V [0,∞) when S.r 0 ≠ r* — strictAntiOn_of_hasDerivWithinAt_neg via v_deriv_formula (HasDerivWithinAt) + v_deriv_neg_at_nonequil + ne_rstar; StrictAntiOn reformulation of v_strict_anti via derivative path | **proved** |
+| `LorentzianContinuousSolution.dist_strict_lt_init_from_ode`: \|S.r t-r*\| < \|S.r 0-r*\| for t > 0 when S.r 0 ≠ r* — corollary of v_strict_anti_from_ode via Real.sqrt_lt_sqrt (sqrt strictly monotone on [0,∞)) | **proved** |
 
 ### Key Proof Steps
 
