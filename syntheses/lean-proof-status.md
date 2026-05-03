@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **114 theorems** spanning Bernoulli, Lyapunov, abstract ODE chain, and Picard-Lindelöf infrastructure (exp 171-176: local existence, C∞, locally Lipschitz, LipschitzOnWith, ne_rstar, unique, order preservation). 3373 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
+Machine-checked proof status: 0 sorry, 1 axiom across 121 files. Continuum proof closed: ODE existence via Picard-Lindelöf, Fubini Lyapunov via product measure, passage to limit with 1 axiom (Padé/AAK rational approximation rate). 3473 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 

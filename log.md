@@ -3785,3 +3785,12 @@ Major restructuring of MainTheorem.lean and companion files:
 - LEAN: `lorentzian_below_rstar_convergence`, `lorentzian_above_rstar_convergence` — global stability from r(0) < r* and r(0) > r* respectively.
 - **All monotonicity assumptions eliminated**: convergence proofs now require only K, γ, ODE solution, r(0) ∈ (0,1).
 - **Sorry count**: 0 (116 files, 3430 build jobs)
+
+## [2026-05-03] experiment | Continuum proof for general g: Picard-Lindelöf + Fubini + 1 axiom
+
+- created: KuramotoLean/ContinuumODEExistence.lean — scalar OA ODE existence via Mathlib IsPicardLindelof (local Lipschitz → HasDerivWithinAt)
+- created: KuramotoLean/ContinuumFubiniLyapunov.lean — V∞ pair bound via MeasureTheory.Integral.Prod (Fubini product-measure formulation)
+- updated: KuramotoLean/PassageToLimit.lean — replaced 3 True placeholders with grounded hypotheses, added 1 axiom (rational_approximation_rate, Padé/AAK)
+- updated: KuramotoLean.lean (+2 imports)
+- index.md: regenerated
+- **Sorry count**: 0, **Axiom count**: 1 (rational_approximation_rate), **Files**: 121, **Build jobs**: 3473

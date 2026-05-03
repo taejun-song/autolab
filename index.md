@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (session 9, experiment 176)_
+_Last regenerated: 2026-05-03 (session 9, continuum proof closed)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: **114 theorems** (exp 176: order_preserving_from_ode — IVT + ODE backward uniqueness). Primary metric SOLVED. 3373 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 121 files, 0 sorry, 1 axiom. Continuum proof closed: Picard-Lindelöf ODE existence + Fubini Lyapunov + passage to limit (1 axiom: Padé/AAK). 3473 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
