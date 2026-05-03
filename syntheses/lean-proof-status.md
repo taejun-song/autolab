@@ -808,6 +808,11 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.gt_rstar_iff_from_ode`: r* < S.r t ↔ r* < S.r 0 — orbit above r* iff starts above; symmetric to lt_rstar_iff. NO eq_explicit (exp 180) | **proved** |
 | `LorentzianContinuousSolution.lt_iff_lt_init_from_ode`: S.r t < S'.r t ↔ S.r 0 < S'.r 0 (same K,γ) — ordering between two solutions at any t ≥ 0 is determined by initial ordering; trichotomy + order_preserving + unique_from_ode. NO eq_explicit (exp 181) | **proved** |
 | `LorentzianContinuousSolution.eq_iff_eq_init_from_ode`: S.r t = S'.r t ↔ S.r 0 = S'.r 0 (same K,γ) — equality between two solutions at any t ≥ 0 iff equal initially; trichotomy + order_preserving + unique_from_ode. NO eq_explicit (exp 181) | **proved** |
+| `LorentzianContinuousSolution.r_ge_min_from_ode`: S.r t ≥ min(S.r 0, r*) for all t≥0 — lower corridor bound in explicit min form; one-liner: (r_in_corridor_from_ode).1. NO eq_explicit (exp 182) | **proved** |
+| `LorentzianContinuousSolution.r_le_max_from_ode`: S.r t ≤ max(S.r 0, r*) for all t≥0 — upper corridor bound in explicit max form; one-liner: (r_in_corridor_from_ode).2. NO eq_explicit (exp 182) | **proved** |
+| `LorentzianContinuousSolution.r_ge_delta_from_ode`: δ ≤ S.r 0 ∧ δ ≤ r* → S.r t ≥ δ for all t≥0 — global lower bound by any δ below both init and r*; le_min + r_ge_min_from_ode. NO eq_explicit (exp 183) | **proved** |
+| `LorentzianContinuousSolution.r_le_delta_from_ode`: S.r 0 ≤ δ ∧ r* ≤ δ → S.r t ≤ δ for all t≥0 — global upper bound by any δ above both init and r*; max_le + r_le_max_from_ode. NO eq_explicit (exp 183) | **proved** |
+| `LorentzianContinuousSolution.r_in_Icc_from_ode`: δ₁ ≤ min(r(0),r*) ∧ max(r(0),r*) ≤ δ₂ → S.r t ∈ [δ₁,δ₂] — trajectory stays in any interval containing both r(0) and r*; r_ge/le_min/max_from_ode. NO eq_explicit (exp 183) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -871,8 +876,13 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | Gt r* iff init | `gt_rstar_iff_from_ode` | above r* iff starts above |
 | Two-soln lt iff | `lt_iff_lt_init_from_ode` | S<S' iff S(0)<S'(0) |
 | Two-soln eq iff | `eq_iff_eq_init_from_ode` | S=S' iff S(0)=S'(0) |
+| Min corridor bound | `r_ge_min_from_ode` | S.r t ≥ min(S.r 0, r*) |
+| Max corridor bound | `r_le_max_from_ode` | S.r t ≤ max(S.r 0, r*) |
+| Delta lower bound | `r_ge_delta_from_ode` | δ≤r(0)∧δ≤r* → S.r t≥δ |
+| Delta upper bound | `r_le_delta_from_ode` | r(0)≤δ∧r*≤δ → S.r t≤δ |
+| Interval trapping | `r_in_Icc_from_ode` | S.r t ∈ [δ₁, δ₂] |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **124 LCS theorems** (exp 181 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **129 LCS theorems** (exp 183 added).
 
 ### Key Proof Steps
 

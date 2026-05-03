@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-04] experiment | r_ge/le_delta + r_in_Icc_from_ode — interval trapping (exp 183)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+3 theorems: r_ge_delta_from_ode, r_le_delta_from_ode, r_in_Icc_from_ode)
+- updated: syntheses/lean-proof-status.md (+3 entries, 129 LCS theorems)
+- index.md: regenerated (session 9, experiment 183)
+- LEAN: all one-liners from r_ge/le_min_from_ode via le_min/max_le; r_in_Icc combines both. Build: 3373 jobs.
+
+## [2026-05-04] experiment | r_ge_min_from_ode + r_le_max_from_ode — corridor bounds (exp 182)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: r_ge_min_from_ode, r_le_max_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, 127 LCS theorems)
+- index.md: regenerated (session 9, experiment 182)
+- LEAN: one-liners from (r_in_corridor_from_ode t ht).1/.2. NO eq_explicit. Build: 3373 jobs.
+
 ## [2026-05-03] experiment | ContinuumInstance — assembly of continuum proof chain (exp 182)
 
 - created: KuramotoLean/ContinuumInstance.lean (fills ContinuumFubiniData, CoerciveConvergenceData, ContinuumFullData structure fields)

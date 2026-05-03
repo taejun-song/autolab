@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (session 9, continuum instance assembled)_
+_Last regenerated: 2026-05-04 (session 9, experiment 183)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 122 files, 0 sorry, 1 axiom. ContinuumInstance.lean fills structure fields: ODE → Fubini → coercive → V → 0. 3473 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 121 files, 0 sorry. LorentzianExistence: **129 theorems** (exp 183: r_in_Icc_from_ode — trajectory interval trapping from corridor bounds). 3373 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +58,7 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry across 121 files. LorentzianExistence: **124 theorems** — Bernoulli + Lyapunov + abstract ODE chain + PL infrastructure. Exp 181: lt/eq_iff_init_from_ode (two-solution ordering at any t iff initial, NO eq_explicit). 3373 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry across 121 files. LorentzianExistence: **129 theorems** — Bernoulli + Lyapunov + abstract ODE chain + PL infrastructure. Exp 183: r_in_Icc_from_ode (trajectory interval trapping, min/max corridor bounds). 3373 build jobs.
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.
