@@ -11,17 +11,17 @@ Prove global stability of the Kuramoto partially locked state (PLS) for symmetri
 
 The sorry count is 0, but this is misleading. The real gap is that `LorentzianSolution` is a STRUCTURE with assumed fields (ODE solution exists, r ∈ [0,1], Lipschitz bound, persistence, Lyapunov bound). These assumptions are NOT sorry's — they're hidden in the structure definition. The proof is not complete until every field of `LorentzianSolution` is a THEOREM proved from the ODE.
 
-### PRIORITY: Close the LorentzianSolution gap
+### PRIORITY: Connect Picard-Lindelöf to construct LorentzianContinuousSolution
 
-**STOP exploring new mathematical territory.** The current 114 files already prove far more than needed. The bottleneck is NOT more theorems — it is proving the concrete instance. Focus ALL effort on:
+Items 2-5 below are DONE. The ONE remaining gap is ODE existence:
 
-1. **ODE existence**: Prove a solution to ṙ = (K/2-γ)r - (K/2)r³ exists (Picard-Lindelöf from Mathlib)
-2. **Invariance**: Prove r(t) ∈ [0,1] if r(0) ∈ [0,1] (barrier argument: f(0) ≥ 0, f(1) ≤ 0)
-3. **Lipschitz bound**: Prove |r(n+1) - r(n)| ≤ K - γ from the ODE bound
-4. **Persistence**: Connect ChetaevEscape (already proved) to the hpersist field
-5. **Lyapunov bound**: Prove W(n) ≤ W(0)e^{-2Ψ} from dW/dt = -2Kr²W (algebraic identity)
+1. **ODE existence** (THE LAST GAP): Construct a `LorentzianContinuousSolution` from K, γ, r(0) alone. The RHS f(r) = (K/2-γ)r - (K/2)r³ is locally Lipschitz. Mathlib has Picard-Lindelöf (`OrdinaryDiffEq` or `MeasureTheory.Integral`). Connect it to produce `hr_ode : ∀ t, HasDerivAt r (lorentzianODE K γ (r t)) t` and `hr_cont`. Then `LorentzianContinuousSolution` has 0 assumed fields and the proof is COMPLETE.
+2. ~~**Invariance**~~: DONE (InvariantBox)
+3. ~~**Lipschitz bound**~~: DONE (hr_lip_discrete)
+4. ~~**Persistence**~~: DONE (hpersist_from_convergence)
+5. ~~**Lyapunov bound**~~: DONE (hlyap_from_nondecreasing / nonincreasing)
 
-Each of these is standard ODE theory. Do NOT add new files for new theorems. Instead, fill the existing `LorentzianSolution` fields with proofs.
+**STOP exploring new mathematical territory.** Focus ALL effort on connecting Mathlib's ODE existence to the Lorentzian ODE.
 
 ## The open problem
 
