@@ -2,7 +2,8 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-05-04sources:
+updated: 2026-05-03
+sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
   - "[[kuramoto-1975-self-entrainment]]"
@@ -16,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 121 files. Continuum proof closed: ODE existence via Picard-Lindelöf, Fubini Lyapunov via product measure, passage to limit with 1 axiom (Padé/AAK rational approximation rate). 3473 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 122 files. Continuum proof closed: ODE existence via Picard-Lindelöf, Fubini Lyapunov via product measure, passage to limit with 1 axiom (Padé/AAK rational approximation rate). ContinuumInstance.lean assembles the full chain: ContinuumODEData → ContinuumFubiniData → CoerciveConvergenceData → V → 0. 3473 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -802,6 +803,11 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.strictly_decreasing_from_ode`: r* < S.r 0 → S.r t < S.r s for 0≤s<t — StrictAntiOn via strictAntiOn_of_deriv_neg: symmetric pattern to strictly_increasing; deriv_neg_above gives negativity. NO eq_explicit (exp 177) | **proved** |
 | `LorentzianContinuousSolution.rstar_const_from_ode`: S.r 0 = r* → S.r t = r* for all t≥0 — build constant LCS g≡r* (valid: lorentzian_rstar_is_fixed_point gives ODE satisfied, continuousOn_const + rstar_pos/lt_one for fields); unique_from_ode gives S.r ≡ r*. NO eq_explicit (exp 178) | **proved** |
 | `LorentzianContinuousSolution.phase_portrait_from_ode`: trichotomy for 0≤s<t — (1) r(0)<r* → S.r s<S.r t (strictly increasing); (2) r(0)=r* → S.r s=S.r t (constant r*); (3) r*<r(0) → S.r t<S.r s (strictly decreasing). One-line combination of strictly_increasing/decreasing_from_ode + rstar_const_from_ode. NO eq_explicit (exp 179) | **proved** |
+| `LorentzianContinuousSolution.eq_rstar_iff_from_ode`: S.r t = r* ↔ S.r 0 = r* — orbit hits equilibrium iff starts there; forward by ne_rstar_from_ode contrapositive, backward by rstar_const_from_ode. NO eq_explicit (exp 180) | **proved** |
+| `LorentzianContinuousSolution.lt_rstar_iff_from_ode`: S.r t < r* ↔ S.r 0 < r* — orbit below r* iff starts below; trichotomy: r(0)≥r* cases give contradiction. NO eq_explicit (exp 180) | **proved** |
+| `LorentzianContinuousSolution.gt_rstar_iff_from_ode`: r* < S.r t ↔ r* < S.r 0 — orbit above r* iff starts above; symmetric to lt_rstar_iff. NO eq_explicit (exp 180) | **proved** |
+| `LorentzianContinuousSolution.lt_iff_lt_init_from_ode`: S.r t < S'.r t ↔ S.r 0 < S'.r 0 (same K,γ) — ordering between two solutions at any t ≥ 0 is determined by initial ordering; trichotomy + order_preserving + unique_from_ode. NO eq_explicit (exp 181) | **proved** |
+| `LorentzianContinuousSolution.eq_iff_eq_init_from_ode`: S.r t = S'.r t ↔ S.r 0 = S'.r 0 (same K,γ) — equality between two solutions at any t ≥ 0 iff equal initially; trichotomy + order_preserving + unique_from_ode. NO eq_explicit (exp 181) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -860,8 +866,13 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | Strictly decreasing | `strictly_decreasing_from_ode` | r*<r(0) → StrictAnti on [0,∞) |
 | Equilibrium const | `rstar_const_from_ode` | r(0)=r* → r≡r* |
 | Phase portrait | `phase_portrait_from_ode` | complete trichotomy |
+| Eq r* iff init | `eq_rstar_iff_from_ode` | hits r* iff starts there |
+| Lt r* iff init | `lt_rstar_iff_from_ode` | below r* iff starts below |
+| Gt r* iff init | `gt_rstar_iff_from_ode` | above r* iff starts above |
+| Two-soln lt iff | `lt_iff_lt_init_from_ode` | S<S' iff S(0)<S'(0) |
+| Two-soln eq iff | `eq_iff_eq_init_from_ode` | S=S' iff S(0)=S'(0) |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **118 LCS theorems** (exp 179 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **124 LCS theorems** (exp 181 added).
 
 ### Key Proof Steps
 

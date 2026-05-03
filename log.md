@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-04] experiment | lt/eq_iff_init_from_ode — two-solution order iff initial (exp 181)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: lt_iff_lt_init_from_ode, eq_iff_eq_init_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, 124 LCS theorems)
+- index.md: regenerated (session 9, experiment 181)
+- LEAN: lt_iff_lt_init: trichotomy on S.r 0 vs S'.r 0; equal case → unique_from_ode contradiction; gt case → order_preserving for S' vs S (note: S'.order_preserving_from_ode S hK.symm hγ.symm). eq_iff_eq_init: same pattern. Both first-try. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | eq/lt/gt_rstar_iff_from_ode — orbit location iff init (exp 180)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+3 theorems: eq_rstar_iff_from_ode, lt_rstar_iff_from_ode, gt_rstar_iff_from_ode)
+- updated: syntheses/lean-proof-status.md (+3 entries, 122 LCS theorems)
+- index.md: regenerated (session 9, experiment 180)
+- LEAN: eq_rstar_iff: by_contra + ne_rstar_from_ode for forward; rstar_const_from_ode for backward. lt_rstar_iff: trichotomy on S.r 0; equal case absurd via rstar_const_from_ode; gt case absurd via gt_rstar_of_init. gt_rstar_iff: symmetric. All first-try. NO eq_explicit. Build: 3373 jobs.
+
 ## [2026-05-04] experiment | rstar_const_from_ode + phase_portrait_from_ode — equilibrium const + trichotomy (exp 178-179)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: LorentzianContinuousSolution.rstar_const_from_ode, phase_portrait_from_ode)
