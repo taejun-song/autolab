@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | r_pos_from_ode + r_lt_one_from_ode — domain invariance (0,1) from abstract ODE (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: r_pos_from_ode, r_lt_one_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 93 theorems)
+- index.md: regenerated (session 9, experiment 156)
+- LEAN: r_pos_from_ode: r_in_corridor_from_ode gives r(t)≥min(r₀,r*)>0 via lt_min+hr_init_pos+lorentzian_rstar_pos. r_lt_one_from_ode: r_in_corridor_from_ode gives r(t)≤max(r₀,r*)<1 via max_lt+hr_init_lt+lorentzian_rstar_lt_one. Both NO eq_explicit. Build: 3336 jobs.
+
 ## [2026-05-03] experiment | r_in_corridor_from_ode — trajectory monotone corridor from abstract ODE (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: r_in_corridor_from_ode)

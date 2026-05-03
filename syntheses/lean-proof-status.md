@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (91 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above), V derivative nonpositivity, abstract ODE Lyapunov monotonicity (V non-increasing + dist le init), strict Lyapunov derivative negativity off equilibrium, StrictAntiOn V + strict distance decrease via derivative path, V→0 under persistence (squeeze_zero'), full convergence from abstract ODE chain (Filter.Tendsto, all r(0)∈(0,1), no explicit formula), ε-T convergence form. 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (93 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above), V derivative nonpositivity, abstract ODE Lyapunov monotonicity (V non-increasing + dist le init), strict Lyapunov derivative negativity off equilibrium, StrictAntiOn V + strict distance decrease via derivative path, V→0 under persistence (squeeze_zero'), full convergence from abstract ODE chain (Filter.Tendsto, all r(0)∈(0,1), no explicit formula), ε-T convergence form. 3336 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -779,6 +779,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.two_traj_tendsto_from_ode`: \|S.r t - S'.r t\| → 0 when S.K=S'.K, S.γ=S'.γ — both converge to same r*, difference → 0 via Tendsto.sub; abs via Tendsto.abs + abs_zero. simpa [abs_zero]. NO eq_explicit | **proved** |
 | `lorentzian_ode_two_traj_sync_raw`: raw-function form — \|r t - r' t\| → 0 for two ODE solutions with same (K,γ). One-liner wrapping both into LCS + two_traj_tendsto_from_ode. NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.r_in_corridor_from_ode`: S.r t ∈ [min(S.r 0, r*), max(S.r 0, r*)] for all t ≥ 0 — trajectory monotone corridor. Case split: below (ge_init_of_lt_rstar + lt_rstar_of_init), equal (r_constant_at_rstar), above (gt_rstar_of_init + le_init_of_gt_rstar). NO eq_explicit | **proved** |
+| `LorentzianContinuousSolution.r_pos_from_ode`: S.r t > 0 for all t ≥ 0 — r(t) ≥ min(r₀,r*) > 0; lt_min + r_in_corridor. NO eq_explicit | **proved** |
+| `LorentzianContinuousSolution.r_lt_one_from_ode`: S.r t < 1 for all t ≥ 0 — r(t) ≤ max(r₀,r*) < 1; max_lt + r_in_corridor + lorentzian_rstar_lt_one. NO eq_explicit | **proved** |
 
 ### Key Proof Steps
 
