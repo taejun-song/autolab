@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | unique_from_ode — abstract ODE forward uniqueness (exp 175)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: LorentzianContinuousSolution.unique_from_ode)
+- updated: syntheses/lean-proof-status.md (+1 entry, 113 LCS theorems)
+- index.md: regenerated (session 9, experiment 175)
+- LEAN: ODE_solution_unique_of_mem_Icc_right with hK/hγ rewrites for S' ODE matching. Pattern matches ne_rstar_from_ode but uses Ico/Ici instead of Ioc/Iic. First-try success. NO eq_explicit. Build: 3373 jobs.
+
 ## [2026-05-03] experiment | ne_rstar_from_ode — abstract ODE backward uniqueness (exp 174)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: LorentzianContinuousSolution.ne_rstar_from_ode)
