@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-03] experiment | two_traj_tendsto_from_ode + sync_raw — two-solution synchronization from abstract ODE (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: two_traj_tendsto_from_ode, lorentzian_ode_two_traj_sync_raw)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 90 theorems)
+- index.md: regenerated (session 9, experiment 154)
+- LEAN: two_traj_tendsto_from_ode: both S.r and S'.r converge to same r* (tendsto_from_ode); hS.sub hS' gives difference → 0; simp [sub_self]; simpa [abs_zero] using hsub.abs. convert S'.tendsto_from_ode for parameter substitution. NO eq_explicit.
+- LEAN: lorentzian_ode_two_traj_sync_raw: raw-function form, wraps both into LCS with same K,γ and applies two_traj_tendsto_from_ode rfl rfl. Build: 3336 jobs.
+
 ## [2026-05-03] experiment | convergence_time_from_ode — ε-T form of abstract ODE convergence (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: convergence_time_from_ode)

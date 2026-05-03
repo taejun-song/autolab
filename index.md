@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (session 9, experiment 153)_
+_Last regenerated: 2026-05-03 (session 9, experiment 154)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: 88 theorems. Abstract ODE chain complete: tendsto_from_ode + dist_bound_from_ode_unified + convergence_time_from_ode — Filter.Tendsto, explicit exponential rate, ε-T form, all for ANY solution with r(0)∈(0,1), no explicit formula. 3336 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: 90 theorems. Abstract ODE chain complete: tendsto_from_ode, dist_bound_from_ode_unified, convergence_time_from_ode, two_traj_tendsto_from_ode — all r(0)∈(0,1), no explicit formula, two-solution synchronization. 3336 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
