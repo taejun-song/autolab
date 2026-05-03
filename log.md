@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-04] experiment | LorentzianMixtureAnalyticExtension: finite Lorentzian mixtures, axiom-free rational approx (exp 200)
+
+- created: KuramotoLean/LorentzianMixtureAnalyticExtension.lean (lorentzianMixture, lorentzianMixtureExt, lorentzianMixtureExt_real, lorentzianMixtureExt_analyticOnNhd, lorentzian_mixture_rational_approx)
+- updated: KuramotoLean.lean (+import LorentzianMixtureAnalyticExtension)
+- updated: syntheses/lean-proof-status.md (+exp 200 section, 128→129 files, 3477→3478 build jobs)
+- index.md: updated (exp 200)
+- LEAN: 129 files, 0 sorry, 1 axiom, 3478 build jobs. Key: define mixture as ∑ k, fun z => f k z (sum of functions) not fun z => ∑ k, f k z (function of sum) so Finset.univ.analyticAt_sum applies directly. The rational approx is axiom-free: g_approx n = g, error = 0 ≤ 1·exp(-1·n). Extends exp 198 pattern to all finite Lorentzian mixtures.
+
 ## [2026-05-03] experiment | GaussianAnalyticExtension: Gaussian is entire, AnalyticOnNhd on any strip (exp 199)
 
 - created: KuramotoLean/GaussianAnalyticExtension.lean (gaussianFreqDist, gaussianFreqDistExt, gaussianFreqDistExt_real, gaussianFreqDistExt_analyticAt, gaussianFreqDistExt_analyticOnNhd, gaussian_rational_approx)

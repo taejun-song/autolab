@@ -2,7 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-05-03
+updated: 2026-05-04
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 128 files. Exp 199: `GaussianAnalyticExtension.lean` proves Gaussian g(ω)=exp(-ω²/2σ²)/(σ√2π) is entire (AnalyticOnNhd on any strip). The 1 axiom (`rational_approximation_rate`) is now instantiable for both Lorentzian and Gaussian distributions. 3477 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 129 files. Exp 200: `LorentzianMixtureAnalyticExtension.lean` proves finite Lorentzian mixtures Σ aₖ·Lorentzian(γₖ) are analytic on {|Im z| < min γₖ} and admit axiom-free rational approximations (zero error). 3478 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -85,8 +85,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Sorry count | **0** |
 | Axiom declarations | **1** (`rational_approximation_rate` in PassageToLimit.lean) |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **128** |
-| Comprehensive build | **3477 build jobs** |
+| Total .lean files | **129** |
+| Comprehensive build | **3478 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -184,6 +184,24 @@ Proves that the Gaussian frequency distribution g(ω) = exp(-ω²/(2σ²))/(σ�
 Key: exp ∘ polynomial is entire via `AnalyticAt.cexp'`. Unlike the Lorentzian, the Gaussian is transcendental, so `gaussian_rational_approx` requires the `rational_approximation_rate` axiom. Contrast with `lorentzian_rational_approx` (exp 198) which is proved axiom-free.
 
 The 1 axiom (`rational_approximation_rate`) is now grounded for TWO physical distributions: Lorentzian (with explicit strip γ) and Gaussian (with any strip since g is entire).
+
+## Lorentzian Mixture Analytic Extension (LorentzianMixtureAnalyticExtension.lean)
+
+**Status**: 0 sorry, 0 axiom usage. NEW FILE (Exp 200).
+
+Extends the axiom-free result of exp 198 to all finite weighted sums of Lorentzians. A mixture g(ω) = Σ aₖ·γₖ/π/(ω²+γₖ²) is a rational function, so:
+
+| Theorem | Status |
+|---|---|
+| `lorentzianMixtureExt_real`: g_ext(ω) = ↑(g(ω)) for ω ∈ ℝ | **proved** |
+| `lorentzianMixtureExt_analyticOnNhd`: AnalyticOnNhd on {z \| \|Im z\|<a}, a≤γₖ all k | **proved** |
+| `lorentzian_mixture_rational_approx`: ∃ g_approx C c, \|g-g_approx n\| ≤ C·exp(-cn) | **proved (axiom-free)** |
+
+Key implementation detail: `lorentzianMixtureExt` is defined as `∑ k, fun z => aₖ·lorentzianFreqDistExt(γₖ,z)` (sum of functions) rather than `fun z => ∑ k, ...` (function of sum). This matches the form expected by `Finset.univ.analyticAt_sum` in Mathlib, avoiding a higher-order unification failure.
+
+Analyticity on the strip: `Finset.univ.analyticAt_sum` reduces to proving each term `const * lorentzianFreqDistExt(γₖ)` is analytic at z. Since z is in the sub-strip {|Im z| < a ≤ γₖ}, `lorentzianFreqDistExt_analyticOnNhd(γₖ)` applies. Then `analyticAt_const.mul` concludes.
+
+Rational approximation: zero error (g_approx n = g), same strategy as exp 198. No Padé/AAK theory needed since mixtures of rational functions are rational.
 
 ## Concrete Instance: Lorentzian (LorentzianInstance.lean)
 
