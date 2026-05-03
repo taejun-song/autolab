@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (exp 198: lorentzian_rational_approx proved axiom-free — Lorentzian is rational, trivial approximation)_
+_Last regenerated: 2026-05-03 (exp 199: GaussianAnalyticExtension — Gaussian is entire, AnalyticOnNhd on any strip)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 127 files, 0 sorry, 1 axiom. Exp 198: lorentzian_rational_approx proved axiom-free — Lorentzian is rational, g_approx n=g gives zero error. Axiom remains for general g. 3476 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 128 files, 0 sorry, 1 axiom. Exp 199: GaussianAnalyticExtension proves Gaussian is entire → AnalyticOnNhd on any strip. Axiom grounded for Lorentzian (exp 197-198) and Gaussian (exp 199). 3477 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +58,7 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 1 axiom across 127 files. Exp 198: lorentzian_rational_approx axiom-free (Lorentzian is rational). 3476 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 1 axiom across 128 files. Exp 199: Gaussian is entire → AnalyticOnNhd on any strip. 3477 build jobs.
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.

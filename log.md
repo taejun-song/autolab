@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-03] experiment | GaussianAnalyticExtension: Gaussian is entire, AnalyticOnNhd on any strip (exp 199)
+
+- created: KuramotoLean/GaussianAnalyticExtension.lean (gaussianFreqDist, gaussianFreqDistExt, gaussianFreqDistExt_real, gaussianFreqDistExt_analyticAt, gaussianFreqDistExt_analyticOnNhd, gaussian_rational_approx)
+- updated: KuramotoLean.lean (+import GaussianAnalyticExtension)
+- updated: syntheses/lean-proof-status.md (+exp 199 section, 127→128 files, 3476→3477 build jobs)
+- index.md: updated
+- LEAN: 128 files, 0 sorry, 1 axiom. Gaussian g entire → AnalyticOnNhd on any strip via AnalyticAt.cexp'. gaussian_rational_approx invokes axiom (Gaussian is transcendental, unlike Lorentzian). Recovered from uncommitted SelfConsistentExistence changes that broke build.
+
 ## [2026-05-03] experiment | lorentzian_rational_approx proved axiom-free: Lorentzian is rational → trivial approx (exp 198)
 
 - updated: KuramotoLean/LorentzianAnalyticExtension.lean (lorentzian_rational_approx: replaced axiom call with direct proof using g_approx n = g, zero error)

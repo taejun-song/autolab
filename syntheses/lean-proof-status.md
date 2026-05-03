@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 127 files. Exp 198: `lorentzian_rational_approx` proved WITHOUT axiom — Lorentzian is rational, so g_approx n=g gives zero error. For the Lorentzian case specifically, the passage-to-limit is now axiom-free. The 1 axiom (`rational_approximation_rate`) remains for general analytic g. 3476 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 128 files. Exp 199: `GaussianAnalyticExtension.lean` proves Gaussian g(ω)=exp(-ω²/2σ²)/(σ√2π) is entire (AnalyticOnNhd on any strip). The 1 axiom (`rational_approximation_rate`) is now instantiable for both Lorentzian and Gaussian distributions. 3477 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -85,8 +85,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Sorry count | **0** |
 | Axiom declarations | **1** (`rational_approximation_rate` in PassageToLimit.lean) |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **127** |
-| Comprehensive build | **3476 build jobs** |
+| Total .lean files | **128** |
+| Comprehensive build | **3477 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -167,6 +167,23 @@ Proves that the Lorentzian frequency distribution g(ω) = γ/π/(ω²+γ²) admi
 Exp 198 key insight: the Lorentzian is itself a rational function (degree 2 in ω), so `g_approx n = g` achieves identically zero error. This is ≤ C·exp(-cn) for any C,c>0. Proof: `⟨fun _ => lorentzianFreqDist γ, 1, 1, one_pos, one_pos, fun n ω => by simp [sub_self, abs_zero]; exact mul_nonneg ...⟩`. No Padé/AAK theory needed.
 
 Key step for analyticity: z²+γ² is nonzero in the strip because if z²+γ²=0, extracting real/imaginary parts gives z.re·z.im=0. Case z.re=0: z.im²=γ² so \|Im z\|=γ, contradiction. Case z.im=0: z.re²+γ²=0, impossible for γ>0. The function is then `analyticAt_const.div h_denom h_ne` via Mathlib `AnalyticAt.div`.
+
+## Gaussian Analytic Extension (GaussianAnalyticExtension.lean)
+
+**Status**: 0 sorry, 1 axiom usage (`gaussian_rational_approx` invokes the axiom). NEW FILE (Exp 199).
+
+Proves that the Gaussian frequency distribution g(ω) = exp(-ω²/(2σ²))/(σ√(2π)) is an entire function, satisfying `AnalyticOnNhd ℂ g_ext {z | |Im z| < a}` for any a > 0.
+
+| Theorem | Status |
+|---|---|
+| `gaussianFreqDistExt_real`: g_ext(ω) = ↑(g(ω)) for ω ∈ ℝ | **proved** |
+| `gaussianFreqDistExt_analyticAt`: AnalyticAt ℂ g_ext z for all z | **proved** |
+| `gaussianFreqDistExt_analyticOnNhd`: AnalyticOnNhd ℂ g_ext {z \| \|Im z\|<a} | **proved** |
+| `gaussian_rational_approx`: ∃ g_approx C c, \|g-g_approx n\| ≤ C·exp(-cn) | **argument (1 axiom)** |
+
+Key: exp ∘ polynomial is entire via `AnalyticAt.cexp'`. Unlike the Lorentzian, the Gaussian is transcendental, so `gaussian_rational_approx` requires the `rational_approximation_rate` axiom. Contrast with `lorentzian_rational_approx` (exp 198) which is proved axiom-free.
+
+The 1 axiom (`rational_approximation_rate`) is now grounded for TWO physical distributions: Lorentzian (with explicit strip γ) and Gaussian (with any strip since g is entire).
 
 ## Concrete Instance: Lorentzian (LorentzianInstance.lean)
 
