@@ -1,5 +1,36 @@
 # Activity Log
 
+## [2026-05-03] experiment | Phase 5 consolidation — experiments 163-169 (7 theorems: bifurcation birth, velocity sign, derived convergences) (120 files)
+
+- updated: syntheses/lean-proof-status.md (+7 theorem rows, updated Abstract ODE Chain Summary, 107 LCS theorems)
+- index.md: regenerated (session 9, experiment 170)
+- LEAN: experiments 163-169 previously committed. Wiki update: lorentzian_rstar_tendsto_zero (r*→0 as K→2γ⁺), deriv_tendsto_zero (ṙ(t)→0), w_tendsto (1/r²→K/(K-2γ)), r_sq_tendsto (r²→r*²), deriv_neg_above (ṙ<0 above r*), deriv_pos_below (ṙ>0 below r*), deriv_eq_zero_iff_rstar (ṙ=0 ↔ r=r*). All NO eq_explicit.
+
+## [2026-05-03] experiment | deriv_eq_zero_iff_rstar — ṙ=0 ↔ r=r* equilibrium characterization (exp 169)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: deriv_eq_zero_iff_rstar)
+- LEAN: lorentzian_fixed_point_unique for forward direction (r=0 excluded by r_pos + ht, r²=r*² gives r=r* via sqrt); lorentzian_rstar_is_fixed_point for backward. NO eq_explicit.
+
+## [2026-05-03] experiment | deriv_neg_above + deriv_pos_below — velocity sign theorems (exp 167-168)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: deriv_neg_above, deriv_pos_below)
+- LEAN: deriv_neg_above: lorentzian_ode_neg + nlinarith from hrs_sq and sq_nonneg(r-rs). deriv_pos_below: lorentzian_ode_pos + nlinarith. Both NO eq_explicit.
+
+## [2026-05-03] experiment | w_tendsto + r_sq_tendsto — Bernoulli w and squared r converge to equilibrium (exp 165-166)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: w_tendsto, r_sq_tendsto)
+- LEAN: w_tendsto: ContinuousAt.div + (pow_pos hrstar_pos 2).ne' for nonzero denominator; field_simp closes hrstar_sq. r_sq_tendsto: tendsto_from_ode.pow 2 + Real.sq_sqrt. Both NO eq_explicit.
+
+## [2026-05-03] experiment | deriv_tendsto_zero — ṙ(t) → 0 as t → ∞ (exp 164)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: deriv_tendsto_zero)
+- LEAN: rw [← lorentzian_rstar_is_fixed_point]; compose continuous lorentzianODE.continuousAt with tendsto_from_ode. NO eq_explicit.
+
+## [2026-05-03] experiment | lorentzian_rstar_tendsto_zero — r* → 0 as K → 2γ⁺ (exp 163)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: lorentzian_rstar_tendsto_zero)
+- LEAN: continuousAt_const.sub (div) gives 1-2γ/K → 0 at K=2γ; compose with sqrt continuity; simpa [Real.sqrt_zero]. Bifurcation birth complement to lorentzian_rstar_tendsto_one.
+
 ## [2026-05-03] experiment | lorentzian_ode_global_stability_complete — 100th theorem (billboard) (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: lorentzian_ode_global_stability_complete)

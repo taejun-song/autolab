@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **100 theorems** spanning classical Bernoulli, Lyapunov analysis, and abstract ODE chain (milestone reached, exp 162). Abstract ODE chain (NO eq_explicit): Filter.Tendsto convergence (all r(0)∈(0,1)), unified exponential rate, ε-T form, two-traj Filter.Tendsto sync, two-traj exponential bound, monotone corridor, domain invariance Ioo/Icc, r_pos, r_lt_one. 3336 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **107 theorems** spanning classical Bernoulli, Lyapunov analysis, and abstract ODE chain (exp 163-169: bifurcation birth r*→0, velocity sign ṙ≷0, ṙ→0, r²→r*², 1/r²→B). Abstract ODE chain (NO eq_explicit): Filter.Tendsto convergence (all r(0)∈(0,1)), unified exponential rate, ε-T form, two-traj Filter.Tendsto sync, two-traj exponential bound, monotone corridor, domain invariance Ioo/Icc, r_pos, r_lt_one, velocity sign and zero characterization. 3336 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -784,7 +784,14 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.r_mem_Ioo_from_ode`: S.r t ∈ Set.Ioo 0 1 for all t ≥ 0 — bundles r_pos_from_ode + r_lt_one_from_ode. NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.r_mem_Icc_from_ode`: S.r t ∈ Set.Icc 0 1 for all t ≥ 0 — Ioo_subset_Icc_self applied to r_mem_Ioo_from_ode. NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.two_traj_dist_le_sum_from_ode`: \|S.r t - S'.r t\| ≤ \|S.r 0-r*\| + \|S'.r 0-r*\| — triangle + dist_le_init_from_ode for each; hrs_eq rewrite (rs = sqrt(1-2S'.γ/S'.K)). No ne_rstar needed. NO eq_explicit | **proved** |
-| `LorentzianContinuousSolution.two_traj_dist_from_ode`: \|S.r t - S'.r t\| ≤ sum of individual dist_bound_from_ode_unified exp bounds — triangle + dist_bound_from_ode_unified; le_trans + add_le_add; tighter than two_traj_dist. No ne_rstar. NO eq_explicit | **proved** |
+| `LorentzianContinuousSolution.two_traj_dist_from_ode`: \|S.r t - S'.r t\| ≤ sum of individual dist_bound_from_ode_unified exp bounds — triangle + dist_bound_from_ode_unified; le_trans + add_le_add; tighter than two_traj_dist. No ne_rstar. NO eq_explicit |
+| `lorentzian_rstar_tendsto_zero`: Filter.Tendsto r*(K,γ) (nhdsWithin (2γ) (Ioi (2γ))) (nhds 0) — r* → 0 as K → 2γ⁺; bifurcation birth. Proof: compose continuity of inner function 1-2γ/K at K=2γ with sqrt continuity (exp 163) |
+| `LorentzianContinuousSolution.deriv_tendsto_zero`: Filter.Tendsto (fun t => lorentzianODE K γ (S.r t)) atTop (nhds 0) — velocity ṙ(t) → 0 as t → ∞; compose continuity of lorentzianODE with tendsto_from_ode (exp 164). NO eq_explicit |
+| `LorentzianContinuousSolution.w_tendsto`: Filter.Tendsto (fun t => 1/S.r t²) atTop (nhds (K/(K-2γ))) — Bernoulli w-transform 1/r² → K/(K-2γ) as t → ∞; compose ContinuousAt of 1/x² with tendsto_from_ode (exp 165). NO eq_explicit |
+| `LorentzianContinuousSolution.r_sq_tendsto`: Filter.Tendsto (fun t => S.r t²) atTop (nhds (1-2γ/K)) — r(t)² → r*² = 1-2γ/K; tendsto_from_ode.pow 2 + Real.sq_sqrt (exp 166). NO eq_explicit |
+| `LorentzianContinuousSolution.deriv_neg_above`: S.r t > r* → lorentzianODE K γ (S.r t) < 0 — ṙ < 0 when r above equilibrium; uses lorentzian_ode_neg + nlinarith from hrs_sq (exp 167). NO eq_explicit |
+| `LorentzianContinuousSolution.deriv_pos_below`: S.r t < r* → lorentzianODE K γ (S.r t) > 0 — ṙ > 0 when r below equilibrium; uses lorentzian_ode_pos + nlinarith (exp 168). NO eq_explicit |
+| `LorentzianContinuousSolution.deriv_eq_zero_iff_rstar`: lorentzianODE K γ (S.r t) = 0 ↔ S.r t = r* — velocity vanishes iff at equilibrium; lorentzian_fixed_point_unique for forward dir + lorentzian_rstar_is_fixed_point for backward (exp 169). NO eq_explicit | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -825,7 +832,15 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 
 | Billboard | `lorentzian_ode_global_stability_complete` | domain + tendsto + rate |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **100 LCS theorems reached.**
+| r* → 0 as K → 2γ⁺ | `lorentzian_rstar_tendsto_zero` | bifurcation birth |
+| Velocity → 0 | `deriv_tendsto_zero` | ṙ(t) → 0 as t → ∞ |
+| w-transform → B | `w_tendsto` | 1/r² → K/(K-2γ) |
+| r² → r*² | `r_sq_tendsto` | squared convergence |
+| ṙ < 0 above r* | `deriv_neg_above` | velocity sign |
+| ṙ > 0 below r* | `deriv_pos_below` | velocity sign |
+| ṙ = 0 ↔ r = r* | `deriv_eq_zero_iff_rstar` | equilibrium characterization |
+
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **107 LCS theorems** (exp 163-169 added).
 
 ### Key Proof Steps
 
