@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | velocity_bound_from_ode + r_lipschitz_from_ode — ODE velocity and Lipschitz bounds (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: velocity_bound_from_ode, r_lipschitz_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries in Abstract ODE Chain table, total 99 theorems)
+- index.md: regenerated (session 9, experiment 161)
+- LEAN: velocity_bound_from_ode: one-liner — r_mem_Icc_from_ode gives r(t)∈[0,1], then lorentzian_ode_abs_le gives |lorentzianODE K γ r| ≤ K-γ. r_lipschitz_from_ode: MVT on [t,t+s] with velocity_bound_from_ode as the norm bound; norm_image_sub_le_of_norm_deriv_le_segment'. Both NO eq_explicit. Build: 3336 jobs.
+
 ## [2026-05-03] query+page | Phase 5 consolidation — abstract ODE chain summary, wiki refresh (session 9, exp 160)
 
 - updated: syntheses/lean-proof-status.md (description updated, Abstract ODE Chain Summary table added)

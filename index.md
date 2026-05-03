@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (session 9, experiment 160)_
+_Last regenerated: 2026-05-03 (session 9, experiment 161)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: 97 theorems. Primary metric SOLVED: LorentzianSolution assumed fields = 0. Abstract ODE chain: 27 theorems, all NO eq_explicit. 3336 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: 99 theorems. Primary metric SOLVED: LorentzianSolution assumed fields = 0. Abstract ODE chain: 29 theorems (velocity + Lipschitz bounds added). 3336 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.

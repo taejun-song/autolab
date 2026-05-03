@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: 97 theorems spanning classical Bernoulli, Lyapunov analysis, and abstract ODE chain. Abstract ODE chain (NO eq_explicit): Filter.Tendsto convergence (all r(0)∈(0,1)), unified exponential rate, ε-T form, two-traj Filter.Tendsto sync, two-traj exponential bound, monotone corridor, domain invariance Ioo/Icc, r_pos, r_lt_one. 3336 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: 99 theorems spanning classical Bernoulli, Lyapunov analysis, and abstract ODE chain. Abstract ODE chain (NO eq_explicit): Filter.Tendsto convergence (all r(0)∈(0,1)), unified exponential rate, ε-T form, two-traj Filter.Tendsto sync, two-traj exponential bound, monotone corridor, domain invariance Ioo/Icc, r_pos, r_lt_one. 3336 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -819,6 +819,9 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | r stays above r* | `r_ge_rstar_of_above` | when r(0)>r* |
 | Gronwall below | `dist_from_gronwall_below` | r(0)<r* case |
 | Gronwall above | `dist_from_gronwall_above` | r(0)>r* case |
+
+| Velocity bound | `velocity_bound_from_ode` | \|ṙ(t)\| ≤ K-γ |
+| Lipschitz bound | `r_lipschitz_from_ode` | \|r(t+s)-r(t)\| ≤ (K-γ)s |
 
 **Primary metric SOLVED**: LorentzianSolution assumed fields = 0.
 
