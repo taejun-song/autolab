@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-04-27 (session 8, experiment 144)_
+_Last regenerated: 2026-05-03 (session 9, experiment 149)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: complete Lyapunov library + LorentzianContinuousSolution lift (80 theorems: classical stability, strict decrease, flow structure, order preservation, ball invariance, invariance, trap, persistence, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds, V derivative nonpositivity, abstract ODE Lyapunov monotonicity, strict V derivative negativity off equilibrium, StrictAntiOn V + strict distance decrease via derivative path). 3336 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: complete Lyapunov library + LorentzianContinuousSolution lift (84 theorems). Abstract ODE chain complete: tendsto_from_ode proves Filter.Tendsto r→r* for ALL r(0)∈(0,1) without explicit formula — cases r(0)<r* (persistence=r(0)), r(0)=r* (constant), r(0)>r* (persistence=r* via r_ge_rstar_of_above). 3434 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.

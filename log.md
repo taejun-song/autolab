@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-03] experiment | tendsto_from_ode + r_ge_rstar_of_above — Filter.Tendsto abstract ODE chain complete (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianFromODE.lean (lorentzian_r_stays_above_rstar made public; +1 theorem: r_ge_rstar_of_above)
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: tendsto_from_ode)
+- updated: syntheses/lean-proof-status.md (+3 entries, total 84 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 9, experiment 147-149)
+- LEAN: r_ge_rstar_of_above is a one-liner lifting lorentzian_r_stays_above_rstar (made public) via le_of_lt. tendsto_from_ode does rcases lt_trichotomy on r(0) vs r*: below case uses r_nondecreasing_of_below to get r(t)≥r(0), applies tendsto_from_persist_ode with δ=r(0); equal case uses r_constant_at_rstar + Metric.tendsto_atTop; above case applies tendsto_from_persist_ode with δ=r* from r_ge_rstar_of_above. NO eq_explicit used anywhere — pure abstract ODE chain. Build: 3434 jobs.
+
 ## [2026-04-27] experiment | Solution.dist_lb_from_ode + dist_trap_from_ode — abstract ODE two-sided distance trap (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: dist_lb_from_ode, dist_trap_from_ode)

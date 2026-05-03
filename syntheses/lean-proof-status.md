@@ -2,7 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-04-27
+updated: 2026-05-03
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (80 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above), V derivative nonpositivity, abstract ODE Lyapunov monotonicity (V non-increasing + dist le init), strict Lyapunov derivative negativity off equilibrium, StrictAntiOn V + strict distance decrease via derivative path. 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (84 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above), V derivative nonpositivity, abstract ODE Lyapunov monotonicity (V non-increasing + dist le init), strict Lyapunov derivative negativity off equilibrium, StrictAntiOn V + strict distance decrease via derivative path, V→0 under persistence (squeeze_zero'), full convergence from abstract ODE chain (Filter.Tendsto, all r(0)∈(0,1), no explicit formula). 3434 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -69,6 +69,7 @@ The slaving/tail/Ψ decomposition is now in LorentzianInstance.lean (derives hsc
 | **r(0) = r***, pure ODE | K > 2γ, r(0) = r* | r(n) → r* (Gronwall uniqueness) | **proved** (`lorentzian_at_rstar_convergence`) |
 | **Full trichotomy** | **K > 2γ, r(0) ∈ (0,1)** | **r(n) → r* = √(1-2γ/K) (all cases)** | **proved** (`lorentzian_convergence_from_ode`) |
 | **Unified** | **any K > 0, r(0) ∈ (0,1)** | **∃ r_∞ ∈ [0,1], r(t) → r_∞ (all cases)** | **proved** (`lorentzian_continuous_trifurcation`) |
+| **Filter.Tendsto (abstract ODE)** | **K > 2γ, r(0) ∈ (0,1), any solution** | **S.r t → r* (NO eq_explicit, NO persistence hyp)** | **proved** (`LorentzianContinuousSolution.tendsto_from_ode`) |
 
 The **unified** theorem lifts to NPoleODEData n=1 and applies `trifurcation_from_ode` directly, covering all three regimes in one statement via `lorentzian_npole_critical_K_eq` (npoleCriticalK = 2γ for n=1).
 
@@ -84,7 +85,7 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
 | Total .lean files | **120** (+ LorentzianExistence) |
-| Comprehensive build | **3336 build jobs** |
+| Comprehensive build | **3434 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -765,6 +766,11 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.v_deriv_neg_from_ode`: V'(t) < 0 for ALL t ≥ 0 when S.r 0 ≠ r* — one-liner using ne_rstar + v_deriv_neg_at_nonequil; named all-t version of v_deriv_neg_at_nonequil | **proved** |
 | `LorentzianContinuousSolution.dist_lb_from_ode`: \|S.r t-r*\| ≥ \|S.r 0-r*\|·exp(-K·t) — uses v_lb_from_ode + sqrt algebra (same pattern as lorentzian_lyapunov_r_dist_lb); alternative proof of dist_lb. NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.dist_trap_from_ode`: \|S.r 0-r*\|·exp(-Kt) ≤ \|S.r t-r*\| ≤ \|S.r 0-r*\| — two-sided abstract ODE trap, combines dist_lb_from_ode + dist_le_init_from_ode; analogous to dist_trap. NO eq_explicit | **proved** |
+| `LorentzianContinuousSolution.v_tendsto_from_persist_ode`: V=(S.r t-r*)²→0 when S.r≥δ globally — squeeze_zero': V≤V(0)·exp(-mu_rate·t) (v_uniform_from_ode) and exp→0; rate mu_rate=K·δ·(δ+r*); first convergence result in abstract ODE chain. NO eq_explicit | **proved** |
+| `LorentzianContinuousSolution.tendsto_from_persist_ode`: S.r t → r* when S.r≥δ globally — sqrt of V→0 via Tendsto.sqrt + simp_rw sqrt_sq_eq_abs; then Metric.tendsto_atTop; first full convergence from abstract ODE chain. NO eq_explicit | **proved** |
+| `lorentzian_r_stays_above_rstar`: r stays strictly above r* when r(0) > r* — made public (was private); IVT + ODE_solution_unique_of_mem_Icc_left backward-uniqueness proof. Enables r_ge_rstar_of_above | **proved** |
+| `LorentzianContinuousSolution.r_ge_rstar_of_above`: r(t) ≥ r* for all t ≥ 0 when r(0) > r* — direct lift of lorentzian_r_stays_above_rstar via le_of_lt. Provides persistence lower bound δ=r* for above-equilibrium case | **proved** |
+| `LorentzianContinuousSolution.tendsto_from_ode`: Filter.Tendsto S.r atTop (nhds r*) for ALL r(0) ∈ (0,1) — case split on r(0) vs r*: (1) r(0)<r*: r_nondecreasing_of_below gives r(t)≥r(0), apply tendsto_from_persist_ode with δ=r(0); (2) r(0)=r*: r_constant_at_rstar gives r≡r*, trivially converges; (3) r(0)>r*: r_ge_rstar_of_above gives r(t)≥r*, apply tendsto_from_persist_ode with δ=r*. Abstract ODE chain complete at Filter.Tendsto level. NO eq_explicit | **proved** |
 
 ### Key Proof Steps
 
