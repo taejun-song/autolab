@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (session 9, experiment 172)_
+_Last regenerated: 2026-05-03 (session 9, experiment 173)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: **110 theorems** (exp 172: lorentzianODE_contDiff ContDiff ℝ ⊤ + lorentzianODE_locallyLipschitz). Primary metric SOLVED. Abstract ODE chain: 41 theorems. 3373 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: **111 theorems** (exp 173: lorentzianODE_lipschitzOnWith_Icc LipschitzOnWith on compact intervals). Primary metric SOLVED. 3373 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +58,7 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **110 theorems** — Bernoulli + Lyapunov + abstract ODE chain + PL infrastructure. Exp 171-172: local existence, C∞ vector field (fun_prop), locally Lipschitz. 3373 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **111 theorems** — Bernoulli + Lyapunov + abstract ODE chain + PL infrastructure. Exp 173: LipschitzOnWith on Icc (ContDiffOn.exists_lipschitzOnWith). 3373 build jobs.
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.

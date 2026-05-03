@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | lorentzianODE_lipschitzOnWith_Icc — LipschitzOnWith on closed intervals (exp 173)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: lorentzianODE_lipschitzOnWith_Icc)
+- updated: syntheses/lean-proof-status.md (+1 entry, 111 LCS theorems)
+- index.md: regenerated (session 9, experiment 173)
+- LEAN: ContDiffOn ℝ 1 via (contDiff.of_le le_top).contDiffOn; ContDiffOn.exists_lipschitzOnWith with (by norm_num : (1 : ℕ∞) ≠ 0) + convex_Icc + isCompact_Icc. NNReal (not ℝ≥0 notation) required to avoid parse error. Build: 3373 jobs.
+
 ## [2026-05-03] experiment | lorentzianODE_contDiff + locallyLipschitz — C∞ vector field and local Lipschitz (exp 172)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: lorentzianODE_contDiff, lorentzianODE_locallyLipschitz)

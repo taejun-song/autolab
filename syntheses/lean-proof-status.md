@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **110 theorems** spanning classical Bernoulli, Lyapunov analysis, abstract ODE chain, and Picard-Lindelöf infrastructure (exp 171-172: local existence, C∞ vector field, locally Lipschitz). Abstract ODE chain (NO eq_explicit): Filter.Tendsto convergence, unified rate, two-traj sync, monotone corridor, domain invariance, velocity sign, PL connection. 3373 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **111 theorems** spanning Bernoulli, Lyapunov, abstract ODE chain, and Picard-Lindelöf infrastructure (exp 171-173: local existence, C∞, locally Lipschitz, LipschitzOnWith on Icc). 3373 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -794,7 +794,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.deriv_eq_zero_iff_rstar`: lorentzianODE K γ (S.r t) = 0 ↔ S.r t = r* — velocity vanishes iff at equilibrium; lorentzian_fixed_point_unique for forward dir + lorentzian_rstar_is_fixed_point for backward (exp 169). NO eq_explicit |
 | `lorentzian_ode_local_existence`: ∀ K γ r₀, ∃ ε>0, ∃ α: ℝ→ℝ, α(0)=r₀ ∧ ∀ t∈(-ε,ε), HasDerivAt α (lorentzianODE K γ (α t)) t — Picard-Lindelöf local ODE existence (NO eq_explicit, NO Bernoulli); ContDiff ℝ ⊤ via fun_prop + ContDiffAt.of_le le_top + PL (exp 171) |
 | `lorentzianODE_contDiff`: ContDiff ℝ ⊤ (lorentzianODE K γ) — ODE vector field is C∞ (polynomial); named lemma extracted from inline proof in exp 171 (exp 172) |
-| `lorentzianODE_locallyLipschitz`: LocallyLipschitz (lorentzianODE K γ) — C¹ → locally Lipschitz via ContDiff.of_le le_top + ContDiff.locallyLipschitz (exp 172) | **proved** |
+| `lorentzianODE_locallyLipschitz`: LocallyLipschitz (lorentzianODE K γ) — C¹ → locally Lipschitz via ContDiff.of_le le_top + ContDiff.locallyLipschitz (exp 172) |
+| `lorentzianODE_lipschitzOnWith_Icc`: ∀ a≤b, ∃ L:NNReal, LipschitzOnWith L (lorentzianODE K γ) [a,b] — C¹ + convex + compact → Lipschitz via ContDiffOn.exists_lipschitzOnWith (exp 173) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -845,8 +846,9 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | Picard-Lindelöf local | `lorentzian_ode_local_existence` | ∀ r₀, ∃ local solution |
 | Vector field C∞ | `lorentzianODE_contDiff` | ContDiff ℝ ⊤ |
 | Locally Lipschitz | `lorentzianODE_locallyLipschitz` | LocallyLipschitz |
+| LipschitzOnWith [a,b] | `lorentzianODE_lipschitzOnWith_Icc` | ∃ L, LipschitzOnWith L f [a,b] |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **110 LCS theorems** (exp 172 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **111 LCS theorems** (exp 173 added).
 
 ### Key Proof Steps
 
