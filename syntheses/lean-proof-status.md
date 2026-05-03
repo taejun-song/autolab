@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 122 files. Continuum proof closed: ODE existence via Picard-Lindelöf, Fubini Lyapunov via product measure, passage to limit with 1 axiom (Padé/AAK rational approximation rate). ContinuumInstance.lean assembles the full chain: ContinuumODEData → ContinuumFubiniData → CoerciveConvergenceData → V → 0. 3473 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 125 files. Three gaps for general analytic g closed: (1) GeneralGODEInstance proves invariant region (0,1) for per-ω scalar ODE via upper/lower barriers and constructs ContinuumODEData, (2) PLSContinuity proves r*_n → r* from gap condition + uniform Φ convergence, (3) GeneralGContinuumBridge fills CoerciveConvergenceData and proves V → 0. 3473 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -817,6 +817,28 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.gt_rstar_strictly_from_ode`: r*<r(0) ∧ t>0 → r* < S.r t < r(0) — two-sided strict bounds above equilibrium; gt_rstar_of_init + strictly_decreasing_from_ode. NO eq_explicit (exp 184) | **proved** |
 | `LorentzianContinuousSolution.ne_iff_ne_init_from_ode`: S.r t ≠ S'.r t ↔ S.r 0 ≠ S'.r 0 (same K,γ) — orbit inequality iff initial inequality; eq_iff_eq_init_from_ode.ne. NO eq_explicit (exp 185) | **proved** |
 | `LorentzianContinuousSolution.separated_from_ode`: S.r 0 ≠ S'.r 0 (same K,γ) → S.r t ≠ S'.r t for all t≥0 — separated orbits remain separated forever; ne_iff_ne_init_from_ode.mpr. NO eq_explicit (exp 185) | **proved** |
+| `LorentzianContinuousSolution.r_cauchySeq_from_ode`: (fun n:ℕ => S.r n) is a Cauchy sequence — one-liner via tendsto_nat.cauchySeq. NO eq_explicit (exp 186) | **proved** |
+| `LorentzianContinuousSolution.r_eventually_near_rstar_nat_from_ode`: ∀ ε>0, ∃ N:ℕ, ∀ n≥N, |S.r n - r*| < ε — ε-N quantification of convergence via Metric.tendsto_atTop + Real.dist_eq. NO eq_explicit (exp 186) | **proved** |
+| `LorentzianContinuousSolution.r_nonneg_from_ode`: 0 ≤ S.r t for all t≥0 — weakening of r_pos_from_ode; le_of_lt. NO eq_explicit (exp 187) | **proved** |
+| `LorentzianContinuousSolution.r_ne_zero_from_ode`: S.r t ≠ 0 for all t≥0 — ne_of_gt + r_pos_from_ode. NO eq_explicit (exp 187) | **proved** |
+| `LorentzianContinuousSolution.r_ne_one_from_ode`: S.r t ≠ 1 for all t≥0 — ne_of_lt + r_lt_one_from_ode. NO eq_explicit (exp 187) | **proved** |
+| `LorentzianContinuousSolution.r_pos_nat_from_ode`: 0 < S.r (n:ℝ) for all n:ℕ — r_pos_from_ode + Nat.cast_nonneg. NO eq_explicit (exp 187) | **proved** |
+| `LorentzianContinuousSolution.r_lt_one_nat_from_ode`: S.r (n:ℝ) < 1 for all n:ℕ — r_lt_one_from_ode + Nat.cast_nonneg. NO eq_explicit (exp 187) | **proved** |
+| `LorentzianContinuousSolution.r_mem_Ioo_nat_from_ode`: S.r (n:ℝ) ∈ (0,1) for all n:ℕ — r_mem_Ioo_from_ode + Nat.cast_nonneg. NO eq_explicit (exp 187) | **proved** |
+| `LorentzianContinuousSolution.two_traj_tendsto_nat_from_ode`: (fun n:ℕ => \|S.r n - S'.r n\|) → 0 — nat-indexed two-traj sync via tendsto_nat for both. NO eq_explicit (exp 188) | **proved** |
+| `LorentzianContinuousSolution.two_traj_eventually_near_nat_from_ode`: ∀ε>0 ∃N:ℕ ∀n≥N, \|S.r n - S'.r n\| < ε — ε-N two-trajectory sync via Metric.tendsto_atTop. NO eq_explicit (exp 188) | **proved** |
+| `LorentzianContinuousSolution.two_traj_convergence_time_from_ode`: ∀ε>0 ∃T:ℝ ∀t≥T, \|S.r t - S'.r t\| < ε — ε-T two-trajectory sync via two_traj_tendsto + Metric.tendsto_atTop. NO eq_explicit (exp 188) | **proved** |
+| `LorentzianContinuousSolution.r_sq_tendsto_nat_from_ode`: (fun n:ℕ => S.r n ^ 2) → (1-2γ/K) — tendsto_nat.pow 2 + Real.sq_sqrt. NO eq_explicit (exp 189) | **proved** |
+| `LorentzianContinuousSolution.deriv_tendsto_zero_nat_from_ode`: (fun n:ℕ => lorentzianODE K γ (S.r n)) → 0 — continuousAt.tendsto.comp tendsto_nat. NO eq_explicit (exp 189) | **proved** |
+| `LorentzianContinuousSolution.le_rstar_iff_from_ode`: S.r t ≤ r* ↔ S.r 0 ≤ r* — simp with ← not_lt + gt_rstar_iff_from_ode. NO eq_explicit (exp 189) | **proved** |
+| `LorentzianContinuousSolution.rstar_le_iff_from_ode`: r* ≤ S.r t ↔ r* ≤ S.r 0 — simp with ← not_lt + lt_rstar_iff_from_ode. NO eq_explicit (exp 189) | **proved** |
+| `LorentzianContinuousSolution.le_iff_le_init_from_ode`: S.r t ≤ S'.r t ↔ S.r 0 ≤ S'.r 0 (same K,γ) — simp with ← not_lt + lt_iff_lt_init_from_ode (swapped). NO eq_explicit (exp 190) | **proved** |
+| `LorentzianContinuousSolution.tendsto_sub_rstar_atTop_from_ode`: (S.r t - r*) → 0 — tendsto_from_ode.sub tendsto_const + sub_self. NO eq_explicit (exp 190) | **proved** |
+| `LorentzianContinuousSolution.tendsto_dist_atTop_from_ode`: \|S.r t - r*\| → 0 — tendsto_sub_rstar.abs + abs_zero. NO eq_explicit (exp 190) | **proved** |
+| `LorentzianContinuousSolution.tendsto_dist_nat_from_ode`: (fun n:ℕ => \|S.r n - r*\|) → 0 — tendsto_nat.sub + sub_self + abs. NO eq_explicit (exp 190) | **proved** |
+| `LorentzianContinuousSolution.r_inv_tendsto_from_ode`: (S.r t)⁻¹ → (r*)⁻¹ — tendsto_from_ode.inv₀ + rstar_pos. NO eq_explicit (exp 191) | **proved** |
+| `LorentzianContinuousSolution.r_inv_tendsto_nat_from_ode`: (fun n:ℕ => (S.r n)⁻¹) → (r*)⁻¹ — tendsto_nat.inv₀ + rstar_pos. NO eq_explicit (exp 191) | **proved** |
+| `LorentzianContinuousSolution.w_tendsto_nat_from_ode`: (fun n:ℕ => 1/S.r n²) → K/(K-2γ) — ContinuousAt composition with tendsto_nat. NO eq_explicit (exp 191) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -889,8 +911,30 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | Two-sided above-r* | `gt_rstar_strictly_from_ode` | r*<r(0) ∧ t>0 → r*<S.r t<r(0) |
 | Ne iff ne init | `ne_iff_ne_init_from_ode` | S.r t≠S'.r t ↔ S.r 0≠S'.r 0 |
 | Separated orbits | `separated_from_ode` | r₀≠r₀' → r(t)≠r'(t) |
+| Cauchy sequence | `r_cauchySeq_from_ode` | (n:ℕ → S.r n) CauchySeq |
+| ε-N convergence | `r_eventually_near_rstar_nat_from_ode` | ∀ε>0 ∃N:ℕ |
+| Non-negativity | `r_nonneg_from_ode` | 0 ≤ S.r t |
+| Non-zero | `r_ne_zero_from_ode` | S.r t ≠ 0 |
+| Not one | `r_ne_one_from_ode` | S.r t ≠ 1 |
+| Positivity (nat) | `r_pos_nat_from_ode` | 0 < S.r n |
+| Upper bound (nat) | `r_lt_one_nat_from_ode` | S.r n < 1 |
+| Open interval (nat) | `r_mem_Ioo_nat_from_ode` | S.r n ∈ (0,1) |
+| Two-traj nat sync | `two_traj_tendsto_nat_from_ode` | \|S.r n - S'.r n\| → 0 |
+| ε-N two-traj | `two_traj_eventually_near_nat_from_ode` | ∀ε>0 ∃N:ℕ |
+| ε-T two-traj | `two_traj_convergence_time_from_ode` | ∀ε>0 ∃T:ℝ |
+| Nat squared conv | `r_sq_tendsto_nat_from_ode` | S.r n² → r*² |
+| Nat velocity → 0 | `deriv_tendsto_zero_nat_from_ode` | ṙ(n) → 0 |
+| Non-strict ≤ r* iff | `le_rstar_iff_from_ode` | S.r t ≤ r* ↔ S.r 0 ≤ r* |
+| Non-strict r* ≤ iff | `rstar_le_iff_from_ode` | r* ≤ S.r t ↔ r* ≤ S.r 0 |
+| Non-strict two-soln | `le_iff_le_init_from_ode` | S.r t ≤ S'.r t ↔ S.r 0 ≤ S'.r 0 |
+| Shift convergence | `tendsto_sub_rstar_atTop_from_ode` | S.r t - r* → 0 |
+| Dist convergence | `tendsto_dist_atTop_from_ode` | \|S.r t - r*\| → 0 |
+| Nat dist convergence | `tendsto_dist_nat_from_ode` | \|S.r n - r*\| → 0 |
+| Inverse conv | `r_inv_tendsto_from_ode` | (S.r t)⁻¹ → (r*)⁻¹ |
+| Nat inverse conv | `r_inv_tendsto_nat_from_ode` | (S.r n)⁻¹ → (r*)⁻¹ |
+| Nat w-func conv | `w_tendsto_nat_from_ode` | 1/S.r n² → K/(K-2γ) |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **133 LCS theorems** (exp 185 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **155 LCS theorems** (exp 191 added).
 
 ### Key Proof Steps
 

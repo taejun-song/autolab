@@ -1,5 +1,56 @@
 # Activity Log
 
+## [2026-05-03] experiment | close 3 gaps for general analytic g — invariant region, PLS continuity, coercive bridge
+
+- created: KuramotoLean/GeneralGODEInstance.lean (scalar_oa_upper_barrier, scalar_oa_lower_barrier, generalG_ContinuumODEData)
+- created: KuramotoLean/PLSContinuity.lean (pls_continuity, pls_error_vanishes)
+- created: KuramotoLean/GeneralGContinuumBridge.lean (generalG_FubiniData, coercive_drop_from_persistence, generalG_ContinuumFullData, generalG_global_stability)
+- updated: syntheses/lean-proof-status.md (125 files, 3 gaps closed)
+- index.md: regenerated (session 10, 3 gaps closed)
+- LEAN: 125 files, 0 sorry, 1 axiom (rational_approximation_rate). GAP 1: upper barrier (first-touch antitone at α=1) + lower barrier (Grönwall multiplier F=αe^{γt}, dF/dt≥0 when r≥0). GAP 2: fixed-point continuity from gap condition + uniform Φ convergence. GAP 3: CoerciveConvergenceData → Barbalat → V→0. Build: 3473 jobs.
+
+## [2026-05-04] experiment | r_inv_tendsto + r_inv_tendsto_nat + w_tendsto_nat — inverse + w-function nat convergence (exp 191)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+3 theorems: r_inv_tendsto, r_inv_tendsto_nat, w_tendsto_nat)
+- updated: syntheses/lean-proof-status.md (+3 entries, 155 LCS theorems)
+- index.md: regenerated (session 9, experiment 191)
+- LEAN: r_inv: tendsto.inv₀ + rstar_pos ne_of_gt. w_tendsto_nat: ContinuousAt div composition with tendsto_nat. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | le_iff_le_init + tendsto_sub_rstar + tendsto_dist + tendsto_dist_nat — non-strict iff + distance convergence (exp 190)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+4 theorems: le_iff_le_init, tendsto_sub_rstar, tendsto_dist_atTop, tendsto_dist_nat)
+- updated: syntheses/lean-proof-status.md (+4 entries, 152 LCS theorems)
+- index.md: regenerated (session 9, experiment 190)
+- LEAN: le_iff_le_init: simp [← not_lt, lt_iff_lt_init.swap]. tendsto_sub_rstar: .sub tendsto_const + sub_self. tendsto_dist: .abs + abs_zero. tendsto_dist_nat: same with tendsto_nat. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | r_sq_tendsto_nat + deriv_tendsto_zero_nat + le/rstar_le_iff — nat convergence + non-strict iff (exp 189)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+4 theorems: r_sq_tendsto_nat, deriv_tendsto_zero_nat, le_rstar_iff, rstar_le_iff)
+- updated: syntheses/lean-proof-status.md (+4 entries, 148 LCS theorems)
+- index.md: regenerated (session 9, experiment 189)
+- LEAN: sq: tendsto_nat.pow 2 + Real.sq_sqrt. deriv: continuousAt.tendsto.comp tendsto_nat. iff: simp [← not_lt, gt/lt_rstar_iff]. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | two_traj_tendsto_nat + two_traj_eventually_near_nat + two_traj_convergence_time — nat+real two-traj sync (exp 188)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+3 theorems: two_traj_tendsto_nat, two_traj_eventually_near_nat, two_traj_convergence_time)
+- updated: syntheses/lean-proof-status.md (+3 entries, 144 LCS theorems)
+- index.md: regenerated (session 9, experiment 188)
+- LEAN: tendsto_nat pattern for nat version; Metric.tendsto_atTop + dist_zero_right/norm_eq_abs/abs_abs for ε-N/ε-T. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | r_nonneg/ne_zero/ne_one/pos_nat/lt_one_nat/mem_Ioo_nat — sign corollaries + nat-indexed bounds (exp 187)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+6 theorems: r_nonneg, r_ne_zero, r_ne_one, r_pos_nat, r_lt_one_nat, r_mem_Ioo_nat)
+- updated: syntheses/lean-proof-status.md (+6 entries, 141 LCS theorems)
+- index.md: regenerated (session 9, experiment 187)
+- LEAN: all one-liners via r_pos_from_ode/r_lt_one_from_ode/r_mem_Ioo_from_ode + le_of_lt/ne_of_gt/ne_of_lt/Nat.cast_nonneg. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | r_cauchySeq_from_ode + r_eventually_near_rstar_nat_from_ode — Cauchy + ε-N quantification (exp 186)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: r_cauchySeq_from_ode, r_eventually_near_rstar_nat_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, 135 LCS theorems)
+- index.md: regenerated (session 9, experiment 186)
+- LEAN: r_cauchySeq: tendsto_nat.cauchySeq one-liner. r_eventually_near_rstar_nat: Metric.tendsto_atTop + Real.dist_eq. NO eq_explicit. Build: 3373 jobs.
+
 ## [2026-05-04] experiment | ne_iff_ne_init + separated_from_ode — orbit separation (exp 185)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: ne_iff_ne_init_from_ode, separated_from_ode)
