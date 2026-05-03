@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | two_traj_dist_from_ode — exponential sync bound from abstract ODE (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: two_traj_dist_from_ode)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 97 theorems)
+- index.md: regenerated (session 9, experiment 159)
+- LEAN: triangle inequality + dist_bound_from_ode_unified for each solution; hd' uses rw [← hK_eq, ← hγ_eq] at h to convert S'.K/γ to S.K/γ in S'.dist_bound_from_ode_unified; le_trans htri (add_le_add hd hd'). Tighter rate than two_traj_dist (uses min·(min+r*)/2 vs min·r*). NO eq_explicit. Build: 3336 jobs.
+
 ## [2026-05-03] experiment | two_traj_dist_le_sum_from_ode — triangle bound for two ODE solutions (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: two_traj_dist_le_sum_from_ode)
