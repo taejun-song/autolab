@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-03] experiment | convergence_time_from_ode — ε-T form of abstract ODE convergence (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: convergence_time_from_ode)
+- updated: syntheses/lean-proof-status.md (+3 entries: dist_bound_from_ode_unified, lorentzian_ode_convergence_rate_raw, convergence_time_from_ode; total 88 theorems)
+- index.md: regenerated (session 9, experiment 153)
+- LEAN: convergence_time_from_ode is a one-liner extracting T from Metric.tendsto_atTop.mp applied to tendsto_from_ode, then simpa [Real.dist_eq]. Completes the abstract ODE chain's convergence suite: Filter.Tendsto + explicit rate + ε-T form. Build: 3336 jobs.
+- LEAN: dist_bound_from_ode_unified (exp 151): unified |S.r t-r*| ≤ |S.r 0-r*|·exp(-K·min(r₀,r*)·(min(r₀,r*)+r*)/2·t). rcases lt_trichotomy on r(0) vs r*: below uses dist_from_gronwall_below; equal uses r_constant_at_rstar; above uses dist_from_gronwall_above. min_eq_left/min_eq_right + min_self. NO eq_explicit.
+- LEAN: lorentzian_ode_convergence_rate_raw (exp 152): raw-function form wrapping into LCS and applying dist_bound_from_ode_unified. NO eq_explicit.
+
 ## [2026-05-03] experiment | lorentzian_ode_global_stability_raw — raw ODE global stability (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: lorentzian_ode_global_stability_raw)
