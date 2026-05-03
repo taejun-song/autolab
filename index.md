@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (session 9, experiment 170)_
+_Last regenerated: 2026-05-03 (session 9, experiment 171)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: **107 theorems** (exp 163-169: bifurcation birth r*→0, velocity sign ṙ≷0/0↔r=r*, ṙ→0, r²→r*², w-transform). Primary metric SOLVED. Abstract ODE chain: 38 theorems. 3336 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: **108 theorems** (exp 171: Picard-Lindelöf local existence via ContDiff + Mathlib PL). Primary metric SOLVED. Abstract ODE chain: 39 theorems. 3373 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +58,7 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **107 theorems** — full ODE/Lyapunov + abstract ODE chain. Exp 163-169: bifurcation birth (r*→0 as K→2γ⁺), velocity sign (ṙ<0 above r*, ṙ>0 below r*, ṙ=0↔r=r*), derived convergences (ṙ→0, r²→r*², 1/r²→B). All NO eq_explicit. 3336 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **108 theorems** — full ODE/Lyapunov + abstract ODE chain + Picard-Lindelöf. Exp 171: lorentzian_ode_local_existence connects Mathlib PL theorem to Lorentzian ODE (ContDiff ℝ ⊤ via fun_prop, universal in K,γ,r₀). 3373 build jobs.
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.

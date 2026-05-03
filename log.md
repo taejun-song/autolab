@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | lorentzian_ode_local_existence — Picard-Lindelöf local ODE existence (exp 171, 3373 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem + import Mathlib.Analysis.ODE.PicardLindelof)
+- updated: syntheses/lean-proof-status.md (+1 entry, 108 LCS theorems, 3373 build jobs)
+- index.md: regenerated (session 9, experiment 171)
+- LEAN: ContDiff ℝ ⊤ (lorentzianODE K γ) via fun_prop; ContDiffAt.of_le le_top downgrades to level 1; ContDiffAt.exists_forall_mem_closedBall_exists_eq_forall_mem_Ioo_hasDerivAt₀ gives local solution; simp [zero_sub, zero_add] normalizes interval. Theorem holds for all K, γ, r₀ (no sign constraints needed for ContDiff). Picard-Lindelöf connects Mathlib's ODE library to Lorentzian ODE.
+
 ## [2026-05-03] experiment | Phase 5 consolidation — experiments 163-169 (7 theorems: bifurcation birth, velocity sign, derived convergences) (120 files)
 
 - updated: syntheses/lean-proof-status.md (+7 theorem rows, updated Abstract ODE Chain Summary, 107 LCS theorems)

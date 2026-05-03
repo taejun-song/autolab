@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **107 theorems** spanning classical Bernoulli, Lyapunov analysis, and abstract ODE chain (exp 163-169: bifurcation birth r*→0, velocity sign ṙ≷0, ṙ→0, r²→r*², 1/r²→B). Abstract ODE chain (NO eq_explicit): Filter.Tendsto convergence (all r(0)∈(0,1)), unified exponential rate, ε-T form, two-traj Filter.Tendsto sync, two-traj exponential bound, monotone corridor, domain invariance Ioo/Icc, r_pos, r_lt_one, velocity sign and zero characterization. 3336 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **108 theorems** spanning classical Bernoulli, Lyapunov analysis, abstract ODE chain, and Picard-Lindelöf local existence (exp 171). Abstract ODE chain (NO eq_explicit): Filter.Tendsto convergence (all r(0)∈(0,1)), unified rate, ε-T form, two-traj sync, monotone corridor, domain invariance, velocity sign and zero characterization, Picard-Lindelöf connection. 3373 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -791,7 +791,8 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.r_sq_tendsto`: Filter.Tendsto (fun t => S.r t²) atTop (nhds (1-2γ/K)) — r(t)² → r*² = 1-2γ/K; tendsto_from_ode.pow 2 + Real.sq_sqrt (exp 166). NO eq_explicit |
 | `LorentzianContinuousSolution.deriv_neg_above`: S.r t > r* → lorentzianODE K γ (S.r t) < 0 — ṙ < 0 when r above equilibrium; uses lorentzian_ode_neg + nlinarith from hrs_sq (exp 167). NO eq_explicit |
 | `LorentzianContinuousSolution.deriv_pos_below`: S.r t < r* → lorentzianODE K γ (S.r t) > 0 — ṙ > 0 when r below equilibrium; uses lorentzian_ode_pos + nlinarith (exp 168). NO eq_explicit |
-| `LorentzianContinuousSolution.deriv_eq_zero_iff_rstar`: lorentzianODE K γ (S.r t) = 0 ↔ S.r t = r* — velocity vanishes iff at equilibrium; lorentzian_fixed_point_unique for forward dir + lorentzian_rstar_is_fixed_point for backward (exp 169). NO eq_explicit | **proved** |
+| `LorentzianContinuousSolution.deriv_eq_zero_iff_rstar`: lorentzianODE K γ (S.r t) = 0 ↔ S.r t = r* — velocity vanishes iff at equilibrium; lorentzian_fixed_point_unique for forward dir + lorentzian_rstar_is_fixed_point for backward (exp 169). NO eq_explicit |
+| `lorentzian_ode_local_existence`: ∀ K γ r₀, ∃ ε>0, ∃ α: ℝ→ℝ, α(0)=r₀ ∧ ∀ t∈(-ε,ε), HasDerivAt α (lorentzianODE K γ (α t)) t — Picard-Lindelöf local ODE existence (NO eq_explicit, NO Bernoulli); ContDiff ℝ ⊤ via fun_prop + ContDiffAt.of_le le_top + PL (exp 171) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -839,8 +840,9 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | ṙ < 0 above r* | `deriv_neg_above` | velocity sign |
 | ṙ > 0 below r* | `deriv_pos_below` | velocity sign |
 | ṙ = 0 ↔ r = r* | `deriv_eq_zero_iff_rstar` | equilibrium characterization |
+| Picard-Lindelöf local | `lorentzian_ode_local_existence` | ∀ r₀, ∃ local solution |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **107 LCS theorems** (exp 163-169 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **108 LCS theorems** (exp 171 added).
 
 ### Key Proof Steps
 
