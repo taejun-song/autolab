@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | ne_rstar_from_ode — abstract ODE backward uniqueness (exp 174)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: LorentzianContinuousSolution.ne_rstar_from_ode)
+- updated: syntheses/lean-proof-status.md (+1 entry, 112 LCS theorems)
+- index.md: regenerated (session 9, experiment 174)
+- LEAN: ODE_solution_unique_of_mem_Icc_left with constant g≡r* and lorentzianODE_lipschitzOnWith for Lipschitz. sub_lt_self for positivity sub-goal. NO eq_explicit. Build: 3373 jobs.
+
 ## [2026-05-03] experiment | lorentzianODE_lipschitzOnWith_Icc — LipschitzOnWith on closed intervals (exp 173)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: lorentzianODE_lipschitzOnWith_Icc)
