@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | ContinuumInstance — assembly of continuum proof chain (exp 182)
+
+- created: KuramotoLean/ContinuumInstance.lean (fills ContinuumFubiniData, CoerciveConvergenceData, ContinuumFullData structure fields)
+- updated: syntheses/lean-proof-status.md (122 files, 3473 build jobs)
+- index.md: regenerated
+- LEAN: fillFubiniData (ODE → Fubini), ContinuumFubiniData.toCoercive (Fubini → coercive drops), ContinuumFullData.fromCoercive (Path A assembly), ContinuumFullData.fromPathB (Path B assembly), continuum_proof_complete (full chain + passage to limit). 0 sorry. Build: 3473 jobs.
+
 ## [2026-05-04] experiment | lt/eq_iff_init_from_ode — two-solution order iff initial (exp 181)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: lt_iff_lt_init_from_ode, eq_iff_eq_init_from_ode)

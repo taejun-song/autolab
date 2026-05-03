@@ -85,7 +85,7 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **120** (+ LorentzianExistence) |
+| Total .lean files | **121** (+ LorentzianExistence) |
 | Comprehensive build | **3434 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
