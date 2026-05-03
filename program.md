@@ -11,17 +11,38 @@ Prove global stability of the Kuramoto partially locked state (PLS) for symmetri
 
 The sorry count is 0, but this is misleading. The real gap is that `LorentzianSolution` is a STRUCTURE with assumed fields (ODE solution exists, r ∈ [0,1], Lipschitz bound, persistence, Lyapunov bound). These assumptions are NOT sorry's — they're hidden in the structure definition. The proof is not complete until every field of `LorentzianSolution` is a THEOREM proved from the ODE.
 
-### PRIORITY: Connect Picard-Lindelöf to construct LorentzianContinuousSolution
+### PRIORITY: Close the continuum proof for general g
 
-Items 2-5 below are DONE. The ONE remaining gap is ODE existence:
+The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next goal is the **full continuum theorem for general symmetric unimodal analytic g**.
 
-1. **ODE existence** (THE LAST GAP): Construct a `LorentzianContinuousSolution` from K, γ, r(0) alone. The RHS f(r) = (K/2-γ)r - (K/2)r³ is locally Lipschitz. Mathlib has Picard-Lindelöf (`OrdinaryDiffEq` or `MeasureTheory.Integral`). Connect it to produce `hr_ode : ∀ t, HasDerivAt r (lorentzianODE K γ (r t)) t` and `hr_cont`. Then `LorentzianContinuousSolution` has 0 assumed fields and the proof is COMPLETE.
-2. ~~**Invariance**~~: DONE (InvariantBox)
-3. ~~**Lipschitz bound**~~: DONE (hr_lip_discrete)
-4. ~~**Persistence**~~: DONE (hpersist_from_convergence)
-5. ~~**Lyapunov bound**~~: DONE (hlyap_from_nondecreasing / nonincreasing)
+**Strategy**: Use the n-pole → continuum passage with 1 axiom (rational approximation rate).
 
-**STOP exploring new mathematical territory.** Focus ALL effort on connecting Mathlib's ODE existence to the Lorentzian ODE.
+Three tasks, in order:
+
+#### Task 1: Continuum ODE existence via Mathlib Picard-Lindelöf
+Mathlib's `Analysis.ODE.PicardLindelof` works in **Banach spaces** (not just ℝ). The OA equation for general g can be viewed as an ODE in L²(g):
+- State space: E = L²(g) or a suitable Banach space of profiles α(ω)
+- RHS: F(α)(ω) = -iωα(ω) + (K/2)(r[α] - r̄[α]·α(ω)²)
+- Show F is locally Lipschitz on bounded balls in E
+- Apply `IsPicardLindelof` from Mathlib → get `IsIntegralCurve`
+- Extract `HasDerivAt` via `IsIntegralCurveAt.hasDerivAt`
+
+#### Task 2: Continuum Lyapunov via Mathlib Fubini
+`MeasureTheory.Integral.Prod` provides Fubini for binary products on s-finite measures. Use it to:
+- Prove V∞ = ∫∫ pair(α,α') dg(ω) dg(ω') is well-defined
+- Prove dV∞/dt = ∫∫ (d/dt)pair dg dg ≤ 0
+- Fill `CoerciveConvergenceData` or `ScalarAutonomyData` fields in `ContinuumGlobalStability.lean`
+
+#### Task 3: Passage to limit with 1 axiom
+Add ONE axiom for the rational approximation rate:
+```lean
+axiom rational_approximation_rate (g : ℝ → ℝ) (hg_analytic : AnalyticOnStrip g a) :
+    ∃ C c : ℝ, 0 < C ∧ 0 < c ∧ ∀ n : ℕ, ‖g - g_n‖ ≤ C * Real.exp (-c * n)
+-- [Classical: Padé/AAK theory for analytic functions]
+```
+Then combine with Mathlib Gronwall (`continuous_dependence_ode`) and n-pole convergence to close the passage.
+
+**Do NOT add more abstract ODE theorems.** The 119 files already prove far more than needed. Fill the existing structure fields.
 
 ## The open problem
 
