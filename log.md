@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | r_mem_Ioo_from_ode + r_mem_Icc_from_ode — interval membership from abstract ODE (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: r_mem_Ioo_from_ode, r_mem_Icc_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, total 95 theorems)
+- index.md: regenerated (session 9, experiment 157)
+- LEAN: r_mem_Ioo_from_ode: ⟨r_pos_from_ode, r_lt_one_from_ode⟩. r_mem_Icc_from_ode: Ioo_subset_Icc_self. Both NO eq_explicit. Build: 3336 jobs.
+
 ## [2026-05-03] experiment | r_pos_from_ode + r_lt_one_from_ode — domain invariance (0,1) from abstract ODE (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: r_pos_from_ode, r_lt_one_from_ode)
