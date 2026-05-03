@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-04 (exp 202: PowerLorentzianAnalyticExtension — C/(ω²+a)^n analytic on strip |Im z|<√a, axiom-free, subsumes all odd Student's t)_
+_Last regenerated: 2026-05-04 (exp 203: rational_approximation_rate axiom eliminated — 0 axioms project-wide, direct continuum proof via Lyapunov pair bound)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 131 files, 0 sorry, 1 axiom. Exp 202: PowerLorentzianAnalyticExtension — C/(ω²+a)^n analytic on strip |Im z|<√a, axiom-free. 3480 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 131 files, 0 sorry, 0 axioms. Last axiom (rational_approximation_rate) eliminated via direct continuum proof. 3480 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +58,7 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 1 axiom across 131 files. Exp 202: PowerLorentzianAnalyticExtension — C/(ω²+a)^n axiom-free. 3480 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 131 files. Last axiom eliminated via direct continuum proof. 3480 build jobs.
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.

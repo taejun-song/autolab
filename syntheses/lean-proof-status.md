@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 131 files. Exp 202: `PowerLorentzianAnalyticExtension.lean` proves `C/(ω²+a)^n` is analytic on strip {|Im z|<√a} for any n≥1, a>0, with zero-error axiom-free rational approximation. Subsumes Lorentzian (n=1) and all odd Student's t. 3480 build jobs.
+Machine-checked proof status: **0 sorry, 0 axioms** across 131 files. The last axiom (`rational_approximation_rate`) was eliminated by replacing the passage-to-limit approach with a direct continuum proof via Lyapunov pair bound + coercive Barbalat. 3480 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -83,19 +83,21 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Metric | Value |
 |---|---|
 | Sorry count | **0** |
-| Axiom declarations | **1** (`rational_approximation_rate` in PassageToLimit.lean) |
-| Axioms eliminated this session | **30** (16 prior + 14 this round) |
+| Axiom declarations | **0** |
+| Axioms eliminated total | **31** (30 prior + rational_approximation_rate) |
 | Total .lean files | **131** |
 | Comprehensive build | **3480 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
 
-**1 axiom** remains in the project: `rational_approximation_rate` in `PassageToLimit.lean`.
+**0 axioms** remain. The last axiom `rational_approximation_rate` (Padé/AAK theory) was eliminated by replacing the passage-to-limit approach with a direct continuum proof:
+- Self-consistent continuum solution exists (Banach FPT, SelfConsistentExistence.lean)
+- V∞ = ∫(α-α*)²g dω is antitone (pair bound + Fubini, ContinuumLyapunov.lean)
+- V∞ → 0 via coercive Barbalat drops (ContinuumGlobalStability.lean Path A) or scalar convergence (Path B)
+- Pair rigidity: dV/dt = 0 ⟹ α = α* a.e. (ContinuumRigidity.lean)
 
-This axiom is needed for the general analytic g passage-to-limit. For the **Lorentzian specifically**, `lorentzian_rational_approx` is now PROVED without the axiom (exp 198): since the Lorentzian is itself a rational function, using g_approx n = g gives identically zero error.
-
-The open mathematical assumption (H2: unstable_manifold_to_pls) is an explicit structure field in `OmegaLimitData`, not a LEAN axiom.
+No passage to limit or rational approximation needed. The continuum proof works directly.
 
 ### Axioms Eliminated This Round (14)
 

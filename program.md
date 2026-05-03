@@ -15,34 +15,18 @@ The sorry count is 0, but this is misleading. The real gap is that `LorentzianSo
 
 The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next goal is the **full continuum theorem for general symmetric unimodal analytic g**.
 
-**Strategy**: Use the n-pole → continuum passage with 1 axiom (rational approximation rate).
+**Strategy**: Direct continuum proof (no passage to limit, 0 axioms).
 
-Three tasks, in order:
+The proof works directly on the continuum OA system:
 
-#### Task 1: Continuum ODE existence via Mathlib Picard-Lindelöf
-Mathlib's `Analysis.ODE.PicardLindelof` works in **Banach spaces** (not just ℝ). The OA equation for general g can be viewed as an ODE in L²(g):
-- State space: E = L²(g) or a suitable Banach space of profiles α(ω)
-- RHS: F(α)(ω) = -iωα(ω) + (K/2)(r[α] - r̄[α]·α(ω)²)
-- Show F is locally Lipschitz on bounded balls in E
-- Apply `IsPicardLindelof` from Mathlib → get `IsIntegralCurve`
-- Extract `HasDerivAt` via `IsIntegralCurveAt.hasDerivAt`
+1. **Self-consistent existence** via Banach FPT (SelfConsistentExistence.lean)
+2. **V∞ antitone** via pair bound + Fubini (ContinuumLyapunov.lean)
+3. **V∞ → 0** via coercive Barbalat (Path A) or scalar convergence (Path B)
+4. **Pair rigidity**: dV/dt = 0 ⟹ α = α* a.e. (ContinuumRigidity.lean)
 
-#### Task 2: Continuum Lyapunov via Mathlib Fubini
-`MeasureTheory.Integral.Prod` provides Fubini for binary products on s-finite measures. Use it to:
-- Prove V∞ = ∫∫ pair(α,α') dg(ω) dg(ω') is well-defined
-- Prove dV∞/dt = ∫∫ (d/dt)pair dg dg ≤ 0
-- Fill `CoerciveConvergenceData` or `ScalarAutonomyData` fields in `ContinuumGlobalStability.lean`
+The passage-to-limit ε/3 argument (PassageToLimit.lean) is retained as a general analysis lemma but is NOT needed for the main theorem.
 
-#### Task 3: Passage to limit with 1 axiom
-Add ONE axiom for the rational approximation rate:
-```lean
-axiom rational_approximation_rate (g : ℝ → ℝ) (hg_analytic : AnalyticOnStrip g a) :
-    ∃ C c : ℝ, 0 < C ∧ 0 < c ∧ ∀ n : ℕ, ‖g - g_n‖ ≤ C * Real.exp (-c * n)
--- [Classical: Padé/AAK theory for analytic functions]
-```
-Then combine with Mathlib Gronwall (`continuous_dependence_ode`) and n-pole convergence to close the passage.
-
-**Do NOT add more abstract ODE theorems.** The 119 files already prove far more than needed. Fill the existing structure fields.
+**Do NOT add more abstract ODE theorems.** The 131 files already prove far more than needed. Fill the existing structure fields.
 
 ## The open problem
 

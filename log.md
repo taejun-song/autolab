@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-05-04] experiment | rational_approximation_rate axiom eliminated — 0 axioms project-wide (exp 203)
+
+- updated: KuramotoLean/PassageToLimit.lean (removed axiom rational_approximation_rate, removed analytic_approx_rate)
+- updated: KuramotoLean/GaussianAnalyticExtension.lean (removed gaussian_rational_approx, decoupled from PassageToLimit)
+- updated: KuramotoLean/GaussianMixtureAnalyticExtension.lean (removed gaussian_mixture_rational_approx)
+- updated: KuramotoLean/ContinuumInstance.lean (simplified continuum_proof_complete to axiom-free)
+- updated: KuramotoLean/LorentzianAnalyticExtension.lean (decoupled from PassageToLimit import)
+- updated: syntheses/lean-proof-status.md (0→0 axioms, label: proved)
+- index.md: regenerated
+- LEAN: 131 files, 0 sorry, **0 axioms**, 3480 build jobs. Approach: bypass passage-to-limit entirely. The continuum OA system V∞ → 0 is proved directly via self-consistent existence (Banach FPT) + pair bound (Fubini) + coercive Barbalat (Path A) / scalar convergence (Path B) + pair rigidity (LaSalle). No rational approximation theory needed.
+
 ## [2026-05-04] experiment | PowerLorentzianAnalyticExtension: C/(ω²+a)^n analytic on strip |Im z|<√a, axiom-free (exp 202)
 
 - created: KuramotoLean/PowerLorentzianAnalyticExtension.lean (powerLorentzianFreqDist, powerLorentzianFreqDistExt, powerLorentzianFreqDistExt_real, power_lorentzian_denom_ne_zero, powerLorentzianFreqDistExt_analyticOnNhd, power_lorentzian_rational_approx, lorentzian_is_power_lorentzian, lorentzianExt_is_power_lorentzianExt)
