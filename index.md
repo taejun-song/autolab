@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (session 9, experiment 149)_
+_Last regenerated: 2026-05-03 (session 9, experiment 150)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: complete Lyapunov library + LorentzianContinuousSolution lift (84 theorems). Abstract ODE chain complete: tendsto_from_ode proves Filter.Tendsto r→r* for ALL r(0)∈(0,1) without explicit formula — cases r(0)<r* (persistence=r(0)), r(0)=r* (constant), r(0)>r* (persistence=r* via r_ge_rstar_of_above). 3434 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 120 files, 0 sorry. LorentzianExistence: 85 theorems. Abstract ODE chain complete: lorentzian_ode_global_stability_raw proves ANY solution of the Lorentzian ODE with r(0)∈(0,1) converges to r* — no explicit formula, pure Lyapunov+monotonicity chain. 3434 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.

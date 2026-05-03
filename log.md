@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | lorentzian_ode_global_stability_raw — raw ODE global stability (120 files, 3434 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: lorentzian_ode_global_stability_raw)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 85 LorentzianContinuousSolution theorems)
+- index.md: regenerated (session 9, experiment 150)
+- LEAN: one-line proof — wraps raw ODE hypotheses into LorentzianContinuousSolution anonymous constructor and applies tendsto_from_ode. Takes any r: ℝ→ℝ satisfying the Lorentzian ODE with ContinuousOn [0,∞) and r(0)∈(0,1), produces Filter.Tendsto r atTop (nhds r*). No explicit Bernoulli formula. Build: 3434 jobs.
+
 ## [2026-05-03] experiment | tendsto_from_ode + r_ge_rstar_of_above — Filter.Tendsto abstract ODE chain complete (120 files, 3434 jobs)
 
 - updated: KuramotoLean/LorentzianFromODE.lean (lorentzian_r_stays_above_rstar made public; +1 theorem: r_ge_rstar_of_above)
