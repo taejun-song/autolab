@@ -2,7 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-05-03
+updated: 2026-05-05
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 125 files. Three gaps for general analytic g closed: (1) GeneralGODEInstance proves invariant region (0,1) for per-ω scalar ODE via upper/lower barriers and constructs ContinuumODEData, (2) PLSContinuity proves r*_n → r* from gap condition + uniform Φ convergence, (3) GeneralGContinuumBridge fills CoerciveConvergenceData and proves V → 0. 3473 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 125 files. Three gaps for general analytic g closed: (1) GeneralGODEInstance proves invariant region (0,1) for per-ω scalar ODE via upper/lower barriers and constructs ContinuumODEData, (2) PLSContinuity proves r*_n → r* from gap condition + uniform Φ convergence, (3) GeneralGContinuumBridge fills CoerciveConvergenceData and proves V → 0. LorentzianExistence: **164 theorems** (exp 193: MonotoneOn + AntitoneOn). Exp 194: `rational_approximation_rate` axiom upgraded from placeholder `True` to `AnalyticOnNhd ℂ g_ext {z : ℂ | |z.im| < a}` with proper strip analyticity; new `analytic_approx_rate` theorem wires the axiom into the convergence argument. 3473 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -129,8 +129,8 @@ The open mathematical assumption (H2: unstable_manifold_to_pls) is now an explic
 | hirsch_smith | Trivial (placeholder conclusion) |
 | dietert_local_stability (Global) | Trivial (exists 1 > 0) |
 | oa_manifold_attractivity | Trivial (True) |
-| rational_approximation_rate | Removed (unused) |
-| pls_continuity | Removed (unused) |
+| rational_approximation_rate | **1 remaining axiom** (PassageToLimit.lean) — exp 194: upgraded from `True` to `AnalyticOnNhd ℂ g_ext {z : ℂ | \|z.im\| < a}` |
+| pls_continuity | PLSContinuity.lean (proved, session 10) |
 | perron_frobenius_semigroup | Removed (unused) |
 | omegaLimit_isConnected_of_cont | Removed (unused) |
 | montel_precompact | Removed (unused) |
@@ -141,7 +141,8 @@ The MainTheorem.lean proof chain is **axiom-free on its critical path**:
 ```
 MainTheorem → SelfConsistencyDecay → GapExclusion → Mathlib
 ```
-There are no remaining axioms anywhere in the project.
+The passage-to-limit argument (PassageToLimit.lean) uses **1 axiom**:
+- `rational_approximation_rate`: for g analytic in a strip, ∃ n-pole approximations with exponential uniform error. Hypotheses: `AnalyticOnNhd ℂ g_ext {z : ℂ | |z.im| < a}` and `h_ext`. [Baker-Graves-Morris 1996, Ch. 5; AAK 1971, Thm 1]
 
 The main theorem's correctness depends ONLY on:
 1. The KuramotoData structure hypotheses (all groundable on published results)
@@ -839,6 +840,15 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.r_inv_tendsto_from_ode`: (S.r t)⁻¹ → (r*)⁻¹ — tendsto_from_ode.inv₀ + rstar_pos. NO eq_explicit (exp 191) | **proved** |
 | `LorentzianContinuousSolution.r_inv_tendsto_nat_from_ode`: (fun n:ℕ => (S.r n)⁻¹) → (r*)⁻¹ — tendsto_nat.inv₀ + rstar_pos. NO eq_explicit (exp 191) | **proved** |
 | `LorentzianContinuousSolution.w_tendsto_nat_from_ode`: (fun n:ℕ => 1/S.r n²) → K/(K-2γ) — ContinuousAt composition with tendsto_nat. NO eq_explicit (exp 191) | **proved** |
+| `LorentzianContinuousSolution.lt_rstar_of_init_nat_from_ode`: S.r 0 < r* → S.r ↑n < r* for all n:ℕ — lt_rstar_of_init + Nat.cast_nonneg. NO eq_explicit (exp 192) | **proved** |
+| `LorentzianContinuousSolution.gt_rstar_of_init_nat_from_ode`: r* < S.r 0 → r* < S.r ↑n for all n:ℕ — gt_rstar_of_init + Nat.cast_nonneg. NO eq_explicit (exp 192) | **proved** |
+| `LorentzianContinuousSolution.ne_rstar_nat_from_ode`: S.r 0 ≠ r* → S.r ↑n ≠ r* for all n:ℕ — ne_rstar_from_ode + Nat.cast_nonneg. NO eq_explicit (exp 192) | **proved** |
+| `LorentzianContinuousSolution.r_sub_rstar_sq_tendsto_from_ode`: (S.r t - r*)^2 → 0 — tendsto_sub_rstar.pow 2 + simpa. NO eq_explicit (exp 192) | **proved** |
+| `LorentzianContinuousSolution.r_sub_rstar_sq_tendsto_nat_from_ode`: (fun n:ℕ => (S.r n - r*)^2) → 0 — tendsto_nat.sub + pow 2 + simpa. NO eq_explicit (exp 192) | **proved** |
+| `LorentzianContinuousSolution.r_le_r_later_from_ode`: S.r 0 < r* → 0 ≤ s ≤ t → S.r s ≤ S.r t — non-strict increasing via strictly_increasing_from_ode.le. NO eq_explicit (exp 193) | **proved** |
+| `LorentzianContinuousSolution.r_ge_r_later_from_ode`: r* < S.r 0 → 0 ≤ s ≤ t → S.r t ≤ S.r s — non-strict decreasing via strictly_decreasing_from_ode.le. NO eq_explicit (exp 193) | **proved** |
+| `LorentzianContinuousSolution.monotoneOn_from_ode`: S.r 0 < r* → MonotoneOn S.r (Ici 0) — packages r_le_r_later into standard MonotoneOn form. NO eq_explicit (exp 193) | **proved** |
+| `LorentzianContinuousSolution.antitoneOn_from_ode`: r* < S.r 0 → AntitoneOn S.r (Ici 0) — packages r_ge_r_later into standard AntitoneOn form. NO eq_explicit (exp 193) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -933,8 +943,17 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | Inverse conv | `r_inv_tendsto_from_ode` | (S.r t)⁻¹ → (r*)⁻¹ |
 | Nat inverse conv | `r_inv_tendsto_nat_from_ode` | (S.r n)⁻¹ → (r*)⁻¹ |
 | Nat w-func conv | `w_tendsto_nat_from_ode` | 1/S.r n² → K/(K-2γ) |
+| Below-r* nat | `lt_rstar_of_init_nat_from_ode` | S.r 0 < r* → S.r n < r* |
+| Above-r* nat | `gt_rstar_of_init_nat_from_ode` | r* < S.r 0 → r* < S.r n |
+| Ne r* nat | `ne_rstar_nat_from_ode` | S.r 0 ≠ r* → S.r n ≠ r* |
+| Sq dist conv | `r_sub_rstar_sq_tendsto_from_ode` | (S.r t - r*)² → 0 |
+| Nat sq dist conv | `r_sub_rstar_sq_tendsto_nat_from_ode` | (S.r n - r*)² → 0 |
+| Non-strict increasing | `r_le_r_later_from_ode` | s ≤ t → S.r s ≤ S.r t (below r*) |
+| Non-strict decreasing | `r_ge_r_later_from_ode` | s ≤ t → S.r t ≤ S.r s (above r*) |
+| MonotoneOn | `monotoneOn_from_ode` | MonotoneOn S.r (Ici 0) |
+| AntitoneOn | `antitoneOn_from_ode` | AntitoneOn S.r (Ici 0) |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **155 LCS theorems** (exp 191 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **164 LCS theorems** (exp 193 added). 3473 build jobs (session 10 added GeneralGODEInstance + PLSContinuity + GeneralGContinuumBridge).
 
 ### Key Proof Steps
 

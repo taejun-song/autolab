@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-03 (session 10, 3 gaps closed for general g)_
+_Last regenerated: 2026-05-05 (exp 194: rational_approximation_rate axiom upgraded to AnalyticOnNhd ℂ)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 125 files, 0 sorry, 1 axiom. 3 gaps closed for general analytic g: invariant region, PLS continuity, coercive bridge. 3473 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 125 files, 0 sorry, 1 axiom. LorentzianExistence: **164 theorems**. General-g: 3 gaps closed. Exp 194: rational_approximation_rate axiom upgraded to AnalyticOnNhd ℂ strip hypothesis. 3473 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +58,7 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry across 122 files. LorentzianExistence: **155 theorems** — Bernoulli + Lyapunov + abstract ODE chain + PL infrastructure. Exp 191: r_inv_tendsto + r_inv_tendsto_nat + w_tendsto_nat. 3373 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 1 axiom across 125 files. LorentzianExistence: **160 theorems** (abstract ODE chain). General-g: invariant region + PLS continuity + coercive bridge. 3473 build jobs.
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.

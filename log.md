@@ -1,5 +1,31 @@
 # Activity Log
 
+## [2026-05-05] experiment | rational_approximation_rate axiom — upgrade from True to AnalyticOnNhd ℂ (exp 194)
+
+- updated: KuramotoLean/PassageToLimit.lean (axiom: True → AnalyticOnNhd ℂ g_ext {z : ℂ | |z.im| < a}; new analytic_approx_rate theorem)
+- updated: syntheses/lean-proof-status.md (exp 194: axiom upgrade, critical path analysis updated)
+- index.md: updated (exp 194)
+- LEAN: axiom now takes g : ℝ→ℝ, g_ext : ℂ→ℂ, AnalyticOnNhd strip, h_ext restriction. Conclusion: ∃ g_approx C c, pointwise exp bound. analytic_approx_rate extracts rate for continuum_convergence_argument. Build: 3473 jobs, 0 sorry.
+
+## [2026-05-04] experiment | r_le/ge_r_later + monotoneOn + antitoneOn — non-strict mono/anti (exp 193)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+4 theorems: r_le_r_later, r_ge_r_later, monotoneOn, antitoneOn)
+- updated: syntheses/lean-proof-status.md (+4 entries, 164 LCS theorems)
+- index.md: updated (exp 193)
+- LEAN: r_le/ge: rcases hst.lt_or_eq + strictly_/decreasing_from_ode. monotoneOn/antitoneOn: mem_Ici.mp wrapping. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | lt/gt/ne_rstar_nat + sq_dist_tendsto — nat sign + squared convergence (exp 192)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+5 theorems: lt/gt/ne_rstar_nat, r_sub_rstar_sq_tendsto, nat version)
+- updated: syntheses/lean-proof-status.md (+5 entries, 160 LCS theorems)
+- index.md: updated (exp 192)
+- LEAN: nat sign: init + Nat.cast_nonneg one-liners. sq: tendsto_sub_rstar.pow 2 + simpa. NO eq_explicit. Build: 3373 jobs (LorentzianExistence only).
+
+## [2026-05-04] correction | reconcile session 9+10 index.md conflict
+
+- updated: index.md (reconciled: 125 files, 155 LCS theorems, 3473 build jobs, exp 191 + general-g)
+- updated: syntheses/lean-proof-status.md (updated date 2026-05-04 + build count 3473)
+
 ## [2026-05-03] experiment | close 3 gaps for general analytic g — invariant region, PLS continuity, coercive bridge
 
 - created: KuramotoLean/GeneralGODEInstance.lean (scalar_oa_upper_barrier, scalar_oa_lower_barrier, generalG_ContinuumODEData)
