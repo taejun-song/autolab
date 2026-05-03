@@ -2,8 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-05-03
-sources:
+updated: 2026-05-04sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
   - "[[kuramoto-1975-self-entrainment]]"
@@ -799,6 +798,10 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.ne_rstar_from_ode`: S.r 0≠r* → S.r t≠r* for all t≥0 — abstract ODE backward uniqueness: if r(t₀)=r*, constant g≡r* agrees at t₀; ODE_solution_unique_of_mem_Icc_left gives r≡r* on [0,t₀], so r(0)=r*, contradiction. Uses lorentzianODE_lipschitzOnWith. NO eq_explicit (exp 174) | **proved** |
 | `LorentzianContinuousSolution.unique_from_ode`: same K,γ,r(0) → S.r t = S'.r t for all t≥0 — abstract ODE forward uniqueness: ODE_solution_unique_of_mem_Icc_right with same initial condition. Alternative to unique which uses eq_explicit. NO eq_explicit (exp 175) | **proved** |
 | `LorentzianContinuousSolution.order_preserving_from_ode`: S.r 0 < S'.r 0 (same K,γ) → S.r t < S'.r t for all t≥0 — ODE flow order preservation: IVT finds crossing point if D=S'.r-S.r changes sign; backward ODE uniqueness then forces S.r 0=S'.r 0, contradiction. NO eq_explicit (exp 176) | **proved** |
+| `LorentzianContinuousSolution.strictly_increasing_from_ode`: S.r 0 < r* → S.r s < S.r t for 0≤s<t — StrictMonoOn via strictMonoOn_of_deriv_pos: interior_Ici gives x∈(0,∞), HasDerivAt.deriv connects ODE to deriv, deriv_pos_below gives positivity. NO eq_explicit (exp 177) | **proved** |
+| `LorentzianContinuousSolution.strictly_decreasing_from_ode`: r* < S.r 0 → S.r t < S.r s for 0≤s<t — StrictAntiOn via strictAntiOn_of_deriv_neg: symmetric pattern to strictly_increasing; deriv_neg_above gives negativity. NO eq_explicit (exp 177) | **proved** |
+| `LorentzianContinuousSolution.rstar_const_from_ode`: S.r 0 = r* → S.r t = r* for all t≥0 — build constant LCS g≡r* (valid: lorentzian_rstar_is_fixed_point gives ODE satisfied, continuousOn_const + rstar_pos/lt_one for fields); unique_from_ode gives S.r ≡ r*. NO eq_explicit (exp 178) | **proved** |
+| `LorentzianContinuousSolution.phase_portrait_from_ode`: trichotomy for 0≤s<t — (1) r(0)<r* → S.r s<S.r t (strictly increasing); (2) r(0)=r* → S.r s=S.r t (constant r*); (3) r*<r(0) → S.r t<S.r s (strictly decreasing). One-line combination of strictly_increasing/decreasing_from_ode + rstar_const_from_ode. NO eq_explicit (exp 179) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -853,8 +856,12 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | Orbit ≠ r* (abstract) | `ne_rstar_from_ode` | S.r 0≠r* → S.r t≠r* |
 | Forward uniqueness | `unique_from_ode` | same init → agree globally |
 | Flow order preserving | `order_preserving_from_ode` | r₀<r₀' → r(t)<r'(t) |
+| Strictly increasing | `strictly_increasing_from_ode` | r(0)<r* → StrictMono on [0,∞) |
+| Strictly decreasing | `strictly_decreasing_from_ode` | r*<r(0) → StrictAnti on [0,∞) |
+| Equilibrium const | `rstar_const_from_ode` | r(0)=r* → r≡r* |
+| Phase portrait | `phase_portrait_from_ode` | complete trichotomy |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **114 LCS theorems** (exp 176 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **118 LCS theorems** (exp 179 added).
 
 ### Key Proof Steps
 

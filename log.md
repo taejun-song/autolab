@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-04] experiment | rstar_const_from_ode + phase_portrait_from_ode — equilibrium const + trichotomy (exp 178-179)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: LorentzianContinuousSolution.rstar_const_from_ode, phase_portrait_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, 118 LCS theorems)
+- index.md: regenerated (session 9, experiment 179)
+- LEAN: rstar_const_from_ode: build constant LCS g≡r* (lorentzian_rstar_is_fixed_point gives ODE; continuousOn_const; rstar_pos/lt_one for init bounds); unique_from_ode closes. phase_portrait_from_ode: ⟨strictly_increasing_from_ode, rstar_const_from_ode (two rewrites), strictly_decreasing_from_ode⟩. rw [heq] (not rw [← heq]) fixed. Both first-try. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | strictly_increasing/decreasing_from_ode — ODE flow strict monotonicity (exp 177)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: LorentzianContinuousSolution.strictly_increasing_from_ode, strictly_decreasing_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, 116 LCS theorems)
+- index.md: regenerated (session 9, experiment 177)
+- LEAN: strictMonoOn_of_deriv_pos (below r*) and strictAntiOn_of_deriv_neg (above r*) from Mathlib.Analysis.Calculus.Deriv.MeanValue. interior_Ici gives x∈(0,∞); HasDerivAt.deriv connects ODE equation to deriv; deriv_pos_below/deriv_neg_above give positivity/negativity. First-try success. NO eq_explicit. Build: 3373 jobs.
+
 ## [2026-05-03] experiment | order_preserving_from_ode — ODE flow order preservation (exp 176)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: LorentzianContinuousSolution.order_preserving_from_ode)
