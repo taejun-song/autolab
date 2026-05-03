@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (exp 194: rational_approximation_rate axiom upgraded to AnalyticOnNhd ℂ)_
+_Last regenerated: 2026-05-05 (exp 195: continuous_dependence_ode replaced with Mathlib Gronwall)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 125 files, 0 sorry, 1 axiom. LorentzianExistence: **164 theorems**. General-g: 3 gaps closed. Exp 194: rational_approximation_rate axiom upgraded to AnalyticOnNhd ℂ strip hypothesis. 3473 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 125 files, 0 sorry, 1 axiom. LorentzianExistence: **164 theorems**. Exp 194: axiom upgraded to AnalyticOnNhd ℂ. Exp 195: Gronwall continuous dependence proved from Mathlib. 3473 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.

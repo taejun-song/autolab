@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-05] experiment | continuous_dependence_ode — replace trivial placeholder with Gronwall from Mathlib (exp 195)
+
+- updated: KuramotoLean/PassageToLimit.lean (continuous_dependence_ode: trivial ⟨_, le_refl _⟩ → Mathlib dist_le_of_trajectories_ODE; added Mathlib.Analysis.ODE.Gronwall import)
+- updated: syntheses/lean-proof-status.md (+exp 195 entry)
+- index.md: updated (exp 195)
+- LEAN: theorem now takes NormedAddCommGroup E, v : ℝ→E→E, f g : ℝ→E, K : NNReal, hv LipschitzWith, ODE hypotheses, gives dist(f t, g t) ≤ δ·exp(K·t). Build: 3473 jobs, 0 sorry.
+
 ## [2026-05-05] experiment | rational_approximation_rate axiom — upgrade from True to AnalyticOnNhd ℂ (exp 194)
 
 - updated: KuramotoLean/PassageToLimit.lean (axiom: True → AnalyticOnNhd ℂ g_ext {z : ℂ | |z.im| < a}; new analytic_approx_rate theorem)

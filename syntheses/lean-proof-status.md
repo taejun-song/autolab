@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 125 files. Three gaps for general analytic g closed: (1) GeneralGODEInstance proves invariant region (0,1) for per-ω scalar ODE via upper/lower barriers and constructs ContinuumODEData, (2) PLSContinuity proves r*_n → r* from gap condition + uniform Φ convergence, (3) GeneralGContinuumBridge fills CoerciveConvergenceData and proves V → 0. LorentzianExistence: **164 theorems** (exp 193: MonotoneOn + AntitoneOn). Exp 194: `rational_approximation_rate` axiom upgraded from placeholder `True` to `AnalyticOnNhd ℂ g_ext {z : ℂ | |z.im| < a}` with proper strip analyticity; new `analytic_approx_rate` theorem wires the axiom into the convergence argument. 3473 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 125 files. Three gaps for general analytic g closed (session 10). LorentzianExistence: **164 theorems**. Exp 194: `rational_approximation_rate` axiom upgraded to `AnalyticOnNhd ℂ g_ext {z : ℂ | |z.im| < a}`. Exp 195: `continuous_dependence_ode` upgraded from trivial `⟨_, le_refl _⟩` to Mathlib `dist_le_of_trajectories_ODE` (Gronwall) with full ODE hypotheses. 3473 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
