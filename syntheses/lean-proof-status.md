@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 129 files. Exp 200: `LorentzianMixtureAnalyticExtension.lean` proves finite Lorentzian mixtures Σ aₖ·Lorentzian(γₖ) are analytic on {|Im z| < min γₖ} and admit axiom-free rational approximations (zero error). 3478 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 130 files. Exp 201: `GaussianMixtureAnalyticExtension.lean` proves finite Gaussian mixtures are entire, AnalyticOnNhd on any strip, and admit rational approximations via a single axiom invocation. 3479 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -85,8 +85,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Sorry count | **0** |
 | Axiom declarations | **1** (`rational_approximation_rate` in PassageToLimit.lean) |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **129** |
-| Comprehensive build | **3478 build jobs** |
+| Total .lean files | **130** |
+| Comprehensive build | **3479 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -183,7 +183,20 @@ Proves that the Gaussian frequency distribution g(ω) = exp(-ω²/(2σ²))/(σ�
 
 Key: exp ∘ polynomial is entire via `AnalyticAt.cexp'`. Unlike the Lorentzian, the Gaussian is transcendental, so `gaussian_rational_approx` requires the `rational_approximation_rate` axiom. Contrast with `lorentzian_rational_approx` (exp 198) which is proved axiom-free.
 
-The 1 axiom (`rational_approximation_rate`) is now grounded for TWO physical distributions: Lorentzian (with explicit strip γ) and Gaussian (with any strip since g is entire).
+The 1 axiom (`rational_approximation_rate`) is now grounded for FOUR distribution classes: Lorentzian (strip {|Im z|<γ}), Gaussian (any strip, entire), finite Lorentzian mixtures (axiom-free, exp 200), and finite Gaussian mixtures (single axiom invocation, exp 201).
+
+## Gaussian Mixture Analytic Extension (GaussianMixtureAnalyticExtension.lean)
+
+**Status**: 0 sorry, 1 axiom usage (`gaussian_mixture_rational_approx` invokes the axiom ONCE for the entire mixture). NEW FILE (Exp 201).
+
+| Theorem | Status |
+|---|---|
+| `gaussianMixtureExt_real`: g_ext(ω) = ↑(g(ω)) for ω ∈ ℝ | **proved** |
+| `gaussianMixtureExt_analyticAt`: entire (analytic at every z) | **proved** |
+| `gaussianMixtureExt_analyticOnNhd`: AnalyticOnNhd on any strip | **proved** |
+| `gaussian_mixture_rational_approx`: ∃ g_approx C c, \|g-g_approx m\| ≤ C·exp(-cm) | **argument (1 axiom)** |
+
+Key: the axiom is invoked ONCE for the whole mixture (not n times for n components). The mixture is itself an entire function, so `rational_approximation_rate` applies directly with strip width 1. This shows that ANY distribution approximable by Gaussian mixtures is within reach of the axiom framework.
 
 ## Lorentzian Mixture Analytic Extension (LorentzianMixtureAnalyticExtension.lean)
 

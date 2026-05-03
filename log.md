@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-04] experiment | GaussianMixtureAnalyticExtension: finite Gaussian mixtures entire, single-axiom rational approx (exp 201)
+
+- created: KuramotoLean/GaussianMixtureAnalyticExtension.lean (gaussianMixture, gaussianMixtureExt, gaussianMixtureExt_real, gaussianMixtureExt_analyticAt, gaussianMixtureExt_analyticOnNhd, gaussian_mixture_rational_approx)
+- updated: KuramotoLean.lean (+import GaussianMixtureAnalyticExtension)
+- updated: syntheses/lean-proof-status.md (+exp 201 section, 129→130 files, 3478→3479 build jobs)
+- index.md: updated (exp 201)
+- LEAN: 130 files, 0 sorry, 1 axiom, 3479 build jobs. Key: Gaussian mixture is entire (sum of entire functions via Finset.univ.analyticAt_sum + gaussianFreqDistExt_analyticAt). The axiom is invoked ONCE for the whole mixture (treated as a single entire function, not per-component). Strip width 1 suffices since the mixture is entire. Pattern: same as LorentzianMixtureAnalyticExtension (sum-of-functions def to avoid analyticAt_sum unification issue).
+
 ## [2026-05-04] experiment | LorentzianMixtureAnalyticExtension: finite Lorentzian mixtures, axiom-free rational approx (exp 200)
 
 - created: KuramotoLean/LorentzianMixtureAnalyticExtension.lean (lorentzianMixture, lorentzianMixtureExt, lorentzianMixtureExt_real, lorentzianMixtureExt_analyticOnNhd, lorentzian_mixture_rational_approx)
