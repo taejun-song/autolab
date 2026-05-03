@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 130 files. Exp 201: `GaussianMixtureAnalyticExtension.lean` proves finite Gaussian mixtures are entire, AnalyticOnNhd on any strip, and admit rational approximations via a single axiom invocation. 3479 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 131 files. Exp 202: `PowerLorentzianAnalyticExtension.lean` proves `C/(ω²+a)^n` is analytic on strip {|Im z|<√a} for any n≥1, a>0, with zero-error axiom-free rational approximation. Subsumes Lorentzian (n=1) and all odd Student's t. 3480 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -85,8 +85,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Sorry count | **0** |
 | Axiom declarations | **1** (`rational_approximation_rate` in PassageToLimit.lean) |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **130** |
-| Comprehensive build | **3479 build jobs** |
+| Total .lean files | **131** |
+| Comprehensive build | **3480 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
@@ -183,7 +183,7 @@ Proves that the Gaussian frequency distribution g(ω) = exp(-ω²/(2σ²))/(σ�
 
 Key: exp ∘ polynomial is entire via `AnalyticAt.cexp'`. Unlike the Lorentzian, the Gaussian is transcendental, so `gaussian_rational_approx` requires the `rational_approximation_rate` axiom. Contrast with `lorentzian_rational_approx` (exp 198) which is proved axiom-free.
 
-The 1 axiom (`rational_approximation_rate`) is now grounded for FOUR distribution classes: Lorentzian (strip {|Im z|<γ}), Gaussian (any strip, entire), finite Lorentzian mixtures (axiom-free, exp 200), and finite Gaussian mixtures (single axiom invocation, exp 201).
+The 1 axiom (`rational_approximation_rate`) is now grounded for FIVE distribution classes: Lorentzian (strip {|Im z|<γ}), Gaussian (any strip, entire), finite Lorentzian mixtures (axiom-free, exp 200), finite Gaussian mixtures (single axiom invocation, exp 201), and power Lorentzians C/(ω²+a)^n (axiom-free, exp 202).
 
 ## Gaussian Mixture Analytic Extension (GaussianMixtureAnalyticExtension.lean)
 
@@ -215,6 +215,24 @@ Key implementation detail: `lorentzianMixtureExt` is defined as `∑ k, fun z =>
 Analyticity on the strip: `Finset.univ.analyticAt_sum` reduces to proving each term `const * lorentzianFreqDistExt(γₖ)` is analytic at z. Since z is in the sub-strip {|Im z| < a ≤ γₖ}, `lorentzianFreqDistExt_analyticOnNhd(γₖ)` applies. Then `analyticAt_const.mul` concludes.
 
 Rational approximation: zero error (g_approx n = g), same strategy as exp 198. No Padé/AAK theory needed since mixtures of rational functions are rational.
+
+## Power Lorentzian Analytic Extension (PowerLorentzianAnalyticExtension.lean)
+
+**Status**: 0 sorry, 0 axiom usage. NEW FILE (Exp 202).
+
+Proves that `g_{C,a,n}(ω) = C / (ω²+a)^n` (power Lorentzian) is analytic on the strip {|Im z| < √a} and admits axiom-free rational approximation (zero error, since it is rational).
+
+| Theorem | Status |
+|---|---|
+| `powerLorentzianFreqDistExt_real`: g_ext(ω) = ↑(g(ω)) for ω ∈ ℝ | **proved** |
+| `power_lorentzian_denom_ne_zero`: (z²+a)^n ≠ 0 for \|Im z\| < √a | **proved** |
+| `powerLorentzianFreqDistExt_analyticOnNhd`: AnalyticOnNhd on {z \| \|Im z\|<√a} | **proved** |
+| `power_lorentzian_rational_approx`: ∃ g_approx B b, \|g-g_approx m\| ≤ B·exp(-bm) | **proved (axiom-free)** |
+| `lorentzian_is_power_lorentzian`: Lorentzian = power Lorentzian with n=1, a=γ² | **proved** |
+
+Key: `(z²+a)^n ≠ 0` follows from `pow_ne_zero` applied to `z²+a ≠ 0`, which is `lorentzian_denom_ne_zero` with γ=√a after the identity `(√a)² = a`. This reuses the existing pole-exclusion lemma rather than re-proving case analysis.
+
+Special cases: n=1, a=γ² gives the Lorentzian. n=2, a=3 gives Student's t(ν=3). n=k, a=2k-1 gives Student's t(ν=2k-1). All are axiom-free.
 
 ## Concrete Instance: Lorentzian (LorentzianInstance.lean)
 

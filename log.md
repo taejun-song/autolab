@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-04] experiment | PowerLorentzianAnalyticExtension: C/(ω²+a)^n analytic on strip |Im z|<√a, axiom-free (exp 202)
+
+- created: KuramotoLean/PowerLorentzianAnalyticExtension.lean (powerLorentzianFreqDist, powerLorentzianFreqDistExt, powerLorentzianFreqDistExt_real, power_lorentzian_denom_ne_zero, powerLorentzianFreqDistExt_analyticOnNhd, power_lorentzian_rational_approx, lorentzian_is_power_lorentzian, lorentzianExt_is_power_lorentzianExt)
+- updated: KuramotoLean.lean (+import PowerLorentzianAnalyticExtension)
+- updated: syntheses/lean-proof-status.md (+exp 202 section, 130→131 files, 3479→3480 build jobs)
+- index.md: updated (exp 202)
+- LEAN: 131 files, 0 sorry, 1 axiom, 3480 build jobs. Key: (z²+a)^n ≠ 0 in {|Im z|<√a} follows from pow_ne_zero + lorentzian_denom_ne_zero with γ=√a (using (√a)²=a). Analyticity via analyticAt_const.div. Zero-error approx (rational function). Special cases: n=1,a=γ² = Lorentzian; n=2,a=3 = Student's t(ν=3); n=k,a=2k-1 = Student's t(ν=2k-1).
+
 ## [2026-05-04] experiment | GaussianMixtureAnalyticExtension: finite Gaussian mixtures entire, single-axiom rational approx (exp 201)
 
 - created: KuramotoLean/GaussianMixtureAnalyticExtension.lean (gaussianMixture, gaussianMixtureExt, gaussianMixtureExt_real, gaussianMixtureExt_analyticAt, gaussianMixtureExt_analyticOnNhd, gaussian_mixture_rational_approx)
