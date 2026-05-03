@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | lorentzianODE_contDiff + locallyLipschitz — C∞ vector field and local Lipschitz (exp 172)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: lorentzianODE_contDiff, lorentzianODE_locallyLipschitz)
+- updated: syntheses/lean-proof-status.md (+2 entries, 110 LCS theorems)
+- index.md: regenerated (session 9, experiment 172)
+- LEAN: lorentzianODE_contDiff: unfold lorentzianODE; fun_prop gives ContDiff ℝ ⊤. lorentzianODE_locallyLipschitz: (contDiff.of_le le_top).locallyLipschitz — downgrades ⊤→1 then applies ContDiff.locallyLipschitz from Mathlib.Analysis.Calculus.ContDiff.RCLike. Build: 3373 jobs.
+
 ## [2026-05-03] experiment | lorentzian_ode_local_existence — Picard-Lindelöf local ODE existence (exp 171, 3373 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem + import Mathlib.Analysis.ODE.PicardLindelof)
