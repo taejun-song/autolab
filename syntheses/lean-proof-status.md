@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: complete ODE + Lyapunov analysis; full LorentzianContinuousSolution lift (97 theorems) — classical stability, two-sided trap, persistence chain, invariance, monotonicity, semigroup, strict decrease, order preservation, ball invariance, sublevel sets, convergence times, trajectory distance, V ratio, r² comparisons, sharper V bounds, weak antitone, regime-specific distance bounds, Bernoulli amplitude, initial-displacement rate, Bernoulli two-solution dist bound, abstract Lyapunov HasDerivAt, factored derivative formula, equilibrium characterization, two-trajectory abstract ODE sync bound, regime-specific abstract ODE dist bounds (below/above), V derivative nonpositivity, abstract ODE Lyapunov monotonicity (V non-increasing + dist le init), strict Lyapunov derivative negativity off equilibrium, StrictAntiOn V + strict distance decrease via derivative path, V→0 under persistence (squeeze_zero'), full convergence from abstract ODE chain (Filter.Tendsto, all r(0)∈(0,1), no explicit formula), ε-T convergence form. 3336 build jobs.
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: 97 theorems spanning classical Bernoulli, Lyapunov analysis, and abstract ODE chain. Abstract ODE chain (NO eq_explicit): Filter.Tendsto convergence (all r(0)∈(0,1)), unified exponential rate, ε-T form, two-traj Filter.Tendsto sync, two-traj exponential bound, monotone corridor, domain invariance Ioo/Icc, r_pos, r_lt_one. 3336 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -785,6 +785,42 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.r_mem_Icc_from_ode`: S.r t ∈ Set.Icc 0 1 for all t ≥ 0 — Ioo_subset_Icc_self applied to r_mem_Ioo_from_ode. NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.two_traj_dist_le_sum_from_ode`: \|S.r t - S'.r t\| ≤ \|S.r 0-r*\| + \|S'.r 0-r*\| — triangle + dist_le_init_from_ode for each; hrs_eq rewrite (rs = sqrt(1-2S'.γ/S'.K)). No ne_rstar needed. NO eq_explicit | **proved** |
 | `LorentzianContinuousSolution.two_traj_dist_from_ode`: \|S.r t - S'.r t\| ≤ sum of individual dist_bound_from_ode_unified exp bounds — triangle + dist_bound_from_ode_unified; le_trans + add_le_add; tighter than two_traj_dist. No ne_rstar. NO eq_explicit | **proved** |
+
+### Abstract ODE Chain Summary (Phase 5, session 9)
+
+The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq_explicit in any theorem):
+
+| Property | Theorem | Form |
+|---|---|---|
+| Filter.Tendsto convergence | `tendsto_from_ode` | ALL r(0)∈(0,1) |
+| ε-T convergence | `convergence_time_from_ode` | ∀ε>0 ∃T |
+| Exponential rate | `dist_bound_from_ode_unified` | unified min rate |
+| Raw convergence | `lorentzian_ode_global_stability_raw` | raw function |
+| Raw rate | `lorentzian_ode_convergence_rate_raw` | raw function |
+| Two-traj sync | `two_traj_tendsto_from_ode` | Filter.Tendsto |
+| Raw two-traj sync | `lorentzian_ode_two_traj_sync_raw` | raw function |
+| Two-traj triangle | `two_traj_dist_le_sum_from_ode` | no ne_rstar |
+| Two-traj exp bound | `two_traj_dist_from_ode` | individual rates |
+| Monotone corridor | `r_in_corridor_from_ode` | [min,max] |
+| Positivity | `r_pos_from_ode` | > 0 |
+| Upper bound | `r_lt_one_from_ode` | < 1 |
+| Open interval | `r_mem_Ioo_from_ode` | ∈ (0,1) |
+| Closed interval | `r_mem_Icc_from_ode` | ∈ [0,1] |
+| V non-increasing | `v_nonincreasing_from_ode` | AntitoneOn |
+| dist ≤ init | `dist_le_init_from_ode` | unconditional |
+| Strict V anti | `v_strict_anti_from_ode` | StrictAntiOn |
+| Strict dist decrease | `dist_strict_lt_init_from_ode` | t > 0 |
+| Abs dist strict anti | `abs_dist_strict_anti_from_ode` | StrictAntiOn |
+| V lower bound | `v_lb_from_ode` | exp(-2Kt) floor |
+| Dist lower bound | `dist_lb_from_ode` | exp(-Kt) floor |
+| Two-sided trap | `dist_trap_from_ode` | combined |
+| V → 0 (persist) | `v_tendsto_from_persist_ode` | persistence form |
+| Convergence (persist) | `tendsto_from_persist_ode` | persistence form |
+| r stays above r* | `r_ge_rstar_of_above` | when r(0)>r* |
+| Gronwall below | `dist_from_gronwall_below` | r(0)<r* case |
+| Gronwall above | `dist_from_gronwall_above` | r(0)>r* case |
+
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0.
 
 ### Key Proof Steps
 

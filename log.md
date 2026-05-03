@@ -1,5 +1,11 @@
 # Activity Log
 
+## [2026-05-03] query+page | Phase 5 consolidation — abstract ODE chain summary, wiki refresh (session 9, exp 160)
+
+- updated: syntheses/lean-proof-status.md (description updated, Abstract ODE Chain Summary table added)
+- index.md: regenerated (session 9, experiment 160)
+- Status: 0 sorry, 0 axioms, 120 files, 3336 build jobs, 97 LCS theorems. LorentzianSolution assumed fields = 0 (primary metric SOLVED). Abstract ODE chain complete with 27 theorems, all NO eq_explicit. Two-trajectory sync, corridor, domain invariance, exponential bounds all proved.
+
 ## [2026-05-03] experiment | two_traj_dist_from_ode — exponential sync bound from abstract ODE (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: two_traj_dist_from_ode)
