@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | r_in_corridor_from_ode — trajectory monotone corridor from abstract ODE (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: r_in_corridor_from_ode)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 91 theorems)
+- index.md: regenerated (session 9, experiment 155)
+- LEAN: r_in_corridor_from_ode proves min(S.r 0, r*) ≤ S.r t ≤ max(S.r 0, r*) for all t ≥ 0. rcases lt_trichotomy on S.r 0 vs r*: below case uses ge_init_of_lt_rstar + lt_rstar_of_init; equal case uses r_constant_at_rstar; above case uses gt_rstar_of_init + le_init_of_gt_rstar. min_eq_left/right + max_eq_left/right + min_self + max_self for the boundary rewrites. Build: 3336 jobs.
+
 ## [2026-05-03] experiment | two_traj_tendsto_from_ode + sync_raw — two-solution synchronization from abstract ODE (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: two_traj_tendsto_from_ode, lorentzian_ode_two_traj_sync_raw)
