@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | order_preserving_from_ode — ODE flow order preservation (exp 176)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: LorentzianContinuousSolution.order_preserving_from_ode)
+- updated: syntheses/lean-proof-status.md (+1 entry, 114 LCS theorems)
+- index.md: regenerated (session 9, experiment 176)
+- LEAN: IVT (intermediate_value_Icc') finds crossing point where D=S'.r-S.r=0; backward ODE uniqueness (ODE_solution_unique_of_mem_Icc_left) gives S.r 0=S'.r 0, contradicting h0. push_neg deprecated warning noted. First-try success. NO eq_explicit. Build: 3373 jobs.
+
 ## [2026-05-03] experiment | unique_from_ode — abstract ODE forward uniqueness (exp 175)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: LorentzianContinuousSolution.unique_from_ode)

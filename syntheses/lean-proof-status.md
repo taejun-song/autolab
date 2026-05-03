@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **113 theorems** spanning Bernoulli, Lyapunov, abstract ODE chain, and Picard-Lindelöf infrastructure (exp 171-175: local existence, C∞, locally Lipschitz, LipschitzOnWith, ne_rstar, unique_from_ode). 3373 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
+Machine-checked proof status: 0 sorry, 0 axioms across 120 files. LorentzianExistence: **114 theorems** spanning Bernoulli, Lyapunov, abstract ODE chain, and Picard-Lindelöf infrastructure (exp 171-176: local existence, C∞, locally Lipschitz, LipschitzOnWith, ne_rstar, unique, order preservation). 3373 build jobs. LorentzianSolution assumed fields: 0 (primary metric SOLVED).
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -798,6 +798,7 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `lorentzianODE_lipschitzOnWith_Icc`: ∀ a≤b, ∃ L:NNReal, LipschitzOnWith L (lorentzianODE K γ) [a,b] — C¹ + convex + compact → Lipschitz via ContDiffOn.exists_lipschitzOnWith (exp 173) | **proved** |
 | `LorentzianContinuousSolution.ne_rstar_from_ode`: S.r 0≠r* → S.r t≠r* for all t≥0 — abstract ODE backward uniqueness: if r(t₀)=r*, constant g≡r* agrees at t₀; ODE_solution_unique_of_mem_Icc_left gives r≡r* on [0,t₀], so r(0)=r*, contradiction. Uses lorentzianODE_lipschitzOnWith. NO eq_explicit (exp 174) | **proved** |
 | `LorentzianContinuousSolution.unique_from_ode`: same K,γ,r(0) → S.r t = S'.r t for all t≥0 — abstract ODE forward uniqueness: ODE_solution_unique_of_mem_Icc_right with same initial condition. Alternative to unique which uses eq_explicit. NO eq_explicit (exp 175) | **proved** |
+| `LorentzianContinuousSolution.order_preserving_from_ode`: S.r 0 < S'.r 0 (same K,γ) → S.r t < S'.r t for all t≥0 — ODE flow order preservation: IVT finds crossing point if D=S'.r-S.r changes sign; backward ODE uniqueness then forces S.r 0=S'.r 0, contradiction. NO eq_explicit (exp 176) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -851,8 +852,9 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | LipschitzOnWith [a,b] | `lorentzianODE_lipschitzOnWith_Icc` | ∃ L, LipschitzOnWith L f [a,b] |
 | Orbit ≠ r* (abstract) | `ne_rstar_from_ode` | S.r 0≠r* → S.r t≠r* |
 | Forward uniqueness | `unique_from_ode` | same init → agree globally |
+| Flow order preserving | `order_preserving_from_ode` | r₀<r₀' → r(t)<r'(t) |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **113 LCS theorems** (exp 175 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **114 LCS theorems** (exp 176 added).
 
 ### Key Proof Steps
 
