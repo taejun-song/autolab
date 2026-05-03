@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | two_traj_dist_le_sum_from_ode — triangle bound for two ODE solutions (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: two_traj_dist_le_sum_from_ode)
+- updated: syntheses/lean-proof-status.md (+1 entry, total 96 theorems)
+- index.md: regenerated (session 9, experiment 158)
+- LEAN: triangle inequality applied to |S.r t - S'.r t| ≤ |S.r t - rs| + |S'.r t - rs|; then dist_le_init_from_ode for S; for S' use rw [← hK_eq, ← hγ_eq] to convert S'.K/γ to S.K/γ; linarith. No ne_rstar hypothesis needed. Build: 3336 jobs.
+
 ## [2026-05-03] experiment | r_mem_Ioo_from_ode + r_mem_Icc_from_ode — interval membership from abstract ODE (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: r_mem_Ioo_from_ode, r_mem_Icc_from_ode)
