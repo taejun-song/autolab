@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-03] experiment | self-consistent existence structure + contraction factor for general g
+
+- created: KuramotoLean/SelfConsistentExistence.lean (SelfConsistentOAData, contractionFactor_lt_one, mkSelfConsistentOAData)
+- updated: KuramotoLean.lean (+import SelfConsistentExistence)
+- updated: syntheses/lean-proof-status.md (+self-consistent existence)
+- index.md: regenerated
+- LEAN: 126 files, 0 sorry, 1 axiom, 3475 build jobs. SelfConsistentOAData extends ContinuumODEData with r(t)=∫α(ω,t)dμ. Contraction factor q=(K/2)T·exp((γ_max+K)T)<1 proved. mkSelfConsistentOAData packages self-consistent (α,r) into ContinuumODEData with 0 assumed fields.
+
 ## [2026-05-05] experiment | continuum_convergence_argument simplified + continuum_proof_complete cleaned (exp 196)
 
 - updated: KuramotoLean/PassageToLimit.lean (continuum_convergence_argument: removed 12 unused hypotheses, kept c_rate+hc+pls_error+h_pls)

@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 125 files. Three gaps for general analytic g closed (session 10). LorentzianExistence: **164 theorems**. Exp 194: `rational_approximation_rate` axiom upgraded to `AnalyticOnNhd ℂ` strip hypothesis. Exp 195: `continuous_dependence_ode` upgraded to Mathlib `dist_le_of_trajectories_ODE` Gronwall. Exp 196: `continuum_convergence_argument` simplified from 14 hypotheses to 4 (c_rate, hc, pls_error, h_pls); `continuum_proof_complete` updated accordingly. 3473 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 126 files. Three gaps for general analytic g closed (session 10). Self-consistent existence structure added (SelfConsistentExistence.lean): `SelfConsistentOAData` extends `ContinuumODEData` with r(t) = ∫α(ω,t)dμ. Contraction factor q = (K/2)T·exp((γ_max+K)T) < 1 proved for small T. `mkSelfConsistentOAData` constructs ContinuumODEData from self-consistent (α,r) with 0 assumed fields. 3475 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -85,8 +85,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **121** (+ LorentzianExistence) |
-| Comprehensive build | **3434 build jobs** |
+| Total .lean files | **126** |
+| Comprehensive build | **3475 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
