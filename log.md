@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-03] experiment | lorentzian_ode_global_stability_complete — 100th theorem (billboard) (120 files, 3336 jobs)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+1 theorem: lorentzian_ode_global_stability_complete)
+- updated: syntheses/lean-proof-status.md (+1 entry in Abstract ODE Chain table, total 100 theorems, milestone)
+- index.md: regenerated (session 9, experiment 162)
+- LEAN: billboard theorem bundling domain invariance (r_mem_Ioo_from_ode), convergence (tendsto_from_ode), and rate (dist_bound_from_ode_unified) into a single conjunction. Wraps into LCS, returns triple ⟨Ioo, tendsto, rate⟩. Build: 3336 jobs.
+
 ## [2026-05-03] experiment | velocity_bound_from_ode + r_lipschitz_from_ode — ODE velocity and Lipschitz bounds (120 files, 3336 jobs)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: velocity_bound_from_ode, r_lipschitz_from_ode)
