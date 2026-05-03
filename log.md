@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-04] experiment | ne_iff_ne_init + separated_from_ode — orbit separation (exp 185)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: ne_iff_ne_init_from_ode, separated_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, 133 LCS theorems)
+- index.md: regenerated (session 9, experiment 185)
+- LEAN: ne_iff_ne_init: eq_iff_eq_init_from_ode.ne. separated_from_ode: ne_iff_ne_init_from_ode.mpr. Both one-liners. NO eq_explicit. Build: 3373 jobs.
+
+## [2026-05-04] experiment | lt/gt_rstar_strictly_from_ode — two-sided strict bounds (exp 184)
+
+- updated: KuramotoLean/LorentzianExistence.lean (+2 theorems: lt_rstar_strictly_from_ode, gt_rstar_strictly_from_ode)
+- updated: syntheses/lean-proof-status.md (+2 entries, 131 LCS theorems)
+- index.md: regenerated (session 9, experiment 184)
+- LEAN: lt case: strictly_increasing_from_ode + lt_rstar_of_init. gt case: gt_rstar_of_init + strictly_decreasing_from_ode. Both one-liners. NO eq_explicit. Build: 3373 jobs.
+
 ## [2026-05-04] experiment | r_ge/le_delta + r_in_Icc_from_ode — interval trapping (exp 183)
 
 - updated: KuramotoLean/LorentzianExistence.lean (+3 theorems: r_ge_delta_from_ode, r_le_delta_from_ode, r_in_Icc_from_ode)

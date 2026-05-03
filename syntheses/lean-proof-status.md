@@ -813,6 +813,10 @@ with explicit solution w(t) = (1/r₀² - B)·exp(-(K-2γ)t) + B, where B = K/(K
 | `LorentzianContinuousSolution.r_ge_delta_from_ode`: δ ≤ S.r 0 ∧ δ ≤ r* → S.r t ≥ δ for all t≥0 — global lower bound by any δ below both init and r*; le_min + r_ge_min_from_ode. NO eq_explicit (exp 183) | **proved** |
 | `LorentzianContinuousSolution.r_le_delta_from_ode`: S.r 0 ≤ δ ∧ r* ≤ δ → S.r t ≤ δ for all t≥0 — global upper bound by any δ above both init and r*; max_le + r_le_max_from_ode. NO eq_explicit (exp 183) | **proved** |
 | `LorentzianContinuousSolution.r_in_Icc_from_ode`: δ₁ ≤ min(r(0),r*) ∧ max(r(0),r*) ≤ δ₂ → S.r t ∈ [δ₁,δ₂] — trajectory stays in any interval containing both r(0) and r*; r_ge/le_min/max_from_ode. NO eq_explicit (exp 183) | **proved** |
+| `LorentzianContinuousSolution.lt_rstar_strictly_from_ode`: r(0)<r* ∧ t>0 → r(0) < S.r t < r* — two-sided strict bounds below equilibrium; strictly_increasing_from_ode + lt_rstar_of_init. NO eq_explicit (exp 184) | **proved** |
+| `LorentzianContinuousSolution.gt_rstar_strictly_from_ode`: r*<r(0) ∧ t>0 → r* < S.r t < r(0) — two-sided strict bounds above equilibrium; gt_rstar_of_init + strictly_decreasing_from_ode. NO eq_explicit (exp 184) | **proved** |
+| `LorentzianContinuousSolution.ne_iff_ne_init_from_ode`: S.r t ≠ S'.r t ↔ S.r 0 ≠ S'.r 0 (same K,γ) — orbit inequality iff initial inequality; eq_iff_eq_init_from_ode.ne. NO eq_explicit (exp 185) | **proved** |
+| `LorentzianContinuousSolution.separated_from_ode`: S.r 0 ≠ S'.r 0 (same K,γ) → S.r t ≠ S'.r t for all t≥0 — separated orbits remain separated forever; ne_iff_ne_init_from_ode.mpr. NO eq_explicit (exp 185) | **proved** |
 
 ### Abstract ODE Chain Summary (Phase 5, session 9)
 
@@ -881,8 +885,12 @@ The abstract ODE chain for `LorentzianContinuousSolution` is **complete** (NO eq
 | Delta lower bound | `r_ge_delta_from_ode` | δ≤r(0)∧δ≤r* → S.r t≥δ |
 | Delta upper bound | `r_le_delta_from_ode` | r(0)≤δ∧r*≤δ → S.r t≤δ |
 | Interval trapping | `r_in_Icc_from_ode` | S.r t ∈ [δ₁, δ₂] |
+| Two-sided below-r* | `lt_rstar_strictly_from_ode` | r(0)<r* ∧ t>0 → r(0)<S.r t<r* |
+| Two-sided above-r* | `gt_rstar_strictly_from_ode` | r*<r(0) ∧ t>0 → r*<S.r t<r(0) |
+| Ne iff ne init | `ne_iff_ne_init_from_ode` | S.r t≠S'.r t ↔ S.r 0≠S'.r 0 |
+| Separated orbits | `separated_from_ode` | r₀≠r₀' → r(t)≠r'(t) |
 
-**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **129 LCS theorems** (exp 183 added).
+**Primary metric SOLVED**: LorentzianSolution assumed fields = 0. **133 LCS theorems** (exp 185 added).
 
 ### Key Proof Steps
 
