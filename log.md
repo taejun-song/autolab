@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-05] experiment | continuum_convergence_argument simplified + continuum_proof_complete cleaned (exp 196)
+
+- updated: KuramotoLean/PassageToLimit.lean (continuum_convergence_argument: removed 12 unused hypotheses, kept c_rate+hc+pls_error+h_pls)
+- updated: KuramotoLean/ContinuumInstance.lean (continuum_proof_complete: updated call site, removed 9 unused hypotheses)
+- updated: syntheses/lean-proof-status.md (+exp 196 entry)
+- index.md: updated (exp 196)
+- LEAN: theorem now minimal: (c_rate : ℝ) (hc : 0 < c_rate) (pls_error : ℕ → ℝ) (h_pls : ...). Build: 3473 jobs, 0 sorry.
+
 ## [2026-05-05] experiment | continuous_dependence_ode — replace trivial placeholder with Gronwall from Mathlib (exp 195)
 
 - updated: KuramotoLean/PassageToLimit.lean (continuous_dependence_ode: trivial ⟨_, le_refl _⟩ → Mathlib dist_le_of_trajectories_ODE; added Mathlib.Analysis.ODE.Gronwall import)

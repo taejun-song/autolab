@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 125 files. Three gaps for general analytic g closed (session 10). LorentzianExistence: **164 theorems**. Exp 194: `rational_approximation_rate` axiom upgraded to `AnalyticOnNhd ℂ g_ext {z : ℂ | |z.im| < a}`. Exp 195: `continuous_dependence_ode` upgraded from trivial `⟨_, le_refl _⟩` to Mathlib `dist_le_of_trajectories_ODE` (Gronwall) with full ODE hypotheses. 3473 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 125 files. Three gaps for general analytic g closed (session 10). LorentzianExistence: **164 theorems**. Exp 194: `rational_approximation_rate` axiom upgraded to `AnalyticOnNhd ℂ` strip hypothesis. Exp 195: `continuous_dependence_ode` upgraded to Mathlib `dist_le_of_trajectories_ODE` Gronwall. Exp 196: `continuum_convergence_argument` simplified from 14 hypotheses to 4 (c_rate, hc, pls_error, h_pls); `continuum_proof_complete` updated accordingly. 3473 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
