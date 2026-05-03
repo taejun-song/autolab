@@ -2,7 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-05-05
+updated: 2026-05-03
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: 0 sorry, 1 axiom across 126 files. Three gaps for general analytic g closed (session 10). Self-consistent existence structure added (SelfConsistentExistence.lean): `SelfConsistentOAData` extends `ContinuumODEData` with r(t) = ∫α(ω,t)dμ. Contraction factor q = (K/2)T·exp((γ_max+K)T) < 1 proved for small T. `mkSelfConsistentOAData` constructs ContinuumODEData from self-consistent (α,r) with 0 assumed fields. 3475 build jobs.
+Machine-checked proof status: 0 sorry, 1 axiom across 127 files. Exp 198: `lorentzian_rational_approx` proved WITHOUT axiom — Lorentzian is rational, so g_approx n=g gives zero error. For the Lorentzian case specifically, the passage-to-limit is now axiom-free. The 1 axiom (`rational_approximation_rate`) remains for general analytic g. 3476 build jobs.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -83,17 +83,19 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Metric | Value |
 |---|---|
 | Sorry count | **0** |
-| Axiom declarations | **0** |
+| Axiom declarations | **1** (`rational_approximation_rate` in PassageToLimit.lean) |
 | Axioms eliminated this session | **30** (16 prior + 14 this round) |
-| Total .lean files | **126** |
-| Comprehensive build | **3475 build jobs** |
+| Total .lean files | **127** |
+| Comprehensive build | **3476 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
 
-**None.** All former axioms have been either proved, removed (dead code), or converted to structure fields.
+**1 axiom** remains in the project: `rational_approximation_rate` in `PassageToLimit.lean`.
 
-The open mathematical assumption (H2: unstable_manifold_to_pls) is now an explicit structure field in `OmegaLimitData`, not a LEAN axiom.
+This axiom is needed for the general analytic g passage-to-limit. For the **Lorentzian specifically**, `lorentzian_rational_approx` is now PROVED without the axiom (exp 198): since the Lorentzian is itself a rational function, using g_approx n = g gives identically zero error.
+
+The open mathematical assumption (H2: unstable_manifold_to_pls) is an explicit structure field in `OmegaLimitData`, not a LEAN axiom.
 
 ### Axioms Eliminated This Round (14)
 
@@ -148,6 +150,23 @@ The main theorem's correctness depends ONLY on:
 1. The KuramotoData structure hypotheses (all groundable on published results)
 2. Mathlib (standard mathematics library)
 3. The machine-checked logical deduction
+
+## Lorentzian Analytic Extension (LorentzianAnalyticExtension.lean)
+
+**Status**: 0 sorry, 0 axiom usage. New file (Exp 197). Exp 198: `lorentzian_rational_approx` made axiom-free.
+
+Proves that the Lorentzian frequency distribution g(ω) = γ/π/(ω²+γ²) admits a complex analytic extension to the strip {|Im z|<γ}, and that the rational approximation theorem holds WITHOUT the `rational_approximation_rate` axiom.
+
+| Theorem | Status |
+|---|---|
+| `lorentzianFreqDistExt_real`: g_ext(ω) = ↑(g(ω)) for ω ∈ ℝ | **proved** |
+| `lorentzian_denom_ne_zero`: z²+γ² ≠ 0 for \|Im z\| < γ | **proved** |
+| `lorentzianFreqDistExt_analyticOnNhd`: AnalyticOnNhd ℂ g_ext {z \| \|Im z\|<γ} | **proved** |
+| `lorentzian_rational_approx`: ∃ g_approx C c, \|g-g_approx n\| ≤ C·exp(-cn) | **proved (axiom-free)** |
+
+Exp 198 key insight: the Lorentzian is itself a rational function (degree 2 in ω), so `g_approx n = g` achieves identically zero error. This is ≤ C·exp(-cn) for any C,c>0. Proof: `⟨fun _ => lorentzianFreqDist γ, 1, 1, one_pos, one_pos, fun n ω => by simp [sub_self, abs_zero]; exact mul_nonneg ...⟩`. No Padé/AAK theory needed.
+
+Key step for analyticity: z²+γ² is nonzero in the strip because if z²+γ²=0, extracting real/imaginary parts gives z.re·z.im=0. Case z.re=0: z.im²=γ² so \|Im z\|=γ, contradiction. Case z.im=0: z.re²+γ²=0, impossible for γ>0. The function is then `analyticAt_const.div h_denom h_ne` via Mathlib `AnalyticAt.div`.
 
 ## Concrete Instance: Lorentzian (LorentzianInstance.lean)
 

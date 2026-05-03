@@ -1,5 +1,20 @@
 # Activity Log
 
+## [2026-05-03] experiment | lorentzian_rational_approx proved axiom-free: Lorentzian is rational → trivial approx (exp 198)
+
+- updated: KuramotoLean/LorentzianAnalyticExtension.lean (lorentzian_rational_approx: replaced axiom call with direct proof using g_approx n = g, zero error)
+- updated: syntheses/lean-proof-status.md (+exp 198 section, fixed axiom table, 3475→3476 build jobs)
+- index.md: updated
+- LEAN: 127 files, 0 sorry, 1 axiom (rational_approximation_rate for general g, unchanged). For Lorentzian specifically: lorentzian_rational_approx is now proved (0 axiom usage) since g is rational — g_approx n = g, error = 0 ≤ 1·exp(-1·n). Key: the axiom is still declared in PassageToLimit.lean for general analytic g, but the Lorentzian theorem no longer invokes it.
+
+## [2026-05-03] experiment | LorentzianAnalyticExtension: Lorentzian g satisfies AnalyticOnNhd on strip (exp 197)
+
+- created: KuramotoLean/LorentzianAnalyticExtension.lean (lorentzianFreqDist, lorentzianFreqDistExt, lorentzian_denom_ne_zero, lorentzianFreqDistExt_analyticOnNhd, lorentzian_rational_approx)
+- updated: KuramotoLean.lean (+import LorentzianAnalyticExtension)
+- updated: syntheses/lean-proof-status.md (+exp 197 section, 126→127 files)
+- index.md: updated
+- LEAN: 127 files, 0 sorry, 1 axiom. rational_approximation_rate now concretely instantiated for Lorentzian g(ω)=γ/π/(ω²+γ²): ∃ g_approx C c>0, ∀n ω, |g(ω)-g_approx(n,ω)| ≤ C·exp(-cn). Denominator nonzero proof: z²+γ²=0 → z.re·z.im=0; case z.re=0 gives |Im z|=γ ⊥ strip; case z.im=0 gives z.re²+γ²=0 impossible.
+
 ## [2026-05-03] experiment | self-consistent existence structure + contraction factor for general g
 
 - created: KuramotoLean/SelfConsistentExistence.lean (SelfConsistentOAData, contractionFactor_lt_one, mkSelfConsistentOAData)
