@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (ContinuumSolvedDefinitive: kuramoto_standard_continuum, exp 229)_
+_Last regenerated: 2026-05-05 (ContinuumSolvedFromODE: kuramoto_solved_continuum_from_ode, exp 230)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumSolvedFromODE.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum_from_ode` — correct continuum theorem deriving body persistence from ODE comparison. Resolves all three problems (uniform persistence, bounded γ, c_min). Body persistence via bodyEquilibrium(M,K,r_min). Applies to Gaussian, Student-t ν>2, compact support.
 - [[continuum-stability-debate]] — ContinuumSolvedDefinitive.lean (0 sorry, 0 axioms): `kuramoto_standard_continuum` — definitive theorem for standard continuum model. Body Gronwall + combined vanishing C(M)+μ(tail)→0. Subsumes `kuramoto_solved`. Applies to Gaussian, Student-t ν>2, compact support.
 - [[continuum-stability-debate]] — KuramotoContinuumTheorem.lean (0 sorry, 0 axioms): `kuramoto_continuum_theorem` — clean end-to-end theorem for standard continuum model. Direct ε/2 tail-body split. Takes V antitone + tail vanishing + body convergence per M. Resolves all three reviewer problems. Minimal hypotheses.
 - [[continuum-stability-debate]] — BodyPersistenceFromODE.lean (0 sorry, 0 axioms): `body_persistence_lower_bound` — α(t) ≥ min(α(0), β*) on body {γ≤M} when r≥r_min. Proves body persistence from ODE comparison principle. Also: 2 integrability sorries filled in KuramotoSolvedContinuum.lean.

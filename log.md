@@ -1,5 +1,21 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_solved_continuum_from_ode — ODE-derived body persistence (exp 230)
+
+- created: KuramotoLean/ContinuumSolvedFromODE.lean (0 sorry, 0 axioms)
+- updated: index.md (+1 entry)
+- index.md: regenerated
+- log.md: appended
+- New theorem `kuramoto_solved_continuum_from_ode`: correct continuum
+  Kuramoto theorem that DERIVES body persistence from ODE comparison
+  principle (body_persistence_lower_bound). Resolves all three problems:
+  (1) uniform persistence FALSE → derived via bodyEquilibrium comparison,
+  (2) bounded γ FALSE → γ bounded by M on each body {γ≤M},
+  (3) c_min inapplicable → works with arbitrary probability measure.
+  Helper theorems: body_persistence_derived, body_uniform_lower_bound,
+  body_persistence_positive, body_rate_computable, body_persistence_explicit,
+  ds_from_equil_body. Uses tail-body split (Dietert 2016 §2-3).
+
 ## [2026-05-05] experiment | kuramoto_standard_continuum — definitive theorem (exp 229)
 
 - created: KuramotoLean/ContinuumSolvedDefinitive.lean (0 sorry, 0 axioms)
