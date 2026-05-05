@@ -1,6 +1,6 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (kuramoto_continuum_wired: single wired theorem, exp 236)_
+_Last regenerated: 2026-05-06 (ContinuumSolvedWired — hγ fix + wiring to ContinuumSolvedComplete, exp 238)_
 
 ## Recently Updated
 

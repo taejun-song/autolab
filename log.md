@@ -1,5 +1,24 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumSolvedWired — hγ + wiring fixes (exp 238)
+
+- updated: KuramotoLean/ContinuumSolvedWired.lean (rewrote kuramoto_continuum_wired)
+- index.md: regenerated
+
+Issue 1 fix: `hγ_pos : ∀ ω, 0 < γ ω` → `hγ : ∀ ω, 0 ≤ γ ω`. Strict positivity is
+derivable from equilibrium: γ·α* = (K/2)·r*·(1-α*²) with α* ∈ (0,1) and K,r* > 0
+forces γ > 0. Added `gamma_pos_from_equil` theorem proving this. At ω=0: α*(0)=1
+(fully locked), but hα_star_lt excludes it (WLOG measure zero).
+
+Issue 2 fix: `kuramoto_continuum_wired` now calls `kuramoto_wired_to_complete`
+(ContinuumSolvedComplete) instead of `kuramoto_continuum_real` (ContinuumSolvedReal).
+This wires ContinuumSolvedFromODE into ContinuumSolvedComplete: body persistence
+derived internally → h_gronwall_from_persist instantiated with δ → kuramoto_continuum_stability.
+
+Codex review: "h_r_persist, h_gronwall_from_persist, h_combined_vanish effectively
+encode convergence — these are the real hypotheses." Correctly identifies open steps.
+Build: 3501 jobs, 0 errors, 0 sorry.
+
 ## [2026-05-06] experiment | hγ fix + kuramoto_wired_to_complete (exp 237)
 
 - updated: KuramotoLean/ContinuumBodyPersistence.lean (0 < γ ω → 0 ≤ γ ω)
