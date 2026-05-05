@@ -15,18 +15,29 @@ The sorry count is 0, but this is misleading. The real gap is that `LorentzianSo
 
 The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next goal is the **full continuum theorem for general symmetric unimodal analytic g**.
 
-**Strategy**: Direct continuum proof (no passage to limit, 0 axioms).
+**State after debate (2026-05-05)**: The direct continuum proof for bounded γ is complete (0 sorry, 0 axioms). For the standard model (γ=|ω|, unbounded), the problem REMAINS OPEN. See [[continuum-stability-debate]] for the full analysis.
 
-The proof works directly on the continuum OA system:
+**What is proved**:
+1. V∞ antitone (pair bound, ContinuumLyapunov.lean, 0 sorry)
+2. h_approx ↔ V→0 (tautological, ContinuumMainTheorem.lean)
+3. ContinuumRigidity: dV/dt = 0 ⟹ α = α* a.e.
+4. Bounded-γ stability (kuramoto_solved, 0 sorry, 0 axioms)
 
-1. **Self-consistent existence** via Banach FPT (SelfConsistentExistence.lean)
-2. **V∞ antitone** via pair bound + Fubini (ContinuumLyapunov.lean)
-3. **V∞ → 0** via coercive Barbalat (Path A) or scalar convergence (Path B)
-4. **Pair rigidity**: dV/dt = 0 ⟹ α = α* a.e. (ContinuumRigidity.lean)
+**What is NOT proved**: V∞(t) → 0 for unbounded γ.
 
-The passage-to-limit ε/3 argument (PassageToLimit.lean) is retained as a general analysis lemma but is NOT needed for the main theorem.
+**Obstructions identified**:
+- h_approx is tautological (↔ V→0), not a reduction
+- ISS estimate yields absorbing ball only, not convergence
+- L²(g) precompactness fails (√-singularity at |ω|=Kr*)
+- Tail-body split fails (r(t) couples all frequencies)
 
-**Do NOT add more abstract ODE theorems.** The 131 files already prove far more than needed. Fill the existing structure fields.
+**Viable strategies (ranked)**:
+1. Weak-* LaSalle: **partially formalized** (WeakStarLaSalle.lean, 0 sorry). Reduces to single hypothesis h_coercive (quantitative coercivity: P<δ ⟹ V<ε). MVT proves hP_vanish. Gap: promoting qualitative rigidity (P=0⟹V=0) to quantitative.
+2. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
+3. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
+4. Hyperbolic Poincaré disk: Möbius structure + conformal factor alignment. Speculative.
+
+**Do NOT add more abstract ODE theorems.** The 134 files already prove far more than needed. Attack the open strategies above.
 
 ## The open problem
 

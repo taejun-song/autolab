@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-05] experiment | WeakStarLaSalle: abstract LaSalle reduces open problem to h_coercive (exp 208)
+
+- created: KuramotoLean/WeakStarLaSalle.lean (0 sorry, 0 axioms, 134 files total, 3487 jobs)
+- updated: syntheses/continuum-stability-debate.md (Strategy A section updated with formalization status)
+- index.md: regenerated
+- New theorems: lasalle_convergence (abstract V→0), deriv_vanishes_on_subsequence (MVT), dissipation_vanishes_of_deriv (V'=-KP → P→0 subseq), linear_coercivity, ContinuumLaSalleData.convergence, ContinuumLaSalleData.r_convergence
+- Reduces open problem (V→0 for unbounded γ) to single hypothesis h_coercive: ∀ε>0, ∃δ>0, ∀t, P(t)<δ → V(t)<ε
+- MVT proves hP_vanish (dissipation vanishes on subsequence): V→L + differentiable → V'(c_n)→0
+- Gap: qualitative rigidity (P=0⟹V=0, proved) vs quantitative (P<δ⟹V<ε, open for unbounded γ)
+
 ## [2026-05-05] experiment | absorbing Barbalat theorem for standard continuum model (exp 207)
 
 - created: KuramotoLean/ContinuumBodyPersistence.lean (0 sorry, 0 axioms)

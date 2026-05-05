@@ -1,10 +1,11 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (exp 206: kuramoto_standard_model — fixes three fundamental issues)_
+_Last regenerated: 2026-05-05 (WeakStarLaSalle: abstract LaSalle reduces open problem to h_coercive)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 133 files, 0 sorry, 0 axioms. New: `kuramoto_standard_model` resolves bounded-γ, uniform-persistence, and c_min issues.
+- [[continuum-stability-debate]] — Updated: LaSalle formalized in Lean (WeakStarLaSalle.lean, 0 sorry). Open problem reduced to single hypothesis h_coercive (quantitative coercivity).
+- [[lean-proof-status]] — Machine-checked proof status: 134 files, 0 sorry, 0 axioms. New: `WeakStarLaSalle` + `kuramoto_standard_model`.
 - [[h-approx-equivalence]] — h_approx ↔ V→0 equivalence proved in Lean. The tail-body hypothesis is exactly L² Lyapunov convergence.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
@@ -61,7 +62,8 @@ _(none yet)_
 
 - [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 132 files. h_approx ↔ V→0 equivalence proved. 3480 build jobs.
 - [[h-approx-equivalence]] — h_approx ↔ V→0: the tail-body hypothesis is equivalent to L² convergence. Proved in Lean.
-- [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow. h_approx→r→r* proved; discharge of h_approx requires ISS coupling estimate (conditional).
+- [[continuum-stability-debate]] — Final debate synthesis: standard continuum model remains open; 5 obstructions identified, 4 viable strategies ranked.
+- [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow. h_approx↔V→0 (tautological); real gap is proving V→0 via LaSalle+precompactness.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
