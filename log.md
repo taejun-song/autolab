@@ -4644,3 +4644,11 @@ Major restructuring of MainTheorem.lean and companion files:
 - updated: KuramotoLean.lean (+2 imports)
 - index.md: regenerated
 - **Sorry count**: 0, **Axiom count**: 1 (rational_approximation_rate), **Files**: 121, **Build jobs**: 3473
+
+## [2026-05-06] experiment | kuramoto_continuum: minimal-hypothesis continuum theorem (exp 251)
+
+- created: `kuramoto_continuum` in GeneralGMainTheorem.lean — MINIMAL continuum theorem resolving all 3 reviewer problems with `kuramoto_solved`. No uniform persistence, no bounded γ, no c_min. Only needs body L² drop per M. Proof via order parameter splitting + integral_add_compl + set-integral Cauchy-Schwarz + tail vanishing from probability measure.
+- created: `kuramoto_continuum_of_global_gronwall` in GeneralGMainTheorem.lean — shows `kuramoto_solved` is a special case (bounded γ → global Gronwall → body drop for all M)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+- **Sorry count**: 0, **Axiom count**: 0, **Build jobs**: 3501
