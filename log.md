@@ -1,5 +1,21 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumSolvedWired — hγ_pos domain fix + Codex-verified (exp 241)
+
+- updated: KuramotoLean/ContinuumSolvedWired.lean (hγ → hγ_pos + derived hγ in proof body)
+- index.md: not regenerated (no wiki page changes)
+
+Codex review (round 1): "hα_star_lt : ∀ ω, α_star ω < 1 fails at ω=0 where α*(0)=1; measure-zero
+WLOG only justifies ae, not universal quantification."
+
+Fix: replaced `hγ : ∀ ω, 0 ≤ γ ω` with `hγ_pos : ∀ ω, 0 < γ ω`, explicitly encoding Ω = ℝ\{0}.
+Derive `hγ` from `hγ_pos` inside the proof via `le_of_lt`. All downstream calls unchanged.
+
+Codex review (round 2): "Honest for the standard model after restricting to Ω = ℝ\{0} when γ=|ω|,
+which is measure-theoretically harmless if μ({0})=0. Remaining external hypotheses
+h_gronwall_from_persist and h_combined_vanish are substantive open assumptions."
+→ Domain issue resolved. Remaining assumptions are acknowledged open mathematical gaps.
+
 ## [2026-05-06] experiment | ContinuumSolvedWired — single inline theorem, both wiring issues fixed (exp 240)
 
 - updated: KuramotoLean/ContinuumSolvedWired.lean (rewritten: single theorem with inline proof)
