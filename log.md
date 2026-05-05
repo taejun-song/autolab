@@ -1,5 +1,21 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_solved_continuum_tailbody: clean standard model theorem (exp 225)
+
+- created: KuramotoLean/KuramotoSolvedContinuumClean.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 strategy row)
+- index.md: regenerated
+- log.md: appended
+- Three clean theorems for the ACTUAL standard continuum Kuramoto model:
+  1. `kuramoto_solved_continuum_tailbody`: ISS vanishing with C_fn absorbing radius
+  2. `kuramoto_solved_continuum_gronwall`: explicit Gronwall → ISS derivation
+  3. `kuramoto_solved_continuum_simple`: C(M) = μ(tail) direct formulation
+- All resolve the three reviewer objections: no bounded γ, no uniform persistence, no c_min
+- Proof delegates to `tail_body_iss_convergence` (ContinuumTailBodyConvergence.lean)
+- Applicable to: Gaussian, Student-t ν>2, compact support. NOT Lorentzian.
+- Key hypothesis: C(M) + μ({γ>M}) → 0 (combined vanishing condition)
+- Build: 0 sorry, 0 axioms, 2691 jobs.
+
 ## [2026-05-05] experiment | Body LaSalle gap analysis: Leibniz proved, V_body sign is real gap (exp 224)
 
 - created: KuramotoLean/BodyLaSalleBridge.lean (0 sorry, documentation)
