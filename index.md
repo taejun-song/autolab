@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (ContinuumTailBodyConvergence: corrected ISS with general absorbing radius, exp 213)_
+_Last regenerated: 2026-05-05 (BarbalatLeibnizBridge: V→0 from FTC for finite first moment, exp 214)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — BarbalatLeibnizBridge.lean (0 sorry): V→0 proved for g with finite first moment (∫|ω|g < ∞). Extends bounded-γ theorem to Gaussian/compact support.
 - [[continuum-stability-debate]] — ContinuumTailBodyConvergence.lean (0 sorry): corrected ISS convergence with general absorbing radius C(M). Fixes unsatisfiable C ≤ μ(tail) in prior theorems.
 - [[lean-proof-status]] — Machine-checked proof status: 145 files, 0 sorry, 0 axioms. New: `tail_body_iss_convergence`.
 - [[h-approx-equivalence]] — h_approx ↔ V→0 equivalence proved in Lean. The tail-body hypothesis is exactly L² Lyapunov convergence.

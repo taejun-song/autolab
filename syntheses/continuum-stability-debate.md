@@ -131,6 +131,14 @@ Why weaker than h_coercive: pointwise coercivity ($P(t) < \delta \Rightarrow V(t
 
 Proved in `AbsorbingBarbalat.lean`: pointwise coercivity ⟹ time-averaged coercivity (so this is strictly weaker).
 
+**Strategy A''' (NEW): Barbalat-Leibniz Bridge — finite first moment (`BarbalatLeibnizBridge.lean`, 0 sorry)**
+
+For g with $\int|\omega|g(\omega)\,d\omega < \infty$ (Gaussian, compactly supported, Student-$t$ with $\nu > 2$):
+- Leibniz/DCT holds: $V(t)-V(t+1) = K\int_t^{t+1} P(s)\,ds$ (dominator $2(|\omega|+K) \in L^1(g)$)
+- Combined with body coercivity + uniform tail bound → $V \to 0$
+- **STATUS: PROVED** for all g with finite first moment. Only Lorentzian ($\int|\omega|g = \infty$) remains.
+- For Lorentzian: monotone convergence ($M' \to \infty$ on body Leibniz) is the LAST gap.
+
 **Strategy A'' (NEW): Tail-Body Barbalat — uniform tail bound (`TailBodyBarbalat.lean`, 0 sorry)**
 
 Reduces the open problem to a SINGLE hypothesis that is WEAKER than both h_coercive and TimeAveragedCoercivity:

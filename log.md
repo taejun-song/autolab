@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-05] experiment | BarbalatLeibnizBridge: V→0 from FTC identity for finite first moment (exp 214)
+
+- created: KuramotoLean/BarbalatLeibnizBridge.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+finite first moment theorem, hierarchy update)
+- index.md: regenerated
+- New theorems: LeibnizCoercivityData.convergence, IntegralFiniteData.convergence, avg_P_tendsto_zero, IntegralFiniteData.toLeibnizReduction
+- Proves: for g with ∫|ω|g < ∞ (Gaussian, compact support), Leibniz/DCT gives FTC identity, which combined with body coercivity + uniform tail bound gives V→0
+- Three structures: LeibnizCoercivityData (full chain), IntegralFiniteData (direct contradiction), toLeibnizReduction (bridge to TailBodyBarbalat)
+- Status: extends bounded-γ theorem to finite-first-moment distributions. Lorentzian (∫|ω|g = ∞) still needs monotone convergence argument.
+
 ## [2026-05-05] experiment | ContinuumTailBodyConvergence: corrected ISS with general absorbing radius (exp 213)
 
 - created: KuramotoLean/ContinuumTailBodyConvergence.lean (0 sorry, 0 axioms)
