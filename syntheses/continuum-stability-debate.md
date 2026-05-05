@@ -4,7 +4,7 @@ title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-06
 status: partially-resolved
-experiment: 251
+experiment: 252
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -63,6 +63,8 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 > **`kuramoto_continuum`** (`GeneralGMainTheorem.lean`, exp 251): MINIMAL-HYPOTHESIS continuum theorem. Takes ONLY: measurability of γ-level sets, equilibrium data, ODE invariance α∈(0,1), self-consistency, integrability, and body L² drop per M. NO unused hypotheses (unlike `kuramoto_standard_continuum_solved` which carries unused `_hK`, `_hγ`, `_h_body_persist`, `_hα_star_equil`). Also `kuramoto_continuum_of_global_gronwall`: bounded-γ → global Gronwall → body drop → r→r* (showing `kuramoto_solved` is a special case). Proof: tail vanishing from probability measure + body drop + integral_add_compl + set-integral Cauchy-Schwarz. 0 sorry, 0 axioms.
 >
 > **`kuramoto_standard_continuum_solved`** (`GeneralGMainTheorem.lean`, exp 250): ORDER PARAMETER SPLITTING theorem for standard continuum model. Takes body persistence per M + body L² drop per M. Proof uses ORDER PARAMETER split (not Lyapunov split): r-r* = ∫_body(α-α*) + ∫_tail(α-α*), with new `sq_setIntegral_le` (set-integral Cauchy-Schwarz: (∫_S f)² ≤ ∫_S f² for probability measure) for body, measure bound for tail. Also: `body_exp_decay_to_body_drop` (bridge from Gronwall to Tendsto) and `kuramoto_continuum_from_body_gronwall` (full chain: body persistence + body exp decay → r → r*). Comprehensive docstring explicitly addressing all three reviewer problems. No bounded γ, no uniform persistence, no c_min. 0 sorry, 0 axioms.
+
+> **`kuramoto_ode_standard_continuum`** (`GeneralGMainTheorem.lean`, exp 252): ODE-BASED continuum theorem. Takes explicit OA scalar Riccati ODE data (`HasDerivAt (α ω) (oaScalarRHS (γ ω) K r t (α ω t)) t`) + body exponential decay per M. Resolves all three reviewer problems: no bounded γ, no uniform persistence, no c_min. Derives body L² drop from exponential decay via `body_exp_decay_to_body_drop`, then calls `kuramoto_continuum` for tail-body split. Documents derivability of body exponential decay from bounded-γ stability on each body {γ ≤ M}. 0 sorry, 0 axioms.
 
 The remaining structural hypotheses (V antitone, body drop) are derivable from the ODE pair bound and body Leibniz respectively. These are proved in other files; what remains open is instantiating the body drop for Lorentzian specifically (where body coercivity rate decays as 1/M while tail mass also decays as 1/M).
 

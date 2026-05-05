@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_ode_standard_continuum (exp 252)
+
+- created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_ode_standard_continuum` (+66 lines, 0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+ODE-based continuum theorem for standard Kuramoto model. Takes explicit OA scalar Riccati ODE data (HasDerivAt with oaScalarRHS) + body exponential decay per truncation M. Resolves all three reviewer problems (uniform persistence, bounded γ, c_min). Derives body L² drop from exponential decay, calls kuramoto_continuum for tail-body split. Coverage: ALL g ∈ L¹(R).
+
 ## [2026-05-06] experiment | kuramoto_standard_continuum_solved (exp 250)
 
 - created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_standard_continuum_solved` (+220 lines, 0 sorry, 0 axioms)
