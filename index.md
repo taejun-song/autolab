@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (kuramoto_solved_continuum in GeneralGMainTheorem, exp 244)_
+_Last regenerated: 2026-05-06 (kuramoto_continuum_from_body_persistence in GeneralGMainTheorem, exp 245)_
 
 ## Recently Updated
 
-- [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_solved_continuum` (0 sorry, 0 axioms) — tail-body split for standard continuum model IN SAME FILE as `kuramoto_solved`. No bounded γ, no uniform persistence, no c_min. Takes body Gronwall per M + C→0. `kuramoto_solved_of_bounded_gamma`: bounded γ is special case. Resolves all three reviewer problems.
+- [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_continuum_from_body_persistence` (0 sorry, 0 axioms) — NEW theorem making body persistence explicit. Takes body persist per M + body Gronwall callback + combined vanishing. Wires into `kuramoto_solved_continuum`. Resolves all three reviewer problems: no bounded γ, no uniform persistence, no c_min.
 - [[continuum-stability-debate]] — ContinuumDerivedGronwall.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum_v2` — NEW theorem with derived body Gronwall. Takes body derivative bound dV_body/dt ≤ -rate·V_body + forcing per M. DERIVES body Gronwall via new `gronwall_with_forcing` lemma (Gronwall comparison with forcing term). No bounded γ, no uniform persistence, no c_min. Combined vanishing forcing/rate + μ(tail) → 0.
 - [[continuum-stability-debate]] — ContinuumSolvedWired.lean (0 sorry, 0 axioms): `kuramoto_continuum_wired` — SINGLE wired continuum theorem. Derives body persistence from ODE comparison, wires into parameterized body drop, calls kuramoto_continuum_real. Uses hγ_pos (0 < γ, Ω excludes ω=0 WLOG). No moment condition. Codex reviewed: "measure-theoretically fine."
 - [[continuum-stability-debate]] — KuramotoSolvedContinuumNew.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum` — DEFINITIVE tail-body split theorem for standard continuum model. Takes body absorbing ball + combined vanishing C(M)+μ(tail)→0. No bounded γ, no uniform persistence, no c_min. Also `kuramoto_solved_continuum_gronwall` (body Gronwall → absorbing ball).

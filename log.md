@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_continuum_from_body_persistence (exp 245)
+
+- updated: KuramotoLean/GeneralGMainTheorem.lean (+55 lines, 0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+`kuramoto_continuum_from_body_persistence` added to GeneralGMainTheorem.lean.
+Makes body persistence explicit: takes `h_body_persist` (∀ M > 0, ∃ δ > 0 on body)
++ callback `h_body_gronwall_from_persist` (given δ, produce body Gronwall).
+Wires body persistence into body Gronwall, lifts absorbing radius C(M) to C(M)+μ(tail),
+calls `kuramoto_solved_continuum` internally. Resolves all three reviewer problems:
+body persistence ≠ uniform (P1), γ ≤ M on body (P2), rate from coercivity (P3).
+
 ## [2026-05-06] experiment | kuramoto_solved_continuum in GeneralGMainTheorem (exp 244)
 
 - updated: KuramotoLean/GeneralGMainTheorem.lean (+261 lines, 0 sorry, 0 axioms)
