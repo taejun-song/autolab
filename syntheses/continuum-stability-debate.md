@@ -4,7 +4,7 @@ title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-06
 status: partially-resolved
-experiment: 242
+experiment: 243
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -45,6 +45,8 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 > **`kuramoto_solved_continuum_v2`** (`ContinuumDerivedGronwall.lean`): NEW theorem with Gronwall-with-forcing. Takes body derivative bound dV_body/dt ≤ -rate(M)·V_body + forcing(M) per M + combined vanishing forcing/rate + μ(tail) → 0. DERIVES body Gronwall V_body ≤ V₀·exp(-rate·t) + C(M) via new `gronwall_with_forcing` lemma. No bounded γ, no uniform persistence, no c_min. Also proves `body_gronwall_from_deriv` (Gronwall-with-forcing bridge). 0 sorry, 0 axioms.
 
 > **`kuramoto_continuum_tail_body`** (`ContinuumSolvedTailBody.lean`): Definitive tail-body theorem. Takes body absorbing ball per M + C(M) → 0 (absorbing radius vanishes). DERIVES tail vanishing μ({γ>M})→0 from probability measure (no moment condition). DERIVES combined vanishing from C→0 + tail→0 via `Tendsto.add`. Three forms: (1) `kuramoto_continuum_tail_body` — direct, takes r/α; (2) `kuramoto_continuum_from_gronwall` — body Gronwall → absorbing ball; (3) `kuramoto_solved_continuum_standard` — end-to-end existential parallel to `kuramoto_solved`. All 0 sorry, 0 axioms.
+>
+> **`kuramoto_solved_continuum`** (`ContinuumDefinitive.lean`): CLEAN definitive continuum theorem. Takes body Gronwall per M (∃ rate > 0, V_body ≤ V₀·exp(-rate·t) + C(M)) with C → 0. DERIVES tail vanishing from probability measure, DERIVES body absorbing ball from Gronwall, DERIVES combined vanishing, applies ε/2 argument with `integral_add_compl`. Also `kuramoto_solved_continuum_exists` (existential wrapper) and `kuramoto_solved_of_bounded` (subsumption: bounded γ + global Gronwall → body Gronwall with C = μ(tail)). Resolves all three reviewer problems. 0 sorry, 0 axioms.
 
 The remaining structural hypotheses (V antitone, body drop) are derivable from the ODE pair bound and body Leibniz respectively. These are proved in other files; what remains open is instantiating the body drop for Lorentzian specifically (where body coercivity rate decays as 1/M while tail mass also decays as 1/M).
 

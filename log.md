@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumDefinitive — kuramoto_solved_continuum (exp 243)
+
+- created: KuramotoLean/ContinuumDefinitive.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+`kuramoto_solved_continuum`: definitive clean theorem for standard continuum model.
+Takes body Gronwall per M (∃ rate>0, V_body ≤ V₀·exp(-rate·t) + C(M)) with C→0.
+DERIVES: tail vanishing from probability measure, body absorbing ball from Gronwall,
+combined vanishing, ε/2 argument with explicit integral_add_compl split.
+Also `kuramoto_solved_of_bounded`: subsumption corollary showing bounded-γ + global
+Gronwall implies body Gronwall with C(M) = μ({γ>M}). 0 sorry, 0 axioms.
+
 ## [2026-05-06] experiment | ContinuumSolvedTailBody — definitive tail-body theorem (exp 242)
 
 - created: KuramotoLean/ContinuumSolvedTailBody.lean (0 sorry, 0 axioms)
