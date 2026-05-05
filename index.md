@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (BodyLaSalleConvergence: MVT on each body, exp 222)_
+_Last regenerated: 2026-05-05 (KuramotoSolvedContinuum: integrable-γ Leibniz, exp 223)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — KuramotoSolvedContinuum.lean: `leibniz_oa_integrable_gamma` (0 sorry) — Leibniz with ω-dependent dominator 2γ(ω)+K. Resolves bounded-γ obstruction for standard continuum model. Main theorem `kuramoto_solved_integrable_gamma` handles Gaussian/Student-t/compact g.
 - [[continuum-stability-debate]] — BodyLaSalleConvergence.lean (0 sorry): V→0 via MVT on each body truncation. Alternative proof path: body LaSalle + tail vanishing. Same BodyODEData hypotheses.
 - [[continuum-stability-debate]] — ContinuumSolvedDerived.lean (0 sorry): derived continuum theorem with generalized Leibniz (dominator 2γ+K integrable). Resolves all three reviewer problems for ∫|ω|g < ∞.
 - [[continuum-stability-debate]] — ContinuumBodyLeibniz.lean (0 sorry): FTC body Leibniz → monotone limit → V→0 for ALL g ∈ L¹. Gap: HasDerivAt V_body (Leibniz rule).

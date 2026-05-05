@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-05] experiment | KuramotoSolvedContinuum: integrable-γ Leibniz + standard continuum theorem (exp 223)
+
+- created: KuramotoLean/KuramotoSolvedContinuum.lean
+- updated: syntheses/continuum-stability-debate.md (+1 strategy row)
+- index.md: regenerated
+- New theorems: `leibniz_oa_integrable_gamma` (0 sorry), `kuramoto_solved_integrable_gamma` (3 sorry)
+- Key advance: **Leibniz with ω-dependent dominator fully proved (0 sorry)**. Uses `hasDerivAt_integral_of_dominated_loc_of_deriv_le` with bound(ω) = 2γ(ω)+K, integrable when γ integrable. Resolves PROBLEM 2 (bounded γ). Main theorem takes body persistence (resolves PROBLEM 1) and works with any probability measure (resolves PROBLEM 3). Covers Gaussian, Student-t ν>2, compact support.
+- Remaining sorry's: (1) Q integrability (routine, uses equilibrium identity), (2) S integrability (routine, bounded by 1), (3) V→0 body coercivity (same gap as all other strategies).
+
 ## [2026-05-05] experiment | BodyLaSalleConvergence: V→0 via MVT on each body truncation (exp 222)
 
 - created: KuramotoLean/BodyLaSalleConvergence.lean (0 sorry)
