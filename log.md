@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-05] experiment | h_approx ↔ V→0 equivalence proved, debate analysis (exp 205)
+
+- created: syntheses/h-approx-equivalence.md
+- updated: KuramotoLean/ContinuumMainTheorem.lean (+v_tendsto_zero_implies_h_approx, +h_approx_implies_v_tendsto_zero)
+- updated: syntheses/lean-proof-status.md (+equivalence reference)
+- index.md: regenerated
+- LEAN: 132 files, 0 sorry, 0 axioms. Proved h_approx ↔ V→0 in Lean. Analysis: h_approx correctly resolves reviewer concerns (unsatisfiable hypotheses) but is equivalent to assuming V→0, which is the actual hard content. The theorem kuramoto_solved_continuum = "V→0 implies r→r*" (Cauchy-Schwarz). For bounded γ, V→0 is DERIVED (kuramoto_solved). For unbounded γ, V→0 remains sketch-level.
+
 ## [2026-05-05] experiment | kuramoto_solved_continuum — unbounded frequencies, no persistence (exp 204)
 
 - updated: KuramotoLean/ContinuumMainTheorem.lean (rewritten: kuramoto_solved_continuum + kuramoto_continuum_physical)

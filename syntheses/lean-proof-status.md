@@ -94,6 +94,12 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 4. V_body → 0 (bounded γ on S → Leibniz + persistence + coercive rate)
 5. |r-r*|² ≤ V → 0
 
+**Equivalence (exp 205)**: h_approx ↔ V→0 is now proved in Lean:
+- `v_tendsto_zero_implies_h_approx`: V→0 ⟹ h_approx (take S = Ω)
+- `h_approx_implies_v_tendsto_zero`: h_approx ⟹ V→0 (ε-δ + |α-α*|² ≤ 1)
+
+See [[h-approx-equivalence]] for full analysis.
+
 ## Project-Wide Status
 
 | Metric | Value |

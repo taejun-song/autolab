@@ -1,10 +1,11 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (exp 204: kuramoto_solved_continuum — tail-body split for unbounded frequencies, 132 files, 0 sorry, 0 axioms)_
+_Last regenerated: 2026-05-05 (exp 205: h_approx ↔ V→0 equivalence proved, 132 files, 0 sorry, 0 axioms)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 132 files, 0 sorry, 0 axioms. New: kuramoto_solved_continuum handles unbounded frequencies via tail-body split. 3481 build jobs.
+- [[h-approx-equivalence]] — h_approx ↔ V→0 equivalence proved in Lean. The tail-body hypothesis is exactly L² Lyapunov convergence.
+- [[lean-proof-status]] — Machine-checked proof status: 132 files, 0 sorry, 0 axioms. h_approx ↔ V→0 equivalence proved. 3480 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
@@ -58,7 +59,8 @@ _(none yet)_
 
 ## Syntheses
 
-- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 131 files. Last axiom eliminated via direct continuum proof. 3480 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 132 files. h_approx ↔ V→0 equivalence proved. 3480 build jobs.
+- [[h-approx-equivalence]] — h_approx ↔ V→0: the tail-body hypothesis is equivalent to L² convergence. Proved in Lean.
 - [[continuum-l2-lyapunov]] — V∞ = ∫g|α-α*|²dω is a Lyapunov function for the continuum OA flow, proved via algebraic pair bound transfer to Lebesgue integrals.
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.
