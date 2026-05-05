@@ -4,7 +4,7 @@ title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-06
 status: partially-resolved
-experiment: 245
+experiment: 246
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -51,6 +51,8 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 > **`kuramoto_solved_continuum`** (`ContinuumDefinitive.lean`): CLEAN definitive continuum theorem. Takes body Gronwall per M (∃ rate > 0, V_body ≤ V₀·exp(-rate·t) + C(M)) with C → 0. DERIVES tail vanishing from probability measure, DERIVES body absorbing ball from Gronwall, DERIVES combined vanishing, applies ε/2 argument with `integral_add_compl`. Also `kuramoto_solved_continuum_exists` (existential wrapper) and `kuramoto_solved_of_bounded` (subsumption: bounded γ + global Gronwall → body Gronwall with C = μ(tail)). Resolves all three reviewer problems. 0 sorry, 0 axioms.
 >
 > **`kuramoto_continuum_from_body_persistence`** (`GeneralGMainTheorem.lean`): NEW theorem making body persistence explicit. Takes `h_body_persist` (∀ M > 0, ∃ δ > 0 on {γ ≤ M}) + `h_body_gronwall_from_persist` (callback: given δ, produce body Gronwall with absorbing radius C(M)). WIRES body persistence into body Gronwall, LIFTS absorbing radius from C(M) to C(M)+μ(tail), DERIVES combined vanishing from `h_combined_vanish`. Calls `kuramoto_solved_continuum` internally. Makes the three reviewer problems explicit: body persistence ≠ uniform persistence (Problem 1), γ ≤ M on body (Problem 2), rate from body coercivity (Problem 3). 0 sorry, 0 axioms.
+>
+> **`kuramoto_standard_model`** (`GeneralGMainTheorem.lean`): DEFINITIVE standard continuum theorem. Takes body derivative ISS bound dV_body/dt ≤ -rate(M)·V_body + forcing(M) per M. DERIVES body Gronwall internally via new `gronwall_with_forcing_decay` lemma (comparison principle with forcing term → V ≤ V₀·exp(-λt) + c/λ). DERIVES tail vanishing from probability measure (no moment condition). Combines via `kuramoto_solved_continuum`. The ISS bound is the NATURAL formulation: body Leibniz (γ ≤ M bounded) + body pair coercivity (persistence δ(M)) → rate = K·δ(M)·ds(M), body-tail coupling → forcing = K·μ(tail). Combined vanishing forcing/rate + μ(tail) → 0. No bounded γ, no uniform persistence, no c_min. 0 sorry, 0 axioms.
 
 The remaining structural hypotheses (V antitone, body drop) are derivable from the ODE pair bound and body Leibniz respectively. These are proved in other files; what remains open is instantiating the body drop for Lorentzian specifically (where body coercivity rate decays as 1/M while tail mass also decays as 1/M).
 

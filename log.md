@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_standard_model (exp 246)
+
+- updated: KuramotoLean/GeneralGMainTheorem.lean (+127 lines, 0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+`kuramoto_standard_model` and `gronwall_with_forcing_decay` added to GeneralGMainTheorem.lean.
+Definitive standard continuum theorem taking body derivative ISS bound
+dV_body/dt ≤ -rate(M)·V_body + forcing(M) per M. DERIVES body Gronwall
+internally via gronwall_with_forcing_decay (comparison with forcing → V ≤ V₀·exp(-λt) + c/λ).
+DERIVES tail vanishing from probability measure. Combines via kuramoto_solved_continuum.
+Resolves all three reviewer problems: no bounded γ (P2), no uniform persistence (P1),
+no c_min (P3). rate = K·δ(M)·ds(M), forcing = K·μ(tail), C(M) = forcing/rate.
+
 ## [2026-05-06] experiment | kuramoto_continuum_from_body_persistence (exp 245)
 
 - updated: KuramotoLean/GeneralGMainTheorem.lean (+55 lines, 0 sorry, 0 axioms)
