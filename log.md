@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_solved_continuum in GeneralGMainTheorem (exp 244)
+
+- updated: KuramotoLean/GeneralGMainTheorem.lean (+261 lines, 0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+`kuramoto_solved_continuum` added to GeneralGMainTheorem.lean (same file as `kuramoto_solved`).
+Tail-body split: no bounded γ, no uniform persistence, no c_min.
+Takes body Gronwall per M with C(M)→0. Derives tail vanishing from probability measure.
+`kuramoto_solved_of_bounded_gamma`: shows bounded-γ case is a special case.
+Resolves all three reviewer problems (uniform persistence, bounded γ, c_min).
+
 ## [2026-05-06] experiment | ContinuumDefinitive — kuramoto_solved_continuum (exp 243)
 
 - created: KuramotoLean/ContinuumDefinitive.lean (0 sorry, 0 axioms)

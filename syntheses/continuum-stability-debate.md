@@ -37,6 +37,8 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 > **`kuramoto_solved_continuum`** (`KuramotoSolvedContinuum.lean`): For $g \in L^1(\mathbb{R})$ with $\int \gamma\, d\mu < \infty$ (Gaussian, Student-t $\nu > 2$, compact support), with body persistence $\forall M > 0,\ \exists \delta_M > 0$ on $\{\gamma \leq M\}$, and measurable sublevel sets: $r(t) \to r^*$. NO bounded $\gamma$, NO uniform persistence, NO $c_{\min}$.
 
 > **`kuramoto_solved`** (`GeneralGMainTheorem.lean`): For bounded $\gamma \leq \gamma_{\max}$ with uniform persistence $\delta > 0$: $V(t) \to 0$ and $r(t) \to r^*$. Subsumed by `kuramoto_solved_continuum`.
+>
+> **`kuramoto_solved_continuum`** (`GeneralGMainTheorem.lean`): Tail-body split theorem IN THE SAME FILE as `kuramoto_solved`. No bounded γ, no uniform persistence, no c_min. Takes body Gronwall per M with C(M) → 0. DERIVES tail vanishing from probability measure. Also `kuramoto_solved_of_bounded_gamma` showing `kuramoto_solved` is a special case. 0 sorry, 0 axioms.
 
 > **`kuramoto_continuum_real`** (`ContinuumSolvedReal.lean`): For ALL $g \in L^1(\mathbb{R})$ (including Lorentzian) with V antitone and body drop: $r(t) \to r^*$. NO `hγ_int` (no moment condition), NO bounded $\gamma$, NO uniform persistence, NO $c_{\min}$. Tail vanishing derived from probability measure (continuity of measure from above). Strictly generalizes `kuramoto_solved_continuum`.
 
