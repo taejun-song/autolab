@@ -88,6 +88,7 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |
 | **ISS general C(M) (NEW)** | **0 sorry** | `ContinuumTailBodyConvergence.lean` | $C(M) + \mu(\text{tail}) \to 0$ (correct, satisfiable for fast-decaying $g$) |
 | **General Continuum (DEFINITIVE)** | **0 sorry** | `ContinuumSolvedGeneral.lean` | Body Gronwall + combined vanishing (satisfiable for Gaussian, Student-t, compact) |
+| **Integrable Dissipation LaSalle (NEW)** | **0 sorry** | `IntegrableDissipationLaSalle.lean` | Rate bound $-V' \geq Kc V_{\text{body}}$ (provable from pair coercivity for integrable $\gamma$) |
 
 **`kuramoto_general_continuum`** (`ContinuumSolvedGeneral.lean`): The definitive continuum theorem resolving all three reviewer problems. Takes: body Gronwall absorbing bound V_body ≤ V(0)·e^{-rate·t} + C(M), combined vanishing C(M) + μ(tail) → 0. Does NOT assume bounded γ, uniform persistence, or minimum weight. Proof: applies `tail_body_iss_convergence` with body Gronwall → absorbing ball. Corollaries: bounded-γ is strict special case (C=0); fast-decaying g (Gaussian, Student-t ν>2, compact support) satisfies combined vanishing. Lorentzian excluded (C(M) ~ const).
 

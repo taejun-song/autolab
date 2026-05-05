@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-05] experiment | IntegrableDissipationLaSalle: weak-* LaSalle via rate bound (exp 221)
+
+- created: KuramotoLean/IntegrableDissipationLaSalle.lean (0 sorry)
+- updated: syntheses/continuum-stability-debate.md (+1 strategy row)
+- index.md: regenerated
+- New theorems: RateDropData.convergence, PointwiseRateData.convergence, body_vanishes_subsequence
+- Key advance: Formalizes the weak-* LaSalle argument for integrable-γ case. Chain: rate bound (-V' ≥ Kc·V_body) + FTC + V antitone + tail vanishing → V → 0. Connects to WeakStarLaSalle.deriv_vanishes_on_subsequence for subsequential body vanishing.
+- Analysis: For Lorentzian (∫|ω|g = ∞), V differentiability is the SINGLE remaining obstruction. Body Leibniz (proved in BodyLeibnizProof.lean) handles each truncation but the cross-term from tail coupling prevents body drops being uniformly nonneg.
+
 ## [2026-05-05] experiment | ContinuumSolvedDerived: derived continuum theorem with integrable-γ Leibniz (exp 220)
 
 - created: KuramotoLean/ContinuumSolvedDerived.lean (0 sorry, 0 axioms)
