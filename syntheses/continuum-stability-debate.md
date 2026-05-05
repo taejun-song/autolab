@@ -73,12 +73,21 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 
 ## 4. Proof strategies: assessment
 
+### Formalized but with hypothesis gap
+
+| Strategy | Status | File | Gap |
+|---|---|---|---|
+| ISS tail-body split | **0 sorry** | `ContinuumSolvedStandard.lean` | `h_iss` (absorbing ball) assumed |
+| h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |
+
+The ISS theorem (`kuramoto_solved_iss`) correctly handles unbounded $\gamma$, no global persistence, no $c_{\min}$. It reduces the problem to: for each $M > 0$, the body $V_{\{γ≤M\}}$ eventually enters an absorbing ball of radius $\mu(\{γ>M\}) + \varepsilon$. This absorbing-ball property follows from: $dV_{\text{body}}/dt \leq -\lambda V_{\text{body}} + K\mu(\text{tail})$ (body persistence + pair bound + tail coupling error). The remaining gap: deriving the ISS hypothesis from the ODE dynamics.
+
 ### Ruled out
 
 | Strategy | Why it fails |
 |---|---|
-| Naive tail-body split | $r(t)$ couples body and tail; restricted dynamics not autonomous |
-| ISS estimate | Absorbing ball only; limit interchange unjustified |
+| Naive tail-body split (decoupled) | $r(t)$ couples body and tail; restricted dynamics not autonomous |
+| ISS → convergence directly | Absorbing ball only gives $V \leq \mu(\text{tail})$, not $V \to 0$; but choosing $M \to \infty$ works |
 | $L^2(g)$ LaSalle via equicontinuity | $\partial_\omega \alpha^*$ singular at lock/drift boundary |
 | h_approx discharge | Tautological — IS the goal, not a path to it |
 

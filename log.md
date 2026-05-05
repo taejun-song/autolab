@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-05-05] experiment | ISS tail-body split for standard continuum Kuramoto (exp 209)
+
+- created: KuramotoLean/ContinuumSolvedStandard.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+ISS formalization status)
+- index.md: regenerated
+- New theorems: kuramoto_solved_iss (main), kuramoto_solved_standard (end-to-end), iss_from_gronwall_bound (structural), tail_vanishes_when_bounded, iss_from_full_convergence
+- Addresses reviewer Problems 1-3: no uniform persistence, no bounded γ, no c_min
+- Key: ISS absorbing-ball hypothesis (h_iss) — for each M, V_body eventually ≤ μ(tail) + ε
+- Proof: Cauchy-Schwarz + integral_add_compl + ε-δ on M → |r-r*| → 0
+- Gap: h_iss hypothesis (the absorbing-ball property) not derived from ODE; needs body persistence + Leibniz + pair bound + Gronwall comparison
+
 ## [2026-05-05] experiment | WeakStarLaSalle: abstract LaSalle reduces open problem to h_coercive (exp 208)
 
 - created: KuramotoLean/WeakStarLaSalle.lean (0 sorry, 0 axioms, 134 files total, 3487 jobs)

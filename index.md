@@ -1,11 +1,11 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (WeakStarLaSalle: abstract LaSalle reduces open problem to h_coercive)_
+_Last regenerated: 2026-05-05 (ISS tail-body split for standard continuum Kuramoto, exp 209)_
 
 ## Recently Updated
 
-- [[continuum-stability-debate]] — Updated: LaSalle formalized in Lean (WeakStarLaSalle.lean, 0 sorry). Open problem reduced to single hypothesis h_coercive (quantitative coercivity).
-- [[lean-proof-status]] — Machine-checked proof status: 134 files, 0 sorry, 0 axioms. New: `WeakStarLaSalle` + `kuramoto_standard_model`.
+- [[continuum-stability-debate]] — ISS tail-body theorem formalized (ContinuumSolvedStandard.lean, 0 sorry). Addresses reviewer Problems 1-3 for standard model.
+- [[lean-proof-status]] — Machine-checked proof status: 135 files, 0 sorry, 0 axioms. New: `kuramoto_solved_iss` + `kuramoto_solved_standard`.
 - [[h-approx-equivalence]] — h_approx ↔ V→0 equivalence proved in Lean. The tail-body hypothesis is exactly L² Lyapunov convergence.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
