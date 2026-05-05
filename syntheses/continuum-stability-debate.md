@@ -4,7 +4,7 @@ title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-06
 status: partially-resolved
-experiment: 247
+experiment: 248
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -55,6 +55,8 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 > **`kuramoto_standard_model`** (`GeneralGMainTheorem.lean`): Takes body derivative ISS bound dV_body/dt ≤ -rate(M)·V_body + forcing(M) per M. DERIVES body Gronwall internally via `gronwall_with_forcing_decay`. Combined vanishing forcing/rate + μ(tail) → 0. 0 sorry, 0 axioms.
 >
 > **`kuramoto_continuum_standard`** (`GeneralGMainTheorem.lean`, exp 247): THE DEFINITIVE theorem for the standard continuum model. Takes body absorbing ball DIRECTLY (most general form — applies to any convergence mechanism: Gronwall, LaSalle, Barbalat). Proof via order parameter splitting: (r-r*)² ≤ V = V_body + V_tail, V_body < C(M)+ε (absorbing ball), V_tail ≤ μ(tail) (probability measure). Combined vanishing C(M)+μ(tail) → 0. Clean theorem hierarchy: `kuramoto_continuum_standard` ← `kuramoto_solved_continuum_from_gronwall` (body Gronwall) ← `kuramoto_continuum_from_iss` (ISS derivative). No bounded γ, no uniform persistence, no c_min. 0 sorry, 0 axioms.
+
+> **`kuramoto_continuum_from_body_drop`** (`GeneralGMainTheorem.lean`, exp 248): THE CLEANEST continuum theorem. Takes body Lyapunov drop per truncation M in Tendsto form: `∀ M > 0, Tendsto V_body(M,·) atTop (nhds 0)`. Combines with tail vanishing (DERIVED from probability measure, no moment condition). Proof: ε/2 argument — choose M for tail, choose T for body, integral_add_compl splits V, Cauchy-Schwarz closes. Also `body_drop_of_exp_decay` (body Gronwall → body drop) and `kuramoto_continuum_from_body_exp_decay` (body exp decay → body drop → r → r*). Cleanest hypothesis: body drop IS derivable from bounded-γ stability on each body (γ ≤ M → Leibniz, body persistence → pair coercivity → Gronwall → V_body → 0). Coverage: ALL g ∈ L¹(R). 0 sorry, 0 axioms.
 
 The remaining structural hypotheses (V antitone, body drop) are derivable from the ODE pair bound and body Leibniz respectively. These are proved in other files; what remains open is instantiating the body drop for Lorentzian specifically (where body coercivity rate decays as 1/M while tail mass also decays as 1/M).
 

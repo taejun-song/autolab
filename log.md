@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_continuum_from_body_drop (exp 248)
+
+- created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_continuum_from_body_drop`, `body_drop_of_exp_decay`, `kuramoto_continuum_from_body_exp_decay` (+163 lines, 0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+Cleanest standard continuum theorem. Takes body Lyapunov drop per truncation M (Tendsto form) — no absorbing ball radius C(M), no combined vanishing. ε/2 argument: choose M for tail (probability measure), choose T for body (body drop), integral_add_compl splits V. Body drop derivable from bounded-γ stability on each body. Covers ALL g ∈ L¹(R).
+
 ## [2026-05-06] experiment | kuramoto_continuum_standard (exp 247)
 
 - created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_continuum_standard`, `kuramoto_solved_continuum_from_gronwall`, `kuramoto_continuum_from_iss` (+205 lines, 0 sorry, 0 axioms)
