@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-06] correction | fix ContinuumDefinitive name collision (exp 255)
+
+- updated: ContinuumDefinitive.lean: renamed `kuramoto_solved_continuum` → `kuramoto_standard_continuum`
+- updated: ContinuumDefinitive.lean: renamed `kuramoto_solved_continuum_exists` → `kuramoto_standard_continuum_exists`
+- updated: ContinuumDefinitive.lean: renamed `kuramoto_solved_of_bounded` → `kuramoto_standard_of_bounded`
+- updated: syntheses/continuum-stability-debate.md: fixed theorem name references
+- index.md: no change needed
+
+Fixed name collision: `ContinuumDefinitive.lean` declared `kuramoto_solved_continuum` which clashed with same name in `GeneralGMainTheorem.lean` (imported transitively via ContinuumSolvedStandard → StandardContinuumTheorem → ContinuumMainTheorem → GeneralGMainTheorem). Renamed to `kuramoto_standard_continuum`. Now builds: 0 sorry, 0 axioms.
+
 ## [2026-05-06] experiment | kuramoto_solved_real_continuum definitive theorem (exp 254)
 
 - created: GeneralGMainTheorem.lean: `kuramoto_solved_real_continuum` (+148 lines, 0 sorry, 0 axioms)
