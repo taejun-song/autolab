@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (kuramoto_continuum_from_body_drop in GeneralGMainTheorem, exp 248)_
+_Last regenerated: 2026-05-06 (kuramoto_continuum_stability in GeneralGMainTheorem, exp 249)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_continuum_stability` (0 sorry, 0 axioms) — SELF-CONTAINED standard continuum theorem with inline proof. Body L² drop per M only. ε/2 tail-body split: tail DERIVED from probability measure, V = V_body + V_tail via integral_add_compl. Docstring addresses all three reviewer problems. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_continuum_from_body_drop` (0 sorry, 0 axioms) — CLEANEST standard continuum theorem. Takes body Lyapunov drop per M (Tendsto form). Tail vanishing from probability measure. ε/2 argument via integral_add_compl. Also `body_drop_of_exp_decay` + `kuramoto_continuum_from_body_exp_decay`. No bounded γ, no uniform persistence, no c_min. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — ContinuumDerivedGronwall.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum_v2` — NEW theorem with derived body Gronwall. Takes body derivative bound dV_body/dt ≤ -rate·V_body + forcing per M. DERIVES body Gronwall via new `gronwall_with_forcing` lemma (Gronwall comparison with forcing term). No bounded γ, no uniform persistence, no c_min. Combined vanishing forcing/rate + μ(tail) → 0.
 - [[continuum-stability-debate]] — ContinuumSolvedWired.lean (0 sorry, 0 axioms): `kuramoto_continuum_wired` — SINGLE wired continuum theorem. Derives body persistence from ODE comparison, wires into parameterized body drop, calls kuramoto_continuum_real. Uses hγ_pos (0 < γ, Ω excludes ω=0 WLOG). No moment condition. Codex reviewed: "measure-theoretically fine."

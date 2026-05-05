@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_continuum_stability (exp 249)
+
+- created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_continuum_stability` (+80 lines, 0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+Self-contained standard continuum theorem addressing all three reviewer problems with `kuramoto_solved`. Inline ε/2 tail-body split proof: tail vanishing DERIVED from probability measure, body drop from hypothesis, V = V_body + V_tail via integral_add_compl. Comprehensive docstring explicitly stating how each problem is resolved. Body drop derivable from bounded-γ stability on each body {γ ≤ M}. Coverage: ALL g ∈ L¹(R).
+
 ## [2026-05-06] experiment | kuramoto_continuum_from_body_drop (exp 248)
 
 - created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_continuum_from_body_drop`, `body_drop_of_exp_decay`, `kuramoto_continuum_from_body_exp_decay` (+163 lines, 0 sorry, 0 axioms)
