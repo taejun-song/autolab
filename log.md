@@ -1,5 +1,22 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumDerivedGronwall — Gronwall-with-forcing + derived body Gronwall (exp 239)
+
+- created: KuramotoLean/ContinuumDerivedGronwall.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+New file with three key results:
+1. `gronwall_with_forcing`: Gronwall comparison with forcing term.
+   V'(t) ≤ -lam·V(t) + c → V(t) ≤ V(0)·exp(-lam·t) + c/lam.
+   Proof: shift V by c/lam, apply comparison_decay.
+2. `body_gronwall_from_deriv`: body derivative bound → body Gronwall.
+3. `kuramoto_solved_continuum_v2`: standard continuum theorem that DERIVES
+   body Gronwall from body derivative bound via gronwall_with_forcing.
+   Takes body derivative bound dV_body/dt ≤ -rate(M)·V_body + forcing(M)
+   + combined vanishing forcing/rate + μ(tail) → 0. No bounded γ, no uniform
+   persistence, no c_min. Resolves all three reviewer problems.
+
 ## [2026-05-06] experiment | ContinuumSolvedWired — hγ + wiring fixes (exp 238)
 
 - updated: KuramotoLean/ContinuumSolvedWired.lean (rewrote kuramoto_continuum_wired)

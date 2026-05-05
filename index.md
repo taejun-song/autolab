@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (ContinuumSolvedWired — hγ fix + wiring to ContinuumSolvedComplete, exp 238)_
+_Last regenerated: 2026-05-06 (ContinuumDerivedGronwall — Gronwall-with-forcing + derived body Gronwall, exp 239)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumDerivedGronwall.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum_v2` — NEW theorem with derived body Gronwall. Takes body derivative bound dV_body/dt ≤ -rate·V_body + forcing per M. DERIVES body Gronwall via new `gronwall_with_forcing` lemma (Gronwall comparison with forcing term). No bounded γ, no uniform persistence, no c_min. Combined vanishing forcing/rate + μ(tail) → 0.
 - [[continuum-stability-debate]] — ContinuumSolvedWired.lean (0 sorry, 0 axioms): `kuramoto_continuum_wired` — SINGLE wired continuum theorem. Derives body persistence from ODE comparison, wires into parameterized body drop, calls kuramoto_continuum_real. Uses hγ_pos (0 < γ, Ω excludes ω=0 WLOG). No moment condition. Codex reviewed: "measure-theoretically fine."
 - [[continuum-stability-debate]] — KuramotoSolvedContinuumNew.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum` — DEFINITIVE tail-body split theorem for standard continuum model. Takes body absorbing ball + combined vanishing C(M)+μ(tail)→0. No bounded γ, no uniform persistence, no c_min. Also `kuramoto_solved_continuum_gronwall` (body Gronwall → absorbing ball).
 - [[continuum-stability-debate]] — ContinuumSolvedReal.lean (0 sorry, 0 axioms): `kuramoto_continuum_real` — NO MOMENT CONDITION continuum theorem. Tail vanishing derived from probability measure (not γ integrability). Applies to ALL g ∈ L¹ including Lorentzian. Strictly generalizes kuramoto_solved_continuum.
