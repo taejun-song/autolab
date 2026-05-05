@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_continuum_wired — single wired theorem (exp 236)
+
+- created: KuramotoLean/ContinuumSolvedWired.lean (kuramoto_continuum_wired, 0 sorry, 0 axioms)
+- index.md: regenerated
+- log.md: appended
+
+Resolves two Codex-identified wiring issues:
+(1) ω=0 exclusion: uses hγ_pos (0 < γ) with Ω = {ω ≠ 0}. Measure-zero restriction WLOG. Codex confirms "measure-theoretically fine."
+(2) Body persistence wiring: derives δ(M) from ODE comparison (continuum_body_persistence), wires into parameterized h_body_drop_from_persist, calls kuramoto_continuum_real. No moment condition. Remaining structural hypothesis: h_body_drop_from_persist (provable from body Leibniz + pair coercivity, formalized for integrable γ in ContinuumSolvedFinal).
+
 ## [2026-05-06] experiment | kuramoto_solved_continuum — definitive tail-body split theorem (exp 235)
 
 - created: KuramotoLean/KuramotoSolvedContinuumNew.lean (kuramoto_solved_continuum + kuramoto_solved_continuum_gronwall + body_absorb_of_gronwall + absorbing_radius_formula, 0 sorry, 0 axioms)

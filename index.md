@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (kuramoto_solved_continuum: definitive tail-body split theorem, exp 235)_
+_Last regenerated: 2026-05-06 (kuramoto_continuum_wired: single wired theorem, exp 236)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumSolvedWired.lean (0 sorry, 0 axioms): `kuramoto_continuum_wired` — SINGLE wired continuum theorem. Derives body persistence from ODE comparison, wires into parameterized body drop, calls kuramoto_continuum_real. Uses hγ_pos (0 < γ, Ω excludes ω=0 WLOG). No moment condition. Codex reviewed: "measure-theoretically fine."
 - [[continuum-stability-debate]] — KuramotoSolvedContinuumNew.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum` — DEFINITIVE tail-body split theorem for standard continuum model. Takes body absorbing ball + combined vanishing C(M)+μ(tail)→0. No bounded γ, no uniform persistence, no c_min. Also `kuramoto_solved_continuum_gronwall` (body Gronwall → absorbing ball).
 - [[continuum-stability-debate]] — ContinuumSolvedReal.lean (0 sorry, 0 axioms): `kuramoto_continuum_real` — NO MOMENT CONDITION continuum theorem. Tail vanishing derived from probability measure (not γ integrability). Applies to ALL g ∈ L¹ including Lorentzian. Strictly generalizes kuramoto_solved_continuum.
 - [[continuum-stability-debate]] — KuramotoSolvedContinuum.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum` — DEFINITIVE continuum theorem. Resolves all three reviewer problems: (1) body persistence not uniform, (2) γ integrable not bounded, (3) rate from body pair coercivity not c_min. Covers Gaussian, Student-t ν>2, compact support.
