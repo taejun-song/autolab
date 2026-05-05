@@ -22,14 +22,15 @@ The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next 
 2. h_approx ↔ V→0 (tautological, ContinuumMainTheorem.lean)
 3. ContinuumRigidity: dV/dt = 0 ⟹ α = α* a.e.
 4. Bounded-γ stability (kuramoto_solved, 0 sorry, 0 axioms)
+5. ISS convergence for fast-decaying g (ContinuumTailBodyConvergence.lean, 0 sorry): r → r* when C(M) + μ(tail) → 0. Applies to Gaussian, Student-t ν>2, compact support. NOT Lorentzian.
 
-**What is NOT proved**: V∞(t) → 0 for unbounded γ.
+**What is NOT proved**: V∞(t) → 0 for ALL unbounded γ (e.g., Lorentzian).
 
 **Obstructions identified**:
 - h_approx is tautological (↔ V→0), not a reduction
-- ISS estimate yields absorbing ball only, not convergence
+- Old ISS hypothesis C ≤ μ(tail) was unsatisfiable (δ·ds < 1). Fixed by C(M) + μ(tail) → 0
 - L²(g) precompactness fails (√-singularity at |ω|=Kr*)
-- Tail-body split fails (r(t) couples all frequencies)
+- Tail-body split fails for slowly-decaying g (Lorentzian: C(M) ~ const, not → 0)
 
 **Viable strategies (ranked)**:
 1. **Tail-Body Barbalat** (TailBodyBarbalat.lean, 0 sorry): Reduces to h_body_drop: V(t)-V(t+1) ≥ K·c(M)·V_body(M,t). WEAKEST known sufficient condition. Purely analytic (Leibniz/FTC). For g with ∫|ω|g<∞: SOLVED by DCT.

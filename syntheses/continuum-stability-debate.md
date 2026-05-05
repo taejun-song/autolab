@@ -79,20 +79,19 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | Strategy | Status | File | Gap |
 |---|---|---|---|
 | Tail-Body Barbalat | **0 sorry** | `TailBodyBarbalat.lean` | `h_body_drop` (Leibniz for full V) |
-| ISS tail-body split | **0 sorry** | `ContinuumSolvedStandard.lean` | `h_iss` (absorbing ball) assumed |
-| ISS + Gronwall | **0 sorry** | `StandardModelConvergence.lean` | `h_body_gronwall` (body Gronwall bound) assumed |
+| ISS tail-body split (old) | **0 sorry** | `ContinuumSolvedStandard.lean` | `h_iss` assumes $C \leq \mu(\text{tail})$, **unsatisfiable** ($\delta \cdot ds < 1$) |
+| ISS + Gronwall (old) | **0 sorry** | `StandardModelConvergence.lean` | Same `C \leq \mu(\text{tail})$ issue |
 | h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |
+| **ISS general C(M) (NEW)** | **0 sorry** | `ContinuumTailBodyConvergence.lean` | $C(M) + \mu(\text{tail}) \to 0$ (correct, satisfiable for fast-decaying $g$) |
 
-**`kuramoto_solved_continuum_standard`** (`StandardModelConvergence.lean`): Definitive theorem resolving all three reviewer problems. Takes body persistence + body Gronwall bound as hypotheses. The Gronwall bound $V_{\text{body}}(t) \leq V_{\text{body}}(0) e^{-\lambda t} + C$ with $C \leq \mu(\text{tail})$ follows from: Leibniz (bounded $\gamma$ on body) + pair coercivity (body persistence) + Gronwall comparison with tail forcing. The remaining gap: formally deriving the Gronwall bound from the ODE dynamics (body-restricted Leibniz + rate bound).
-
-The ISS theorem (`kuramoto_solved_iss`) correctly handles unbounded $\gamma$, no global persistence, no $c_{\min}$. It reduces the problem to: for each $M > 0$, the body $V_{\{γ≤M\}}$ eventually enters an absorbing ball of radius $\mu(\{γ>M\}) + \varepsilon$. This absorbing-ball property follows from: $dV_{\text{body}}/dt \leq -\lambda V_{\text{body}} + K\mu(\text{tail})$ (body persistence + pair bound + tail coupling error). The remaining gap: deriving the ISS hypothesis from the ODE dynamics.
+**`tail_body_iss_convergence`** (`ContinuumTailBodyConvergence.lean`): Corrected ISS theorem with general absorbing radius $C(M)$. The old theorems required $C \leq \mu(\text{tail})$, but Gronwall gives $C = \mu(\text{tail})/(\delta \cdot ds)$ and $\delta \cdot ds < 1$ always (both factors in $(0,1)$), making the old hypothesis **unsatisfiable**. The new combined vanishing condition $C(M) + \mu(\{γ>M\}) \to 0$ is the mathematically correct condition. Satisfiable for Gaussian, Student-t $\nu > 2$, compactly supported $g$. Not satisfiable for Lorentzian (needs Bernoulli closed-form instead). The remaining gap: deriving the body Gronwall bound from the ODE dynamics (body-restricted Leibniz + rate bound).
 
 ### Ruled out
 
 | Strategy | Why it fails |
 |---|---|
 | Naive tail-body split (decoupled) | $r(t)$ couples body and tail; restricted dynamics not autonomous |
-| ISS → convergence directly | Absorbing ball only gives $V \leq \mu(\text{tail})$, not $V \to 0$; but choosing $M \to \infty$ works |
+| ISS → convergence (old formulation) | Old: $C \leq \mu(\text{tail})$ unsatisfiable. New: $C(M) + \mu(\text{tail}) \to 0$ works for fast-decaying $g$ |
 | $L^2(g)$ LaSalle via equicontinuity | $\partial_\omega \alpha^*$ singular at lock/drift boundary |
 | h_approx discharge | Tautological — IS the goal, not a path to it |
 

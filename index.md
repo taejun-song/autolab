@@ -1,12 +1,11 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (TailBodyBarbalat: uniform tail bound, exp 212)_
+_Last regenerated: 2026-05-05 (ContinuumTailBodyConvergence: corrected ISS with general absorbing radius, exp 213)_
 
 ## Recently Updated
 
-- [[continuum-stability-debate]] — TailBodyBarbalat.lean (0 sorry): reduces open problem to h_body_drop (Leibniz/FTC). SOLVED for g with ∫|ω|g<∞.
-- [[continuum-stability-debate]] — StandardModelConvergence.lean (0 sorry): `kuramoto_solved_continuum_standard` resolves all 3 reviewer problems.
-- [[lean-proof-status]] — Machine-checked proof status: 136 files, 0 sorry, 0 axioms. New: `kuramoto_solved_continuum_standard`.
+- [[continuum-stability-debate]] — ContinuumTailBodyConvergence.lean (0 sorry): corrected ISS convergence with general absorbing radius C(M). Fixes unsatisfiable C ≤ μ(tail) in prior theorems.
+- [[lean-proof-status]] — Machine-checked proof status: 145 files, 0 sorry, 0 axioms. New: `tail_body_iss_convergence`.
 - [[h-approx-equivalence]] — h_approx ↔ V→0 equivalence proved in Lean. The tail-body hypothesis is exactly L² Lyapunov convergence.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.

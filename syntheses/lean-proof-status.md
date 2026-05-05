@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: **0 sorry, 0 axioms** across 133 files (3486 build jobs). New: `kuramoto_standard_model` (StandardContinuumTheorem.lean) resolves three fundamental issues with `kuramoto_solved` for the standard continuum model.
+Machine-checked proof status: **0 sorry, 0 axioms** across 145 files. New: `tail_body_iss_convergence` (ContinuumTailBodyConvergence.lean) — corrected ISS convergence with general absorbing radius $C(M)$, fixing the unsatisfiable $C \leq \mu(\text{tail})$ condition in prior theorems.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -99,6 +99,25 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 **Supporting theorems**:
 - `body_conv_of_full_conv`: V → 0 implies V restricted to any S → 0 (squeeze)
 - `body_conv_from_bounded_stability`: Bridge from bounded-γ stability to body convergence
+
+## Corrected ISS Convergence (ContinuumTailBodyConvergence.lean)
+
+**Status**: 0 sorry, 0 axioms. (exp 212).
+
+`tail_body_iss_convergence` fixes a fundamental flaw in the prior ISS theorems:
+
+**The flaw**: `kuramoto_solved_iss` required absorbing radius $C \leq \mu(\text{tail})$. But body Gronwall gives $C = \mu(\text{tail})/(\delta \cdot ds)$ and $\delta \cdot ds < 1$ always (both in $(0,1)$), making the hypothesis **unsatisfiable** for the actual model.
+
+**The fix**: Generalize to absorbing radius $C(M)$ with combined vanishing $C(M) + \mu(\{γ>M\}) \to 0$. This is the mathematically correct condition, satisfiable when $g$ decays fast enough:
+- Gaussian: $\mu(\text{tail}) \sim e^{-M^2}$, $\delta \cdot ds \sim 1/M$ → satisfiable
+- Lorentzian: $\mu(\text{tail}) \sim 1/M$, $\delta \cdot ds \sim 1/M$ → NOT satisfiable (ratio $\sim 1$)
+
+**Theorems**:
+- `tail_body_iss_convergence`: ISS convergence with general $C(M)$
+- `body_absorb_from_gronwall`: Converts Gronwall bound to ISS hypothesis
+- `kuramoto_continuum_gronwall_convergence`: End-to-end from body Gronwall + vanishing
+- `tail_vanishes_bounded`: Bounded γ is a special case (C=0)
+- `old_iss_implies_new`: Old ISS hypothesis implies new (strict generalization)
 
 ## Continuum Theorem — Abstract Split (ContinuumMainTheorem.lean)
 

@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-05-05] experiment | ContinuumTailBodyConvergence: corrected ISS with general absorbing radius (exp 213)
+
+- created: KuramotoLean/ContinuumTailBodyConvergence.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+ISS general C(M) entry, fixed ISS assessment)
+- updated: syntheses/lean-proof-status.md (+ContinuumTailBodyConvergence section)
+- index.md: regenerated
+- New theorems: tail_body_iss_convergence, body_absorb_from_gronwall, kuramoto_continuum_gronwall_convergence, tail_vanishes_bounded, old_iss_implies_new
+- Fixes fundamental flaw: prior ISS required C ≤ μ(tail), unsatisfiable since δ·ds < 1
+- New condition: C(M) + μ(tail) → 0 (correct, satisfiable for fast-decaying g)
+- Satisfiable for: Gaussian, Student-t ν>2, compactly supported
+- Not satisfiable for: Lorentzian (needs Bernoulli closed-form)
+
 ## [2026-05-05] experiment | TailBodyBarbalat: uniform tail bound closes V→0 gap (exp 212)
 
 - created: KuramotoLean/TailBodyBarbalat.lean (0 sorry, 0 axioms)
