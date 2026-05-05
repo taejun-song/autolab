@@ -3,6 +3,7 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-05
+status: open
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -102,7 +103,8 @@ Work in a topology adapted to the singularity structure:
 
 The orbit $\{\alpha(\cdot,t)\}$ is bounded in $L^\infty$, hence precompact in weaker topologies (e.g., weak-* in $L^\infty$, or $H^{-s}$ for $s > 0$). If $dV/dt = 0$ characterizes equilibria in that topology (ContinuumRigidity), then $V \to 0$.
 
-**Formalized reduction** (`WeakStarLaSalle.lean`, 0 sorry): The abstract LaSalle principle reduces the open problem to TWO hypotheses:
+**Formalized reduction** (`WeakStarLaSalle.lean`, 0 sorry): The abstract LaSalle principle reduces the open problem to TWO hypotheses (pointwise):
+
 1. **hP_vanish** (dissipation vanishes on subsequence): $\exists t_n \to \infty$ with $P(t_n) \to 0$. PROVED via mean value theorem + $V$ differentiable.
 2. **h_coercive** (quantitative coercivity): $P < \delta \Rightarrow V < \varepsilon$. OPEN for unbounded $\gamma$.
 
@@ -111,6 +113,20 @@ The MVT argument: $V \to L$ implies $V(a+1) - V(a) \to 0$. By Lagrange MVT on $[
 The remaining gap: ContinuumRigidity gives $P = 0 \Rightarrow V = 0$ (qualitative). Promoting to $P < \delta \Rightarrow V < \varepsilon$ (quantitative) requires orbit compactness in $L^2(g)$, which fails for unbounded $\gamma$.
 
 Key question: does ContinuumRigidity hold for weak-* limits, or only for $L^2$ limits?
+
+**Strategy A' (NEW): Absorbing Barbalat — time-averaged coercivity (`AbsorbingBarbalat.lean`, 0 sorry)**
+
+Reduces the open problem to a SINGLE hypothesis that is strictly WEAKER than h_coercive:
+
+**TimeAveragedCoercivity**: $V(t+1) \geq \varepsilon \Rightarrow V(t) - V(t+1) \geq \delta(\varepsilon)$
+
+Equivalently (since $V(t)-V(t+1) = K\int_t^{t+1} P(s)\,ds$): if the trajectory stays $\varepsilon$-far from equilibrium, the cumulative dissipation over any unit time window is bounded below.
+
+The argument is by contradiction: $V \to L$, so $V(t)-V(t+1) \to 0$. If $L > 0$, then $V(t+1) \geq L/2$ eventually, so $V(t)-V(t+1) \geq \delta(L/2) > 0$. Contradiction.
+
+Why weaker than h_coercive: pointwise coercivity ($P(t) < \delta \Rightarrow V(t) < \varepsilon$) requires instantaneous control. Time-averaged coercivity allows $P$ to dip momentarily at individual times — it only requires the TIME INTEGRAL of $P$ over $[t,t+1]$ to be positive when $V$ is positive. The pair functional integrates over all frequency pairs; even if oscillators at large $|\omega|$ contribute little pointwise, their cumulative effect over a time window might suffice.
+
+Proved in `AbsorbingBarbalat.lean`: pointwise coercivity ⟹ time-averaged coercivity (so this is strictly weaker).
 
 **Strategy B: Hypocoercivity (Villani/Dolbeault-Mouhot-Schmeiser)**
 
@@ -138,14 +154,19 @@ Key question: can rational approximation of $g$ give uniform-in-$t$ error bounds
 
 ## 5. Recommended next steps
 
-1. **Prove quantitative coercivity (h_coercive)**: The single remaining hypothesis from `WeakStarLaSalle.lean`. For any $\varepsilon > 0$, find $\delta > 0$ such that $\iint \text{pair} < \delta \Rightarrow V < \varepsilon$. Approaches:
-   - Pair coercivity with $\omega$-dependent constants + dominated convergence
+1. **Prove time-averaged coercivity (h_tac)** [NEW, WEAKEST KNOWN SUFFICIENT CONDITION]: The single remaining hypothesis from `AbsorbingBarbalat.lean`. For any $\varepsilon > 0$, find $\delta > 0$ such that $V(t+1) \geq \varepsilon \Rightarrow V(t) - V(t+1) \geq \delta$. Approaches:
+   - Fubini: $V(t)-V(t+1) = K\iint (\int_t^{t+1} \text{pair}(s)\,ds)\,d\mu^2$. The time integral of pair captures cumulative frequency-dependent relaxation.
+   - For locked oscillators ($|\omega| < Kr^*$): pair has a uniform lower bound (coercivity constant $\sim \alpha^*(1-\alpha^*)$). Their contribution gives $V(t)-V(t+1) \geq c \cdot V_{\text{body}}$.
+   - For drifting oscillators ($|\omega| > Kr^*$): $\alpha \to 0$ exponentially, so $V_{\text{tail}} \to 0$ automatically.
+   - The hard part: the INTERFACE $|\omega| \approx Kr^*$ where $\alpha^*$ has a square-root singularity.
+
+2. **Prove pointwise coercivity (h_coercive)** [STRONGER, implies h_tac]: From `WeakStarLaSalle.lean`. For any $\varepsilon > 0$, find $\delta > 0$ such that $\iint \text{pair} < \delta \Rightarrow V < \varepsilon$. Approaches:
    - Weak-* compactness + lower semicontinuity of $V$ (needs $V$ wlsc, which holds by convexity)
    - Direct estimate: bound $V$ in terms of $P$ using the algebraic structure of pairIntegrand
 
-2. **Quantify passage-to-limit errors**: Fill the 3 True placeholders in `PassageToLimit.lean`. The uniform rate makes the $n$-independent bound plausible — this may be the most tractable path.
+3. **Quantify passage-to-limit errors**: Fill the 3 True placeholders in `PassageToLimit.lean`. The uniform rate makes the $n$-independent bound plausible.
 
-3. **Investigate hyperbolic contraction**: Check whether $d/dt\,\rho(\alpha_1(t), \alpha_2(t)) \leq 0$ under the OA dynamics. If yes, the hyperbolic variance is a stronger Lyapunov function with better compactness properties.
+4. **Investigate hyperbolic contraction**: Check whether $d/dt\,\rho(\alpha_1(t), \alpha_2(t)) \leq 0$ under the OA dynamics.
 
 ## 6. Label
 

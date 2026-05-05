@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (ISS tail-body split for standard continuum Kuramoto, exp 209)_
+_Last regenerated: 2026-05-05 (AbsorbingBarbalat: time-averaged coercivity, exp 210)_
 
 ## Recently Updated
 
-- [[continuum-stability-debate]] — ISS tail-body theorem formalized (ContinuumSolvedStandard.lean, 0 sorry). Addresses reviewer Problems 1-3 for standard model.
+- [[continuum-stability-debate]] — AbsorbingBarbalat.lean (0 sorry): reduces V→0 to TimeAveragedCoercivity (strictly weaker than h_coercive).
 - [[lean-proof-status]] — Machine-checked proof status: 135 files, 0 sorry, 0 axioms. New: `kuramoto_solved_iss` + `kuramoto_solved_standard`.
 - [[h-approx-equivalence]] — h_approx ↔ V→0 equivalence proved in Lean. The tail-body hypothesis is exactly L² Lyapunov convergence.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?

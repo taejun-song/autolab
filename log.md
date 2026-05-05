@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-05-05] experiment | AbsorbingBarbalat: time-averaged coercivity reduces V→0 (exp 210)
+
+- created: KuramotoLean/AbsorbingBarbalat.lean (0 sorry, 0 axioms, 135 files total, 3488 jobs)
+- updated: syntheses/continuum-stability-debate.md (+Strategy A' section)
+- updated: program.md (strategies reranked)
+- index.md: regenerated
+- New theorems: absorbing_barbalat (V→L=0 by contradiction), absorbing_barbalat_tendsto (V→0), ratio_drop_implies_tac, pointwise_coercive_implies_tac
+- Defines TimeAveragedCoercivity: V(t+1)≥ε ⟹ V(t)-V(t+1)≥δ(ε)
+- STRICTLY WEAKER than pointwise h_coercive (proved: pointwise ⟹ time-averaged)
+- Physical meaning: cumulative dissipation over unit time window bounded below when V positive
+- Single open hypothesis for V→0 in standard continuum model
+
 ## [2026-05-05] experiment | ISS tail-body split for standard continuum Kuramoto (exp 209)
 
 - created: KuramotoLean/ContinuumSolvedStandard.lean (0 sorry, 0 axioms)

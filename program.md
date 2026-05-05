@@ -32,12 +32,13 @@ The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next 
 - Tail-body split fails (r(t) couples all frequencies)
 
 **Viable strategies (ranked)**:
-1. Weak-* LaSalle: **partially formalized** (WeakStarLaSalle.lean, 0 sorry). Reduces to single hypothesis h_coercive (quantitative coercivity: P<δ ⟹ V<ε). MVT proves hP_vanish. Gap: promoting qualitative rigidity (P=0⟹V=0) to quantitative.
-2. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
-3. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
-4. Hyperbolic Poincaré disk: Möbius structure + conformal factor alignment. Speculative.
+1. **Absorbing Barbalat** (AbsorbingBarbalat.lean, 0 sorry): Reduces to TimeAveragedCoercivity: V(t+1)≥ε ⟹ V(t)-V(t+1)≥δ. STRICTLY WEAKER than h_coercive. Contrapositive of the full argument is one line.
+2. Weak-* LaSalle (WeakStarLaSalle.lean, 0 sorry): Reduces to h_coercive (P<δ ⟹ V<ε). Implies strategy 1.
+3. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
+4. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
+5. Hyperbolic Poincaré disk: Möbius structure + conformal factor alignment. Speculative.
 
-**Do NOT add more abstract ODE theorems.** The 134 files already prove far more than needed. Attack the open strategies above.
+**Do NOT add more abstract ODE theorems.** The 135 files already prove far more than needed. Attack the open strategies above.
 
 ## The open problem
 
