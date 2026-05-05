@@ -1,5 +1,21 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_continuum_stability — complete standard continuum theorem (exp 231)
+
+- created: KuramotoLean/ContinuumSolvedComplete.lean (0 sorry, 0 axioms)
+- updated: index.md (+1 entry)
+- index.md: regenerated
+- log.md: appended
+- New theorem `kuramoto_continuum_stability`: definitive end-to-end
+  theorem for the standard continuum Kuramoto model (γ=|ω| unbounded).
+  Resolves all three reviewer problems with `kuramoto_solved`:
+  (1) body persistence only, not uniform over all ω,
+  (2) γ bounded by M per-body, no global γ_max,
+  (3) rate from body coercivity, no minimum atom c_min.
+  Helper theorems: body_persistence_resolves_problem1,
+  body_rate_resolves_problem3, body_leibniz_dominator, equil_lower_body.
+  Delegates to kuramoto_standard_continuum via ContinuumSolvedFromODE.
+
 ## [2026-05-05] experiment | kuramoto_solved_continuum_from_ode — ODE-derived body persistence (exp 230)
 
 - created: KuramotoLean/ContinuumSolvedFromODE.lean (0 sorry, 0 axioms)
