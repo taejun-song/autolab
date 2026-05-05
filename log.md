@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumSolvedTailBody — definitive tail-body theorem (exp 242)
+
+- created: KuramotoLean/ContinuumSolvedTailBody.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+Three new theorems for standard continuum Kuramoto:
+1. `kuramoto_continuum_tail_body`: direct form, body absorbing ball + C→0, DERIVES tail vanishing from probability measure
+2. `kuramoto_continuum_from_gronwall`: body Gronwall → absorbing ball → convergence
+3. `kuramoto_solved_continuum_standard`: end-to-end existential form (parallel to `kuramoto_solved`)
+Fixes all three reviewer problems: no bounded γ, no uniform persistence, no c_min.
+Key simplification: combined vanishing C(M)+μ(tail)→0 DERIVED from C→0 + tail→0 via Tendsto.add.
+
 ## [2026-05-06] experiment | ContinuumSolvedWired — hγ_pos domain fix + Codex-verified (exp 241)
 
 - updated: KuramotoLean/ContinuumSolvedWired.lean (hγ → hγ_pos + derived hγ in proof body)
