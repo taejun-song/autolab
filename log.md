@@ -1,5 +1,25 @@
 # Activity Log
 
+## [2026-05-05] experiment | body persistence from ODE + integrability sorries filled (exp 227)
+
+- created: KuramotoLean/BodyPersistenceFromODE.lean (0 sorry, 0 axioms)
+- updated: KuramotoLean/KuramotoSolvedContinuum.lean (2 sorry → 1 sorry)
+- index.md: regenerated
+- log.md: appended
+- New theorem `body_persistence_lower_bound`: α(t) ≥ min(α(0), β*(M,K,r_min))
+  for scalar OA ODE on body {γ≤M} when r(t) ≥ r_min > 0. Uses:
+  - Comparison equilibrium β* = (-M+√(M²+K²r²))/(Kr) ∈ (0,1)
+  - ODE RHS ≥ 0 below equilibrium (factorization + positivity)
+  - monotoneOn_of_deriv_nonneg: α non-decreasing while ≤ β*
+  - sSup last-crossing (IVT via closed level set, ComponentForwardInvariance pattern)
+- New theorem `continuum_body_persistence`: ∃ δ > 0 uniform on body
+- Filled `hq_int`: Q integrability via 1/α* = α* + 2γ/(Kr*) → bound by 2+2γ/(Kr*)
+- Filled `hs_int`: S integrability via |(α-α*)(1-α²)| ≤ 1
+- Remaining gap in KuramotoSolvedContinuum: hV_zero (V→0 via body coercivity)
+- Codex/Gemini feedback integrated: body persistence IS provable from ODE
+  when r(t) ≥ r_min > 0. The condition covers bounded γ bodies.
+- Build: 0 sorry in new file, 3495 jobs total.
+
 ## [2026-05-05] experiment | kuramoto_continuum_standard_full: body drop theorem (exp 226)
 
 - created: KuramotoLean/ContinuumStandardFull.lean (0 sorry, 0 axioms)
