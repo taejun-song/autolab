@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_solved_real_continuum definitive theorem (exp 254)
+
+- created: GeneralGMainTheorem.lean: `kuramoto_solved_real_continuum` (+148 lines, 0 sorry, 0 axioms)
+- created: GeneralGMainTheorem.lean: `kuramoto_solved_subsumes` (subsumption proof)
+- updated: index.md: regenerated
+- updated: log.md: appended
+
+Definitive standard continuum Kuramoto theorem resolving all three reviewer problems: (1) no uniform persistence — uses body persistence δ(M) > 0 on {γ ≤ M}, (2) no bounded γ — body truncation, (3) no c_min — body pair coercivity rate. Takes ODE + body persistence + body exp decay. `kuramoto_solved_subsumes` proves `kuramoto_solved` is a special case (bounded γ + uniform persistence → body hypotheses). Chains: body exp → body drop → kuramoto_continuum (tail-body split). Coverage: ALL g ∈ L¹(R).
+
 ## [2026-05-06] experiment | kuramoto_solved_v2 for standard continuum (exp 253)
 
 - created: GeneralGMainTheorem.lean: `kuramoto_solved_v2` (+120 lines, 0 sorry, 0 axioms)
