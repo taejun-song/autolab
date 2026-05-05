@@ -1,5 +1,25 @@
 # Activity Log
 
+## [2026-05-06] experiment | hγ fix + kuramoto_wired_to_complete (exp 237)
+
+- updated: KuramotoLean/ContinuumBodyPersistence.lean (0 < γ ω → 0 ≤ γ ω)
+- updated: KuramotoLean/ContinuumSolvedDefinitive.lean (removed unused _hγ_pos)
+- updated: KuramotoLean/ContinuumSolvedComplete.lean (added kuramoto_wired_to_complete)
+- index.md: regenerated
+
+Issue 1: `hγ : 0 < γ ω` excluded ω=0 (γ(0)=|0|=0). Fixed to `0 ≤ γ ω` in
+ContinuumBodyPersistence (both theorems) and removed dead `_hγ_pos` in
+ContinuumSolvedDefinitive.body_ds_lower_bound'.
+
+Issue 2: Added `kuramoto_wired_to_complete` to ContinuumSolvedComplete.lean.
+Single theorem that (1) derives body persistence internally via
+`continuum_body_persistence` from ODE comparison, (2) instantiates
+h_gronwall_from_persist with derived δ, (3) calls kuramoto_continuum_stability.
+Codex review: theorem is honest — hard steps (r-persistence, Gronwall-from-persist)
+are explicit hypotheses, not hidden assumptions.
+
+Build: 0 errors, 0 sorry, 0 axioms (3501 jobs).
+
 ## [2026-05-06] experiment | kuramoto_continuum_wired — single wired theorem (exp 236)
 
 - created: KuramotoLean/ContinuumSolvedWired.lean (kuramoto_continuum_wired, 0 sorry, 0 axioms)
