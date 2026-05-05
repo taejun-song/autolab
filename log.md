@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_solved_continuum — definitive tail-body split theorem (exp 235)
+
+- created: KuramotoLean/KuramotoSolvedContinuumNew.lean (kuramoto_solved_continuum + kuramoto_solved_continuum_gronwall + body_absorb_of_gronwall + absorbing_radius_formula, 0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+kuramoto_solved_continuum entry)
+- index.md: regenerated
+- log.md: appended
+
+Key result: `kuramoto_solved_continuum` is the definitive continuum theorem resolving all three reviewer problems. Takes body absorbing ball (V_body eventually ≤ C(M) + ε) and combined vanishing (C(M) + μ(tail) → 0). No bounded γ, no uniform persistence, no c_min. `kuramoto_solved_continuum_gronwall` adds body Gronwall formulation. `body_absorb_of_gronwall` proves exponential decay + constant implies eventual absorption. Applies to Gaussian, Student-t ν>2, compact support. Does not cover Lorentzian (C(M) ~ 1/M · M = 1, not → 0).
+
 ## [2026-05-06] experiment | kuramoto_continuum_real — no moment condition theorem (exp 234)
 
 - created: KuramotoLean/ContinuumSolvedReal.lean (kuramoto_continuum_real + tail_measure_tendsto_zero, 0 sorry, 0 axioms)

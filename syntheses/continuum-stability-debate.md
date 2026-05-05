@@ -2,7 +2,7 @@
 type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
-updated: 2026-05-05
+updated: 2026-05-06
 status: open
 sources:
   - "[[continuum-l2-lyapunov]]"
@@ -38,6 +38,8 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 > **`kuramoto_solved`** (`GeneralGMainTheorem.lean`): For bounded $\gamma \leq \gamma_{\max}$ with uniform persistence $\delta > 0$: $V(t) \to 0$ and $r(t) \to r^*$. Subsumed by `kuramoto_solved_continuum`.
 
 > **`kuramoto_continuum_real`** (`ContinuumSolvedReal.lean`): For ALL $g \in L^1(\mathbb{R})$ (including Lorentzian) with V antitone and body drop: $r(t) \to r^*$. NO `hγ_int` (no moment condition), NO bounded $\gamma$, NO uniform persistence, NO $c_{\min}$. Tail vanishing derived from probability measure (continuity of measure from above). Strictly generalizes `kuramoto_solved_continuum`.
+
+> **`kuramoto_solved_continuum`** (`KuramotoSolvedContinuumNew.lean`): Clean theorem using tail-body ISS split. Takes body absorbing ball + combined vanishing C(M)+μ(tail)→0. Also `kuramoto_solved_continuum_gronwall`: body Gronwall bound → absorbing ball. Resolves all three reviewer problems. 0 sorry, 0 axioms.
 
 The remaining structural hypotheses (V antitone, body drop) are derivable from the ODE pair bound and body Leibniz respectively. These are proved in other files; what remains open is instantiating the body drop for Lorentzian specifically (where body coercivity rate decays as 1/M while tail mass also decays as 1/M).
 
