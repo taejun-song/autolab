@@ -1,5 +1,22 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumSolvedWired — single inline theorem, both wiring issues fixed (exp 240)
+
+- updated: KuramotoLean/ContinuumSolvedWired.lean (rewritten: single theorem with inline proof)
+- index.md: not regenerated (no wiki page changes)
+
+Fixes two wiring issues identified by Codex reviewer:
+1. ISSUE 1 (hγ): Already used `0 ≤ γ ω`. Kept. `gamma_pos_from_equil` lemma proves strict
+   positivity follows from equilibrium equation at any ω with α*(ω) ∈ (0,1).
+2. ISSUE 2 (body persistence not wired): Rewrote theorem proof inline (not delegating to
+   `kuramoto_wired_to_complete`). Proof now directly calls `continuum_body_persistence`
+   (BodyPersistenceFromODE) to derive δ(M), then instantiates h_gronwall_from_persist,
+   then calls `kuramoto_continuum_stability` (ContinuumSolvedComplete). Build: 0 sorry.
+
+Codex review verdict: "`hγ : 0≤γ` is fine, but body-persistence and `h_gronwall_from_persist`
+remain substantial external hypotheses here, not proved by this theorem alone as stated."
+Honest: h_gronwall_from_persist is the known remaining gap (body Leibniz + pair coercivity).
+
 ## [2026-05-06] experiment | ContinuumDerivedGronwall — Gronwall-with-forcing + derived body Gronwall (exp 239)
 
 - created: KuramotoLean/ContinuumDerivedGronwall.lean (0 sorry, 0 axioms)
