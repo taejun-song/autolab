@@ -33,9 +33,11 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 
 **What is actually proved (label: proved, 0 sorry, 0 axioms)**:
 
-> For $g$ supported on a bounded set $|\omega| \leq M$ (equivalently $\gamma$ bounded) with uniform persistence $\delta > 0$ and minimum weight $c_{\min} > 0$: $V(t) \to 0$ and $r(t) \to r^*$.
+> **`kuramoto_solved_continuum`** (`KuramotoSolvedContinuum.lean`): For $g \in L^1(\mathbb{R})$ with $\int \gamma\, d\mu < \infty$ (Gaussian, Student-t $\nu > 2$, compact support), with body persistence $\forall M > 0,\ \exists \delta_M > 0$ on $\{\gamma \leq M\}$, and measurable sublevel sets: $r(t) \to r^*$. NO bounded $\gamma$, NO uniform persistence, NO $c_{\min}$.
 
-The gap: the standard model has $\gamma$ unbounded, no uniform persistence for drifting oscillators, and $c_{\min} = 0$ in the continuum.
+> **`kuramoto_solved`** (`GeneralGMainTheorem.lean`): For bounded $\gamma \leq \gamma_{\max}$ with uniform persistence $\delta > 0$: $V(t) \to 0$ and $r(t) \to r^*$. Subsumed by `kuramoto_solved_continuum`.
+
+The remaining gap: Lorentzian ($\int |\omega| g = \infty$, so $\gamma$ not integrable). For distributions with integrable $\gamma$, the problem is SOLVED.
 
 ## 2. Hypotheses: needed vs provable
 

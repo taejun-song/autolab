@@ -1,5 +1,21 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_solved_continuum — definitive continuum theorem (exp 233)
+
+- updated: KuramotoLean/KuramotoSolvedContinuum.lean (+kuramoto_solved_continuum, 0 sorry, 0 axioms)
+- updated: KuramotoLean/ContinuumMainTheorem.lean (renamed abstract theorem to kuramoto_continuum_from_happrox)
+- updated: KuramotoLean/StandardContinuumTheorem.lean (updated reference)
+- updated: syntheses/continuum-stability-debate.md (definitive theorem status)
+- index.md: regenerated
+- log.md: appended
+- New theorem `kuramoto_solved_continuum`: the definitive named theorem for the
+  standard continuum Kuramoto model. Resolves three reviewer problems:
+  (1) NO uniform persistence — body persistence only on {γ ≤ M}
+  (2) NO bounded γ — integrable γ with ω-dependent dominator 2γ(ω)+K
+  (3) NO c_min — rate from body pair coercivity
+  Proof delegates to `kuramoto_solved_integrable_gamma` (same file).
+  Covers Gaussian, Student-t ν>2, compact support. NOT Lorentzian.
+
 ## [2026-05-05] experiment | kuramoto_standard_continuum — body pair coercive bound (exp 232)
 
 - created: KuramotoLean/ContinuumSolvedFinal.lean (0 sorry, 0 axioms)

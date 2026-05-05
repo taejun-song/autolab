@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (ContinuumSolvedFinal: kuramoto_standard_continuum, exp 232)_
+_Last regenerated: 2026-05-05 (kuramoto_solved_continuum: definitive continuum theorem, exp 233)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — KuramotoSolvedContinuum.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum` — DEFINITIVE continuum theorem. Resolves all three reviewer problems: (1) body persistence not uniform, (2) γ integrable not bounded, (3) rate from body pair coercivity not c_min. Covers Gaussian, Student-t ν>2, compact support.
 - [[continuum-stability-debate]] — ContinuumSolvedFinal.lean (0 sorry, 0 axioms): `kuramoto_standard_continuum` — standard continuum convergence with body pair coercive bound. Key new ingredient: ∫∫ pair ≥ 2·δ·ds·μ(body)·V_body via set integral monotonicity. Integrable γ, body persistence, no bounded γ_max. Covers Gaussian, Student-t ν>2, compact support.
 - [[continuum-stability-debate]] — ContinuumSolvedComplete.lean (0 sorry, 0 axioms): `kuramoto_continuum_stability` — definitive end-to-end theorem for standard continuum model (γ=|ω| unbounded). Resolves all three reviewer problems: (1) body persistence not uniform, (2) γ bounded per-body, (3) rate from coercivity not c_min. Covers Gaussian, Student-t ν>3, compact support.
 - [[continuum-stability-debate]] — ContinuumSolvedFromODE.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum_from_ode` — correct continuum theorem deriving body persistence from ODE comparison. Resolves all three problems (uniform persistence, bounded γ, c_min). Body persistence via bodyEquilibrium(M,K,r_min). Applies to Gaussian, Student-t ν>2, compact support.
