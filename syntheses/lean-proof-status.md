@@ -2,7 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-05-04
+updated: 2026-05-05
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: **0 sorry, 0 axioms** across 131 files. The last axiom (`rational_approximation_rate`) was eliminated by replacing the passage-to-limit approach with a direct continuum proof via Lyapunov pair bound + coercive Barbalat. 3480 build jobs.
+Machine-checked proof status: **0 sorry, 0 axioms** across 132 files (3481 build jobs). New: `kuramoto_solved_continuum` handles the standard model with unbounded frequencies via tail-body split.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -78,6 +78,22 @@ The subcritical proof uses V = r²: d(r²)/dt = 2r·ṙ = -2μr² - Kr⁴ ≤ -2
 
 The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (quadratic, not linear). By contradiction: if V ≥ δ forever, then V' ≤ -(Kδ)·V (linearize at δ), so comparison_decay gives V(t) ≤ C·exp(-Kδt) → 0, contradicting V ≥ δ. The antitone property of V follows from antitoneOn_of_deriv_nonpos (V' = -K·V² ≤ 0).
 
+## Continuum Theorem for Unbounded Frequencies (ContinuumMainTheorem.lean)
+
+**Status**: 0 sorry, 0 axioms. New file (exp 204).
+
+`kuramoto_solved_continuum` handles the standard Kuramoto model where `kuramoto_solved` CANNOT apply:
+- γ(ω) = |ω| unbounded on ℝ (violates `hγ_bdd : ∀ ω, γ ω ≤ γ_max`)
+- α*(ω) → 0 as |ω| → ∞ (violates `δ_per ≤ α ω t` for ALL ω)
+- No minimum atom weight (violates n-pole `c_min`)
+
+**Resolution**: Tail-body split (Dietert 2016 §2-3):
+1. For any ε > 0, choose body S with μ(Sᶜ) < ε
+2. V = V_body + V_tail (integral splitting over S and Sᶜ)
+3. V_tail ≤ ∫_{Sᶜ} 1 dμ = μ(Sᶜ) < ε (since |α-α*|² ≤ 1)
+4. V_body → 0 (bounded γ on S → Leibniz + persistence + coercive rate)
+5. |r-r*|² ≤ V → 0
+
 ## Project-Wide Status
 
 | Metric | Value |
@@ -85,8 +101,8 @@ The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (q
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated total | **31** (30 prior + rational_approximation_rate) |
-| Total .lean files | **131** |
-| Comprehensive build | **3480 build jobs** |
+| Total .lean files | **132** |
+| Comprehensive build | **3481 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory

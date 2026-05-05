@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_solved_continuum — unbounded frequencies, no persistence (exp 204)
+
+- updated: KuramotoLean/ContinuumMainTheorem.lean (rewritten: kuramoto_solved_continuum + kuramoto_continuum_physical)
+- updated: syntheses/lean-proof-status.md (+continuum main theorem section)
+- index.md: regenerated
+- LEAN: 131 files, 0 sorry, 0 axioms. kuramoto_solved_continuum handles the STANDARD continuum Kuramoto model: gamma(omega)=|omega| (unbounded), no global persistence, no c_min. Proof via tail-body split: V = V_body + V_tail, body converges by bounded-gamma theorem, tail bounded by g integrability. Physical corollary kuramoto_continuum_physical instantiates body = {gamma <= M}.
+
 ## [2026-05-04] experiment | rational_approximation_rate axiom eliminated — 0 axioms project-wide (exp 203)
 
 - updated: KuramotoLean/PassageToLimit.lean (removed axiom rational_approximation_rate, removed analytic_approx_rate)

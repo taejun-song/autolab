@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-04 (exp 203: rational_approximation_rate axiom eliminated — 0 axioms project-wide, direct continuum proof via Lyapunov pair bound)_
+_Last regenerated: 2026-05-05 (exp 204: kuramoto_solved_continuum — tail-body split for unbounded frequencies, 132 files, 0 sorry, 0 axioms)_
 
 ## Recently Updated
 
-- [[lean-proof-status]] — Machine-checked proof status: 131 files, 0 sorry, 0 axioms. Last axiom (rational_approximation_rate) eliminated via direct continuum proof. 3480 build jobs.
+- [[lean-proof-status]] — Machine-checked proof status: 132 files, 0 sorry, 0 axioms. New: kuramoto_solved_continuum handles unbounded frequencies via tail-body split. 3481 build jobs.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
