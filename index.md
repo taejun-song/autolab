@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (SummabilityLaSalle: V→0 via summability route, exp 217)_
+_Last regenerated: 2026-05-05 (BodyLeibnizInstantiation: ODE→convergence chain, exp 218)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — BodyLeibnizInstantiation.lean (0 sorry): body Leibniz identity → MonotoneLeibniz → V→0. Single gap: Leibniz integral rule for OA on bounded body.
 - [[continuum-stability-debate]] — SummabilityLaSalle.lean (0 sorry): V→0 via ∫|V'|<∞ summability route. Body drop → V_body summable → V→0.
 - [[continuum-stability-debate]] — ContinuumSolvedGeneral.lean (0 sorry): definitive continuum theorem resolving all three reviewer problems. No bounded γ, no uniform persistence, no c_min.
 - [[continuum-stability-debate]] — BarbalatLeibnizBridge.lean (0 sorry): V→0 proved for g with finite first moment (∫|ω|g < ∞). Extends bounded-γ theorem to Gaussian/compact support.

@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-05] experiment | BodyLeibnizInstantiation: ODE body Leibniz → V→0 chain (exp 218)
+
+- created: KuramotoLean/BodyLeibnizInstantiation.lean (0 sorry, 0 axioms)
+- updated: program.md (new strategy ranking, single remaining gap identified)
+- index.md: regenerated
+- New theorems: BodyLeibnizData.drop_monotone, derives_h_body_leibniz, toMonotoneLeibniz, convergence
+- Key insight: body Leibniz identity V_body(M',t)-V_body(M',t+1)=K·∫P_body + avg monotonicity → hDrop_mono + h_body_leibniz automatically. Single hypothesis bridges ODE to convergence.
+- REMAINING GAP: Leibniz integral rule instantiation for OA flow on bounded body. Requires: hasDerivAt_integral_of_dominated_loc_of_deriv_le (Mathlib) with dominator 2(M'+K).
+- Full build: 0 sorry, 138 files
+
 ## [2026-05-05] experiment | SummabilityLaSalle: V→0 via ∫|V'|<∞ summability route (exp 217)
 
 - created: KuramotoLean/SummabilityLaSalle.lean (0 sorry, 0 axioms)

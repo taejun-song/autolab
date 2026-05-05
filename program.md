@@ -34,14 +34,14 @@ The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next 
 - Tail-body split fails for slowly-decaying g (Lorentzian: C(M) ~ const, not → 0)
 
 **Viable strategies (ranked)**:
-1. **Monotone Leibniz Bridge** (MonotoneLeibnizBridge.lean, 0 sorry): Reduces to hDrop_mono + h_body_leibniz (body Leibniz for each truncation + drop monotonicity). WEAKEST known reduction — applies to ALL g ∈ L¹ including Lorentzian. No finite first moment needed.
-2. **Tail-Body Barbalat** (TailBodyBarbalat.lean, 0 sorry): Reduces to h_body_drop. For g with ∫|ω|g<∞: SOLVED by DCT (BarbalatLeibnizBridge.lean).
-3. Absorbing Barbalat (AbsorbingBarbalat.lean, 0 sorry): Reduces to TimeAveragedCoercivity. IMPLIED by strategy 2.
-4. Weak-* LaSalle (WeakStarLaSalle.lean, 0 sorry): Reduces to h_coercive. IMPLIES strategy 3.
+1. **Body Leibniz Instantiation** (BodyLeibnizInstantiation.lean, 0 sorry): THE final bridge. Takes body Leibniz identity V_body(M',t)-V_body(M',t+1)=K·∫P_body and produces MonotoneLeibniz.Data → V→0. Remaining gap: Leibniz integral rule for the OA flow on bounded body (standard DCT, |d/dt(α-α*)²| ≤ 2(M'+K)).
+2. **Summability LaSalle** (SummabilityLaSalle.lean, 0 sorry): Alternative proof via Summable.tendsto_atTop_zero. Same hypotheses as MonotoneLeibniz.
+3. **Monotone Leibniz Bridge** (MonotoneLeibnizBridge.lean, 0 sorry): Reduces to hDrop_mono + h_body_leibniz. IMPLIED by strategy 1.
+4. **Tail-Body Barbalat** (TailBodyBarbalat.lean, 0 sorry): Reduces to h_body_drop. For g with ∫|ω|g<∞: SOLVED by DCT (BarbalatLeibnizBridge.lean).
 5. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
 6. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
 
-**Do NOT add more abstract ODE theorems.** The 135 files already prove far more than needed. Attack the open strategies above.
+**The SINGLE remaining gap**: Leibniz integral rule for d/dt ∫_{|ω|≤M'} (α-α*)² g = ∫_{|ω|≤M'} d/dt(α-α*)² g. Dominator: 2(M'+K), constant on bounded body. This is `MeasureTheory.hasDerivAt_integral_of_dominated_loc_of_deriv_le` or interval FTC in Mathlib. ATTACK THIS.
 
 ## The open problem
 
