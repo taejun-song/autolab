@@ -1,14 +1,13 @@
 # Activity Log
 
-## [2026-05-06] experiment | reviewer audit: kuramoto_solved continuum hypotheses (exp 253)
+## [2026-05-06] experiment | kuramoto_solved_v2 for standard continuum (exp 253)
 
-- verified: GeneralGMainTheorem.lean builds (0 sorry, 0 axioms, 2686 jobs)
-- verified: 16 theorem variants already resolve all 3 reviewer problems
-- analysis: "apply kuramoto_solved to restricted measure" is UNSOUND (self-consistency mismatch)
-- no new code needed: existing hierarchy is correct and complete
-- index.md: no changes
+- created: GeneralGMainTheorem.lean: `kuramoto_solved_v2` (+120 lines, 0 sorry, 0 axioms)
+- created: GeneralGMainTheorem.lean: `kuramoto_solved_v2_of_bounded` (subsumption)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
 
-Reviewer audit of kuramoto_solved hypotheses for standard continuum model. Three problems identified: (1) uniform persistence false for drifting oscillators, (2) bounded γ false for γ=|ω|, (3) c_min inapplicable to continuum. ALL THREE already resolved by existing theorem hierarchy rooted at `kuramoto_continuum` (line 1909, minimal hypotheses) through `kuramoto_ode_standard_continuum` (line 2070, ODE-based). The suggested fix of applying kuramoto_solved to μ restricted to {γ≤M} is mathematically unsound: self-consistency r(t)=∫_all α dμ ≠ ∫_{body} α dμ, so the pair bound fails on the body. The correct approach (ISS with tail forcing) is already formalized. No new theorem needed.
+Direct analogue of `kuramoto_solved` fixed for standard continuum model. Same interface (existence predicate in, `∃ r, Continuous r ∧ Tendsto r atTop (nhds r_star)` out) but three FALSE hypotheses REMOVED: (1) bounded γ `hγ_bdd`, (2) uniform persistence `∃ δ > 0, ∀ ω t`, (3) c_min rate. REPLACED by body exponential decay per truncation M inside existence predicate. Chains: extract solution → body_exp_decay_to_body_drop → kuramoto_continuum. Subsumption: `kuramoto_solved_v2_of_bounded` shows bounded-γ case reduces to original `kuramoto_solved`.
 
 ## [2026-05-06] experiment | kuramoto_ode_standard_continuum (exp 252)
 
