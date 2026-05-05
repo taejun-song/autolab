@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_standard_continuum_solved (exp 250)
+
+- created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_standard_continuum_solved` (+220 lines, 0 sorry, 0 axioms)
+- created: KuramotoLean/GeneralGMainTheorem.lean: `sq_setIntegral_le` (set-integral Cauchy-Schwarz)
+- created: KuramotoLean/GeneralGMainTheorem.lean: `body_exp_decay_to_body_drop` (bridge)
+- created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_continuum_from_body_gronwall` (full chain)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+ORDER PARAMETER SPLITTING theorem for standard continuum Kuramoto model. Resolves all three reviewer problems (uniform persistence, bounded γ, c_min). Proof splits r-r* = ∫_body(α-α*) + ∫_tail(α-α*) directly (not through Lyapunov V). Body bound via new set-integral Cauchy-Schwarz (∫_S f)² ≤ ∫_S f². Tail bound via measure. Full chain: body persistence + body exp decay → body drop → order parameter split → r → r*.
+
 ## [2026-05-06] experiment | kuramoto_continuum_stability (exp 249)
 
 - created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_continuum_stability` (+80 lines, 0 sorry, 0 axioms)
