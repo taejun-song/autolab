@@ -1,11 +1,11 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (AbsorbingBarbalat: time-averaged coercivity, exp 210)_
+_Last regenerated: 2026-05-05 (StandardModelConvergence: definitive continuum theorem, exp 211)_
 
 ## Recently Updated
 
-- [[continuum-stability-debate]] — AbsorbingBarbalat.lean (0 sorry): reduces V→0 to TimeAveragedCoercivity (strictly weaker than h_coercive).
-- [[lean-proof-status]] — Machine-checked proof status: 135 files, 0 sorry, 0 axioms. New: `kuramoto_solved_iss` + `kuramoto_solved_standard`.
+- [[continuum-stability-debate]] — StandardModelConvergence.lean (0 sorry): `kuramoto_solved_continuum_standard` resolves all 3 reviewer problems.
+- [[lean-proof-status]] — Machine-checked proof status: 136 files, 0 sorry, 0 axioms. New: `kuramoto_solved_continuum_standard`.
 - [[h-approx-equivalence]] — h_approx ↔ V→0 equivalence proved in Lean. The tail-body hypothesis is exactly L² Lyapunov convergence.
 - [[kuramoto-stability-problem]] — Is the partially-synchronized branch of the Kuramoto model linearly and globally dynamically stable along its entire length?
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.

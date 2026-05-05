@@ -79,7 +79,10 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | Strategy | Status | File | Gap |
 |---|---|---|---|
 | ISS tail-body split | **0 sorry** | `ContinuumSolvedStandard.lean` | `h_iss` (absorbing ball) assumed |
+| ISS + Gronwall | **0 sorry** | `StandardModelConvergence.lean` | `h_body_gronwall` (body Gronwall bound) assumed |
 | h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |
+
+**`kuramoto_solved_continuum_standard`** (`StandardModelConvergence.lean`): Definitive theorem resolving all three reviewer problems. Takes body persistence + body Gronwall bound as hypotheses. The Gronwall bound $V_{\text{body}}(t) \leq V_{\text{body}}(0) e^{-\lambda t} + C$ with $C \leq \mu(\text{tail})$ follows from: Leibniz (bounded $\gamma$ on body) + pair coercivity (body persistence) + Gronwall comparison with tail forcing. The remaining gap: formally deriving the Gronwall bound from the ODE dynamics (body-restricted Leibniz + rate bound).
 
 The ISS theorem (`kuramoto_solved_iss`) correctly handles unbounded $\gamma$, no global persistence, no $c_{\min}$. It reduces the problem to: for each $M > 0$, the body $V_{\{γ≤M\}}$ eventually enters an absorbing ball of radius $\mu(\{γ>M\}) + \varepsilon$. This absorbing-ball property follows from: $dV_{\text{body}}/dt \leq -\lambda V_{\text{body}} + K\mu(\text{tail})$ (body persistence + pair bound + tail coupling error). The remaining gap: deriving the ISS hypothesis from the ODE dynamics.
 

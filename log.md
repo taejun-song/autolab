@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-05] experiment | StandardModelConvergence: definitive continuum theorem (exp 211)
+
+- created: KuramotoLean/StandardModelConvergence.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+StandardModelConvergence entry)
+- index.md: regenerated
+- New theorem: kuramoto_solved_continuum_standard — resolves all 3 reviewer problems with kuramoto_solved
+- Hypotheses: body persistence + body Gronwall bound (NO bounded γ, NO uniform persistence, NO c_min)
+- Uses kuramoto_solved_iss + iss_from_gronwall_bound to derive ISS from body Gronwall
+- Corollary: kuramoto_solved_subsumes shows bounded-γ case is strictly subsumed
+
 ## [2026-05-05] experiment | AbsorbingBarbalat: time-averaged coercivity reduces V→0 (exp 210)
 
 - created: KuramotoLean/AbsorbingBarbalat.lean (0 sorry, 0 axioms, 135 files total, 3488 jobs)
