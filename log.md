@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-05-05] experiment | ContinuumSolvedDerived: derived continuum theorem with integrable-γ Leibniz (exp 220)
+
+- created: KuramotoLean/ContinuumSolvedDerived.lean (0 sorry, 0 axioms)
+- index.md: regenerated
+- New theorems: leibniz_oa_integrable_gamma, kuramoto_solved_derived_continuum, body_equil_bound, continuum_generalizes_bounded, body_ds_from_equil, tail_vanishing_from_integrable
+- Key advance: GENERALIZED Leibniz rule for non-constant bound (dominator 2γ(ω)+K integrable vs constant 2γ_max+K). Enables standard model (γ unbounded) when ∫|ω|g < ∞.
+- Main theorem kuramoto_solved_derived_continuum resolves ALL THREE reviewer problems:
+  (1) No uniform persistence (body persistence only)
+  (2) No bounded γ (uses Integrable γ for Leibniz dominator)
+  (3) No c_min (works with arbitrary probability measure)
+- Covers: Gaussian, Student-t ν>2, compact support
+- Full build: 0 sorry, 141 files
+
 ## [2026-05-05] experiment | ContinuumBodyLeibniz: FTC body Leibniz → V→0 chain (exp 219)
 
 - created: KuramotoLean/ContinuumBodyLeibniz.lean (0 sorry, 0 axioms)
