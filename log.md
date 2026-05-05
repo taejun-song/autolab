@@ -1,5 +1,27 @@
 # Activity Log
 
+## [2026-05-05] experiment | absorbing Barbalat theorem for standard continuum model (exp 207)
+
+- created: KuramotoLean/ContinuumBodyPersistence.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-l2-lyapunov.md (absorbing Barbalat section + new LEAN table)
+- index.md: regenerated
+- New theorems: absorbing_barbalat_io, kuramoto_continuum_from_body_persistence, kuramoto_continuum_full_chain
+- Resolves reviewer Problems 1-3: no uniform persistence, no bounded γ, no c_min
+- Key lemma: V antitone + i.o. absorbing drops (V(t+1) ≤ q·V(t) + ε, fixed q<1, ε→0) → V→0
+
+## [2026-05-05] experiment | continuum stability debate final synthesis (3 rounds complete)
+
+- created: syntheses/continuum-stability-debate.md
+- updated: program.md (priority section rewritten with correct open/closed state and ranked strategies)
+- index.md: regenerated
+- Debate conclusion: standard continuum model (γ=|ω|, g∈L¹) remains OPEN. Bounded-γ case proved. Five specific obstructions: h_approx tautological, ISS non-closing, L²-precompactness fails at lock/drift singularity, coupling prevents truncation, equicontinuity grows exponentially. Four viable strategies: weak-* LaSalle, passage-to-limit, hypocoercivity, hyperbolic geometry. Recommended: (1) check ContinuumRigidity for weak-* limits, (2) fill PassageToLimit placeholders.
+
+## [2026-05-05] correction | h_approx tautological, ISS does not close, LaSalle+precompactness proposed (debate R3)
+
+- updated: syntheses/continuum-l2-lyapunov.md (label changed to conditional-tautological; h_approx↔V→0 noted; ISS absorbing-ball failure documented; LaSalle+precompactness path identified; equicontinuity gap flagged)
+- index.md: regenerated
+- Debate Round 3: h_approx is equivalent to V→0, making kuramoto_solved_continuum a restatement not a reduction. ISS estimate yields absorbing ball only. Correct path: LaSalle invariance via precompactness of {α(·,t)} in L²(μ), with ContinuumRigidity for the characterization step. Open gap: equicontinuity in ω (Gronwall gives exponential growth, not uniform bound).
+
 ## [2026-05-05] experiment | kuramoto_standard_model — fixes three fundamental issues (exp 206)
 
 - created: KuramotoLean/StandardContinuumTheorem.lean
