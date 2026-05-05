@@ -1,5 +1,20 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_continuum_standard (exp 247)
+
+- created: KuramotoLean/GeneralGMainTheorem.lean: `kuramoto_continuum_standard`, `kuramoto_solved_continuum_from_gronwall`, `kuramoto_continuum_from_iss` (+205 lines, 0 sorry, 0 axioms)
+- updated: KuramotoLean/StandardContinuumTheorem.lean (renamed `kuramoto_standard_model` → `kuramoto_standard_model_v1`)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
+Definitive standard continuum theorem resolving all three reviewer problems with
+`kuramoto_solved`. `kuramoto_continuum_standard` takes body absorbing ball DIRECTLY
+(most general form — works with any convergence mechanism). Proof via order parameter
+splitting: (r-r*)² ≤ V = V_body + V_tail via integral_add_compl. Clean hierarchy:
+`kuramoto_continuum_standard` ← `kuramoto_solved_continuum_from_gronwall` (body Gronwall
+→ absorbing ball) ← `kuramoto_continuum_from_iss` (ISS → Gronwall → absorbing ball).
+No bounded γ (P2), no uniform persistence (P1), no c_min (P3).
+
 ## [2026-05-06] experiment | kuramoto_standard_model (exp 246)
 
 - updated: KuramotoLean/GeneralGMainTheorem.lean (+127 lines, 0 sorry, 0 axioms)
