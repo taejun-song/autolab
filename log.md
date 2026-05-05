@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-05] experiment | SummabilityLaSalle: V→0 via ∫|V'|<∞ summability route (exp 217)
+
+- created: KuramotoLean/SummabilityLaSalle.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+SummabilityLaSalle entry)
+- index.md: regenerated
+- New theorems: summable_of_le_antitone_telescope, summable_body_from_drop, antitone_tendsto_zero_of_nat, Data.body_summable_nat, Data.body_tendsto_zero_nat, Data.V_tendsto_zero_nat, Data.convergence, monotone_leibniz_convergence_summability
+- Key insight: body drop bound + antitone telescoping → V_body summable at integers → Summable.tendsto_atTop_zero → V_body(M,n)→0 → V(n)→0 → V→0 (antitone + integer convergence). Alternative proof to EventualTAC: more direct, uses Mathlib's summability infrastructure.
+- Same hypotheses as MonotoneLeibniz (h_body_drop), different proof technique (summability vs contradiction)
+- Full build: 0 sorry, 137 files
+
 ## [2026-05-05] experiment | MonotoneLeibnizBridge: V→0 for ALL g∈L¹ via truncation limit (exp 216)
 
 - created: KuramotoLean/MonotoneLeibnizBridge.lean (0 sorry, 0 axioms)

@@ -79,7 +79,8 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | Strategy | Status | File | Gap |
 |---|---|---|---|
 | Tail-Body Barbalat | **0 sorry** | `TailBodyBarbalat.lean` | `h_body_drop` (Leibniz for full V) |
-| **Monotone Leibniz Bridge (NEW)** | **0 sorry** | `MonotoneLeibnizBridge.lean` | `hDrop_mono` + `h_body_leibniz` (body Leibniz for each truncation + monotonicity) |
+| **Monotone Leibniz Bridge** | **0 sorry** | `MonotoneLeibnizBridge.lean` | `hDrop_mono` + `h_body_leibniz` (body Leibniz for each truncation + monotonicity) |
+| **Summability LaSalle (NEW)** | **0 sorry** | `SummabilityLaSalle.lean` | Same as MonotoneLeibniz (alternative proof via Summable.tendsto_atTop_zero) |
 | ISS tail-body split (old) | **0 sorry** | `ContinuumSolvedStandard.lean` | `h_iss` assumes $C \leq \mu(\text{tail})$, **unsatisfiable** ($\delta \cdot ds < 1$) |
 | ISS + Gronwall (old) | **0 sorry** | `StandardModelConvergence.lean` | Same `C \leq \mu(\text{tail})$ issue |
 | h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |
