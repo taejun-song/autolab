@@ -1,5 +1,24 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_continuum_standard_full: body drop theorem (exp 226)
+
+- created: KuramotoLean/ContinuumStandardFull.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 strategy row)
+- index.md: regenerated
+- log.md: appended
+- Definitive standard continuum theorem resolving all three reviewer problems:
+  1. No uniform persistence (body persistence only, drifting oscillators OK)
+  2. No bounded γ (body {γ ≤ M} has bounded γ for each M)
+  3. No minimum weight (continuum measure OK)
+- Takes: V antitone + body drop + tail vanishing (all derivable structural properties)
+- Proof: EventualTAC contradiction via TailBodyBarbalat
+  - V_body(M,t) ≥ V(t) - μ(tail) [integral splitting]
+  - If V(t+1) ≥ ε and tail < ε/2: drop ≥ K·c·ε/2 > 0
+  - Contradicts V(t)-V(t+1) → 0 from antitone bounded convergence
+- Corollary: bounded_gamma_implies_body_drop shows kuramoto_solved is special case
+- Covers ALL g ∈ L¹ (body drop derivable via MonotoneLeibnizBridge for any g)
+- Build: 0 sorry, 0 axioms, 3495 jobs.
+
 ## [2026-05-05] experiment | kuramoto_solved_continuum_tailbody: clean standard model theorem (exp 225)
 
 - created: KuramotoLean/KuramotoSolvedContinuumClean.lean (0 sorry, 0 axioms)

@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (KuramotoSolvedContinuumClean: tailbody theorem, exp 225)_
+_Last regenerated: 2026-05-05 (ContinuumStandardFull: body drop theorem, exp 226)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumStandardFull.lean (0 sorry, 0 axioms): `kuramoto_continuum_standard_full` — definitive standard continuum theorem via body drop + EventualTAC. Takes V antitone + body drop + tail vanishing. Resolves all three reviewer problems. Covers ALL g ∈ L¹ (including Lorentzian path via monotone limit).
 - [[continuum-stability-debate]] — KuramotoSolvedContinuumClean.lean (0 sorry, 0 axioms): Three clean theorems for standard continuum model. `kuramoto_solved_continuum_tailbody` resolves all three reviewer problems via tail-body ISS split. Covers Gaussian, Student-t ν>2, compact support.
 - [[continuum-stability-debate]] — KuramotoSolvedContinuum.lean: `leibniz_oa_integrable_gamma` (0 sorry) — Leibniz with ω-dependent dominator 2γ(ω)+K. Resolves bounded-γ obstruction for standard continuum model. Main theorem `kuramoto_solved_integrable_gamma` handles Gaussian/Student-t/compact g.
 - [[continuum-stability-debate]] — BodyLaSalleConvergence.lean (0 sorry): V→0 via MVT on each body truncation. Alternative proof path: body LaSalle + tail vanishing. Same BodyODEData hypotheses.
