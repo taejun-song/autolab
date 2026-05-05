@@ -89,6 +89,7 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | **ISS general C(M) (NEW)** | **0 sorry** | `ContinuumTailBodyConvergence.lean` | $C(M) + \mu(\text{tail}) \to 0$ (correct, satisfiable for fast-decaying $g$) |
 | **General Continuum (DEFINITIVE)** | **0 sorry** | `ContinuumSolvedGeneral.lean` | Body Gronwall + combined vanishing (satisfiable for Gaussian, Student-t, compact) |
 | **Integrable Dissipation LaSalle (NEW)** | **0 sorry** | `IntegrableDissipationLaSalle.lean` | Rate bound $-V' \geq Kc V_{\text{body}}$ (provable from pair coercivity for integrable $\gamma$) |
+| **Body LaSalle Convergence (NEW)** | **0 sorry** | `BodyLaSalleConvergence.lean` | Same `BodyODEData` as ContinuumBodyLeibniz; cleaner proof via MVT on each body |
 
 **`kuramoto_general_continuum`** (`ContinuumSolvedGeneral.lean`): The definitive continuum theorem resolving all three reviewer problems. Takes: body Gronwall absorbing bound V_body ≤ V(0)·e^{-rate·t} + C(M), combined vanishing C(M) + μ(tail) → 0. Does NOT assume bounded γ, uniform persistence, or minimum weight. Proof: applies `tail_body_iss_convergence` with body Gronwall → absorbing ball. Corollaries: bounded-γ is strict special case (C=0); fast-decaying g (Gaussian, Student-t ν>2, compact support) satisfies combined vanishing. Lorentzian excluded (C(M) ~ const).
 
@@ -124,6 +125,18 @@ The MVT argument: $V \to L$ implies $V(a+1) - V(a) \to 0$. By Lagrange MVT on $[
 The remaining gap: ContinuumRigidity gives $P = 0 \Rightarrow V = 0$ (qualitative). Promoting to $P < \delta \Rightarrow V < \varepsilon$ (quantitative) requires orbit compactness in $L^2(g)$, which fails for unbounded $\gamma$.
 
 Key question: does ContinuumRigidity hold for weak-* limits, or only for $L^2$ limits?
+
+**Strategy A0 (NEW): Body LaSalle — MVT on each truncation (`BodyLaSalleConvergence.lean`, 0 sorry)**
+
+LaSalle applied to each body truncation individually, bypassing the need for h_coercive on the full space:
+1. For each $M$: $V_{\text{body}}(M,\cdot)$ is antitone, nonneg, differentiable with $V_{\text{body}}' = -K \cdot P_{\text{body}}$
+2. MVT on $[n, n+1]$: $\exists t_n \to \infty$ with $|V_{\text{body}}'(M, t_n)| \to 0$, hence $P_{\text{body}}(M, t_n) \to 0$
+3. Body pair coercivity (bounded $\gamma \leq M$): $P_{\text{body}}(M) \geq c(M) \cdot V_{\text{body}}(M)$ eventually
+4. Combined: $V_{\text{body}}(M, t_n) \to 0$. Antitone + subsequence $\to 0$ implies $V_{\text{body}}(M, \cdot) \to 0$
+5. $V(t) \leq V_{\text{body}}(M,t) + \text{tail\_mass}(M)$ with $\text{tail\_mass}(M) \to 0$ as $M \to \infty$
+6. $V$ antitone + (4) + (5) $\Rightarrow V \to 0$
+
+Takes same `BodyODEData` hypotheses as `ContinuumBodyLeibniz.convergence` (which uses EventualTAC). This argument goes through `WeakStarLaSalle.deriv_vanishes_on_subsequence` instead. The remaining gap is the same: `h_Vb_hasDerivAt` (Leibniz for body integral, provable from `body_leibniz_hasDerivAt` in `BodyLeibnizProof.lean`).
 
 **Strategy A' (NEW): Absorbing Barbalat — time-averaged coercivity (`AbsorbingBarbalat.lean`, 0 sorry)**
 

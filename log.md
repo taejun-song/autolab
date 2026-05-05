@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-05] experiment | BodyLaSalleConvergence: V→0 via MVT on each body truncation (exp 222)
+
+- created: KuramotoLean/BodyLaSalleConvergence.lean (0 sorry)
+- updated: syntheses/continuum-stability-debate.md (+1 strategy row, +Strategy A0 description)
+- index.md: regenerated
+- New theorems: antitone_subseq_zero, body_tendsto_zero, BodyLaSalleConvergence.convergence
+- Key advance: Alternative proof path to BodyODEData.convergence via clean LaSalle argument. For each body M: MVT gives P_body(M,t_n)→0 subsequence, body coercivity gives V_body(M,t_n)→0, antitone + subseq→0 gives V_body(M)→0. Combined with tail vanishing: V→0. Same hypotheses as ContinuumBodyLeibniz (BodyODEData), different proof mechanism (MVT vs EventualTAC).
+- Remaining gap: same as before — h_Vb_hasDerivAt (Leibniz for body-restricted integral).
+
 ## [2026-05-05] experiment | IntegrableDissipationLaSalle: weak-* LaSalle via rate bound (exp 221)
 
 - created: KuramotoLean/IntegrableDissipationLaSalle.lean (0 sorry)

@@ -325,6 +325,7 @@ hsc_gap + persistence + Lipschitz → r → r*
 10. **SelfContainedConvergence**: V gap → quantitative persistence → iterated drops → V → 0
 11. **EndToEndConvergence**: ODE data → V antitone (derived) → component drops → Barbalat → r → r*
 12. **FullChainConvergence**: InfiniteEscape → ShiftedBarrier → RPersistence → V-drop → Barbalat → r → r* (NO persistence hypothesis)
+13. **BodyLaSalleConvergence**: Body MVT + body coercivity → V_body(M)→0 for each M → V→0 (from BodyODEData, alternative to EventualTAC)
 
 ## NEVER STOP
 

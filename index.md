@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (ContinuumSolvedDerived: integrable-γ Leibniz, exp 220)_
+_Last regenerated: 2026-05-05 (BodyLaSalleConvergence: MVT on each body, exp 222)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — BodyLaSalleConvergence.lean (0 sorry): V→0 via MVT on each body truncation. Alternative proof path: body LaSalle + tail vanishing. Same BodyODEData hypotheses.
 - [[continuum-stability-debate]] — ContinuumSolvedDerived.lean (0 sorry): derived continuum theorem with generalized Leibniz (dominator 2γ+K integrable). Resolves all three reviewer problems for ∫|ω|g < ∞.
 - [[continuum-stability-debate]] — ContinuumBodyLeibniz.lean (0 sorry): FTC body Leibniz → monotone limit → V→0 for ALL g ∈ L¹. Gap: HasDerivAt V_body (Leibniz rule).
 - [[continuum-stability-debate]] — ContinuumSolvedRealLine.lean (0 sorry): definitive continuum theorem for standard model on R. Resolves all three reviewer problems: no bounded γ, no uniform persistence, no c_min.
