@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-05-05] experiment | MonotoneLeibnizBridge: V→0 for ALL g∈L¹ via truncation limit (exp 216)
+
+- created: KuramotoLean/MonotoneLeibnizBridge.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+Monotone Leibniz entry)
+- updated: program.md (new strategy ranking)
+- index.md: regenerated
+- New theorems: MonotoneLeibniz.Data.full_body_drop, Data.convergence, Data.convergence_direct
+- Key insight: body Leibniz holds for EACH truncation M' (γ≤M' bounded), body drop is monotone in M' (nonneg integrand), and taking M'→∞ preserves the lower bound via ge_of_tendsto. No finite first moment needed.
+- Reduces Lorentzian case to: hDrop_mono (drop monotone) + h_body_leibniz (body Leibniz + coercivity, T uniform in M')
+- Both remaining hypotheses follow from bounded-γ Leibniz on each body (provable)
+- Full build: 0 sorry, 136 files
+
 ## [2026-05-05] experiment | ContinuumSolvedGeneral: definitive continuum theorem resolving reviewer problems (exp 215)
 
 - created: KuramotoLean/ContinuumSolvedGeneral.lean (0 sorry, 0 axioms)

@@ -79,6 +79,7 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | Strategy | Status | File | Gap |
 |---|---|---|---|
 | Tail-Body Barbalat | **0 sorry** | `TailBodyBarbalat.lean` | `h_body_drop` (Leibniz for full V) |
+| **Monotone Leibniz Bridge (NEW)** | **0 sorry** | `MonotoneLeibnizBridge.lean` | `hDrop_mono` + `h_body_leibniz` (body Leibniz for each truncation + monotonicity) |
 | ISS tail-body split (old) | **0 sorry** | `ContinuumSolvedStandard.lean` | `h_iss` assumes $C \leq \mu(\text{tail})$, **unsatisfiable** ($\delta \cdot ds < 1$) |
 | ISS + Gronwall (old) | **0 sorry** | `StandardModelConvergence.lean` | Same `C \leq \mu(\text{tail})$ issue |
 | h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |
@@ -166,6 +167,26 @@ The **remaining gap**: the Leibniz step $V(t)-V(t+1) = K\int P$ for unbounded $\
 STATUS BY DISTRIBUTION:
 - Gaussian/compactly supported $g$: $\int|\omega|g < \infty$ → **h_body_drop PROVABLE**
 - Lorentzian: $\int|\omega|g = \infty$ → naive DCT fails, but monotone convergence (truncation $M' \to \infty$) should work
+
+**Strategy A'''' (NEW): Monotone Leibniz Bridge — ALL g ∈ L¹ (`MonotoneLeibnizBridge.lean`, 0 sorry)**
+
+Proves h_body_drop WITHOUT ∫|ω|g < ∞ by passing through truncations:
+1. For each M' ≥ M: body Leibniz on {|ω| ≤ M'} (valid since γ ≤ M' bounded)
+2. V_body(M',t) ↗ V(t) as M' → ∞ (monotone convergence)
+3. Body drop monotone in M' (integral of nonneg pair dissipation over larger domain)
+4. Taking M' → ∞: limit preserves the lower bound → V(t)-V(t+1) ≥ K·c(M)·V_body(M,t)
+
+Reduces to TWO hypotheses (both provable from bounded-γ Leibniz):
+- **hDrop_mono**: body drop V_body(M',t)-V_body(M',t+1) is monotone in M'
+- **h_body_leibniz**: for each M' ≥ M, eventually: V_body(M',t)-V_body(M',t+1) ≥ K·c(M)·V_body(M,t)
+
+Both follow from:
+- Leibniz/DCT on {|ω| ≤ M'} (trivially valid: dominator 2(M'+K) is constant)
+- P_body(M') ≥ P_body(M) (restriction of nonneg integrand)
+- P_body(M) ≥ c(M)·V_body(M) (bounded-γ pair coercivity)
+- Time-averaged V_body(M,s) bounds (from body ODE with bounded rate)
+
+**This is the WEAKEST known reduction.** Does not use DCT for the full V. No finite first moment needed. Applies to Lorentzian.
 
 **Strategy B: Hypocoercivity (Villani/Dolbeault-Mouhot-Schmeiser)**
 

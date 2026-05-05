@@ -23,8 +23,9 @@ The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next 
 3. ContinuumRigidity: dV/dt = 0 ⟹ α = α* a.e.
 4. Bounded-γ stability (kuramoto_solved, 0 sorry, 0 axioms)
 5. ISS convergence for fast-decaying g (ContinuumTailBodyConvergence.lean, 0 sorry): r → r* when C(M) + μ(tail) → 0. Applies to Gaussian, Student-t ν>2, compact support. NOT Lorentzian.
+6. **Finite first moment stability** (BarbalatLeibnizBridge.lean, 0 sorry): V→0 for all g with ∫|ω|g < ∞. Uses Leibniz/DCT + body coercivity + uniform tail bound. Covers Gaussian, compact support, Student-t ν>2.
 
-**What is NOT proved**: V∞(t) → 0 for ALL unbounded γ (e.g., Lorentzian).
+**What is NOT proved**: V∞(t) → 0 for Lorentzian (∫|ω|g = ∞). The ONLY remaining gap is the Leibniz step (interchange of d/dt and ∫) for g without finite first moment.
 
 **Obstructions identified**:
 - h_approx is tautological (↔ V→0), not a reduction
@@ -33,11 +34,12 @@ The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next 
 - Tail-body split fails for slowly-decaying g (Lorentzian: C(M) ~ const, not → 0)
 
 **Viable strategies (ranked)**:
-1. **Tail-Body Barbalat** (TailBodyBarbalat.lean, 0 sorry): Reduces to h_body_drop: V(t)-V(t+1) ≥ K·c(M)·V_body(M,t). WEAKEST known sufficient condition. Purely analytic (Leibniz/FTC). For g with ∫|ω|g<∞: SOLVED by DCT.
-2. Absorbing Barbalat (AbsorbingBarbalat.lean, 0 sorry): Reduces to TimeAveragedCoercivity. IMPLIED by strategy 1.
-3. Weak-* LaSalle (WeakStarLaSalle.lean, 0 sorry): Reduces to h_coercive. IMPLIES strategy 2.
-4. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
-5. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
+1. **Monotone Leibniz Bridge** (MonotoneLeibnizBridge.lean, 0 sorry): Reduces to hDrop_mono + h_body_leibniz (body Leibniz for each truncation + drop monotonicity). WEAKEST known reduction — applies to ALL g ∈ L¹ including Lorentzian. No finite first moment needed.
+2. **Tail-Body Barbalat** (TailBodyBarbalat.lean, 0 sorry): Reduces to h_body_drop. For g with ∫|ω|g<∞: SOLVED by DCT (BarbalatLeibnizBridge.lean).
+3. Absorbing Barbalat (AbsorbingBarbalat.lean, 0 sorry): Reduces to TimeAveragedCoercivity. IMPLIED by strategy 2.
+4. Weak-* LaSalle (WeakStarLaSalle.lean, 0 sorry): Reduces to h_coercive. IMPLIES strategy 3.
+5. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
+6. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
 
 **Do NOT add more abstract ODE theorems.** The 135 files already prove far more than needed. Attack the open strategies above.
 
