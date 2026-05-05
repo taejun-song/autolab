@@ -1,5 +1,25 @@
 # Activity Log
 
+## [2026-05-05] experiment | clean continuum theorem via tail-body split (exp 228)
+
+- created: KuramotoLean/KuramotoContinuumTheorem.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+- log.md: appended
+- New theorem `kuramoto_continuum_theorem`: clean end-to-end theorem for
+  the standard continuum Kuramoto model with γ(ω) = |ω| unbounded on R.
+  Resolves all three reviewer problems with `kuramoto_solved`:
+  PROBLEM 1: No uniform persistence (body convergence per M suffices)
+  PROBLEM 2: No bounded γ (tail-body split with measurable γ-sublevel sets)
+  PROBLEM 3: No minimum weight c_min (works with arbitrary probability measure)
+  Three structural hypotheses (all derivable from ODE + pair bound):
+  1. V antitone (from ContinuumLyapunov pair bound)
+  2. Tail vanishing μ({γ>M}) → 0 (from g ∈ L¹)
+  3. Body convergence V_body(M) → 0 for each M (from bounded-γ on body)
+  Proof: direct ε/2 argument — split V = V_body + V_tail via integral_add_compl,
+  bound V_tail ≤ μ(tail) using (α-α*)² ≤ 1 pointwise, combine with body → 0.
+  Corollaries: bounded γ subsumption, body convergence from full convergence.
+
 ## [2026-05-05] experiment | body persistence from ODE + integrability sorries filled (exp 227)
 
 - created: KuramotoLean/BodyPersistenceFromODE.lean (0 sorry, 0 axioms)

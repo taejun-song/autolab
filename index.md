@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (BodyPersistenceFromODE: body persistence from ODE comparison, exp 227)_
+_Last regenerated: 2026-05-05 (KuramotoContinuumTheorem: clean tail-body split theorem, exp 228)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — KuramotoContinuumTheorem.lean (0 sorry, 0 axioms): `kuramoto_continuum_theorem` — clean end-to-end theorem for standard continuum model. Direct ε/2 tail-body split. Takes V antitone + tail vanishing + body convergence per M. Resolves all three reviewer problems. Minimal hypotheses.
 - [[continuum-stability-debate]] — BodyPersistenceFromODE.lean (0 sorry, 0 axioms): `body_persistence_lower_bound` — α(t) ≥ min(α(0), β*) on body {γ≤M} when r≥r_min. Proves body persistence from ODE comparison principle. Also: 2 integrability sorries filled in KuramotoSolvedContinuum.lean.
 - [[continuum-stability-debate]] — ContinuumStandardFull.lean (0 sorry, 0 axioms): `kuramoto_continuum_standard_full` — definitive standard continuum theorem via body drop + EventualTAC. Takes V antitone + body drop + tail vanishing. Resolves all three reviewer problems. Covers ALL g ∈ L¹ (including Lorentzian path via monotone limit).
 - [[continuum-stability-debate]] — KuramotoSolvedContinuumClean.lean (0 sorry, 0 axioms): Three clean theorems for standard continuum model. `kuramoto_solved_continuum_tailbody` resolves all three reviewer problems via tail-body ISS split. Covers Gaussian, Student-t ν>2, compact support.
