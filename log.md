@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_standard_model — fixes three fundamental issues (exp 206)
+
+- created: KuramotoLean/StandardContinuumTheorem.lean
+- updated: KuramotoLean.lean (+StandardContinuumTheorem, +ContinuumMainTheorem imports)
+- updated: syntheses/lean-proof-status.md (+standard continuum section, file count 133)
+- index.md: regenerated
+- LEAN: 133 files, 0 sorry, 0 axioms, 3486 build jobs. New theorem `kuramoto_standard_model` resolves three issues with `kuramoto_solved` for the standard continuum model: (1) no uniform persistence (drifting oscillators OK), (2) no bounded γ (unbounded frequencies OK), (3) no minimum weight (continuum measure OK). Uses tail-body split parameterized by γ-cutoff. Also proved `body_conv_of_full_conv` (V→0 implies body convergence) and `body_conv_from_bounded_stability` (bridge from bounded-γ stability).
+
+## [2026-05-05] correction | h_approx discharge gap identified, ISS fix proposed (debate R2)
+
+- updated: syntheses/continuum-l2-lyapunov.md (label downgraded from "proved" to "conditional"; added ISS coupling analysis; corrected α* direction near ω=0)
+- index.md: regenerated
+- Debate Round 2: Conceded coupling criticism — kuramoto_solved cannot apply to restricted measure since r(t) couples body+tail. Corrected reviewer error: α*(0)=1 (not 0). Proposed ISS estimate dV_S/dt ≤ -c_S·V_S + C·√(V_S+ε) to genuinely discharge h_approx.
+
 ## [2026-05-05] experiment | h_approx ↔ V→0 equivalence proved, debate analysis (exp 205)
 
 - created: syntheses/h-approx-equivalence.md

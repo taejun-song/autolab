@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: **0 sorry, 0 axioms** across 132 files (3481 build jobs). New: `kuramoto_solved_continuum` handles the standard model with unbounded frequencies via tail-body split.
+Machine-checked proof status: **0 sorry, 0 axioms** across 133 files (3486 build jobs). New: `kuramoto_standard_model` (StandardContinuumTheorem.lean) resolves three fundamental issues with `kuramoto_solved` for the standard continuum model.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -78,21 +78,33 @@ The subcritical proof uses V = r²: d(r²)/dt = 2r·ṙ = -2μr² - Kr⁴ ≤ -2
 
 The critical proof (K = 2γ → ṙ = -γr³): V = r² satisfies V' = -K·V² (quadratic, not linear). By contradiction: if V ≥ δ forever, then V' ≤ -(Kδ)·V (linearize at δ), so comparison_decay gives V(t) ≤ C·exp(-Kδt) → 0, contradicting V ≥ δ. The antitone property of V follows from antitoneOn_of_deriv_nonpos (V' = -K·V² ≤ 0).
 
-## Continuum Theorem for Unbounded Frequencies (ContinuumMainTheorem.lean)
+## Standard Continuum Theorem (StandardContinuumTheorem.lean)
 
-**Status**: 0 sorry, 0 axioms. New file (exp 204).
+**Status**: 0 sorry, 0 axioms. New file (exp 206).
 
-`kuramoto_solved_continuum` handles the standard Kuramoto model where `kuramoto_solved` CANNOT apply:
-- γ(ω) = |ω| unbounded on ℝ (violates `hγ_bdd : ∀ ω, γ ω ≤ γ_max`)
-- α*(ω) → 0 as |ω| → ∞ (violates `δ_per ≤ α ω t` for ALL ω)
-- No minimum atom weight (violates n-pole `c_min`)
+`kuramoto_standard_model` resolves three fundamental issues with `kuramoto_solved`:
 
-**Resolution**: Tail-body split (Dietert 2016 §2-3):
-1. For any ε > 0, choose body S with μ(Sᶜ) < ε
-2. V = V_body + V_tail (integral splitting over S and Sᶜ)
-3. V_tail ≤ ∫_{Sᶜ} 1 dμ = μ(Sᶜ) < ε (since |α-α*|² ≤ 1)
-4. V_body → 0 (bounded γ on S → Leibniz + persistence + coercive rate)
-5. |r-r*|² ≤ V → 0
+| Problem | `kuramoto_solved` assumes | Standard model reality | Fix |
+|---|---|---|---|
+| 1. Persistence | ∃ δ > 0, ∀ ω t, δ ≤ α(ω,t) | Drifting oscillators have α → 0 | No uniform persistence |
+| 2. Bounded γ | γ ≤ γ_max | γ(ω) = \|ω\| unbounded | No γ_max, tail-body split |
+| 3. Min weight | c_min > 0 (n-pole) | Continuum g(ω)dω, no atoms | No c_min |
+
+**Proof**: Tail-body split parameterized by γ-cutoff M (Dietert 2016 §2-3):
+1. `hγ_level`: γ sublevel sets {γ ≤ M} measurable
+2. `h_tail`: μ({γ > M}) → 0 as M → ∞ (g integrable)
+3. `h_body`: ∀ M > 0, V restricted to {γ ≤ M} → 0 (bounded γ + body persistence)
+4. Derives `h_approx` for `kuramoto_solved_continuum`, proves r → r*
+
+**Supporting theorems**:
+- `body_conv_of_full_conv`: V → 0 implies V restricted to any S → 0 (squeeze)
+- `body_conv_from_bounded_stability`: Bridge from bounded-γ stability to body convergence
+
+## Continuum Theorem — Abstract Split (ContinuumMainTheorem.lean)
+
+**Status**: 0 sorry, 0 axioms. (exp 204).
+
+`kuramoto_solved_continuum` takes abstract `h_approx` (∀ ε, ∃ S with V_S → 0 and μ(Sᶜ) < ε).
 
 **Equivalence (exp 205)**: h_approx ↔ V→0 is now proved in Lean:
 - `v_tendsto_zero_implies_h_approx`: V→0 ⟹ h_approx (take S = Ω)
@@ -107,8 +119,8 @@ See [[h-approx-equivalence]] for full analysis.
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated total | **31** (30 prior + rational_approximation_rate) |
-| Total .lean files | **132** |
-| Comprehensive build | **3481 build jobs** |
+| Total .lean files | **133** |
+| Comprehensive build | **3486 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory
