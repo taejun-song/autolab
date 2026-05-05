@@ -1,5 +1,22 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_standard_continuum — body pair coercive bound (exp 232)
+
+- created: KuramotoLean/ContinuumSolvedFinal.lean (0 sorry, 0 axioms)
+- updated: KuramotoLean.lean (+1 import)
+- index.md: regenerated
+- log.md: appended
+- New theorem `kuramoto_standard_continuum`: end-to-end convergence for
+  the standard continuum Kuramoto model with integrable γ.
+  Key new ingredient: body pair coercive bound
+    ∫∫_all pair ≥ 2·δ·ds·μ(body)·V_body
+  proved via pair_ge_delta_sq on body×body + set integral monotonicity.
+  Fills the gap that caused sorry's in kuramoto_solved_integrable_gamma.
+  Proof: Leibniz (integrable γ) → V antitone → body coercive →
+  contradiction if L > 0 → V → 0 → r → r*.
+  Helper theorems: leibniz_integrable_gamma, q_int_of_gamma_int,
+  s_int_bdd, pair_inner_integrable, body_pair_coercive.
+
 ## [2026-05-05] experiment | kuramoto_continuum_stability — complete standard continuum theorem (exp 231)
 
 - created: KuramotoLean/ContinuumSolvedComplete.lean (0 sorry, 0 axioms)
