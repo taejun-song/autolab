@@ -81,7 +81,8 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | Tail-Body Barbalat | **0 sorry** | `TailBodyBarbalat.lean` | `h_body_drop` (Leibniz for full V) |
 | **Monotone Leibniz Bridge** | **0 sorry** | `MonotoneLeibnizBridge.lean` | `hDrop_mono` + `h_body_leibniz` (body Leibniz for each truncation + monotonicity) |
 | **Summability LaSalle** | **0 sorry** | `SummabilityLaSalle.lean` | Same as MonotoneLeibniz (alternative proof via Summable.tendsto_atTop_zero) |
-| **Body Leibniz Instantiation (NEW)** | **0 sorry** | `BodyLeibnizInstantiation.lean` | Reduces to SINGLE hypothesis: body Leibniz identity (standard DCT on bounded body) |
+| **Body Leibniz Instantiation** | **0 sorry** | `BodyLeibnizInstantiation.lean` | Reduces to SINGLE hypothesis: body Leibniz identity (standard DCT on bounded body) |
+| **Continuum Body Leibniz (NEW)** | **0 sorry** | `ContinuumBodyLeibniz.lean` | Reduces to `HasDerivAt (V_body M) (-(K·P_body M t)) t` — the Mathlib Leibniz rule instantiation |
 | ISS tail-body split (old) | **0 sorry** | `ContinuumSolvedStandard.lean` | `h_iss` assumes $C \leq \mu(\text{tail})$, **unsatisfiable** ($\delta \cdot ds < 1$) |
 | ISS + Gronwall (old) | **0 sorry** | `StandardModelConvergence.lean` | Same `C \leq \mu(\text{tail})$ issue |
 | h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |

@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (ContinuumSolvedRealLine: definitive standard model theorem, exp 218b)_
+_Last regenerated: 2026-05-05 (ContinuumBodyLeibniz: FTC body Leibniz → V→0, exp 219)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumBodyLeibniz.lean (0 sorry): FTC body Leibniz → monotone limit → V→0 for ALL g ∈ L¹. Gap: HasDerivAt V_body (Leibniz rule).
 - [[continuum-stability-debate]] — ContinuumSolvedRealLine.lean (0 sorry): definitive continuum theorem for standard model on R. Resolves all three reviewer problems: no bounded γ, no uniform persistence, no c_min.
 - [[continuum-stability-debate]] — BodyLeibnizInstantiation.lean (0 sorry): body Leibniz identity → MonotoneLeibniz → V→0. Single gap: Leibniz integral rule for OA on bounded body.
 - [[continuum-stability-debate]] — SummabilityLaSalle.lean (0 sorry): V→0 via ∫|V'|<∞ summability route. Body drop → V_body summable → V→0.

@@ -1,5 +1,17 @@
 # Activity Log
 
+## [2026-05-05] experiment | ContinuumBodyLeibniz: FTC body Leibniz → V→0 chain (exp 219)
+
+- created: KuramotoLean/ContinuumBodyLeibniz.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+ContinuumBodyLeibniz entry)
+- index.md: regenerated
+- New theorems: BodyODEData.body_leibniz_id, Vb_antitone, avg_coer, body_drop_bound, full_drop_bound, convergence
+- Key result: FTC (integral_eq_sub_of_hasDerivAt) + monotone limit → V→0 for ALL g ∈ L¹
+- Chain: HasDerivAt V_body = -K·P_body → FTC identity → time-avg coercivity → monotone M'→∞ → EventualTAC → V→0
+- REMAINING GAP reduced to SINGLE Mathlib lemma: HasDerivAt (V_body M) (-(K·P_body M t)) t
+  from hasDerivAt_integral_of_dominated_loc_of_deriv_le with dominator 2(M+K)
+- Full build: 0 sorry, 140 files
+
 ## [2026-05-05] experiment | ContinuumSolvedRealLine: definitive standard model theorem (exp 218b)
 
 - created: KuramotoLean/ContinuumSolvedRealLine.lean (0 sorry, 0 axioms)
