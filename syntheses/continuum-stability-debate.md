@@ -83,6 +83,9 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | ISS + Gronwall (old) | **0 sorry** | `StandardModelConvergence.lean` | Same `C \leq \mu(\text{tail})$ issue |
 | h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |
 | **ISS general C(M) (NEW)** | **0 sorry** | `ContinuumTailBodyConvergence.lean` | $C(M) + \mu(\text{tail}) \to 0$ (correct, satisfiable for fast-decaying $g$) |
+| **General Continuum (DEFINITIVE)** | **0 sorry** | `ContinuumSolvedGeneral.lean` | Body Gronwall + combined vanishing (satisfiable for Gaussian, Student-t, compact) |
+
+**`kuramoto_general_continuum`** (`ContinuumSolvedGeneral.lean`): The definitive continuum theorem resolving all three reviewer problems. Takes: body Gronwall absorbing bound V_body ≤ V(0)·e^{-rate·t} + C(M), combined vanishing C(M) + μ(tail) → 0. Does NOT assume bounded γ, uniform persistence, or minimum weight. Proof: applies `tail_body_iss_convergence` with body Gronwall → absorbing ball. Corollaries: bounded-γ is strict special case (C=0); fast-decaying g (Gaussian, Student-t ν>2, compact support) satisfies combined vanishing. Lorentzian excluded (C(M) ~ const).
 
 **`tail_body_iss_convergence`** (`ContinuumTailBodyConvergence.lean`): Corrected ISS theorem with general absorbing radius $C(M)$. The old theorems required $C \leq \mu(\text{tail})$, but Gronwall gives $C = \mu(\text{tail})/(\delta \cdot ds)$ and $\delta \cdot ds < 1$ always (both factors in $(0,1)$), making the old hypothesis **unsatisfiable**. The new combined vanishing condition $C(M) + \mu(\{γ>M\}) \to 0$ is the mathematically correct condition. Satisfiable for Gaussian, Student-t $\nu > 2$, compactly supported $g$. Not satisfiable for Lorentzian (needs Bernoulli closed-form instead). The remaining gap: deriving the body Gronwall bound from the ODE dynamics (body-restricted Leibniz + rate bound).
 

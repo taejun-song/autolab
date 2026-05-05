@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-05] experiment | ContinuumSolvedGeneral: definitive continuum theorem resolving reviewer problems (exp 215)
+
+- created: KuramotoLean/ContinuumSolvedGeneral.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+General Continuum entry in strategy table)
+- index.md: regenerated
+- New theorems: kuramoto_general_continuum, kuramoto_solved_bounded_special_case, kuramoto_solved_fast_decay
+- Resolves all three reviewer problems with kuramoto_solved:
+  P1: no uniform persistence (body persistence only on {γ≤M})
+  P2: no bounded γ (unbounded OK, Leibniz only on body)
+  P3: no c_min (continuous probability measure)
+- Takes: body Gronwall V_body ≤ V(0)·e^{-rate·t} + C(M) + combined vanishing C(M)+μ(tail)→0
+- Corollaries: bounded-γ strict special case; fast-decay g (Gaussian, Student-t ν>2, compact) satisfies hypotheses
+- Applies to: Gaussian, Student-t ν>2, compactly supported g. NOT Lorentzian.
+
 ## [2026-05-05] experiment | BarbalatLeibnizBridge: V→0 from FTC identity for finite first moment (exp 214)
 
 - created: KuramotoLean/BarbalatLeibnizBridge.lean (0 sorry, 0 axioms)

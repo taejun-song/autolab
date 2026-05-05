@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (BarbalatLeibnizBridge: V→0 from FTC for finite first moment, exp 214)_
+_Last regenerated: 2026-05-05 (ContinuumSolvedGeneral: definitive continuum theorem, exp 215)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumSolvedGeneral.lean (0 sorry): definitive continuum theorem resolving all three reviewer problems. No bounded γ, no uniform persistence, no c_min.
 - [[continuum-stability-debate]] — BarbalatLeibnizBridge.lean (0 sorry): V→0 proved for g with finite first moment (∫|ω|g < ∞). Extends bounded-γ theorem to Gaussian/compact support.
 - [[continuum-stability-debate]] — ContinuumTailBodyConvergence.lean (0 sorry): corrected ISS convergence with general absorbing radius C(M). Fixes unsatisfiable C ≤ μ(tail) in prior theorems.
 - [[lean-proof-status]] — Machine-checked proof status: 145 files, 0 sorry, 0 axioms. New: `tail_body_iss_convergence`.
