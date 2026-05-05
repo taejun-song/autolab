@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (BodyLeibnizInstantiation: ODE→convergence chain, exp 218)_
+_Last regenerated: 2026-05-05 (ContinuumSolvedRealLine: definitive standard model theorem, exp 218b)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumSolvedRealLine.lean (0 sorry): definitive continuum theorem for standard model on R. Resolves all three reviewer problems: no bounded γ, no uniform persistence, no c_min.
 - [[continuum-stability-debate]] — BodyLeibnizInstantiation.lean (0 sorry): body Leibniz identity → MonotoneLeibniz → V→0. Single gap: Leibniz integral rule for OA on bounded body.
 - [[continuum-stability-debate]] — SummabilityLaSalle.lean (0 sorry): V→0 via ∫|V'|<∞ summability route. Body drop → V_body summable → V→0.
 - [[continuum-stability-debate]] — ContinuumSolvedGeneral.lean (0 sorry): definitive continuum theorem resolving all three reviewer problems. No bounded γ, no uniform persistence, no c_min.

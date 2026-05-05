@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-05-05] experiment | ContinuumSolvedRealLine: definitive standard model theorem (exp 218b)
+
+- created: KuramotoLean/ContinuumSolvedRealLine.lean (0 sorry, 0 axioms)
+- index.md: regenerated
+- New theorems: kuramoto_solved_real_line, body_equilibrium_lower_bound, kuramoto_solved_real_line_bounded_case, kuramoto_solved_real_line_finite_moment
+- Resolves ALL THREE reviewer problems with kuramoto_solved:
+  (1) No uniform persistence — body persistence only on {γ ≤ M}
+  (2) No bounded γ — tail-body split, Leibniz on body only
+  (3) No c_min — arbitrary probability measure
+- Uses tail_body_iss_convergence with body Gronwall bound + combined vanishing C(M)+μ(tail)→0
+- Applies to: Gaussian, Student-t ν>2, compact support. NOT Lorentzian (use Bernoulli).
+- Full build: 0 sorry, 139 files
+
 ## [2026-05-05] experiment | BodyLeibnizInstantiation: ODE body Leibniz → V→0 chain (exp 218)
 
 - created: KuramotoLean/BodyLeibnizInstantiation.lean (0 sorry, 0 axioms)
