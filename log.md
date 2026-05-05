@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-05-05] experiment | Body LaSalle gap analysis: Leibniz proved, V_body sign is real gap (exp 224)
+
+- created: KuramotoLean/BodyLaSalleBridge.lean (0 sorry, documentation)
+- created: syntheses/body-lasalle-gap-analysis.md
+- updated: program.md (corrected gap identification)
+- updated: index.md (added new synthesis)
+- fixed: KuramotoLean/BodyLeibnizProof.lean (`Measure.restrict.isFiniteMeasure` → `isFiniteMeasureRestrict`)
+- Key finding: **The "single remaining gap" (Leibniz integral rule) is ALREADY PROVED** by `body_leibniz_hasDerivAt` (BodyLeibnizProof.lean, 0 sorry). The REAL gap is V_body antitonicity: showing the body-restricted derivative is ≤ 0. This requires the pair bound for body-restricted integrals under GLOBAL self-consistency (r = ∫_ALL α g), which does not follow from the standard pair bound (which uses r = ∫α dμ on the SAME measure defining V).
+- Per-ω decomposition: dV_body/dt = K(-r*·Q_body + D·S_body). First term ≤ 0 (dissipation), second term = coupling error (bounded, either sign). Pair bound only gives r*Q ≥ D·S for full domain, not body.
+- Build status: 0 sorry, 0 axioms, 3494 jobs.
+
 ## [2026-05-05] experiment | KuramotoSolvedContinuum: integrable-γ Leibniz + standard continuum theorem (exp 223)
 
 - created: KuramotoLean/KuramotoSolvedContinuum.lean

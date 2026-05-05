@@ -41,7 +41,7 @@ The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next 
 5. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
 6. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
 
-**The SINGLE remaining gap**: Leibniz integral rule for d/dt ∫_{|ω|≤M'} (α-α*)² g = ∫_{|ω|≤M'} d/dt(α-α*)² g. Dominator: 2(M'+K), constant on bounded body. This is `MeasureTheory.hasDerivAt_integral_of_dominated_loc_of_deriv_le` or interval FTC in Mathlib. ATTACK THIS.
+**The SINGLE remaining gap**: V_body antitonicity (body derivative ≤ 0). The Leibniz step IS proved (`body_leibniz_hasDerivAt` in `BodyLeibnizProof.lean`, 0 sorry). But `BodyODEData` requires the body derivative = -(K·P_body) with P_body ≥ 0. The per-ω identity decomposes the body derivative as K(-r*·Q_body + D·S_body). The pair bound gives r*Q ≥ D·S for the FULL integral, but NOT for the body-restricted integral (self-consistency mismatch: r = ∫_ALL α g ≠ ∫_body α g). See [[body-lasalle-gap-analysis]] for full analysis.
 
 ## The open problem
 

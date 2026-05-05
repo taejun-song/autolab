@@ -69,6 +69,7 @@ _(none yet)_
 
 ## Syntheses
 
+- [[body-lasalle-gap-analysis]] — V_body antitonicity is the REAL gap (not Leibniz). Leibniz proved; pair bound for body-restricted integral under global self-consistency is open.
 - [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 132 files. h_approx ↔ V→0 equivalence proved. 3480 build jobs.
 - [[h-approx-equivalence]] — h_approx ↔ V→0: the tail-body hypothesis is equivalent to L² convergence. Proved in Lean.
 - [[continuum-stability-debate]] — Final debate synthesis: standard continuum model remains open; 5 obstructions identified, 4 viable strategies ranked.
