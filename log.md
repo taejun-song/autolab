@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-05] experiment | kuramoto_standard_continuum — definitive theorem (exp 229)
+
+- created: KuramotoLean/ContinuumSolvedDefinitive.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+- log.md: appended
+- New theorem `kuramoto_standard_continuum`: definitive end-to-end theorem for
+  the standard continuum Kuramoto model resolving ALL THREE reviewer problems.
+  Takes body Gronwall bound + combined vanishing C(M) + μ(tail) → 0.
+  Subsumption theorem shows it strictly generalizes `kuramoto_solved`.
+  Helper lemmas: body_ds_lower_bound', body_iss_from_gronwall',
+  order_parameter_cauchy_schwarz'. Applies to Gaussian, Student-t ν>2,
+  compact support distributions (not Lorentzian — use Bernoulli).
+
 ## [2026-05-05] experiment | clean continuum theorem via tail-body split (exp 228)
 
 - created: KuramotoLean/KuramotoContinuumTheorem.lean (0 sorry, 0 axioms)

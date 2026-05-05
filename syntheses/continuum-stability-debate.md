@@ -94,6 +94,7 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | **Tail-Body Clean (NEW)** | **0 sorry, 0 axioms** | `KuramotoSolvedContinuumClean.lean` | C(M) + μ(tail) → 0. Three variants: tailbody, gronwall, simple. Fully proved modular reduction. |
 | **Standard Full (DEFINITIVE)** | **0 sorry, 0 axioms** | `ContinuumStandardFull.lean` | V antitone + body drop + tail vanishing. EventualTAC contradiction. Covers ALL g ∈ L¹. |
 | **Continuum Theorem (CLEAN)** | **0 sorry, 0 axioms** | `KuramotoContinuumTheorem.lean` | V antitone + tail vanishing + body convergence per M. Direct ε/2 argument. Minimal hypotheses. |
+| **Standard Continuum (DEFINITIVE)** | **0 sorry, 0 axioms** | `ContinuumSolvedDefinitive.lean` | Body Gronwall + combined vanishing. Subsumes `kuramoto_solved`. Gaussian/Student-t/compact. |
 
 **`kuramoto_general_continuum`** (`ContinuumSolvedGeneral.lean`): The definitive continuum theorem resolving all three reviewer problems. Takes: body Gronwall absorbing bound V_body ≤ V(0)·e^{-rate·t} + C(M), combined vanishing C(M) + μ(tail) → 0. Does NOT assume bounded γ, uniform persistence, or minimum weight. Proof: applies `tail_body_iss_convergence` with body Gronwall → absorbing ball. Corollaries: bounded-γ is strict special case (C=0); fast-decaying g (Gaussian, Student-t ν>2, compact support) satisfies combined vanishing. Lorentzian excluded (C(M) ~ const).
 
