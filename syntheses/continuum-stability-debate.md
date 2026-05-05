@@ -78,6 +78,7 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 
 | Strategy | Status | File | Gap |
 |---|---|---|---|
+| Tail-Body Barbalat | **0 sorry** | `TailBodyBarbalat.lean` | `h_body_drop` (Leibniz for full V) |
 | ISS tail-body split | **0 sorry** | `ContinuumSolvedStandard.lean` | `h_iss` (absorbing ball) assumed |
 | ISS + Gronwall | **0 sorry** | `StandardModelConvergence.lean` | `h_body_gronwall` (body Gronwall bound) assumed |
 | h_approx conditional | **0 sorry** | `ContinuumMainTheorem.lean` | `h_approx` ↔ $V \to 0$ (tautological) |
@@ -131,6 +132,31 @@ Why weaker than h_coercive: pointwise coercivity ($P(t) < \delta \Rightarrow V(t
 
 Proved in `AbsorbingBarbalat.lean`: pointwise coercivity ⟹ time-averaged coercivity (so this is strictly weaker).
 
+**Strategy A'' (NEW): Tail-Body Barbalat — uniform tail bound (`TailBodyBarbalat.lean`, 0 sorry)**
+
+Reduces the open problem to a SINGLE hypothesis that is WEAKER than both h_coercive and TimeAveragedCoercivity:
+
+**h_body_drop**: $\forall M > 0,\ \exists T,\ \forall t \geq T:\ V(t) - V(t+1) \geq K \cdot c(M) \cdot V_{\text{body}}(M, t)$
+
+Key insight: $V_{\text{tail}}(M,t) \leq \int_{|\omega|>M} g\,d\omega$ is **UNIFORM IN TIME** because $(\alpha - \alpha^*)^2 \leq 1$ pointwise. No orbit compactness needed.
+
+The argument:
+1. Choose $M$ large: $\int_{|\omega|>M} g < \varepsilon/2$ (tail mass vanishes, $g \in L^1$)
+2. $V(t+1) \geq \varepsilon \Rightarrow V_{\text{body}}(M,t) \geq V(t) - V_{\text{tail}} \geq \varepsilon/2$
+3. h_body_drop gives $V(t) - V(t+1) \geq K \cdot c(M) \cdot \varepsilon/2 = \delta$
+4. This is EventualTAC → $V \to 0$ by contradiction (proved in `TailBodyBarbalat.lean`)
+
+h_body_drop follows from the chain:
+- $V(t) - V(t+1) = K\int_t^{t+1} P(s)\,ds$ (Leibniz/FTC for full V)
+- $P \geq P_{\text{body}}$ (restriction monotonicity)
+- $P_{\text{body}} \geq c(M) \cdot V_{\text{body}}$ (body pair coercivity from persistence)
+
+The **remaining gap**: the Leibniz step $V(t)-V(t+1) = K\int P$ for unbounded $\gamma$. This requires $\int |d/dt(\alpha-\alpha^*)^2| g < \infty$ uniformly, i.e., $\int(\gamma+K)g < \infty$, i.e., $\int |\omega| g < \infty$.
+
+STATUS BY DISTRIBUTION:
+- Gaussian/compactly supported $g$: $\int|\omega|g < \infty$ → **h_body_drop PROVABLE**
+- Lorentzian: $\int|\omega|g = \infty$ → naive DCT fails, but monotone convergence (truncation $M' \to \infty$) should work
+
 **Strategy B: Hypocoercivity (Villani/Dolbeault-Mouhot-Schmeiser)**
 
 Treat the OA flow as a kinetic equation with transport $\omega\partial_\theta$ and coupling dissipation. Construct a twisted functional $\mathcal{H} = V + \varepsilon\langle A\alpha, \alpha\rangle$ with cross-term that exploits frequency transport feeding phase dissipation. The weight $w(\omega) = (1+\omega^2)^k$ makes the tail naturally dissipative.
@@ -157,19 +183,27 @@ Key question: can rational approximation of $g$ give uniform-in-$t$ error bounds
 
 ## 5. Recommended next steps
 
-1. **Prove time-averaged coercivity (h_tac)** [NEW, WEAKEST KNOWN SUFFICIENT CONDITION]: The single remaining hypothesis from `AbsorbingBarbalat.lean`. For any $\varepsilon > 0$, find $\delta > 0$ such that $V(t+1) \geq \varepsilon \Rightarrow V(t) - V(t+1) \geq \delta$. Approaches:
-   - Fubini: $V(t)-V(t+1) = K\iint (\int_t^{t+1} \text{pair}(s)\,ds)\,d\mu^2$. The time integral of pair captures cumulative frequency-dependent relaxation.
-   - For locked oscillators ($|\omega| < Kr^*$): pair has a uniform lower bound (coercivity constant $\sim \alpha^*(1-\alpha^*)$). Their contribution gives $V(t)-V(t+1) \geq c \cdot V_{\text{body}}$.
-   - For drifting oscillators ($|\omega| > Kr^*$): $\alpha \to 0$ exponentially, so $V_{\text{tail}} \to 0$ automatically.
-   - The hard part: the INTERFACE $|\omega| \approx Kr^*$ where $\alpha^*$ has a square-root singularity.
+1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
+   Show $V(t) - V(t+1) \geq K \cdot c(M) \cdot V_{\text{body}}(M,t)$ eventually.
+   This follows from: Leibniz gives $V(t)-V(t+1) = K\int_t^{t+1} P$, then $P \geq P_{\text{body}} \geq c(M) \cdot V_{\text{body}}$.
+   - For $g$ with $\int|\omega|g < \infty$ (Gaussian, compact support): **DCT gives Leibniz directly**.
+   - For Lorentzian ($\int|\omega|g = \infty$): use monotone convergence with body truncations $M' \to \infty$. The key: $V_{M'}(t) - V_{M'}(t+1) \geq K\int_t^{t+1} P_{M'}$ (Leibniz on body $M'$, valid since $\gamma \leq M'$). Take $M' \to \infty$: monotone convergence on both sides.
+   - Alternative: prove $V$ is absolutely continuous directly from the ODE without DCT.
 
-2. **Prove pointwise coercivity (h_coercive)** [STRONGER, implies h_tac]: From `WeakStarLaSalle.lean`. For any $\varepsilon > 0$, find $\delta > 0$ such that $\iint \text{pair} < \delta \Rightarrow V < \varepsilon$. Approaches:
-   - Weak-* compactness + lower semicontinuity of $V$ (needs $V$ wlsc, which holds by convexity)
-   - Direct estimate: bound $V$ in terms of $P$ using the algebraic structure of pairIntegrand
+2. **Prove time-averaged coercivity (h_tac)** [STRONGER, from `AbsorbingBarbalat.lean`]: Implied by h_body_drop + body coercivity + uniform tail bound. The tail-body argument in `TailBodyBarbalat.lean` derives EventualTAC from h_body_drop.
 
-3. **Quantify passage-to-limit errors**: Fill the 3 True placeholders in `PassageToLimit.lean`. The uniform rate makes the $n$-independent bound plausible.
+3. **Prove pointwise coercivity (h_coercive)** [STRONGEST, from `WeakStarLaSalle.lean`]: Implies h_tac (proved). Requires orbit compactness which fails for unbounded $\gamma$. NOT recommended as primary attack.
 
-4. **Investigate hyperbolic contraction**: Check whether $d/dt\,\rho(\alpha_1(t), \alpha_2(t)) \leq 0$ under the OA dynamics.
+4. **Quantify passage-to-limit errors**: Fill the 3 True placeholders in `PassageToLimit.lean`. Independent approach.
+
+**Hierarchy of hypotheses** (strictly weaker going down):
+```
+h_coercive (P<δ ⟹ V<ε) [WeakStarLaSalle]
+    ⟹ TimeAveragedCoercivity [AbsorbingBarbalat]
+    ⟹ h_body_drop (Leibniz + body coercivity) [TailBodyBarbalat]
+    ⟹ V → 0
+```
+h_body_drop is purely analytic (interchange of limit and integral). No dynamics, no compactness.
 
 ## 6. Label
 

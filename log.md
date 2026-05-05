@@ -1,5 +1,18 @@
 # Activity Log
 
+## [2026-05-05] experiment | TailBodyBarbalat: uniform tail bound closes V→0 gap (exp 212)
+
+- created: KuramotoLean/TailBodyBarbalat.lean (0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+Strategy A'', hierarchy diagram)
+- index.md: regenerated
+- New theorems: eventual_tac_convergence, eventual_tac_tendsto, etac_from_tail_body, ContinuumTailBodyData.convergence, tail_body_convergence
+- Defines EventualTAC (weaker than TAC: bound only for t≥T)
+- Key insight: V_tail ≤ ∫_{tail} g UNIFORM IN TIME from (α-α*)²≤1
+- Reduces open problem to h_body_drop: V(t)-V(t+1) ≥ K·c(M)·V_body(M,t)
+- h_body_drop is purely analytic: Leibniz/FTC for the full Lyapunov integral
+- For g with ∫|ω|g<∞: h_body_drop follows from DCT (problem SOLVED for these g)
+- For Lorentzian: monotone convergence argument needed (remaining gap)
+
 ## [2026-05-05] experiment | StandardModelConvergence: definitive continuum theorem (exp 211)
 
 - created: KuramotoLean/StandardModelConvergence.lean (0 sorry, 0 axioms)

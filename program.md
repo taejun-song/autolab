@@ -32,11 +32,11 @@ The Lorentzian case is DONE (0 assumed fields, Bernoulli closed-form). The next 
 - Tail-body split fails (r(t) couples all frequencies)
 
 **Viable strategies (ranked)**:
-1. **Absorbing Barbalat** (AbsorbingBarbalat.lean, 0 sorry): Reduces to TimeAveragedCoercivity: V(t+1)≥ε ⟹ V(t)-V(t+1)≥δ. STRICTLY WEAKER than h_coercive. Contrapositive of the full argument is one line.
-2. Weak-* LaSalle (WeakStarLaSalle.lean, 0 sorry): Reduces to h_coercive (P<δ ⟹ V<ε). Implies strategy 1.
-3. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
-4. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
-5. Hyperbolic Poincaré disk: Möbius structure + conformal factor alignment. Speculative.
+1. **Tail-Body Barbalat** (TailBodyBarbalat.lean, 0 sorry): Reduces to h_body_drop: V(t)-V(t+1) ≥ K·c(M)·V_body(M,t). WEAKEST known sufficient condition. Purely analytic (Leibniz/FTC). For g with ∫|ω|g<∞: SOLVED by DCT.
+2. Absorbing Barbalat (AbsorbingBarbalat.lean, 0 sorry): Reduces to TimeAveragedCoercivity. IMPLIED by strategy 1.
+3. Weak-* LaSalle (WeakStarLaSalle.lean, 0 sorry): Reduces to h_coercive. IMPLIES strategy 2.
+4. Passage to limit: fill 3 True placeholders in PassageToLimit.lean using UniformRate n-independent bounds.
+5. Hypocoercivity: twisted Sobolev norm exploiting frequency transport. Requires handling mean-field nonlinearity.
 
 **Do NOT add more abstract ODE theorems.** The 135 files already prove far more than needed. Attack the open strategies above.
 

@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (StandardModelConvergence: definitive continuum theorem, exp 211)_
+_Last regenerated: 2026-05-05 (TailBodyBarbalat: uniform tail bound, exp 212)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — TailBodyBarbalat.lean (0 sorry): reduces open problem to h_body_drop (Leibniz/FTC). SOLVED for g with ∫|ω|g<∞.
 - [[continuum-stability-debate]] — StandardModelConvergence.lean (0 sorry): `kuramoto_solved_continuum_standard` resolves all 3 reviewer problems.
 - [[lean-proof-status]] — Machine-checked proof status: 136 files, 0 sorry, 0 axioms. New: `kuramoto_solved_continuum_standard`.
 - [[h-approx-equivalence]] — h_approx ↔ V→0 equivalence proved in Lean. The tail-body hypothesis is exactly L² Lyapunov convergence.
