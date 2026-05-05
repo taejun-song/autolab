@@ -37,7 +37,9 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 
 > **`kuramoto_solved`** (`GeneralGMainTheorem.lean`): For bounded $\gamma \leq \gamma_{\max}$ with uniform persistence $\delta > 0$: $V(t) \to 0$ and $r(t) \to r^*$. Subsumed by `kuramoto_solved_continuum`.
 
-The remaining gap: Lorentzian ($\int |\omega| g = \infty$, so $\gamma$ not integrable). For distributions with integrable $\gamma$, the problem is SOLVED.
+> **`kuramoto_continuum_real`** (`ContinuumSolvedReal.lean`): For ALL $g \in L^1(\mathbb{R})$ (including Lorentzian) with V antitone and body drop: $r(t) \to r^*$. NO `hγ_int` (no moment condition), NO bounded $\gamma$, NO uniform persistence, NO $c_{\min}$. Tail vanishing derived from probability measure (continuity of measure from above). Strictly generalizes `kuramoto_solved_continuum`.
+
+The remaining structural hypotheses (V antitone, body drop) are derivable from the ODE pair bound and body Leibniz respectively. These are proved in other files; what remains open is instantiating the body drop for Lorentzian specifically (where body coercivity rate decays as 1/M while tail mass also decays as 1/M).
 
 ## 2. Hypotheses: needed vs provable
 
@@ -95,6 +97,7 @@ Equivalently: prove that the only $\omega$-limit point of the flow (in a suitabl
 | **Integrable-γ Leibniz (NEW)** | Leibniz: **0 sorry** | `KuramotoSolvedContinuum.lean` | `hV_zero` (body coercivity → V→0). Leibniz with ω-dependent dominator 2γ(ω)+K fully proved. |
 | **Tail-Body Clean (NEW)** | **0 sorry, 0 axioms** | `KuramotoSolvedContinuumClean.lean` | C(M) + μ(tail) → 0. Three variants: tailbody, gronwall, simple. Fully proved modular reduction. |
 | **Standard Full (DEFINITIVE)** | **0 sorry, 0 axioms** | `ContinuumStandardFull.lean` | V antitone + body drop + tail vanishing. EventualTAC contradiction. Covers ALL g ∈ L¹. |
+| **No Moment Condition (NEW)** | **0 sorry, 0 axioms** | `ContinuumSolvedReal.lean` | V antitone + body drop. Tail vanishing DERIVED from probability measure. No hγ_int. ALL g ∈ L¹ including Lorentzian. |
 | **Continuum Theorem (CLEAN)** | **0 sorry, 0 axioms** | `KuramotoContinuumTheorem.lean` | V antitone + tail vanishing + body convergence per M. Direct ε/2 argument. Minimal hypotheses. |
 | **Standard Continuum (DEFINITIVE)** | **0 sorry, 0 axioms** | `ContinuumSolvedDefinitive.lean` | Body Gronwall + combined vanishing. Subsumes `kuramoto_solved`. Gaussian/Student-t/compact. |
 

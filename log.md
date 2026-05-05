@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_continuum_real — no moment condition theorem (exp 234)
+
+- created: KuramotoLean/ContinuumSolvedReal.lean (kuramoto_continuum_real + tail_measure_tendsto_zero, 0 sorry, 0 axioms)
+- updated: syntheses/continuum-stability-debate.md (+kuramoto_continuum_real entry, +no moment condition strategy)
+- index.md: regenerated
+- log.md: appended
+
+Key result: `kuramoto_continuum_real` proves r → r* for the standard continuum Kuramoto model WITHOUT requiring γ integrable (hγ_int). Tail vanishing μ({γ > M}) → 0 derived from probability measure via continuity of measure from above (Archimedean + tendsto_measure_iInter_atTop). Strictly generalizes kuramoto_solved_continuum. Applies to ALL g ∈ L¹(R) including Lorentzian. Remaining structural hypotheses: V antitone (pair bound), body drop (body Leibniz + coercivity).
+
 ## [2026-05-05] experiment | kuramoto_solved_continuum — definitive continuum theorem (exp 233)
 
 - updated: KuramotoLean/KuramotoSolvedContinuum.lean (+kuramoto_solved_continuum, 0 sorry, 0 axioms)

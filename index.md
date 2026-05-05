@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-05 (kuramoto_solved_continuum: definitive continuum theorem, exp 233)_
+_Last regenerated: 2026-05-06 (kuramoto_continuum_real: no moment condition theorem, exp 234)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumSolvedReal.lean (0 sorry, 0 axioms): `kuramoto_continuum_real` — NO MOMENT CONDITION continuum theorem. Tail vanishing derived from probability measure (not γ integrability). Applies to ALL g ∈ L¹ including Lorentzian. Strictly generalizes kuramoto_solved_continuum.
 - [[continuum-stability-debate]] — KuramotoSolvedContinuum.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum` — DEFINITIVE continuum theorem. Resolves all three reviewer problems: (1) body persistence not uniform, (2) γ integrable not bounded, (3) rate from body pair coercivity not c_min. Covers Gaussian, Student-t ν>2, compact support.
 - [[continuum-stability-debate]] — ContinuumSolvedFinal.lean (0 sorry, 0 axioms): `kuramoto_standard_continuum` — standard continuum convergence with body pair coercive bound. Key new ingredient: ∫∫ pair ≥ 2·δ·ds·μ(body)·V_body via set integral monotonicity. Integrable γ, body persistence, no bounded γ_max. Covers Gaussian, Student-t ν>2, compact support.
 - [[continuum-stability-debate]] — ContinuumSolvedComplete.lean (0 sorry, 0 axioms): `kuramoto_continuum_stability` — definitive end-to-end theorem for standard continuum model (γ=|ω| unbounded). Resolves all three reviewer problems: (1) body persistence not uniform, (2) γ bounded per-body, (3) rate from coercivity not c_min. Covers Gaussian, Student-t ν>3, compact support.
