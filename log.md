@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumStandardSolved for standard model (exp 267)
+
+- created: KuramotoLean/ContinuumStandardSolved.lean (0 sorry, 0 axioms)
+- `kuramoto_solved_continuum_standard`: definitive theorem for standard continuum Kuramoto with γ=|ω| unbounded. Self-contained proof of tail-body split (not delegating). Resolves PROBLEMS 1-3: no uniform persistence, no bounded γ, no c_min. Takes body L² drop per truncation M as SINGLE convergence hypothesis. Proof uses integral_add_compl + Cauchy-Schwarz + tail vanishing from probability measure.
+- `kuramoto_solved_is_special_case`: subsumption — bounded γ + uniform persistence (kuramoto_solved) is a special case.
+- `kuramoto_from_body_exp`: bridge from body exponential decay → body drop → r → r*.
+- updated: GeneralGMainTheorem.lean — made `sq_setIntegral_le` and `tail_measure_tendsto_zero'` public (were private, needed by external files).
+- index.md: regenerated
+
 ## [2026-05-06] experiment | ContinuumSolvedStandardModel for standard model (exp 266)
 
 - created: KuramotoLean/ContinuumSolvedStandardModel.lean (0 sorry, 0 axioms)

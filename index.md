@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (ContinuumSolvedStandardModel, exp 266)_
+_Last regenerated: 2026-05-06 (ContinuumStandardSolved, exp 267)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumStandardSolved.lean (exp 267): `kuramoto_solved_continuum_standard` — Self-contained definitive theorem for standard continuum Kuramoto with γ=|ω| unbounded on R. RESOLVES ALL 3 PROBLEMS: (1) no uniform persistence, (2) no bounded γ, (3) no c_min. Body L² drop per M as SINGLE hypothesis. Proof: integral_add_compl + Cauchy-Schwarz + tail vanishing. Also `kuramoto_solved_is_special_case` subsumption + `kuramoto_from_body_exp` bridge. 0 sorry, 0 axioms. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — ContinuumSolvedStandardModel.lean (exp 266): `kuramoto_solved_standard_model` — DEFINITIVE theorem for standard continuum Kuramoto with γ=|ω| unbounded on R. RESOLVES ALL 3 PROBLEMS: (1) no uniform persistence (body only), (2) no bounded γ (Leibniz per body), (3) no c_min (body coercivity). Takes body exp decay per M. Also `body_exp_from_body_gronwall` + `body_equil_lower_bound` + subsumption. 0 sorry, 0 axioms. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — ContinuumSolvedTailBodyV2.lean (exp 265): `kuramoto_solved_continuum'` — DEFINITIVE tail-body theorem for standard continuum Kuramoto on R. RESOLVES ALL 3 REVIEWER PROBLEMS: (1) no uniform persistence (body persistence only on {γ≤M}), (2) no bounded γ (body bounded by M per truncation), (3) no c_min (body coercivity K·δ(M)·ds(M)). Takes body exp decay per M as SINGLE convergence hypothesis. Tail vanishing automatic. `body_exp_of_bounded_gamma` subsumption. 0 sorry, 0 axioms. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — KuramotoStandardContinuum.lean (exp 264): `kuramoto_solved_continuum` — DEFINITIVE theorem for standard continuum Kuramoto on ℝ. γ=|ω| unbounded, no uniform persistence, no bounded γ, no c_min. Body exp decay per truncation M. Tail-body split: integral_add_compl + Cauchy-Schwarz. Subsumption `_of_bounded`. 0 sorry, 0 axioms. ALL g ∈ L¹(ℝ).
