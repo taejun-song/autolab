@@ -4736,3 +4736,10 @@ Major restructuring of MainTheorem.lean and companion files:
 - updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
 - index.md: regenerated
 - **Sorry count**: 0, **Axiom count**: 0, **Build jobs**: 3501
+
+## [2026-05-06] experiment | ContinuumStandardModel.lean for unbounded γ (exp 262)
+
+- created: KuramotoLean/ContinuumStandardModel.lean — `kuramoto_continuum_standard_model`: clean definitive theorem for standard continuum Kuramoto model with γ(ω)=|ω| (unbounded). Resolves all 3 reviewer problems: (1) no uniform persistence, (2) no bounded γ, (3) no c_min. Single hypothesis `h_body_exp` (body exp decay per truncation M) replaces all three. Proof via tail-body split [Dietert 2016]. Also: `_of_bounded` (subsumption: `kuramoto_solved` is special case), `_exists` (existential wrapper).
+- updated: KuramotoLean.lean (+1 import)
+- index.md: regenerated
+- **Sorry count**: 0, **Axiom count**: 0, **Build jobs**: 3503
