@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-06] lint-fix | resolve two wiring issues in ContinuumSolvedWired (exp 268)
+
+- updated: KuramotoLean/ContinuumSolvedWired.lean — ISSUE 1: replace `hγ_pos : 0 < γ ω` (strict, redundant) with `hγ : 0 ≤ γ ω` in `kuramoto_continuum_wired`. Strict positivity is derivable from equilibrium + `hα_star_lt`; theorem honest on Ω=ℝ\{0}.
+- updated: KuramotoLean/ContinuumSolvedComplete.lean — ISSUE 2: rename `kuramoto_continuum_stability` → `kuramoto_continuum_stability_gronwall` to avoid name collision with body-drop version in GeneralGMainTheorem. Update call sites.
+- Codex review verdict: "honest only on Ω=ℝ\{0}; h_r_persist, h_gronwall_from_persist, h_combined_vanish are unproved imported assumptions."
+- Build: 0 errors, 0 sorry, 3503 jobs.
+- index.md: not regenerated (no wiki page changes)
+
 ## [2026-05-06] experiment | ContinuumStandardSolved for standard model (exp 267)
 
 - created: KuramotoLean/ContinuumStandardSolved.lean (0 sorry, 0 axioms)
