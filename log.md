@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumSolvedStandardModel for standard model (exp 266)
+
+- created: KuramotoLean/ContinuumSolvedStandardModel.lean (0 sorry, 0 axioms)
+- `kuramoto_solved_standard_model`: definitive theorem for standard continuum Kuramoto with γ=|ω| unbounded. Resolves PROBLEMS 1-3: no uniform persistence, no bounded γ, no c_min. Takes body exp decay per truncation M as SINGLE convergence hypothesis. Delegates to `kuramoto_solved_full_continuum` (tail-body split). Covers ALL g ∈ L¹(R).
+- `body_exp_from_body_gronwall`: extracts h_body_exp from concrete Gronwall bound with rate K·ds(M)².
+- `body_equil_lower_bound`: α*(ω) ≥ Kr*/(2M+Kr*) on body {γ≤M} (pair coercivity constant ds(M)).
+- `body_exp_of_bounded_gamma'`: subsumption — bounded γ with M≥γ_max gives body = univ.
+- index.md: regenerated
+
 ## [2026-05-06] experiment | ContinuumSolvedTailBodyV2 tail-body theorem (exp 265)
 
 - created: KuramotoLean/ContinuumSolvedTailBodyV2.lean (0 sorry, 0 axioms)
