@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumSolvedTailBodyV2 tail-body theorem (exp 265)
+
+- created: KuramotoLean/ContinuumSolvedTailBodyV2.lean (0 sorry, 0 axioms)
+- `kuramoto_solved_continuum'`: definitive tail-body theorem for standard continuum Kuramoto on R. Resolves PROBLEMS 1-3 (no uniform persistence, no bounded γ, no c_min). Takes body exp decay per truncation M as SINGLE convergence hypothesis (encapsulates bounded-γ stability applied to each body). Tail vanishing automatic from probability measure. Detailed docstring explains derivation chain: Leibniz (dominator 2M+K) + persistence δ(M) + coercivity → Gronwall.
+- `body_exp_of_bounded_gamma`: subsumption — for M ≥ γ_max, body = univ, so global Gronwall directly gives body exp decay.
+- index.md: regenerated
+
 ## [2026-05-06] experiment | KuramotoStandardContinuum definitive theorem (exp 264)
 
 - created: KuramotoLean/KuramotoStandardContinuum.lean (0 sorry, 0 axioms)

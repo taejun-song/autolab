@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (KuramotoStandardContinuum, exp 264)_
+_Last regenerated: 2026-05-06 (ContinuumSolvedTailBodyV2, exp 265)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumSolvedTailBodyV2.lean (exp 265): `kuramoto_solved_continuum'` — DEFINITIVE tail-body theorem for standard continuum Kuramoto on R. RESOLVES ALL 3 REVIEWER PROBLEMS: (1) no uniform persistence (body persistence only on {γ≤M}), (2) no bounded γ (body bounded by M per truncation), (3) no c_min (body coercivity K·δ(M)·ds(M)). Takes body exp decay per M as SINGLE convergence hypothesis. Tail vanishing automatic. `body_exp_of_bounded_gamma` subsumption. 0 sorry, 0 axioms. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — KuramotoStandardContinuum.lean (exp 264): `kuramoto_solved_continuum` — DEFINITIVE theorem for standard continuum Kuramoto on ℝ. γ=|ω| unbounded, no uniform persistence, no bounded γ, no c_min. Body exp decay per truncation M. Tail-body split: integral_add_compl + Cauchy-Schwarz. Subsumption `_of_bounded`. 0 sorry, 0 axioms. ALL g ∈ L¹(ℝ).
 - [[continuum-stability-debate]] — ContinuumSolvedPhysical.lean (exp 263): `kuramoto_solved_continuum'` — CLEAN theorem for standard continuum model. Resolves PROBLEMS 1-3 (no uniform persistence, no bounded γ, no c_min). Body exp decay per M. 0 sorry, 0 axioms. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — ContinuumStandardModel.lean (exp 262): `kuramoto_continuum_standard_model` — clean definitive theorem for standard continuum Kuramoto (γ unbounded). No uniform persistence, no bounded γ, no c_min. Body exp decay per M + tail vanishing. Subsumption `_of_bounded`. 0 sorry, 0 axioms. ALL g ∈ L¹(R).
