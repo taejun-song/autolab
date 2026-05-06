@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-06] correction | fix kuramoto_solved_continuum name collision (exp 259)
+
+- updated: GeneralGMainTheorem.lean: renamed `kuramoto_solved_continuum` → `kuramoto_continuum_gronwall` (body Gronwall version)
+- updated: GeneralGMainTheorem.lean: renamed `kuramoto_solved_continuum_from_gronwall` → `kuramoto_continuum_gronwall_from_standard`
+- updated: KuramotoSolvedContinuumNew.lean: renamed `kuramoto_solved_continuum` → `kuramoto_continuum_absorb`
+- updated: KuramotoLean.lean: added `import KuramotoLean.KuramotoSolvedContinuum`
+- result: `kuramoto_solved_continuum` (KuramotoSolvedContinuum.lean) is now THE definitive standard continuum theorem. Takes integrable γ + body persistence, derives V→0 from V antitone + body coercivity contradiction. 0 sorry, 0 axioms. Full project builds.
+- index.md: regenerated
+
 ## [2026-05-06] experiment | kuramoto_actual_continuum for standard model on R (exp 258)
 
 - created: ContinuumSolvedActual.lean: `kuramoto_actual_continuum` — clean theorem for ACTUAL standard continuum Kuramoto model. γ(ω)=|ω| unbounded, both locked+drifting oscillators. Tail-body split: body exp decay per M + tail vanishing from probability measure. No bounded γ, no uniform persistence, no c_min. 0 sorry, 0 axioms.

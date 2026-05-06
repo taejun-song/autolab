@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (kuramoto_actual_continuum in ContinuumSolvedActual, exp 258)_
+_Last regenerated: 2026-05-06 (name collision fix, exp 259)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — Name collision fix (exp 259): renamed `kuramoto_solved_continuum` in GeneralGMainTheorem → `kuramoto_continuum_gronwall`. KuramotoSolvedContinuum.lean `kuramoto_solved_continuum` is now THE definitive standard continuum theorem (integrable γ + body persistence → V→0, 0 sorry).
 - [[continuum-stability-debate]] — ContinuumSolvedActual.lean: `kuramoto_actual_continuum` (0 sorry, 0 axioms) — Clean theorem for ACTUAL standard continuum model. γ=|ω| unbounded, locked+drifting oscillators. Tail-body split: body exp decay per M + tail vanishing. No bounded γ, no uniform persistence, no c_min. Also ISS version `kuramoto_actual_continuum_iss` with C(M)+μ(tail)→0.
 - [[continuum-stability-debate]] — ContinuumKuramotoSolved.lean: `kuramoto_continuum_solved` (0 sorry, 0 axioms) — DEFINITIVE standard continuum theorem. Body Gronwall + C(M)→0 + tail vanishing from probability measure. No bounded γ, no uniform persistence, no c_min. `kuramoto_continuum_solved_of_bounded` proves `kuramoto_solved` is special case. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_solved_full_continuum` (0 sorry, 0 axioms) — DEFINITIVE standard continuum theorem with self-contained tail-body split proof. Takes ODE + body exp decay per M. No bounded γ, no uniform persistence, no c_min. `kuramoto_solved_full_continuum_of_bounded` proves `kuramoto_solved` is special case. ALL g ∈ L¹(R).
