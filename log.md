@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_actual_continuum for standard model on R (exp 258)
+
+- created: ContinuumSolvedActual.lean: `kuramoto_actual_continuum` — clean theorem for ACTUAL standard continuum Kuramoto model. γ(ω)=|ω| unbounded, both locked+drifting oscillators. Tail-body split: body exp decay per M + tail vanishing from probability measure. No bounded γ, no uniform persistence, no c_min. 0 sorry, 0 axioms.
+- created: ContinuumSolvedActual.lean: `kuramoto_actual_continuum_of_bounded` — bounded γ case embeds as special case.
+- created: ContinuumSolvedActual.lean: `kuramoto_actual_continuum_iss` — ISS version with absorbing ball C(M)+μ(tail)→0 for fast-decaying g.
+- index.md: regenerated
+
 ## [2026-05-06] experiment | kuramoto_continuum_solved definitive theorem (exp 257)
 
 - created: ContinuumKuramotoSolved.lean: `kuramoto_continuum_solved` — definitive continuum theorem resolving all three reviewer problems. Body Gronwall + C(M)→0 + tail vanishing from probability measure. No bounded γ, no uniform persistence, no c_min. 0 sorry, 0 axioms.
