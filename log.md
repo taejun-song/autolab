@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumKuramotoSolvedDefinitive for standard model (exp 261)
+
+- created: KuramotoLean/ContinuumKuramotoSolvedDefinitive.lean (0 sorry, 0 axioms)
+- `kuramoto_solved_continuum_definitive`: ISS absorbing-ball formulation. Takes C(M) + μ(tail) → 0 (combined vanishing). Resolves PROBLEMS 1-3.
+- `kuramoto_solved_continuum_gronwall`: body Gronwall with absorbing radius → absorbing ball → convergence.
+- `kuramoto_solved_continuum_exp`: body exp decay (C=0) → convergence.
+- `bounded_gamma_implies_continuum`: subsumption proof that bounded-γ + global Gronwall implies the continuum theorem.
+- All delegate to `tail_body_iss_convergence` (proven in ContinuumTailBodyConvergence.lean).
+- index.md: regenerated
+
 ## [2026-05-06] experiment | fix kuramoto_solved_continuum for actual standard model (exp 260)
 
 - updated: KuramotoSolvedContinuum.lean: renamed old `kuramoto_solved_continuum` → `kuramoto_solved_integrable_gamma_full`

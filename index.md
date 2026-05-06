@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (fix kuramoto_solved_continuum, exp 260)_
+_Last regenerated: 2026-05-06 (ContinuumKuramotoSolvedDefinitive, exp 261)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumKuramotoSolvedDefinitive.lean (exp 261): `kuramoto_solved_continuum_definitive` — ISS absorbing-ball theorem for standard continuum model. Takes C(M)+μ(tail)→0 (combined vanishing). Also `_gronwall` (body Gronwall → absorbing), `_exp` (body exp decay), `bounded_gamma_implies_continuum` (subsumption). 0 sorry, 0 axioms. Covers Gaussian, Student-t ν>2, compact support.
 - [[continuum-stability-debate]] — Fix `kuramoto_solved_continuum` (exp 260): NEW definitive theorem for ALL g ∈ L¹(R) including Lorentzian. No γ integrability, no bounded γ, no uniform persistence, no c_min. Takes body exp decay per truncation M + tail vanishing from probability measure. `kuramoto_solved_of_bounded` proves `kuramoto_solved` is special case. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — ContinuumSolvedActual.lean: `kuramoto_actual_continuum` (0 sorry, 0 axioms) — Clean theorem for ACTUAL standard continuum model. γ=|ω| unbounded, locked+drifting oscillators. Tail-body split: body exp decay per M + tail vanishing. No bounded γ, no uniform persistence, no c_min. Also ISS version `kuramoto_actual_continuum_iss` with C(M)+μ(tail)→0.
 - [[continuum-stability-debate]] — ContinuumKuramotoSolved.lean: `kuramoto_continuum_solved` (0 sorry, 0 axioms) — DEFINITIVE standard continuum theorem. Body Gronwall + C(M)→0 + tail vanishing from probability measure. No bounded γ, no uniform persistence, no c_min. `kuramoto_continuum_solved_of_bounded` proves `kuramoto_solved` is special case. ALL g ∈ L¹(R).
