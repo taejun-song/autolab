@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_solved_full_continuum definitive theorem (exp 256)
+
+- created: GeneralGMainTheorem.lean: `kuramoto_solved_full_continuum` — definitive standard continuum theorem with self-contained tail-body split proof. Takes ODE + equilibrium + body exp decay per M. No bounded γ, no uniform persistence, no c_min. Coverage: ALL g ∈ L¹(R). 0 sorry, 0 axioms.
+- created: GeneralGMainTheorem.lean: `kuramoto_solved_full_continuum_of_bounded` — subsumption: `kuramoto_solved` (bounded γ + uniform persistence) is a special case. Direct delegation.
+- updated: syntheses/continuum-stability-debate.md (+1 theorem entry)
+- index.md: regenerated
+
 ## [2026-05-06] correction | fix ContinuumDefinitive name collision (exp 255)
 
 - updated: ContinuumDefinitive.lean: renamed `kuramoto_solved_continuum` → `kuramoto_standard_continuum`

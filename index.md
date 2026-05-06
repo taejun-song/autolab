@@ -1,10 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (kuramoto_solved_real_continuum in GeneralGMainTheorem, exp 254)_
+_Last regenerated: 2026-05-06 (kuramoto_solved_full_continuum in GeneralGMainTheorem, exp 256)_
 
 ## Recently Updated
 
-- [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_solved_real_continuum` (0 sorry, 0 axioms) — DEFINITIVE standard continuum theorem. Takes ODE + body persistence δ(M) + body exp decay per M. No bounded γ, no uniform persistence, no c_min. `kuramoto_solved_subsumes` proves `kuramoto_solved` is special case. ALL g ∈ L¹(R).
+- [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_solved_full_continuum` (0 sorry, 0 axioms) — DEFINITIVE standard continuum theorem with self-contained tail-body split proof. Takes ODE + body exp decay per M. No bounded γ, no uniform persistence, no c_min. `kuramoto_solved_full_continuum_of_bounded` proves `kuramoto_solved` is special case. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_solved_v2` (0 sorry, 0 axioms) — Direct analogue of `kuramoto_solved` fixed for standard continuum model. Three FALSE hypotheses REMOVED (bounded γ, uniform persistence, c_min), REPLACED by body exp decay per truncation M. `kuramoto_solved_v2_of_bounded` shows `kuramoto_solved` is special case. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_continuum_from_body_drop` (0 sorry, 0 axioms) — CLEANEST standard continuum theorem. Takes body Lyapunov drop per M (Tendsto form). Tail vanishing from probability measure. ε/2 argument via integral_add_compl. Also `body_drop_of_exp_decay` + `kuramoto_continuum_from_body_exp_decay`. No bounded γ, no uniform persistence, no c_min. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — ContinuumDerivedGronwall.lean (0 sorry, 0 axioms): `kuramoto_solved_continuum_v2` — NEW theorem with derived body Gronwall. Takes body derivative bound dV_body/dt ≤ -rate·V_body + forcing per M. DERIVES body Gronwall via new `gronwall_with_forcing` lemma (Gronwall comparison with forcing term). No bounded γ, no uniform persistence, no c_min. Combined vanishing forcing/rate + μ(tail) → 0.

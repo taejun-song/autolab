@@ -4,7 +4,7 @@ title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-06
 status: partially-resolved
-experiment: 253
+experiment: 256
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -67,6 +67,8 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 > **`kuramoto_ode_standard_continuum`** (`GeneralGMainTheorem.lean`, exp 252): ODE-BASED continuum theorem. Takes explicit OA scalar Riccati ODE data (`HasDerivAt (α ω) (oaScalarRHS (γ ω) K r t (α ω t)) t`) + body exponential decay per M. Resolves all three reviewer problems: no bounded γ, no uniform persistence, no c_min. Derives body L² drop from exponential decay via `body_exp_decay_to_body_drop`, then calls `kuramoto_continuum` for tail-body split. Documents derivability of body exponential decay from bounded-γ stability on each body {γ ≤ M}. 0 sorry, 0 axioms.
 
 > **`kuramoto_solved_v2`** (`GeneralGMainTheorem.lean`, exp 253): DIRECT ANALOGUE of `kuramoto_solved` fixed for the standard continuum model. Same structure as `kuramoto_solved` (takes existence predicate, returns `∃ r, Continuous r ∧ Tendsto r atTop (nhds r_star)`) but with the three FALSE hypotheses REMOVED: (1) `hγ_bdd` bounded γ → REMOVED, (2) uniform persistence `∃ δ > 0, ∀ ω t, δ ≤ α(ω,t)` → REMOVED, (3) `c_min` rate → REMOVED. REPLACED BY body exponential decay per truncation M inside the existence predicate. Proof: extracts solution, applies `kuramoto_continuum` via `body_exp_decay_to_body_drop`. Also `kuramoto_solved_v2_of_bounded`: subsumption theorem showing `kuramoto_solved` is a special case (bounded γ + uniform persistence → call original `kuramoto_solved`). 0 sorry, 0 axioms.
+
+> **`kuramoto_solved_full_continuum`** (`GeneralGMainTheorem.lean`, exp 256): DEFINITIVE standard continuum theorem with self-contained tail-body split proof. Takes ODE data (HasDerivAt, oaScalarRHS) + equilibrium equation + body exponential decay per M. Self-contained proof: (1) tail vanishing DERIVED from probability measure via `tail_measure_tendsto_zero'`, (2) body V → 0 from exp decay via `body_exp_decay_to_body_drop`, (3) integral_add_compl splits r-r* = body + tail, (4) body bounded by √V_body via `sq_setIntegral_le`, (5) tail bounded by μ(tail) since |α-α*| ≤ 1. Also `kuramoto_solved_full_continuum_of_bounded`: subsumption proof that `kuramoto_solved` (bounded γ + uniform persistence) is a special case via direct delegation. Coverage: ALL g ∈ L¹(R). 0 sorry, 0 axioms.
 
 The remaining structural hypotheses (V antitone, body drop) are derivable from the ODE pair bound and body Leibniz respectively. These are proved in other files; what remains open is instantiating the body drop for Lorentzian specifically (where body coercivity rate decays as 1/M while tail mass also decays as 1/M).
 
