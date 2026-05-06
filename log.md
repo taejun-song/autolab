@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-06] experiment | Codex re-review of kuramoto_continuum_wired (exp 269)
+
+- verified: KuramotoLean/ContinuumSolvedWired.lean — both wiring issues confirmed fixed from exp 268.
+- ISSUE 1 (hγ domain): `hγ : ∀ ω, 0 ≤ γ ω` (non-negative) in `kuramoto_continuum_wired`. ω=0 gives α*(0)=1, excluded by `hα_star_lt`, so ω=0 is not in Ω. Fix: confirmed correct.
+- ISSUE 2 (body persistence wiring): proof calls `continuum_body_persistence` to derive δ(M), instantiates `h_gronwall_from_persist` with derived δ, then calls `kuramoto_continuum_stability_gronwall`. Fix: confirmed correct.
+- Codex review verdict (gpt-5.4): "Not fully. `hγ`, measurability, level-set hypotheses routine/provable. But `h_r_persist` and especially `h_combined_vanish` are substantial extra assumptions, not automatic. Theorem is honestly wired, but not unconditional."
+- Build: 0 errors, 0 sorry, 3503 jobs.
+- index.md: not regenerated (no wiki page changes)
+
 ## [2026-05-06] lint-fix | resolve two wiring issues in ContinuumSolvedWired (exp 268)
 
 - updated: KuramotoLean/ContinuumSolvedWired.lean — ISSUE 1: replace `hγ_pos : 0 < γ ω` (strict, redundant) with `hγ : 0 ≤ γ ω` in `kuramoto_continuum_wired`. Strict positivity is derivable from equilibrium + `hα_star_lt`; theorem honest on Ω=ℝ\{0}.
