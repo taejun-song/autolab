@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-06] experiment | ContinuumSolvedPhysical for standard model (exp 263)
+
+- created: KuramotoLean/ContinuumSolvedPhysical.lean (0 sorry, 0 axioms)
+- `kuramoto_solved_continuum'`: clean theorem for standard continuum Kuramoto. Resolves PROBLEMS 1-3 (no uniform persistence, no bounded γ, no c_min). Takes body exp decay per M (derivable from body persistence + Leibniz + Gronwall on each {γ ≤ M}). Delegates to `kuramoto_solved_full_continuum`.
+- `kuramoto_solved_continuum_subsumes`: bounded-γ case is special case via `kuramoto_solved`.
+- index.md: regenerated
+
 ## [2026-05-06] experiment | ContinuumKuramotoSolvedDefinitive for standard model (exp 261)
 
 - created: KuramotoLean/ContinuumKuramotoSolvedDefinitive.lean (0 sorry, 0 axioms)
