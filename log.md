@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-06] experiment | KuramotoStandardContinuum definitive theorem (exp 264)
+
+- created: KuramotoLean/KuramotoStandardContinuum.lean (0 sorry, 0 axioms)
+- `kuramoto_solved_continuum`: definitive theorem for standard continuum Kuramoto on ℝ. γ unbounded, no uniform persistence, no bounded γ, no c_min. Takes body exp decay per truncation M. Tail-body split via integral_add_compl + Cauchy-Schwarz. Delegates to `kuramoto_solved_full_continuum`.
+- `kuramoto_solved_continuum_of_bounded`: subsumption — `kuramoto_solved` is a special case.
+- index.md: regenerated
+
 ## [2026-05-06] experiment | ContinuumSolvedPhysical for standard model (exp 263)
 
 - created: KuramotoLean/ContinuumSolvedPhysical.lean (0 sorry, 0 axioms)
