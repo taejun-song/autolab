@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-06] experiment | wiring-fixes verification + Codex review (exp 271)
+
+- verified: KuramotoLean/ContinuumSolvedWired.lean — both wiring issues already fixed (from exp 268).
+- ISSUE 1 (hγ domain): `kuramoto_continuum_wired` uses `hγ : ∀ ω, 0 ≤ γ ω` (non-negative). ω=0 forces α*(0)=1, excluded by `hα_star_lt`, so the fix is in place. `gamma_pos_from_equil` makes strict positivity an explicit derivable lemma.
+- ISSUE 2 (body persistence wiring): `kuramoto_continuum_wired` proof (a) calls `continuum_body_persistence` internally to derive δ(M), (b) instantiates `h_gronwall_from_persist` with derived δ, (c) calls `kuramoto_continuum_stability_gronwall`. Full wiring confirmed.
+- Build: 0 errors, 0 sorry, 2697 jobs (ContinuumSolvedWired target), 3503 full build.
+- Codex review verdict (gpt-5.4): "Not honestly for the standard Kuramoto model with γ=|ω|. h_r_persist, hα_0_body, h_gronwall_from_persist, and h_combined_vanish encode hard dynamical/tail work as assumptions. Those may be provable for specific frequency laws, but not proved here and not standard-model hypotheses."
+- Open assumptions: h_r_persist (r persistence from Ψ-growth), hα_0_body (initial body lower bound), h_gronwall_from_persist (body Leibniz + pair coercivity — single unproved step), h_combined_vanish (fast decay of g).
+- index.md: not regenerated (no wiki page changes)
+
 ## [2026-05-06] experiment | Codex re-review of kuramoto_continuum_wired (exp 269)
 
 - verified: KuramotoLean/ContinuumSolvedWired.lean — both wiring issues confirmed fixed from exp 268.
@@ -4799,3 +4809,13 @@ Major restructuring of MainTheorem.lean and companion files:
 - updated: KuramotoLean.lean (+1 import)
 - index.md: regenerated
 - **Sorry count**: 0, **Axiom count**: 0, **Build jobs**: 3503
+
+## [2026-05-06] experiment | Codex review of kuramoto_continuum_wired after wiring-issues task (exp 270)
+
+- verified: KuramotoLean/ContinuumSolvedWired.lean — both wiring issues already fixed from exp 268.
+- ISSUE 1 (hγ domain): `hγ : ∀ ω, 0 ≤ γ ω` confirmed in `kuramoto_continuum_wired`. Strict positivity derivable from equilibrium + `hα_star_lt` via `gamma_pos_from_equil`. Fix in place.
+- ISSUE 2 (body persistence wiring): `kuramoto_continuum_wired` internally calls `continuum_body_persistence` (from BodyPersistenceFromODE) to derive δ(M), then instantiates `h_gronwall_from_persist`, then calls `kuramoto_continuum_stability_gronwall`. Fix in place.
+- Build: 0 errors, 0 sorry, 3503 jobs.
+- Codex review verdict (gpt-5.4): "Not honestly 'standard Kuramoto' as stated. Measurability/level-set hypotheses are routine, γ > 0 derivable from equilibrium if r_star > 0. But h_r_persist, hα_0_body, h_gronwall_from_persist, and h_combined_vanish are substantial extra assumptions, not automatic consequences of the standard model."
+- Open assumptions identified: h_r_persist (r persistence from Ψ-growth), hα_0_body (initial body lower bound), h_gronwall_from_persist (body Leibniz + pair coercivity), h_combined_vanish (fast decay of g).
+- index.md: not regenerated (no wiki page changes)
