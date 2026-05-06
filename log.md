@@ -4819,3 +4819,12 @@ Major restructuring of MainTheorem.lean and companion files:
 - Codex review verdict (gpt-5.4): "Not honestly 'standard Kuramoto' as stated. Measurability/level-set hypotheses are routine, γ > 0 derivable from equilibrium if r_star > 0. But h_r_persist, hα_0_body, h_gronwall_from_persist, and h_combined_vanish are substantial extra assumptions, not automatic consequences of the standard model."
 - Open assumptions identified: h_r_persist (r persistence from Ψ-growth), hα_0_body (initial body lower bound), h_gronwall_from_persist (body Leibniz + pair coercivity), h_combined_vanish (fast decay of g).
 - index.md: not regenerated (no wiki page changes)
+
+## [2026-05-06] experiment | Re-verify wiring fixes + Codex re-review (exp 272)
+
+- verified: ContinuumSolvedWired.lean builds (3503 jobs, 0 errors, 0 sorry)
+- ISSUE 1 (hγ domain): `hγ : ∀ ω, 0 ≤ γ ω` already in place. `gamma_pos_from_equil` proves 0 < γ ω from equilibrium + hα_star_lt without extra hypothesis.
+- ISSUE 2 (body persistence wiring): `kuramoto_continuum_wired` internally calls `continuum_body_persistence` → derives δ(M) → instantiates `h_gronwall_from_persist` → calls `kuramoto_continuum_stability_gronwall`. Wire intact.
+- Codex re-review verdict (gpt-5.4): "Not honestly as 'the standard Kuramoto model with γ=|ω|'. It is a conditional stability theorem for any nonneg γ, with major extra assumptions: h_r_persist, hα_0_body, h_gronwall_from_persist, h_combined_vanish. Some derivable internally; those four are substantive analytic inputs, not automatic from the standard model alone."
+- Status: both wiring issues resolved structurally; `h_gronwall_from_persist` (body Leibniz + pair coercivity) remains the single core open gap.
+- index.md: not regenerated
