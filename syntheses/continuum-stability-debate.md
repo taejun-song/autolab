@@ -4,7 +4,7 @@ title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-06
 status: partially-resolved
-experiment: 256
+experiment: 260
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -34,7 +34,7 @@ Three rounds of adversarial debate (Prover/Reviewer/Strategist) established that
 
 **What is actually proved (label: proved, 0 sorry, 0 axioms)**:
 
-> **`kuramoto_solved_continuum`** (`KuramotoSolvedContinuum.lean`): For $g \in L^1(\mathbb{R})$ with $\int \gamma\, d\mu < \infty$ (Gaussian, Student-t $\nu > 2$, compact support), with body persistence $\forall M > 0,\ \exists \delta_M > 0$ on $\{\gamma \leq M\}$, and measurable sublevel sets: $r(t) \to r^*$. NO bounded $\gamma$, NO uniform persistence, NO $c_{\min}$.
+> **`kuramoto_solved_continuum`** (`KuramotoSolvedContinuum.lean`): For ALL $g \in L^1(\mathbb{R})$ (including Lorentzian). Takes body exponential decay per truncation $M$: $V_{\text{body}}(M,t) \leq V_{\text{body}}(M,0) \cdot e^{-\text{rate}(M) \cdot t}$. Tail vanishing from probability measure (no $\gamma$ integrability). NO bounded $\gamma$, NO uniform persistence, NO $c_{\min}$, NO $\int\gamma\,d\mu < \infty$. Subsumption proof `kuramoto_solved_of_bounded` shows `kuramoto_solved` is a special case. Old integrable-$\gamma$ version renamed to `kuramoto_solved_integrable_gamma_full`.
 
 > **`kuramoto_solved`** (`GeneralGMainTheorem.lean`): For bounded $\gamma \leq \gamma_{\max}$ with uniform persistence $\delta > 0$: $V(t) \to 0$ and $r(t) \to r^*$. Subsumed by `kuramoto_solved_continuum`.
 >

@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-06] experiment | fix kuramoto_solved_continuum for actual standard model (exp 260)
+
+- updated: KuramotoSolvedContinuum.lean: renamed old `kuramoto_solved_continuum` → `kuramoto_solved_integrable_gamma_full`
+- created: KuramotoSolvedContinuum.lean: NEW `kuramoto_solved_continuum` — definitive theorem for ALL g ∈ L¹(R). No γ integrability, no bounded γ, no uniform persistence, no c_min. Takes body exp decay per truncation M. Tail vanishing from probability measure. Delegates to `kuramoto_solved_full_continuum`. 0 sorry, 0 axioms.
+- created: KuramotoSolvedContinuum.lean: `kuramoto_solved_of_bounded` — subsumption proof that `kuramoto_solved` (bounded γ + uniform persistence) is a special case.
+- updated: syntheses/continuum-stability-debate.md: updated theorem descriptions
+- index.md: regenerated
+
 ## [2026-05-06] correction | fix kuramoto_solved_continuum name collision (exp 259)
 
 - updated: GeneralGMainTheorem.lean: renamed `kuramoto_solved_continuum` → `kuramoto_continuum_gronwall` (body Gronwall version)
