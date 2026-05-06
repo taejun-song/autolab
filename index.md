@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (kuramoto_solved_full_continuum in GeneralGMainTheorem, exp 256)_
+_Last regenerated: 2026-05-06 (kuramoto_continuum_solved in ContinuumKuramotoSolved, exp 257)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumKuramotoSolved.lean: `kuramoto_continuum_solved` (0 sorry, 0 axioms) — DEFINITIVE standard continuum theorem. Body Gronwall + C(M)→0 + tail vanishing from probability measure. No bounded γ, no uniform persistence, no c_min. `kuramoto_continuum_solved_of_bounded` proves `kuramoto_solved` is special case. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_solved_full_continuum` (0 sorry, 0 axioms) — DEFINITIVE standard continuum theorem with self-contained tail-body split proof. Takes ODE + body exp decay per M. No bounded γ, no uniform persistence, no c_min. `kuramoto_solved_full_continuum_of_bounded` proves `kuramoto_solved` is special case. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_solved_v2` (0 sorry, 0 axioms) — Direct analogue of `kuramoto_solved` fixed for standard continuum model. Three FALSE hypotheses REMOVED (bounded γ, uniform persistence, c_min), REPLACED by body exp decay per truncation M. `kuramoto_solved_v2_of_bounded` shows `kuramoto_solved` is special case. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — GeneralGMainTheorem.lean: `kuramoto_continuum_from_body_drop` (0 sorry, 0 axioms) — CLEANEST standard continuum theorem. Takes body Lyapunov drop per M (Tendsto form). Tail vanishing from probability measure. ε/2 argument via integral_add_compl. Also `body_drop_of_exp_decay` + `kuramoto_continuum_from_body_exp_decay`. No bounded γ, no uniform persistence, no c_min. ALL g ∈ L¹(R).

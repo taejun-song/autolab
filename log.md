@@ -1,5 +1,12 @@
 # Activity Log
 
+## [2026-05-06] experiment | kuramoto_continuum_solved definitive theorem (exp 257)
+
+- created: ContinuumKuramotoSolved.lean: `kuramoto_continuum_solved` — definitive continuum theorem resolving all three reviewer problems. Body Gronwall + C(M)→0 + tail vanishing from probability measure. No bounded γ, no uniform persistence, no c_min. 0 sorry, 0 axioms.
+- created: ContinuumKuramotoSolved.lean: `kuramoto_continuum_solved_of_bounded` — subsumption: bounded γ + global Gronwall implies body Gronwall with C=μ(tail). `kuramoto_solved` is strict special case.
+- created: ContinuumKuramotoSolved.lean: `kuramoto_continuum_solved_exists` — existential form bundling solution data + body Gronwall.
+- index.md: regenerated
+
 ## [2026-05-06] experiment | kuramoto_solved_full_continuum definitive theorem (exp 256)
 
 - created: GeneralGMainTheorem.lean: `kuramoto_solved_full_continuum` — definitive standard continuum theorem with self-contained tail-body split proof. Takes ODE + equilibrium + body exp decay per M. No bounded γ, no uniform persistence, no c_min. Coverage: ALL g ∈ L¹(R). 0 sorry, 0 axioms.
