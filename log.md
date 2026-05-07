@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | FirstMomentTailVanish + MixedPowerLorentzianAnalyticExtension compiled (exp 292)
+
+- hypothesis: `first_moment_tail_vanish` analogous to `second_moment_tail_vanish` (exp 278) but with weaker condition ∫γdμ<∞ + γ≥0; proof via Antitone.tendsto_setIntegral (ℕ) + setIntegral_mono_set (ℝ) + Markov bound squeeze. Requires `hγ_nn : ∀ω, 0 ≤ γ ω` for `setIntegral_mono_set` global nonnegativity.
+- result: confirmed. Three debugging fixes: (1) `le_of_lt hω` where hω:↑N<γω gives ↑N≤γω not 0≤γω — use `hγ_nn ω`; (2) `mul_nonneg ... ENNReal.toReal_nonneg` for lower bound fails without `hM : 0 ≤ M` — use `filter_upwards [eventually_ge_atTop 0]`; (3) `setIntegral_nonneg` nonnegativity proof — use `fun ω _ => hγ_nn ω`. Build: 0 errors, 0 sorry. 2500 jobs.
+- also (exp 292 first part): `MixedPowerLorentzianAnalyticExtension.lean` — most general rational frequency distribution g(ω)=ΣC_k/(ω²+a_k)^{n_k} is analytic in strip {|Im z|<min_k√a_k}; zero-error rational approximation. Four debugging fixes: missing import, explicit z argument in analyticAt_sum, `congr 1; ext k; ring` for sum identity, `_hs` for unused variable.
+- significance: `first_moment_tail_vanish` enables a future `ContinuumGammaMinFirstMoment.lean` variant: with γ_min > 0, per-ω coercivity rate ≥ 2γ_min·α* = const > 0, so absorbing radius C(M) ~ τ(M) → 0 from first moment alone (not second moment). Will cover distributions with only finite first moment (Student-t 1<ν≤2, power-law tails).
+- created: KuramotoLean/FirstMomentTailVanish.lean, KuramotoLean/MixedPowerLorentzianAnalyticExtension.lean
+- updated: KuramotoLean.lean (manifest +2), syntheses/continuum-stability-debate.md (§4r, status → first-moment-tail-proved, experiment → 292)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoExplicitInitWired7 compiled — wired7 applied to explicitEquil initial data (exp 291)
 
 - hypothesis: `explicitEquil M K r₀ ≥ (Kr₀/4)/M` for M ≥ Kr₀/2 (key lemma), so wired7's eventual c/M bound is satisfied with c=Kr₀/4, M₀=Kr₀/2. Combined with `explicitEquil_mono_gamma`, hδ₀_body_pos and hδ₀_body_lb in wired7 are auto-derived when α(ω,0) ≥ explicitEquil(γ(ω), K, r₀).

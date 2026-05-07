@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-08
-status: explicit-init-wired7-proved
-experiment: 291
+status: first-moment-tail-proved
+experiment: 292
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -622,6 +622,36 @@ Proof chain:
 
 **Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry. 2713 jobs.
 
+## 4r. Proved: first_moment_tail_vanish + MixedPowerLorentzian (exp 292)
+
+**`FirstMomentTailVanish.lean`** — `first_moment_tail_vanish` (0 sorry, 0 axioms):
+
+**Theorem**: Given $\gamma : \Omega \to \mathbb{R}$ with $\gamma \geq 0$ and $\int\gamma\,d\mu < \infty$ (integrable), $M \cdot \mu\{\gamma > M\} \to 0$ as $M \to \infty$.
+
+Proof strategy (3 steps):
+1. `Antitone.tendsto_setIntegral` on $s_n = \{\gamma > n\}$ with intersection $= \emptyset$ and $\bigcap_n s_n = \emptyset$ (by `Nat.le_ceil`). Gives $\int_{s_n}\gamma\,d\mu \to 0$ along $\mathbb{N}$.
+2. Transfer to $\mathbb{R}$: for $M \geq N$ (real), $\{\gamma > M\} \subseteq \{\gamma > N\}$ and `setIntegral_mono_set` gives $\int_{\gamma>M}\gamma \leq \int_{\gamma>N}\gamma$. Nonnegativity on the outer set uses `hγ_nn`. Squeeze with `h_nn_N` from step 1.
+3. Markov bound: $M \cdot \mu\{\gamma>M\} = \int_{\gamma>M} M \,d\mu \leq \int_{\gamma>M}\gamma\,d\mu$ via `setIntegral_mono_on`. Squeeze with step 2.
+
+**Key design choice**: `hγ_nn : ∀ ω, 0 ≤ γ ω` required for `setIntegral_mono_set` nonnegativity (global a.e. nonnegativity). Without it, $\int_{\{\gamma>M\}}\gamma$ need not be monotone in $M$ because $\gamma$ could be negative elsewhere. In the application (damping parameters), $\gamma \geq 0$ always holds.
+
+**Debugging (exp 292)**:
+1. `le_of_lt hω` where `hω : (N : ℝ) < γ ω` gives `↑N ≤ γ ω`, not `0 ≤ γ ω`. Fixed by using `hγ_nn ω` directly.
+2. `mul_nonneg (le_of_lt (lt_of_lt_of_le one_pos (le_max_right 1 M)))` — `le_max_right 1 M : M ≤ max 1 M` but expected `1 ≤ M`. Fixed by `filter_upwards [eventually_ge_atTop (0 : ℝ)] with M hM; exact mul_nonneg hM ENNReal.toReal_nonneg`.
+3. `le_of_lt hω` for `setIntegral_nonneg` with `hω : ↑N < γ ω` — this gives `↑N ≤ γ ω ≠ 0 ≤ γ ω`. Fixed by `fun ω _ => hγ_nn ω`.
+
+**`MixedPowerLorentzianAnalyticExtension.lean`** (exp 292 first part): proves the most general rational frequency distribution $g(\omega) = \sum_k C_k/(\omega^2+a_k)^{n_k}$ (mixed power Lorentzian) is analytic in the strip $\{|{\rm Im}\,z| < \min_k\sqrt{a_k}\}$. Zero-error rational approximation. Specialization theorems: power Lorentzian = one-term mixed, Lorentzian mixture = mixed with all $n_k=1$. Imports: `PowerLorentzianAnalyticExtension` + `LorentzianMixtureAnalyticExtension`.
+
+**Debugging (exp 292 first part)**:
+1. Missing import `LorentzianMixtureAnalyticExtension` — needed for `lorentzianMixture` and `lorentzianFreqDist`.
+2. Application type mismatch: `powerLorentzianFreqDistExt_analyticOnNhd ... (Set.mem_setOf.mpr hz_k)` — needed explicit `z` argument: `... z (Set.mem_setOf.mpr hz_k)`.
+3. Unsolved goal in `lorentzian_mixture_is_mixed`: `ring` can't close sum identity. Fixed with `simp only [...]; congr 1; ext k; ring`.
+4. Unused variable `hs` — renamed to `_hs`.
+
+**Significance**: `first_moment_tail_vanish` enables a hypothetical wired-chain variant for $\gamma_{\min} > 0$: when all body oscillators have $\gamma \geq \gamma_{\min} > 0$, the per-$\omega$ coercivity rate is $\geq 2\gamma_{\min}\alpha^* > 0$ (constant, not $1/M$), so the absorbing radius $C(M) \sim \tau(M) \to 0$ from first moment alone (not second moment). A future `ContinuumGammaMinFirstMoment.lean` would formalize this.
+
+**Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry. 2500 jobs.
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -653,6 +683,8 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 **oa-scalar-measurable-flow** — `lorentzian_oa_flow_aestronglyMeasurable` (OAScalarMeasurableFlow.lean, 0 sorry, 0 axioms, exp 286): $\omega \mapsto \alpha(\gamma(\omega),t)$ is AEStronglyMeasurable. Chain: `Measurable.subtype_mk` + `Continuous.measurable` + `Measurable.comp` + `.aestronglyMeasurable`. Closes the measurability gap for the canonical Lorentzian OA scalar flow.
 
 **wired7-proved** — `kuramoto_continuum_wired7` (ContinuumSolvedWired7.lean, 0 sorry, 0 axioms, exp 290): weakens `hδ₀_body_lb` from `∀ M > 0` to `∃ M₀ > 0, ∀ M ≥ M₀`. Five minimal code changes from wired6. Enables application to standard Kuramoto ($\gamma = |\omega|$, $\gamma_{\min} = 0$) with eventual $c/M$ bound.
+
+**first-moment-tail-proved** — `first_moment_tail_vanish` (FirstMomentTailVanish.lean, 0 sorry, 0 axioms, exp 292): M·μ{γ>M} → 0 given γ ≥ 0 integrable. Analogous to `second_moment_tail_vanish` (exp 278) with first moment only. Key addition: `hγ_nn : ∀ ω, 0 ≤ γ ω` required for `setIntegral_mono_set` nonnegativity. Enables wired chain with γ_min > 0 to use first moment instead of second moment. Also (exp 292 first part): `MixedPowerLorentzianAnalyticExtension.lean` — most general rational frequency distribution $g(\omega) = \sum_k C_k/(\omega^2+a_k)^{n_k}$ is analytic in strip $\{|{\rm Im}\,z| < \min_k\sqrt{a_k}\}$; zero-error rational approximation. 2500 jobs.
 
 **explicit-init-wired7-proved** — `kuramoto_explicit_init_convergence` (KuramotoExplicitInitWired7.lean, 0 sorry, 0 axioms, exp 291): applies wired7 to explicitEquil initial data. Key lemma: `explicitEquil M K r₀ ≥ (Kr₀/4)/M` for M ≥ Kr₀/2. Replaces hδ₀_body_pos + hδ₀_body_lb with `hγ_pos : ∀ ω, 0 < γ ω` and `hα_0_explicitEquil`. 2713 jobs.
 
