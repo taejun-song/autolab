@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentConcrete compiled — concrete first-moment convergence without γ_min (exp 296)
+
+- hypothesis: `kuramoto_first_moment_concrete` drops γ_min > 0 from exp 295 by routing through `tail_body_iss_convergence` directly, bypassing V antitone. Body Gronwall (`body_gronwall_from_persistence`) requires only `hγ_nn : ∀ ω, 0 ≤ γ ω`. When M < 0, {γ ≤ M} = ∅ (since γ ≥ 0 > M), giving μ_body = 0 and C M = 0 definitionally — no γ_min needed.
+- result: confirmed. Build: 0 errors, 0 sorry. 2695 jobs. Debugging: (1) `le_or_lt` → `le_or_gt`; (2) `tendsto_of_tendsto_of_tendsto_of_le_of_le'` — upper bound limit must be 0 explicitly, not `A*0+B*0`; introduced `h_upper` via `simp [mul_zero]` on `.const_mul` and `simp` on `.add`; (3) `by ring` inside `h2.congr` fails when `rexp` is present — changed to `congr 1; congr 1; ring`; (4) `norm_num` can't prove `1 ≤ M` for variable M — changed to `hM`; (5) `le_trans hM hω` arguments were flipped — corrected to `le_trans hω hM`; (6) `field_simp; ring` → `field_simp` (ring redundant, field_simp closes).
+- proof sketch: (1) `equil_lb_no_gmin`: same algebraic bound α* ≥ Kr*/(2M+Kr*) as exp 295 but named differently. (2) `h_body_absorb`: `body_gronwall_from_persistence` with δ=α₀_lb, ds=Kr*/(2M+Kr*); exp decay tendsto from `tendsto_const_mul_atTop_of_pos`. (3) `hC_nn`: M<0 → body empty → C=0; M≥0 → positivity. (4) `h_vanish`: introduce `h_upper := (A*M·τ+B·τ→0)` with explicit limit 0; squeeze C+τ ≤ A·M·τ+B·τ via `h_C_simpl = h_simpl ▸ h_C_le` + linarith. (5) `tail_body_iss_convergence` closes.
+- significance: extends first-moment convergence to γ(ω) = 0 case (e.g., standard Kuramoto on ℝ with g symmetric and ∫|ω|g<∞). Removes final γ_min > 0 restriction from concrete end-to-end theorem. Covers: Gaussian (γ(ω) = |ω|, ∫|ω|g<∞), any distribution with finite first moment. Together with exp 295 (γ_min>0 + first moment) and wired7 (γ_min>0 + second moment + eventual body bound), these cover nearly all physically relevant distributions.
+- created: KuramotoLean/KuramotoFirstMomentConcrete.lean
+- updated: KuramotoLean.lean (manifest +1), syntheses/continuum-stability-debate.md (§4v, status → first-moment-no-gmin-proved, experiment → 296)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoGammaMinFirstMomentConcrete compiled — concrete end-to-end first-moment convergence (exp 295)
 
 - hypothesis: `kuramoto_gamma_min_first_moment_concrete` wraps `kuramoto_gamma_min_first_moment` (exp 294) by deriving (C, h_body_rate, h_combined_vanish) from concrete physical inputs: global persistence α₀_lb, positive body mass hμ_body_pos, and body Lyapunov continuity hV_body_cont. Key: equilibrium lower bound α*(ω) ≥ Kr*/(2M+Kr*) derived algebraically from γ·α* = (K/2)r*(1-α*²) + α*∈(0,1). C(M) = τ(M)·(2M+Kr*)/(α₀_lb·K·r*·μ_body) via body_gronwall_from_persistence. Combined vanishing C(M)+τ(M)→0 squeezed from A·M·τ+B·τ where A,B bounded by μ₁=μ{γ≤1}>0 (monotone body mass lower bound).

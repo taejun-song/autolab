@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-08 (KuramotoGammaMinFirstMomentConcrete, exp 295)_
+_Last regenerated: 2026-05-08 (KuramotoFirstMomentConcrete, exp 296)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — KuramotoFirstMomentConcrete.lean (exp 296): `kuramoto_first_moment_concrete` — concrete r→r* without γ_min > 0, covering γ(ω)=0. First moment ∫γdμ<∞ + global persistence α₀_lb + hV_body_cont + hμ_body_pos. Derives C(M), body Gronwall, combined vanishing internally via tail_body_iss_convergence. M<0 branch: {γ≤M}=∅ from γ≥0, giving C(M)=0. Debug: congr 1; congr 1; ring for rexp wrapper; h_upper with explicit 0 limit; le_trans hω hM. Covers Gaussian, Student-t ν>1. 0 sorry, 0 axioms. 2695 jobs.
 - [[continuum-stability-debate]] — KuramotoGammaMinFirstMomentConcrete.lean (exp 295): `kuramoto_gamma_min_first_moment_concrete` — concrete end-to-end r→r* from γ_min>0 + first moment + global persistence α₀_lb + hV_body_cont + hμ_body_pos. Derives (C, h_body_rate, h_combined_vanish) internally. Private lemma `equil_lb_from_constraint`: α* ≥ Kr*/(2M+Kr*) algebraically. Squeeze via first_moment_tail_vanish + tail_measure_tendsto_zero'. 0 sorry, 0 axioms. 2703 jobs.
 - [[continuum-stability-debate]] — ContinuumGammaMinFirstMoment.lean (exp 294): `kuramoto_gamma_min_first_moment` — r→r* from γ_min>0 + FIRST MOMENT (replaces second moment of KuramotoGammaMinConvergence). Proof: `continuum_v_antitone` (V antitone from ∫γ<∞) + `iss_implies_definitive` (body Gronwall + combined vanishing → r→r*). Covers Student-t 1<ν≤2, power-law α∈(1,2]. 0 sorry, 0 axioms. 2698 jobs.
 - [[continuum-stability-debate]] — ContinuumFullLeibniz.lean (exp 293): `full_v_leibniz_hasDerivAt` — HasDerivAt for full Lyapunov V(t)=∫(α-α*)²dμ using first moment hγ_int. Dominator ω↦2γ(ω)+K (not constant 2M+K). Bound integrability: hγ_int.const_mul 2 |>.add (integrable_const K). No body restriction. Closes Leibniz gap for ∫|ω|g<∞ (Gaussian, compact support, Student-t ν>1). Does NOT apply to Lorentzian. 0 sorry, 0 axioms. 2697 jobs.

@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-08
-status: concrete-first-moment-proved
-experiment: 295
+status: first-moment-no-gmin-proved
+experiment: 296
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -768,6 +768,8 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 **oa-scalar-barrier-proved** — `oaScalar_invariant_box` (OAScalarBarrier.lean, 0 sorry, 0 axioms, exp 283) proves $(0,1)$ is positively invariant for the per-$\omega$ OA scalar ODE with $r(t) \in [0,1]$ and $\gamma, K > 0$. Upper barrier via sInf + `strictAntiOn_of_deriv_neg`; lower barrier via Grönwall multiplier monotonicity. Closes the `hα_bdd` hypothesis in `lorentzian_continuum_V_inf_tendsto`. Remaining gap: global ODE existence (`hα_ode`) via Picard-Lindelöf extension.
 
 **lorentzian-connecting-proved** — The connecting theorem `lorentzian_continuum_V_inf_tendsto` (LorentzianContinuumConvergence.lean, 0 sorry, 0 axioms, exp 282) combines `lorentzian_explicit_tendsto` ($r(t) \to r^*$) with `V_inf_tendsto_zero_from_r` (per-$\omega$ Gronwall + DCT) to prove $V_\infty(t) \to 0$ for any probability measure $\mu$ with $\gamma(\omega) > 0$ a.e. and OA flow data with Lorentzian forcing. The remaining gap: instantiate ODE existence hypotheses for the specific Lorentzian model (Picard-Lindelöf for per-$\omega$ forced ODE, absolute continuity for $|\omega|>0$ a.e.).
+
+**first-moment-no-gmin-concrete** — `kuramoto_first_moment_concrete` (KuramotoFirstMomentConcrete.lean, 0 sorry, 0 axioms, exp 296): fully concrete instantiation **without** $\gamma_{\min} > 0$. Allows $\gamma(\omega) = 0$ (e.g., standard Kuramoto $\gamma(\omega) = |\omega|$ on $\mathbb{R}$). Routes through `tail_body_iss_convergence` directly — no V antitone needed. When $M < 0$, $\{\gamma \leq M\} = \emptyset$ (since $\gamma \geq 0 > M$), so $\mu_{\text{body}} = 0$ and $C(M) = 0$ without using $\gamma_{\min}$. Debugging: `congr 1; congr 1; ring` needed inside `h2.congr` to peel `rexp` wrapper; `h_upper` must be introduced with limit explicitly $0$ for `tendsto_of_tendsto_of_tendsto_of_le_of_le'`. Covers: Gaussian, Student-$t$ $\nu > 1$, power-law exponent $> 2$, any $g$ with $\int|\omega|g < \infty$.
 
 **gamma-min-first-moment-concrete** — `kuramoto_gamma_min_first_moment_concrete` (KuramotoGammaMinFirstMomentConcrete.lean, 0 sorry, 0 axioms, exp 295): fully concrete instantiation. Derives $C(M)$, body Gronwall, and combined vanishing from: $\gamma_{\min} > 0$, $\int\gamma\,d\mu < \infty$, $r^* > 0$, uniform persistence $\alpha \geq \alpha_{0,\text{lb}} > 0$, body Lyapunov continuity, body measure positive. No caller obligations. Key: equilibrium lower bound $\alpha^* \geq Kr^*/(2M+Kr^*)$ + squeeze $C(M) \leq A\cdot M\cdot\tau + B\cdot\tau \to 0$ via `first_moment_tail_vanish`. Covers Student-$t$ $1 < \nu \leq 2$, power-law $\alpha \in (1,2]$. 2703 jobs.
 
