@@ -1,10 +1,12 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-08 (KuramotoFirstMomentConcreteV3, exp 298)_
+_Last regenerated: 2026-05-08 (KuramotoROrderBounds + V4, exp 299-300)_
 
 ## Recently Updated
 
-- [[continuum-stability-debate]] — KuramotoFirstMomentConcreteV3.lean (exp 298): `kuramoto_first_moment_concrete_v3` — drops hα_cont from V2. Derives `∀ ω, ContinuousOn (α ω) (Ici 0)` from hα_ode via HasDerivAt.continuousAt.continuousWithinAt. Minimal-hypothesis form: caller needs ODE data + integrability + equilibrium, nothing about continuity of trajectories or body Lyapunov. 2 fewer hypotheses than exp 296. 0 sorry, 0 axioms. 2698 jobs.
+- [[continuum-stability-debate]] — KuramotoROrderBounds.lean (exp 300): `r_nonneg_from_sc`, `r_le_one_from_sc`, `r_abs_le_one_from_sc` — r(t) ∈ [0,1] for t ≥ 0 from h_sc + hα_inv + hα_int. Uses integral_nonneg + integral_mono. Enables future elimination of hr_bdd: ∀t, |r t| ≤ 1. 0 sorry, 0 axioms.
+- [[continuum-stability-debate]] — KuramotoFirstMomentConcreteV4.lean (exp 299): `kuramoto_first_moment_concrete_v4` — drops hγ_meas via measurable_of_Iic. Level-set measurability → Measurable → AEStronglyMeasurable. 3 fewer hypotheses than exp 296. 0 sorry, 0 axioms. 2699 jobs.
+- [[continuum-stability-debate]] — KuramotoFirstMomentConcreteV3.lean (exp 298): `kuramoto_first_moment_concrete_v3` — drops hα_cont from V2. Derives `∀ ω, ContinuousOn (α ω) (Ici 0)` from hα_ode via HasDerivAt.continuousAt.continuousWithinAt. 2 fewer hypotheses than exp 296. 0 sorry, 0 axioms. 2698 jobs.
 - [[continuum-stability-debate]] — KuramotoFirstMomentConcreteV2.lean (exp 297): `kuramoto_first_moment_concrete_v2` — drops hV_body_cont, adds hα_cont. Derives body Lyapunov continuity from trajectory continuity via V_body_continuousOn_prob (dominated convergence, bound 4). 0 sorry, 0 axioms. 2697 jobs.
 - [[continuum-stability-debate]] — KuramotoFirstMomentConcrete.lean (exp 296): `kuramoto_first_moment_concrete` — concrete r→r* without γ_min > 0, covering γ(ω)=0. First moment ∫γdμ<∞ + global persistence α₀_lb + hV_body_cont + hμ_body_pos. Derives C(M), body Gronwall, combined vanishing internally via tail_body_iss_convergence. M<0 branch: {γ≤M}=∅ from γ≥0, giving C(M)=0. Debug: congr 1; congr 1; ring for rexp wrapper; h_upper with explicit 0 limit; le_trans hω hM. Covers Gaussian, Student-t ν>1. 0 sorry, 0 axioms. 2695 jobs.
 - [[continuum-stability-debate]] — KuramotoGammaMinFirstMomentConcrete.lean (exp 295): `kuramoto_gamma_min_first_moment_concrete` — concrete end-to-end r→r* from γ_min>0 + first moment + global persistence α₀_lb + hV_body_cont + hμ_body_pos. Derives (C, h_body_rate, h_combined_vanish) internally. Private lemma `equil_lb_from_constraint`: α* ≥ Kr*/(2M+Kr*) algebraically. Squeeze via first_moment_tail_vanish + tail_measure_tendsto_zero'. 0 sorry, 0 axioms. 2703 jobs.

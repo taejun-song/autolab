@@ -1,5 +1,23 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoROrderBounds compiled — standalone r∈(0,1) bounds from self-consistency (exp 300)
+
+- hypothesis: `r_nonneg_from_sc`, `r_le_one_from_sc`, `r_abs_le_one_from_sc` — for t≥0, the order parameter r(t) = ∫ α ω t ∂μ lies in [0,1] under hα_inv + hα_int + h_sc. Proof: r_nonneg via integral_nonneg (α > 0 everywhere); r_le_one via integral_mono with f = α ≤ g = 1 pointwise + simp closes ∫1 = 1; r_abs via abs_le.mpr combining both.
+- result: confirmed. Build: 0 errors, 0 sorry. 2486 jobs. Fix needed: `integral_mono` takes `∀ ω, f ω ≤ g ω` (Pi.le), not `Filter.Eventually`; initial code used `Filter.Eventually.of_forall` which caused type mismatch. Also: `simp [measure_univ]` warned `measure_univ` unused; replaced by bare `simp`.
+- significance: standalone lemmas closing the "r_bdd for t > 0 can be derived" gap. Enables future V5 that drops `hr_bdd : ∀ t, |r t| ≤ 1` by providing `∀ t ≥ 0, |r t| ≤ 1` from self-consistency. Covers any probability measure + ODE trajectory with α ∈ (0,1).
+- created: KuramotoLean/KuramotoROrderBounds.lean
+- updated: KuramotoLean.lean (manifest +1)
+- index.md: regenerated
+
+## [2026-05-08] experiment | KuramotoFirstMomentConcreteV4 compiled — derives hγ_meas from hγ_level (exp 299)
+
+- hypothesis: `kuramoto_first_moment_concrete_v4` drops `hγ_meas : AEStronglyMeasurable γ μ` from V3. Derives it via `measurable_of_Iic hγ_level : Measurable γ` (from `Mathlib.MeasureTheory.Constructions.BorelSpace.Order`), then `.aestronglyMeasurable`. Net reduction vs exp 296: removes hV_body_cont, hα_cont, hγ_meas (3 hypotheses).
+- result: confirmed. Build: 0 errors, 0 sorry. 2699 jobs. One-line derivation: `(measurable_of_Iic hγ_level).aestronglyMeasurable`.
+- significance: `measurable_of_Iic` closes the gap between level-set measurability and strong measurability. The caller now only needs to provide level-set measurability (hγ_level), which is a weaker and more natural condition than AEStronglyMeasurable.
+- created: KuramotoLean/KuramotoFirstMomentConcreteV4.lean
+- updated: KuramotoLean.lean (manifest +1), syntheses/continuum-stability-debate.md (§4w+, v4 label added)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoFirstMomentConcreteV3 compiled — derives hα_cont from hα_ode, drops both hV_body_cont and hα_cont (exp 298)
 
 - hypothesis: `kuramoto_first_moment_concrete_v3` drops `hα_cont` from V2 by deriving it internally: `HasDerivAt (α ω) _ t` for all t≥0 (hα_ode) → `ContinuousAt (α ω) t` (HasDerivAt.continuousAt) → `ContinuousWithinAt (α ω) (Ici 0) t` (ContinuousAt.continuousWithinAt) → `ContinuousOn (α ω) (Ici 0)`. Net reduction vs exp 296: removes both hV_body_cont and hα_cont; caller needs only ODE data.
