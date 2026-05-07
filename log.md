@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-07] experiment | ContinuumSolvedWired4 compiled — hr_star_pos eliminated (exp 277)
+
+- hypothesis: `hr_star_pos` (r* > 0) is derivable internally from `hα_star_pos + hαs_int + hr_star_eq + [IsProbabilityMeasure μ]` using the `integral_eq_zero_iff_of_nonneg` pattern.
+- result: confirmed. New file ContinuumSolvedWired4.lean wraps kuramoto_continuum_wired3 and derives hr_star_pos: if ∫α* = 0 then α* = 0 a.e. (integral_eq_zero_iff_of_nonneg), but ae μ ≠ ⊥ (probability measure) gives ∃ω with α*(ω) = 0, contradicting hα_star_pos. Build: 0 errors, 0 sorry. `#print axioms kuramoto_continuum_wired4` → [propext, Classical.choice, Quot.sound]. 2704 jobs.
+- new theorem `kuramoto_continuum_wired4`: eliminates hr_star_pos from kuramoto_continuum_wired3. Remaining open: hμ_body_pos (body measure positive), h_combined_vanish (tail decay).
+- created: KuramotoLean/ContinuumSolvedWired4.lean
+- updated: syntheses/continuum-stability-debate.md (§4d)
+- index.md: regenerated
+
 ## [2026-05-07] experiment | ContinuumSolvedWired3 compiled — hα_lb eliminated (exp 276)
 
 - hypothesis: wiring body_persistence_lower_bound into kuramoto_continuum_wired2 would eliminate hα_lb (body persistence) from the hypothesis list, reducing open assumptions from 4 to 3.

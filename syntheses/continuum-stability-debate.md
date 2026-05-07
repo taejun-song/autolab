@@ -4,7 +4,7 @@ title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
 status: partially-resolved
-experiment: 276
+experiment: 277
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -311,6 +311,18 @@ Also eliminates `hr_min_le` ($r_{\min} \leq 1$) by deriving it from `hr_bound + 
 
 The combined vanishing hypothesis is now written in fully explicit form:
 $$C(M) = \frac{K\mu(\{\gamma>M\})}{K \cdot \min(\delta_0(M), \beta^*(M)) \cdot \frac{Kr^*}{2M+Kr^*} \cdot \mu(\{\gamma\leq M\})}$$
+
+## 4d. Proved: hr_star_pos eliminated (exp 277)
+
+`ContinuumSolvedWired4.lean` — `kuramoto_continuum_wired4` (0 sorry, 0 axioms):
+
+Eliminates `hr_star_pos` ($r^* > 0$) from `kuramoto_continuum_wired3` by deriving it internally from `hα_star_pos` + `hαs_int` + `hr_star_eq` + `[IsProbabilityMeasure μ]`.
+
+**Key derivation**: $r^* = \int \alpha^* d\mu$. Since $\alpha^*(\omega) > 0$ for all $\omega$ and $\mu$ is a probability measure ($\mu(\Omega) = 1 > 0$, so $\text{ae}\,\mu \neq \bot$): if $\int \alpha^* = 0$ then $\alpha^* = 0$ a.e. (by `integral_eq_zero_iff_of_nonneg`), but $\text{ae}\,\mu \neq \bot$ gives $\exists \omega$ with $\alpha^*(\omega) = 0$, contradicting $\alpha^*(\omega) > 0$ everywhere.
+
+**Remaining open** (2 hypotheses):
+- `hμ_body_pos` — $\mu(\{\gamma \leq M\}) > 0$ for each $M > 0$ (support condition on $g$)
+- `h_combined_vanish` — $C(M) + \mu(\text{tail}) \to 0$ (depends on $g$'s tail decay; not satisfied for Lorentzian)
 
 ## 5. Recommended next steps
 
