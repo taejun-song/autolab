@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoGammaMinConvergence compiled — hδ₀_body_lb derived from γ_min + α₀_lb (exp 288)
+
+- hypothesis: `δ₀_body M := α₀_lb * γ_min / (2 * M)` satisfies all three wired6 structural sub-goals automatically when `γ ≥ γ_min > 0` and `α(ω,0) ≥ α₀_lb > 0`; the three sub-goals are (1) positivity by `positivity`, (2) initial body bound by `div_le_iff₀` + `nlinarith`, (3) `c/M`-bound by `div_le_div_of_nonneg_left`.
+- result: confirmed. New file `KuramotoGammaMinConvergence.lean` proves `kuramoto_gamma_min_convergence`. Fixes needed: (1) `unfold_let` not a Lean 4 tactic → drop (let-bindings are transparent); (2) `div_le_iff` → `div_le_iff₀`; (3) `div_le_div_left` unknown → `div_le_div_of_nonneg_left ha h2M (by linarith)` (used in wired6 files). Build: 0 errors, 0 sorry. 2709 jobs.
+- significance: **removes the opaque `hδ₀_body_lb` hypothesis from `kuramoto_continuum_wired6`** for all physical models with uniform positive damping. Covers constant-γ, cutoff Lorentzian, smooth positive-damping distributions. Caller supplies two physically obvious bounds instead of a structural scaling condition.
+- key lessons: (1) `div_le_div_of_nonneg_left ha hb (h : b ≤ c) : a/c ≤ a/b` is the correct Lean 4 lemma for division monotonicity in the denominator (not `div_le_div_left`, not `inv_le_inv_of_le`); (2) `div_le_div_iff` cannot be used directly with `rw` when the goal has equal numerators — prefer `div_le_div_of_nonneg_left`; (3) wired6 structural hypotheses can be derived purely from physical lower bounds without any structural knowledge of `δ₀_body`.
+- created: KuramotoLean/KuramotoGammaMinConvergence.lean
+- updated: syntheses/continuum-stability-debate.md (§4o, status=gamma-min-convergence-proved)
+- index.md: regenerated
+
 ## [2026-05-07] experiment | LorentzianContinuumInstantiation compiled — complete Lorentzian continuum convergence (exp 287)
 
 - hypothesis: instantiating `lorentzian_continuum_V_inf_tendsto` with canonical flow closes the last measurability gap; two fixes needed: (1) hα_sq_meas requires ∀t but lorentzian_oa_flow_aestronglyMeasurable only gives t≥0, and (2) hγ_ae_pos needs ∀ᵐ not ∀.

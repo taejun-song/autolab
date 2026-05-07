@@ -2,9 +2,9 @@
 type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
-updated: 2026-05-07
-status: lorentzian-canonical-complete
-experiment: 287
+updated: 2026-05-08
+status: gamma-min-convergence-proved
+experiment: 288
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -549,6 +549,26 @@ where $\alpha(\omega,t) = \text{lorentzian\_oa\_flow}\;K\;\gamma_0\;r_0\;\alpha_
 **Axioms**: `propext`, `Classical.choice`, `Quot.sound` — the three standard Lean kernel axioms. Zero sorry.
 
 **Physical interpretation**: For the Lorentzian distribution $g(\omega) = \gamma_0/(\pi(\omega^2+\gamma_0^2))$, this proves that every OA trajectory with initial condition $\alpha_0 \in (0,1)$ converges in $L^2(\mu)$ to the unique equilibrium $\alpha^*$. The $\gamma(\omega)$ here is an arbitrary positive measurable function (not necessarily $|\omega|$ — the theorem applies to any frequency distribution that is positive everywhere).
+
+## 4o. Proved: hδ₀_body_lb derived from physical γ-lower bound (exp 288)
+
+`KuramotoGammaMinConvergence.lean` — `kuramoto_gamma_min_convergence` (0 sorry, 0 axioms):
+
+**Statement**: Replaces the structural hypothesis `hδ₀_body_lb : ∃ c > 0, ∀ M > 0, c/M ≤ δ₀_body M` in `kuramoto_continuum_wired6` with two physically natural conditions:
+- `hγ_lb : ∀ ω, γ_min ≤ γ ω` (uniform positive damping; γ_min > 0)
+- `hα_0_lb : ∀ ω, α₀_lb ≤ α ω 0` (uniform positive initial activity; α₀_lb > 0)
+
+**Key derivation**: Define `δ₀_body M := α₀_lb * γ_min / (2 * M)` (internal `let` binding). The three wired6 structural sub-goals are discharged as follows:
+
+1. **`hδ₀_body_pos`**: `α₀_lb * γ_min / (2 * M) > 0` for `M > 0` — by `positivity`.
+2. **`hα_0_body`**: `δ₀_body M ≤ α(ω,0)` when `γ(ω) ≤ M`. Key: `γ_min ≤ γ(ω) ≤ M`, so `M ≥ γ_min`. Then `α₀_lb * γ_min / (2 * M) ≤ α₀_lb` (since `2 * M ≥ 2 * γ_min`, via `div_le_iff₀` + `nlinarith`). And `α₀_lb ≤ α(ω,0)` by hypothesis.
+3. **`hδ₀_body_lb`**: `c / M ≤ δ₀_body M` with `c = α₀_lb * γ_min / 4`. Proved by `c / M = α₀_lb * γ_min / (4 * M) ≤ α₀_lb * γ_min / (2 * M)` using `div_le_div_of_nonneg_left ha h2M (by linarith : 2*M ≤ 4*M)`.
+
+**Key fix (exp 288)**: `div_le_div_of_nonneg_left` (not `div_le_div_left` which is not in scope, not `inv_le_inv_of_le` which is unknown) is the correct Lean 4 lemma for `a/(larger) ≤ a/(smaller)` when `a ≥ 0`. Used extensively in `ContinuumSolvedWired6.lean:133` and `SelfConsistencyFixedPoint.lean:399`.
+
+**Physical interpretation**: Any model with uniform positive damping (γ_min > 0) — constant-γ models, Lorentzian with cutoff, smooth positive-damping distributions — automatically satisfies `hδ₀_body_lb` as long as oscillators start with uniformly positive activity. The caller no longer needs to manually verify the structural `c/M ≤ δ₀_body M` bound.
+
+**Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry.
 
 ## 5. Recommended next steps
 
