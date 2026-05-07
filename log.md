@@ -1,5 +1,24 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoExplicitInitWired7 compiled — wired7 applied to explicitEquil initial data (exp 291)
+
+- hypothesis: `explicitEquil M K r₀ ≥ (Kr₀/4)/M` for M ≥ Kr₀/2 (key lemma), so wired7's eventual c/M bound is satisfied with c=Kr₀/4, M₀=Kr₀/2. Combined with `explicitEquil_mono_gamma`, hδ₀_body_pos and hδ₀_body_lb in wired7 are auto-derived when α(ω,0) ≥ explicitEquil(γ(ω), K, r₀).
+- result: confirmed. `KuramotoExplicitInitWired7.lean` proves `kuramoto_explicit_init_convergence`. Fixes needed: (1) `nlinarith [sq_nonneg (M-Kr₀)]` → `nlinarith [mul_pos hM_pos (mul_pos hK hr₀)]` for `(M+Kr₀)²≥M²+K²r₀²`; (2) `div_le_div_iff` → `div_le_div_of_nonneg_left` after rewriting K*r₀/4/M = K*r₀/(4M); (3) `explicitEquil_mono_gamma` needs `hγ_pos : 0 < γ ω` (added as hypothesis). Build: 0 errors, 0 sorry. 2713 jobs.
+- significance: gives the first concrete application of wired7. Replaces opaque structural hypotheses hδ₀_body_pos + hδ₀_body_lb with two physically interpretable ones: (1) γ(ω)>0 everywhere (positive damping), (2) α(ω,0) ≥ explicitEquil(γ(ω),K,r₀) (each oscillator starts above equilibrium for initial order parameter r₀). Covers Gaussian/Student-t distributions with positive γ_min.
+- key lemma: explicitEquil M K r₀ = Kr₀/(M+√(M²+K²r₀²)) (rationalized). For M ≥ Kr₀/2: denominator ≤ 2M+Kr₀, so explicitEquil ≥ Kr₀/(2M+Kr₀) ≥ (Kr₀/4)/M.
+- created: KuramotoLean/KuramotoExplicitInitWired7.lean
+- updated: KuramotoLean.lean (manifest), syntheses/continuum-stability-debate.md (§4q), index.md
+- index.md: regenerated
+
+## [2026-05-08] experiment | ContinuumSolvedWired7 compiled — hδ₀_body_lb weakened to eventually (exp 290)
+
+- hypothesis: wired6's proof only uses `hc_bound M hM_pos` inside a `filter_upwards [eventually_ge_atTop ...]` block; the bound for small M is never needed. So `∀ M > 0, c/M ≤ δ₀_body M` can be weakened to `∃ M₀ > 0, ∀ M ≥ M₀, c/M ≤ δ₀_body M` with five minimal code changes.
+- result: confirmed. `ContinuumSolvedWired7.lean` proves `kuramoto_continuum_wired7` with weakened hδ₀_body_lb. Build: 0 errors, 0 sorry. 2710 jobs. The five changes: (1) hypothesis signature adds `∃ M₀`; (2) obtain adds `M₀, hM₀_pos`; (3) filter_upwards max includes M₀; (4) hM_Kr/hM_Ks extracted from nested max via le_trans; (5) hc_bound called with `hM_M₀` instead of `hM_pos`.
+- significance: enables the standard Kuramoto model (γ(ω)=|ω|, γ_min=0) where δ₀_body M ≈ Kr₀/(2M) satisfies c/M ≤ δ₀_body M only for M ≥ M₀ = Kr₀/2. The wired7 hypothesis is satisfiable by standard Kuramoto with explicitEquil initial data.
+- created: KuramotoLean/ContinuumSolvedWired7.lean
+- updated: syntheses/continuum-stability-debate.md (§4p, label wired7-proved), KuramotoLean.lean (manifest)
+- index.md: regenerated
+
 ## [2026-05-08] query | Student-t ν=2 first-moment correction — body-lasalle-gap table corrected (exp 289)
 
 - hypothesis: Student-t ν=2 has ∫|ω|g < ∞ (not = ∞ as wiki table stated). For Student-t ν: ∫|ω|g ∝ ∫₀^∞ (1+u)^{-(ν+1)/2} du, which converges iff ν > 1. For ν=2: ∫|ω|g = 2/(ν-1)·C = 2C < ∞. Second moment ∫ω²g = ∞ (diverges) since ν ≤ 2.

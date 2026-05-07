@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-08
-status: gamma-min-convergence-proved
-experiment: 288
+status: explicit-init-wired7-proved
+experiment: 291
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -570,6 +570,58 @@ where $\alpha(\omega,t) = \text{lorentzian\_oa\_flow}\;K\;\gamma_0\;r_0\;\alpha_
 
 **Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry.
 
+## 4p. Proved: wired7 — hδ₀_body_lb weakened to eventually (exp 290)
+
+`ContinuumSolvedWired7.lean` — `kuramoto_continuum_wired7` (0 sorry, 0 axioms):
+
+**Change from wired6**: The structural hypothesis
+```
+hδ₀_body_lb : ∃ c > 0, ∀ M > 0, c/M ≤ δ₀_body M
+```
+is weakened to
+```
+hδ₀_body_lb : ∃ c > 0, ∃ M₀ > 0, ∀ M ≥ M₀, c/M ≤ δ₀_body M
+```
+requiring the $c/M$ lower bound only for $M \geq M_0$, not all $M > 0$.
+
+**Why this is sufficient**: wired6's proof uses `hc_bound` only once — inside a `filter_upwards` block for large $M$ (specifically, for $M \geq \max(K r_{\min}, K r^*)$). The bound for small $M$ ($0 < M < M_0$) is structurally unnecessary. The five minimal changes:
+
+1. Hypothesis signature: add `∃ M₀ > 0` wrapping the `∀ M` quantifier.
+2. `obtain`: add `M₀, hM₀_pos` to the destructuring.
+3. `filter_upwards`: change `eventually_ge_atTop (max (K*r_min) (K*r_star))` to `eventually_ge_atTop (max (max (K*r_min) (K*r_star)) M₀)`.
+4. `hM_Kr`, `hM_Ks`: use nested `le_trans (le_max_left _ _) (le_trans (le_max_left _ _) hM)` and `le_trans (le_max_right _ _) (le_trans (le_max_left _ _) hM)`.
+5. Add `hM_M₀ : M₀ ≤ M := le_trans (le_max_right _ _) hM` and change `hc_bound M hM_pos` to `hc_bound M hM_M₀`.
+
+**Motivation**: Enables the standard Kuramoto model ($\gamma(\omega) = |\omega|$, $\gamma_{\min} = 0$) with `explicitEquil` initial conditions where `δ₀_body M := Kr₀/(2M)` satisfies `c/M ≤ δ₀_body M` only for $M \geq M_0 = Kr_0/2$.
+
+**Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry. 2710 jobs.
+
+## 4q. Proved: wired7 applied to explicitEquil initial data (exp 291)
+
+`KuramotoExplicitInitWired7.lean` — `kuramoto_explicit_init_convergence` (0 sorry, 0 axioms):
+
+**Theorem**: Applies `kuramoto_continuum_wired7` when each oscillator starts at or above its equilibrium activity for initial order parameter $r_0$. Replaces the structural hypotheses `hδ₀_body_pos` and `hδ₀_body_lb` with:
+- `hγ_pos : ∀ ω, 0 < γ ω` (positive damping everywhere)
+- `hr₀ : 0 < r₀` (initial order parameter)
+- `hα_0_explicitEquil : ∀ ω, explicitEquil (γ ω) K r₀ ≤ α ω 0` (each oscillator starts above equilibrium)
+
+**Key lemma** (`explicitEquil_eventually_lb`): For M ≥ Kr₀/2:
+$$\text{explicitEquil}\; M\; K\; r_0 \geq \frac{Kr_0/4}{M}$$
+Proof chain:
+1. `explicitEquil M K r₀ = Kr₀/(M + √(M²+K²r₀²))` (rationalized form)
+2. `√(M²+K²r₀²) ≤ M + Kr₀` (since $(M+Kr₀)² = M²+2MKr₀+K²r₀² \geq M²+K²r₀²$)
+3. Denominator `≤ 2M+Kr₀`, so `explicitEquil M K r₀ ≥ Kr₀/(2M+Kr₀)`
+4. For M ≥ Kr₀/2: `(Kr₀/4)/M = Kr₀/(4M) ≤ Kr₀/(2M+Kr₀)` (from `div_le_div_of_nonneg_left`, since `2M+Kr₀ ≤ 4M` iff `Kr₀ ≤ 2M` iff `M ≥ Kr₀/2`)
+
+**hα_0_body derivation**: For ω with γ(ω) ≤ M: `explicitEquil_mono_gamma` (needs `hγ_pos ω : 0 < γ(ω)`) gives `explicitEquil M K r₀ ≤ explicitEquil (γ ω) K r₀ ≤ α(ω,0)`.
+
+**Debugging lessons (exp 291)**:
+1. `nlinarith [sq_nonneg (M - K * r₀)]` proves `0 ≤ (M-Kr₀)²` which is useless for `(M+Kr₀)² ≥ M²+K²r₀²`; use `nlinarith [mul_pos hM_pos (mul_pos hK hr₀)]` instead.
+2. `div_le_div_iff` is not in scope; prefer `div_le_div_of_nonneg_left` after rewriting `a/4/M = a/(4M)`.
+3. `explicitEquil_mono_gamma` requires `0 < γ₁` (the SMALLER γ); must add `hγ_pos : ∀ ω, 0 < γ ω` as hypothesis.
+
+**Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry. 2713 jobs.
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -599,6 +651,10 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 **lorentzian-canonical-complete** — `lorentzian_continuum_V_inf_tendsto_canonical` (LorentzianContinuumInstantiation.lean, 0 sorry, 0 axioms, exp 287): complete Lorentzian continuum convergence. Given measurable $\gamma : \Omega \to \mathbb{R}$ with $\gamma(\omega) > 0$ everywhere and $\alpha_0 \in (0,1)$, the canonical OA flow satisfies $V_\infty(t) = \int(\alpha(\omega,t) - \alpha^*(\omega))^2\,d\mu \to 0$. Also: `hα_sq_meas` weakened to `∀ᶠ t in atTop` in `V_inf_tendsto_zero_from_r` and `lorentzian_continuum_V_inf_tendsto`. Chain: 6 files, 0 sorry, 0 axioms.
 
 **oa-scalar-measurable-flow** — `lorentzian_oa_flow_aestronglyMeasurable` (OAScalarMeasurableFlow.lean, 0 sorry, 0 axioms, exp 286): $\omega \mapsto \alpha(\gamma(\omega),t)$ is AEStronglyMeasurable. Chain: `Measurable.subtype_mk` + `Continuous.measurable` + `Measurable.comp` + `.aestronglyMeasurable`. Closes the measurability gap for the canonical Lorentzian OA scalar flow.
+
+**wired7-proved** — `kuramoto_continuum_wired7` (ContinuumSolvedWired7.lean, 0 sorry, 0 axioms, exp 290): weakens `hδ₀_body_lb` from `∀ M > 0` to `∃ M₀ > 0, ∀ M ≥ M₀`. Five minimal code changes from wired6. Enables application to standard Kuramoto ($\gamma = |\omega|$, $\gamma_{\min} = 0$) with eventual $c/M$ bound.
+
+**explicit-init-wired7-proved** — `kuramoto_explicit_init_convergence` (KuramotoExplicitInitWired7.lean, 0 sorry, 0 axioms, exp 291): applies wired7 to explicitEquil initial data. Key lemma: `explicitEquil M K r₀ ≥ (Kr₀/4)/M` for M ≥ Kr₀/2. Replaces hδ₀_body_pos + hδ₀_body_lb with `hγ_pos : ∀ ω, 0 < γ ω` and `hα_0_explicitEquil`. 2713 jobs.
 
 **oa-scalar-gamma-lip** — `oa_scalar_gamma_gronwall` (OAScalarGammaLip.lean, 0 sorry, 0 axioms, exp 285) proves Lipschitz continuity of the OA scalar ODE solution in the damping parameter $\gamma$: $\operatorname{dist}(\alpha_1(t), \alpha_2(t)) \leq \operatorname{gronwallBound}\;0\;(\gamma_2+K)\;|\gamma_1-\gamma_2|\;t$. Uses `dist_le_of_approx_trajectories_ODE_of_mem` with $\varepsilon_f = |\gamma_1-\gamma_2|$ (RHS mismatch). Provides the measurability bridge: $\gamma \mapsto \alpha(\gamma,t)$ is Lipschitz (hence continuous), so $\omega \mapsto \alpha(\gamma(\omega),t)$ is measurable.
 
