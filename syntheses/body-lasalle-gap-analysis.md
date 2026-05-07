@@ -2,8 +2,8 @@
 type: synthesis
 title: "Body LaSalle Gap Analysis: V_body Antitonicity"
 created: 2026-05-05
-updated: 2026-05-05
-status: open
+updated: 2026-05-08
+status: corrected
 sources:
   - "[[continuum-stability-debate]]"
   - "[[lean-proof-status]]"
@@ -104,16 +104,29 @@ Use the n-pole theorem (V_n → 0, proved) + quantitative approximation V_n → 
 
 For the specific case of Lorentzian $g$: the Bernoulli reduction gives $r \to r^*$ directly, without needing the Lyapunov approach. This is PROVED in `MainTheorem.lean`.
 
-## 6. Updated status by distribution
+## 6. Updated status by distribution (corrected exp 289)
 
-| Distribution | $\int|\omega|g$ | V antitone | V → 0 | Method |
+**Correction**: The original table incorrectly listed Student-t ν=2 as having ∫|ω|g = ∞. The correct statement:
+
+For Student-t ν: g(ω) ∝ (1+ω²/ν)^{-(ν+1)/2}. Substituting u = ω²/ν:
+∫₀^∞ ω·g dω ∝ ∫₀^∞ (1+u)^{-(ν+1)/2} du = [(−2/(ν−1))(1+u)^{-(ν-1)/2}]₀^∞ = 2/(ν−1), convergent iff **ν > 1**.
+
+For ν=2: ∫|ω|g = 2/(2-1) · C = 2C < ∞. So Student-t ν=2 has **finite first moment**.
+
+Similarly, ∫ω²g converges iff the integrand ∼ ω²·ω^{-(ν+1)} = ω^{-(ν-1)} is integrable at ∞, i.e., ν > 2. So Student-t ν=2 has **infinite second moment**.
+
+| Distribution | ∫\|ω\|g | ∫ω²g | V → 0 | Method |
 |---|---|---|---|---|
-| Bounded support | < ∞ | PROVED | PROVED | BarbalatLeibnizBridge |
-| Gaussian | < ∞ | PROVED | PROVED | BarbalatLeibnizBridge |
-| Student-t ν>2 | < ∞ | PROVED | PROVED | BarbalatLeibnizBridge |
-| Student-t ν=2 | = ∞ | OPEN | OPEN | Body approach blocked |
-| Lorentzian (ν=1) | = ∞ | OPEN (Lyapunov) | **PROVED** (Bernoulli) | MainTheorem |
-| General ∫|ω|g=∞ | = ∞ | OPEN | OPEN | No known approach |
+| Bounded support | < ∞ | < ∞ | PROVED (abstract) | ContinuumFiniteMoment / wired6 |
+| Gaussian | < ∞ | < ∞ | PROVED (abstract) | ContinuumFiniteMoment / wired6 |
+| Student-t ν>2 | < ∞ | < ∞ | PROVED (abstract) | ContinuumFiniteMoment / wired6 |
+| Student-t 1<ν≤2 | < ∞ | = ∞ | PROVED (abstract) | ContinuumFiniteMoment (∫\|ω\|g < ∞ suffices) |
+| Lorentzian ν=1 | = ∞ | = ∞ | **PROVED** (0 sorry, 0 axioms) | Bernoulli (exp 287) |
+| Student-t ν<1 | = ∞ | = ∞ | OPEN | Neither approach applies |
+
+**"PROVED (abstract)"** means the abstract theorem `kuramoto_solved_continuum_definitive` in `ContinuumFiniteMoment.lean` applies modulo external hypotheses `hV_anti` and `h_leibniz_drop` that remain as structural inputs (not derived from ODE data). For Lorentzian, the full chain is closed with 0 sorry, 0 axioms.
+
+**Consequence**: The original classification of Student-t ν=2 as "OPEN" was wrong — it has the same status as ν>2 (finite first moment, covered by the abstract theorem). The only genuinely open case is ν < 1 (super-Cauchy distributions), which are not physically standard in the Kuramoto literature.
 
 ## 7. Label
 

@@ -1,5 +1,13 @@
 # Activity Log
 
+## [2026-05-08] query | Student-t ν=2 first-moment correction — body-lasalle-gap table corrected (exp 289)
+
+- hypothesis: Student-t ν=2 has ∫|ω|g < ∞ (not = ∞ as wiki table stated). For Student-t ν: ∫|ω|g ∝ ∫₀^∞ (1+u)^{-(ν+1)/2} du, which converges iff ν > 1. For ν=2: ∫|ω|g = 2/(ν-1)·C = 2C < ∞. Second moment ∫ω²g = ∞ (diverges) since ν ≤ 2.
+- result: confirmed (direct calculation). Student-t ν=2 has finite first moment, so ContinuumFiniteMoment applies (same as ν>2). The only genuinely open case is ν<1 (super-Cauchy). Student-t 1<ν≤2 is covered by the abstract theorem.
+- significance: the original body-lasalle-gap-analysis table was incorrect. All Student-t ν>1 distributions (including ν=2) are covered by ContinuumFiniteMoment / BarbalatLeibnizBridge. Lorentzian (ν=1) is proved by Bernoulli. The remaining open case (ν<1) is not physically standard.
+- updated: syntheses/body-lasalle-gap-analysis.md (§6 corrected table + derivation)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoGammaMinConvergence compiled — hδ₀_body_lb derived from γ_min + α₀_lb (exp 288)
 
 - hypothesis: `δ₀_body M := α₀_lb * γ_min / (2 * M)` satisfies all three wired6 structural sub-goals automatically when `γ ≥ γ_min > 0` and `α(ω,0) ≥ α₀_lb > 0`; the three sub-goals are (1) positivity by `positivity`, (2) initial body bound by `div_le_iff₀` + `nlinarith`, (3) `c/M`-bound by `div_le_div_of_nonneg_left`.

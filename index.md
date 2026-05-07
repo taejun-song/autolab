@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-08 (KuramotoGammaMinConvergence.lean, exp 288)_
+_Last regenerated: 2026-05-08 (Student-t ν=2 correction, exp 289)_
 
 ## Recently Updated
 
+- [[body-lasalle-gap-analysis]] — §6 corrected (exp 289): Student-t ν=2 has ∫|ω|g < ∞ (not = ∞). Proof: ∫₀^∞ ω·g dω ∝ ∫₀^∞ (1+u)^{-(ν+1)/2} du = 2/(ν-1), converges for ν > 1. So Student-t 1<ν≤2 is covered by ContinuumFiniteMoment (same as ν>2). Only super-Cauchy ν<1 is genuinely open.
 - [[continuum-stability-debate]] — KuramotoGammaMinConvergence.lean (exp 288): `kuramoto_gamma_min_convergence` — removes opaque `hδ₀_body_lb` from `kuramoto_continuum_wired6`. Derives it from `hγ_lb: ∀ω, γ_min ≤ γ ω` and `hα_0_lb: ∀ω, α₀_lb ≤ α ω 0` via `δ₀_body M := α₀_lb * γ_min / (2 * M)`. Covers all models with uniform positive damping (constant-γ, cutoff Lorentzian, smooth positive damping). Key fix: `div_le_div_of_nonneg_left` for `a/(4M) ≤ a/(2M)`. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — LorentzianContinuumInstantiation.lean (exp 287): `lorentzian_continuum_V_inf_tendsto_canonical` — **COMPLETE Lorentzian continuum convergence**. Given measurable γ>0 everywhere and α₀∈(0,1), V∞(t)=∫(α(ω,t)-α*(ω))²dμ→0. Chain: 6 files (LorentzianExistence → ScalarODE → Barrier → GammaLip → MeasurableFlow → PointwiseConv → ContinuumConvergence → Instantiation). Also: weakened hα_sq_meas from ∀t to ∀ᶠt in atTop in V_inf_tendsto_zero_from_r. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — OAScalarMeasurableFlow.lean (exp 286): `lorentzian_oa_flow_aestronglyMeasurable` — ω ↦ lorentzian_oa_flow(γ(ω),t) is AEStronglyMeasurable. Chain: Lipschitz-in-γ → continuity on {γ>0} subtype → Measurable.subtype_mk + Continuous.measurable + comp. Also: lorentzian_oa_flow_lipschitz_in_gamma + lorentzian_oa_flow_continuous_subtype. 0 sorry, 0 axioms.
