@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoContinuumSCFixedPoint compiled — continuum self-consistency fixed point existence (exp 304)
+
+- hypothesis: For K·∫(1/γ)dμ > 2, IVT on Φ(r)=∫explicitEquil(γω,K,r)dμ gives fixed point r*∈(0,1). Key steps: |explicitEquil|≤1 via rationalized form; DCT for continuity and slope limit; explicitEquil_lower for Φ(r₀)>r₀.
+- result: confirmed. `sc_fixed_point_exists_continuum` compiles with 0 errors, 0 sorry. 2521 jobs.
+- proof sketch: (1) rationalized identity K*r/(γ+√(γ²+K²r²)) for all r. (2) DCT continuity with bound 1. (3) Φ(1)<1 via `integral_pos_iff_support_of_nonneg` + `probReal_univ`. (4) DCT slope limit ∫K/(2γ+Kr)→(K/2)∫1/γ>1, extract r₀=min(ε/2,1/2) via `eventually_nhdsWithin_iff`+`Metric.eventually_nhds_iff`. (5) Φ(r₀)>r₀ via `explicitEquil_lower`. (6) IVT via `isPreconnected_Icc.intermediate_value₂`.
+- debugging lessons: (1) `probReal_univ` is the right `@[simp]` lemma for μ.real(univ)=1, not `measure_univ`+`ENNReal.toReal_one`. (2) `nhdsWithin_le_nhds (s := Ioi 0)` needed — bare `nhdsWithin_le_nhds` in a `have` binding can't infer s without goal context. (3) `div_le_one hd |>.mpr` not `div_le_one_of_le`. (4) `eventually_nhdsWithin_iff` has no `Filter.` prefix. (5) For ContinuousAt of `2*γω + K*r`, use `continuous_const.add (continuous_const.mul continuous_id)` not reversed.
+- created: KuramotoLean/KuramotoContinuumSCFixedPoint.lean
+- updated: syntheses/continuum-stability-debate.md (+section continuum-sc-fixed-point, exp 304)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoFirstMomentConcreteV7 compiled — drops explicit α_star via explicitEquil formula (exp 303)
 
 - hypothesis: `kuramoto_first_moment_concrete_v7` drops all explicit equilibrium data from V6 (α_star, hα_star_pos, hα_star_lt, hαs_int, hα_star_equil, hr_star_eq — 6 hypotheses). Replaces with 3: `hγ_pos : ∀ ω, 0 < γ ω`, `hr_star_pos : 0 < r_star`, `hr_star_sc : r_star = ∫ ω, explicitEquil (γ ω) K r_star ∂μ`. Internally defines `α_star ω := explicitEquil (γ ω) K r_star` and derives all dropped hypotheses.
