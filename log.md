@@ -4907,3 +4907,9 @@ Major restructuring of MainTheorem.lean and companion files:
 - created: KuramotoLean/ContinuumSolvedWired6.lean
 - updated: syntheses/continuum-stability-debate.md (+section 4g, label updated)
 - index.md: regenerated
+
+## [2026-05-07] experiment | LorentzianPointwiseConv — V∞→0 from r(t)→r* via per-ω Gronwall (exp 281)
+
+- created: KuramotoLean/LorentzianPointwiseConv.lean
+- updated: syntheses/continuum-stability-debate.md (+section 4h, status → lorentzian-pointwise-proved, experiment → 281)
+- index.md: regenerated
