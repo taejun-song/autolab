@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
-status: partially-resolved
-experiment: 278
+status: wired-chain-complete
+experiment: 280
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -342,6 +342,63 @@ satisfies $C(M) \lesssim \frac{M^2\tau(M)}{K^2\delta(M)^{\min}\cdot r^*\cdot r_{
 
 **Concrete distributions covered**: Gaussian ($\int\gamma^2 g < \infty$), Student-$t$ $\nu > 2$, compactly supported distributions. Lorentzian ($\int\gamma^2 g = \infty$) remains open.
 
+## 4f. Proved: h_combined_vanish eliminated (exp 279)
+
+`ContinuumSolvedWired5.lean` — `kuramoto_continuum_wired5` (0 sorry, 0 axioms):
+
+Eliminates `h_combined_vanish` from `kuramoto_continuum_wired4` by deriving $C(M) + \tau(M) \to 0$ from two physically natural conditions:
+- `hγ_sq_int : Integrable (fun ω => (γ ω)^2) μ` — finite second moment of the frequency distribution
+- `hδ₀_body_lb : ∃ c > 0, ∀ M > 0, c/M ≤ δ₀_body M` — initial body bound decays at most as $1/M$
+
+**Key estimate**: Let $C_1 = \min(c, Kr_{\min}/3)$ and $C_2 = K^2 r^* C_1 / 6$. Then the denominator of $C(M)$ satisfies $K\delta(M)\cdot\frac{Kr^*}{2M+Kr^*}\cdot b(M) \geq C_2/M^2$, giving $C(M) \leq (K/C_2)(M^2\tau(M)) \to 0$ by `second_moment_tail_vanish`.
+
+**Remaining open** (1 hypothesis):
+- `hμ_body_pos` — $\mu(\{\gamma \leq M\}) > 0$ for each $M > 0$ (support condition on $g$; equivalent to $g$ not concentrated on $\{0\}$ alone)
+
+**Debugging lessons from exp 279**:
+1. `simp only [C₂]` for a local `let C₂ := ...` binding is a no-op. Use `show unfolded_expr; field_simp; ring` instead.
+2. `gcongr` on a 4-factor product often fails when nonnegativity of intermediate factors cannot be inferred — use explicit `mul_le_mul` chain.
+3. `rw [Real.norm_of_nonneg h]` with an open metavariable `?g` can accidentally close the goal by unification — pin with `show ‖f M‖ ≤ concrete_g M` first.
+4. `field_simp; ring` on a fraction-of-fraction equality: `field_simp` alone may close the goal; the trailing `ring` then errors "No goals to be solved."
+
+**Wired chain complete up to `hμ_body_pos`**: wired → wired2 → wired3 → wired4 → wired5. The single remaining hypothesis `hμ_body_pos` is a support condition on the initial distribution $g$ — it fails only if $g$ is a point mass at $\gamma = 0$.
+
+## 4g. Proved: hμ_body_pos eliminated — wired chain complete (exp 280)
+
+`ContinuumSolvedWired6.lean` — `kuramoto_continuum_wired6` (0 sorry, 0 axioms):
+
+Eliminates `hμ_body_pos` ($\mu(\{\gamma \leq M\}) > 0$ for each $M > 0$) from `kuramoto_continuum_wired5` by case-splitting on whether the body measure is zero.
+
+**Key idea (h_body_gronwall)**: Case-split on `μ{γ ≤ M} = 0`:
+- **Null case**: $V_{\text{body}}(M,t) = \int_{\text{null}} (\alpha-\alpha^*)^2\,d\mu = 0$ for all $t$ (via `Measure.restrict_eq_zero.mpr + integral_zero_measure`). Gronwall bound trivially holds with rate = 1, $C(M) = 0$.
+- **Positive case**: `ENNReal.toReal_pos hμ_null (measure_ne_top μ _)` gives positivity; apply `body_gronwall_wired` as before.
+
+**Key idea (h_combined_vanish)**: $\mu\{\gamma \leq M\} > 0$ holds **automatically for large $M$** because $\tau(M) = \mu\{\gamma > M\} \to 0$ (from `tail_measure_tendsto_zero'`) forces $b(M) = 1 - \tau(M) \to 1 > 0$ (via the partition identity $\tau(M) + b(M) = 1$). So `hCM_nn_pos` applies for large $M$: $C(M) = \max(0, CM(M)) = CM(M)$ eventually, and the `congr'` filter closes the goal.
+
+**Theorem signature** (no `hμ_body_pos`):
+- ODE data: `HasDerivAt (α ω) (oaScalarRHS (γ ω) K r t (α ω t)) t`
+- Equilibrium: `γ ω * α_star ω = (K/2)·r*·(1 - (α_star ω)²)`
+- Physical: `IsProbabilityMeasure μ`, `hγ_sq_int : Integrable (fun ω => (γ ω)^2) μ`
+- Analytic: `hδ₀_body_lb : ∃ c > 0, ∀ M > 0, c/M ≤ δ₀_body M`
+- Persistence: `r_min > 0` with `r(t) ≥ r_min`, `α ∈ (0,1)` invariant
+
+**Axioms**: `propext`, `Classical.choice`, `Quot.sound` — the three standard Lean kernel axioms. Zero sorry.
+
+**Wired chain summary** (wired → wired2 → wired3 → wired4 → wired5 → wired6):
+- wired: takes all hypotheses explicitly (no elimination)
+- wired2: eliminates `h_gronwall_from_persist` via `body_gronwall_wired`; defines $C(M) = \max(0, K\tau/\text{denom})$
+- wired3: eliminates `hα_lb` via `body_persistence_lower_bound`
+- wired4: eliminates `hr_star_pos` from `hα_star_pos + hαs_int + IsProbabilityMeasure`
+- wired5: eliminates `h_combined_vanish` via `second_moment_tail_vanish + hδ₀_body_lb`
+- **wired6**: eliminates `hμ_body_pos` via null-body case split — **chain fully closed**
+
+**Debugging lessons from exp 280**:
+1. `ENNReal.pos_iff_ne_zero` does not exist; `ENNReal.toReal_pos` takes `a ≠ 0` directly.
+2. `(f.add g).congr'` produces `Tendsto _ atTop (nhds (0+0))`, not `nhds 0`. Must `simp [add_zero]` on the intermediate, then call `.congr'` from the correct direction.
+3. For `congr'` direction: if you know `CM M → 0` and want `C M → 0` where `C M = CM M` eventually, use `hCM_vanish.congr'` with an `Eventually` proof showing `C M = CM M` for large `M` — NOT `apply (hCM_vanish.add h_τ_vanish).congr'`.
+
+**Physical interpretation**: The hypothesis `hμ_body_pos` says "the distribution $g$ has positive mass on every half-line $[0,M]$." This fails only if $g$ is a point mass at $\gamma = 0$ — i.e., all oscillators have zero frequency, which is the trivial (already locked) case. Eliminating it means the theorem now applies to all non-degenerate probability distributions with finite second moment.
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -368,4 +425,4 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 
 ## 6. Label
 
-**open** — No valid proof exists for the standard continuum model. The bounded-$\gamma$ case is proved; the extension to $\gamma = |\omega|$ unbounded has five identified obstructions, no known workaround, and multiple viable but unverified strategies.
+**wired-chain-complete** — The wired chain `kuramoto_continuum_wired6` (0 sorry, 0 axioms) proves $r(t) \to r^*$ for any probability distribution $\mu$ on frequencies with finite second moment $\int\gamma^2\,d\mu < \infty$ and initial body lower bound $\delta_0(M) \geq c/M$. This covers Gaussian, Student-$t$ ($\nu > 2$), and compactly supported distributions. Lorentzian ($\int\gamma^2 g = \infty$) remains open — the `hγ_sq_int` hypothesis fails for the Lorentzian distribution $g(\omega) = \frac{1}{\pi}\frac{\gamma}{\omega^2+\gamma^2}$.

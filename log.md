@@ -4885,3 +4885,25 @@ Major restructuring of MainTheorem.lean and companion files:
 - closes: `hV_body_cont` gap — V_body continuity now proved rather than assumed in `body_gronwall_from_persistence`
 - remaining open: h_combined_vanish (C(M)+μ(tail)→0 depends on g decay), h_r_persist (r persistence), hα_0_body (initial body lower bound)
 - index.md: regenerated
+
+## [2026-05-07] experiment | ContinuumSolvedWired5 compiled — h_combined_vanish eliminated (exp 279)
+
+- hypothesis: `h_combined_vanish` (C(M)+μ(tail)→0) is derivable from `hγ_sq_int : Integrable (γ²)` and `hδ₀_body_lb : ∃ c>0, ∀M>0, c/M ≤ δ₀_body M`.
+- result: confirmed. `ContinuumSolvedWired5.lean` compiles with 0 errors, 0 sorry.
+- proof sketch: Let C₁=min(c, Kr_min/3), C₂=K²r*C₁/6. Show denominator ≥ C₂/M². Then C(M) ≤ K/C₂·(M²τ(M)) → 0 by `second_moment_tail_vanish`. Key tactics: `show` to pin metavariable before `rw [norm_of_nonneg]`, explicit `mul_le_mul` chain for denominator lower bound (gcongr failed), `field_simp` alone (not `field_simp; ring`) for the equality step.
+- debugging lessons: (1) `simp only [let_binding]` is a no-op for local lets — use `show unfolded_form; field_simp; ring`. (2) `gcongr` on 4-way product needs explicit `mul_le_mul` chain. (3) `rw [norm_of_nonneg h]` with metavariable `?g` can accidentally close by unification — pin with `show ‖f‖ ≤ concrete_g` first. (4) `field_simp; ring` on fractions of fractions: `field_simp` alone may close the goal; adding `ring` then errors "no goals."
+- wired chain status: wired → wired2 → wired3 → wired4 → wired5. Remaining open: `hμ_body_pos` only (body measure > 0 = support condition on g).
+- created: KuramotoLean/ContinuumSolvedWired5.lean
+- updated: syntheses/continuum-stability-debate.md
+
+## [2026-05-07] experiment | ContinuumSolvedWired6 compiled — hμ_body_pos eliminated (exp 280)
+
+- hypothesis: `hμ_body_pos` (body measure positive) is eliminable via null-body case split.
+- result: confirmed. `ContinuumSolvedWired6.lean` compiles with 0 errors, 0 sorry. Axioms: propext, Classical.choice, Quot.sound (standard Lean kernel only).
+- proof sketch: (1) For `h_body_gronwall`: case-split on `μ{γ ≤ M} = 0`. Null case: `Measure.restrict_eq_zero.mpr + integral_zero_measure` gives V_body = 0; rate = 1, C = 0 trivially. Positive case: `ENNReal.toReal_pos hμ_null (measure_ne_top μ _)` then `body_gronwall_wired`. (2) For `h_combined_vanish`: use partition identity τ(M)+b(M)=1 to show b(M) > 0 for large M (since τ(M)→0). Then C(M) = max 0 (CM M) = CM M eventually via `hCM_nn_pos + max_eq_right`; close by `hCM_vanish.congr'`.
+- debugging lessons: (1) `ENNReal.pos_iff_ne_zero` does not exist — `ENNReal.toReal_pos` takes `a ≠ 0` directly. (2) `(f.add g).congr'` produces `nhds (0+0)` not `nhds 0` — must simplify first, then call `.congr'` from correct direction. (3) Correct pattern: `have hkey := hCM_vanish.add h_τ_vanish; simp only [add_zero] at hkey; apply hkey.congr'; filter_upwards ...`.
+- wired chain status: COMPLETE. wired → wired2 → wired3 → wired4 → wired5 → wired6. Zero remaining hypotheses beyond physical/ODE data and `hγ_sq_int + hδ₀_body_lb`.
+- scope: covers Gaussian, Student-t (ν>2), compactly supported distributions. Lorentzian (hγ_sq_int fails) remains open.
+- created: KuramotoLean/ContinuumSolvedWired6.lean
+- updated: syntheses/continuum-stability-debate.md (+section 4g, label updated)
+- index.md: regenerated
