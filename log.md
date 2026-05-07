@@ -1,5 +1,23 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentConcreteV3 compiled — derives hα_cont from hα_ode, drops both hV_body_cont and hα_cont (exp 298)
+
+- hypothesis: `kuramoto_first_moment_concrete_v3` drops `hα_cont` from V2 by deriving it internally: `HasDerivAt (α ω) _ t` for all t≥0 (hα_ode) → `ContinuousAt (α ω) t` (HasDerivAt.continuousAt) → `ContinuousWithinAt (α ω) (Ici 0) t` (ContinuousAt.continuousWithinAt) → `ContinuousOn (α ω) (Ici 0)`. Net reduction vs exp 296: removes both hV_body_cont and hα_cont; caller needs only ODE data.
+- result: confirmed. Build: 0 errors, 0 sorry. 2698 jobs. Proof: one-liner `fun ω t ht => (hα_ode ω t (mem_Ici.mp ht)).continuousAt.continuousWithinAt`, chains to V2.
+- significance: minimal-hypothesis form of the first-moment concrete theorem. The two dropped hypotheses are implied by the ODE (differentiability → continuity) and by V_body_continuousOn_prob respectively. Net: 2 fewer hypotheses than exp 296 with no loss of generality.
+- created: KuramotoLean/KuramotoFirstMomentConcreteV3.lean
+- updated: KuramotoLean.lean (manifest +1), syntheses/continuum-stability-debate.md (§4w, status → v3-minimal-proved, experiment → 298)
+- index.md: regenerated
+
+## [2026-05-08] experiment | KuramotoFirstMomentConcreteV2 compiled — drops hV_body_cont, adds hα_cont (exp 297)
+
+- hypothesis: `kuramoto_first_moment_concrete_v2` replaces `hV_body_cont : ∀ M > 0, ContinuousOn V_body(M,·) (Ici 0)` with `hα_cont : ∀ ω, ContinuousOn (α ω) (Ici 0)`, deriving V_body continuity internally via `V_body_continuousOn_prob`. The `V_body_continuousOn_prob` lemma (VBodyContinuous.lean) proves ContinuousOn of V_body from hγ_level + hα_cont + hα_inv + hα_star_pos + hα_star_lt + hα_sq_int — all already present in the theorem's hypothesis list.
+- result: confirmed. Build: 0 errors, 0 sorry. 2697 jobs. Proof: `V_body_continuousOn_prob γ M (hγ_level M) α α_star hα_cont hα_inv hα_star_pos hα_star_lt hα_sq_int`, chains to exp 296 `kuramoto_first_moment_concrete`.
+- significance: caller no longer proves body Lyapunov continuity separately; pointwise trajectory continuity suffices. This is weaker because hα_cont ↦ hV_body_cont via dominated convergence (not vice versa).
+- created: KuramotoLean/KuramotoFirstMomentConcreteV2.lean
+- updated: KuramotoLean.lean (manifest +1), syntheses/continuum-stability-debate.md (§4v+, v2 label added)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoFirstMomentConcrete compiled — concrete first-moment convergence without γ_min (exp 296)
 
 - hypothesis: `kuramoto_first_moment_concrete` drops γ_min > 0 from exp 295 by routing through `tail_body_iss_convergence` directly, bypassing V antitone. Body Gronwall (`body_gronwall_from_persistence`) requires only `hγ_nn : ∀ ω, 0 ≤ γ ω`. When M < 0, {γ ≤ M} = ∅ (since γ ≥ 0 > M), giving μ_body = 0 and C M = 0 definitionally — no γ_min needed.
