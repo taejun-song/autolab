@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
-status: lorentzian-scalar-ode-global
-experiment: 284
+status: oa-scalar-gamma-lip
+experiment: 285
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -484,7 +484,23 @@ where $r(t) = \text{lorentzian\_explicit}\;K\;\gamma_0\;r_0\;t$.
 - `r_ext_bdd`: `|r_ext t| ≤ 1` for all t, since $r_{\text{ext}} \in (0,1)$ everywhere (Lorentzian pos/lt_one at max)
 - Recovers original: `oaScalarRHS γ K r_ext t α = oaScalarRHS γ K r t α` for $t \geq 0$
 
-**What remains open**: The measurability hypothesis `hα_sq_meas` in `lorentzian_continuum_V_inf_tendsto` — that the map $\omega \mapsto (\alpha(\omega,t) - \alpha^*(\omega))^2$ is AE strongly measurable. This requires a measurable selection theorem for the parameterized ODE $\omega \mapsto \alpha(\omega,\cdot)$.
+**What remains open**: The measurability hypothesis `hα_sq_meas` in `lorentzian_continuum_V_inf_tendsto` — that the map $\omega \mapsto (\alpha(\omega,t) - \alpha^*(\omega))^2$ is AE strongly measurable. This requires a measurable selection theorem for the parameterized ODE $\omega \mapsto \alpha(\omega,\cdot)$. The $\gamma$-Lipschitz bound in exp 285 gives one approach: approximate $\omega \mapsto \alpha(\gamma(\omega),t)$ by step functions in $\gamma$, each of which is measurable.
+
+## 4l. Proved: Gronwall γ-sensitivity for the OA scalar ODE (exp 285)
+
+`OAScalarGammaLip.lean` — `oa_scalar_gamma_gronwall` (0 sorry, 0 axioms):
+
+**Statement**: Two solutions $\alpha_1, \alpha_2 : [0,T] \to [0,1]$ of the OA scalar ODE with parameters $\gamma_1, \gamma_2$ (resp.) and the same initial condition $\alpha_0$ satisfy:
+$$\operatorname{dist}(\alpha_1(t), \alpha_2(t)) \leq \operatorname{gronwallBound}\;0\;(\gamma_2+K)\;|\gamma_1-\gamma_2|\;t$$
+giving Lipschitz continuity in $\gamma$ with constant $|\gamma_1-\gamma_2|/(\gamma_2+K) \cdot (\exp((\gamma_2+K)t)-1)$.
+
+**Proof strategy**: Treat $\alpha_1$ (satisfying the $\gamma_1$-ODE) as an $\varepsilon$-approximate solution to the $\gamma_2$-ODE with $\varepsilon = |\gamma_1 - \gamma_2|$. The RHS mismatch is $(-\gamma_1 + \gamma_2)\alpha_1 = (\gamma_2 - \gamma_1)\alpha_1$, and since $|\alpha_1| \leq 1$ the pointwise error is at most $|\gamma_1 - \gamma_2|$. Apply `dist_le_of_approx_trajectories_ODE_of_mem` from Mathlib with $K = \gamma_2 + K$ (Lipschitz constant of $v_2$) and $\varepsilon_f = |\gamma_1 - \gamma_2|$, $\varepsilon_g = 0$.
+
+**Key lemmas**:
+- `oaScalarRHS_lipschitzOnWith`: $\operatorname{oaScalarRHS}\;\gamma\;K\;r\;t$ is Lipschitz on $[0,1]$ with constant $\gamma+K$. Proved by the identity $f(x) - f(y) = (x-y)(-\gamma - \frac{K}{2}r(t)(x+y))$ and bounding the coefficient using product witnesses $(1 \pm r(t))(x+y) \geq 0$.
+- `oaScalarRHS_gamma_diff`: $|\operatorname{RHS}(\gamma_1, x) - \operatorname{RHS}(\gamma_2, x)| \leq |\gamma_1 - \gamma_2|$ for $x \in [0,1]$, since the difference equals $(\gamma_2 - \gamma_1)x$ and $|x| \leq 1$.
+
+**Significance**: Gives the measurability bridge. If $\gamma \mapsto \alpha(\gamma,t)$ is Lipschitz with constant $C(t)$ on $\mathbb{R}_{\geq 0}$, then $\omega \mapsto \alpha(\gamma(\omega),t)$ is measurable (composition of measurable $\omega \mapsto \gamma(\omega)$ with Lipschitz hence continuous function).
 
 ## 5. Recommended next steps
 
@@ -511,6 +527,8 @@ h_coercive (P<δ ⟹ V<ε) [WeakStarLaSalle]
 h_body_drop is purely analytic (interchange of limit and integral). No dynamics, no compactness.
 
 ## 6. Label
+
+**oa-scalar-gamma-lip** — `oa_scalar_gamma_gronwall` (OAScalarGammaLip.lean, 0 sorry, 0 axioms, exp 285) proves Lipschitz continuity of the OA scalar ODE solution in the damping parameter $\gamma$: $\operatorname{dist}(\alpha_1(t), \alpha_2(t)) \leq \operatorname{gronwallBound}\;0\;(\gamma_2+K)\;|\gamma_1-\gamma_2|\;t$. Uses `dist_le_of_approx_trajectories_ODE_of_mem` with $\varepsilon_f = |\gamma_1-\gamma_2|$ (RHS mismatch). Provides the measurability bridge: $\gamma \mapsto \alpha(\gamma,t)$ is Lipschitz (hence continuous), so $\omega \mapsto \alpha(\gamma(\omega),t)$ is measurable.
 
 **lorentzian-scalar-ode-global** — `lorentzian_scalar_ode_global` (LorentzianScalarODE.lean, 0 sorry, 0 axioms, exp 284) proves global existence for the per-$\omega$ OA scalar ODE under Lorentzian forcing via the $r_{\text{ext}}$ time-clamping trick + `oa_solve_global_v2`. Closes `hα_ode`, `hα_bdd`, `hα_cont` hypotheses in `lorentzian_continuum_V_inf_tendsto` for a single oscillator. Remaining gap: measurability of $\omega \mapsto \alpha(\omega,t)$ for the parameterized family.
 

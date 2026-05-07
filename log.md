@@ -4932,3 +4932,14 @@ Major restructuring of MainTheorem.lean and companion files:
 - created: KuramotoLean/LorentzianScalarODE.lean
 - updated: syntheses/continuum-stability-debate.md (+section 4k, status → lorentzian-scalar-ode-global, experiment → 284)
 - index.md: regenerated
+
+## [2026-05-07] experiment | OAScalarGammaLip — Gronwall γ-sensitivity for OA scalar ODE (exp 285)
+
+- hypothesis: Treating α₁ (γ₁-ODE) as ε-approximate solution to γ₂-ODE with ε=|γ₁-γ₂| and applying dist_le_of_approx_trajectories_ODE_of_mem gives Lipschitz bound.
+- result: confirmed. `OAScalarGammaLip.lean` compiles with 0 errors, 0 sorry. Axioms: propext, Classical.choice, Quot.sound only.
+- proof sketch: (1) `oaScalarRHS_lipschitzOnWith`: Lip constant γ+K on [0,1] via factor identity f(x)-f(y) = (x-y)*(-γ - K/2*r t*(x+y)) and product witnesses (1±r t)*(x+y)≥0 for nlinarith. (2) `oaScalarRHS_gamma_diff`: pointwise RHS difference = (γ₂-γ₁)*x, bounded by |γ₁-γ₂| since x∈[0,1]. (3) `oa_scalar_gamma_gronwall`: set L := NNReal⟨γ₂+K,...⟩, εf := |γ₁-γ₂|, apply Gronwall API with δ=0; close with hL_eq : ↑L = γ₂+K by rfl + simp [add_zero, sub_zero].
+- debugging lessons: (1) `ring` cannot handle NNReal coercions ↑⟨r, h⟩ — must simp away with NNReal.coe_mk first or use `hL_eq : ↑L = ... := rfl`. (2) `dist_le_of_approx_trajectories_ODE_of_mem` last argument is initial distance bound `hδ`, NOT `le_refl 0`. (3) nlinarith for |coeff| ≤ γ+K needs both lower (1+rt)(x+y)≥0 and upper (1-rt)(x+y)≥0 product witnesses.
+- significance: provides measurability bridge — γ ↦ α(γ,t) is Lipschitz (hence continuous), so ω ↦ α(γ(ω),t) is measurable as composition of measurable γ(ω) with continuous function. Closes hα_sq_meas gap pathway.
+- created: KuramotoLean/OAScalarGammaLip.lean
+- updated: syntheses/continuum-stability-debate.md (+section 4l, status → oa-scalar-gamma-lip, experiment → 285)
+- index.md: regenerated
