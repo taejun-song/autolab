@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-07] experiment | ContinuumSolvedWired2 compiled — h_gronwall_from_persist eliminated (exp 275)
+
+- hypothesis: changing body_gronwall_from_persistence return type from `∃ rate` to `let rate := ...; 0 < rate ∧ ...` would make the rate transparent to callers, unblocking ContinuumSolvedWired2.
+- result: confirmed. Three-file change: BodyGronwallBound.lean (return type), BodyGronwallWired.lean (now returns explicit let-based conjunction), ContinuumSolvedWired2.lean (uses `obtain ⟨hrate, h_bound⟩` + `exact ⟨_, hrate, h_bound⟩`).
+- also fixed: `h_cv` proof used `▸` on an EventuallyEq (requires Eq); changed to `Tendsto.congr'`. `congr 1` left two subgoals; changed to `simp only [hC_eq ...]`.
+- build: 0 errors, 0 sorry. `#print axioms kuramoto_continuum_wired2` → [propext, Classical.choice, Quot.sound]. 2702 jobs.
+- new theorem `kuramoto_continuum_wired2`: eliminates h_gronwall_from_persist from kuramoto_continuum_wired. Remaining open: hα_lb (body persistence), hr_star_pos (supercritical), hμ_body_pos (body mass), h_combined_vanish (tail decay).
+- created: KuramotoLean/ContinuumSolvedWired2.lean (new), KuramotoLean/BodyGronwallWired.lean (updated), KuramotoLean/BodyGronwallBound.lean (return type only)
+- index.md: regenerated
+
 ## [2026-05-06] experiment | wiring-fixes verification + Codex review (exp 271)
 
 - verified: KuramotoLean/ContinuumSolvedWired.lean — both wiring issues already fixed (from exp 268).
