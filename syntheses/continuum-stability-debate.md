@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-08
-status: first-moment-tail-proved
-experiment: 292
+status: full-leibniz-proved
+experiment: 293
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -652,6 +652,32 @@ Proof strategy (3 steps):
 
 **Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry. 2500 jobs.
 
+## 4s. Proved: full-domain Leibniz rule for Lyapunov V (exp 293)
+
+`ContinuumFullLeibniz.lean` — `full_v_leibniz_hasDerivAt` (0 sorry, 0 axioms):
+
+**Statement**: Given $\gamma : \Omega \to \mathbb{R}$ with $\gamma > 0$ everywhere and $\int\gamma\,d\mu < \infty$ (first moment), the full Lyapunov functional $V(t) = \int_\Omega (\alpha(\omega,t)-\alpha^*(\omega))^2\,d\mu$ satisfies:
+$$\frac{d}{dt}V(t_0) = \int_\Omega 2(\alpha(\omega,t_0)-\alpha^*(\omega))\cdot\text{oaScalarRHS}(\gamma(\omega),K,r,t_0,\alpha(\omega,t_0))\,d\mu$$
+
+**Key difference from `body_leibniz_hasDerivAt`**:
+- Body version: integrates over $\{\gamma \leq M\}$ with constant dominator $2M+K$.
+- Full version: integrates over all of $\Omega$ with dominator $\omega \mapsto 2\gamma(\omega)+K$.
+- Dominator integrability: `hγ_int.const_mul 2 |>.add (integrable_const K)` from first moment condition.
+
+**Proof chain** (direct adaptation of `BodyLeibnizProof.lean`):
+1. **Pointwise derivative**: `h_pw_deriv` — same as body version, using `HasDerivAt.pow 2`.
+2. **Norm bound**: `h_norm_bound` — for each $\omega \in \Omega$: $|2(\alpha-\alpha^*)\cdot\text{RHS}| \leq 2\gamma(\omega)+K$. Key: $|\text{oaScalarRHS}(\gamma,K,r,s,\alpha)| \leq \gamma + K/2$ since $|\alpha| \leq 1$ and $|r| \leq 1$. The difference $|\alpha-\alpha^*| \leq 1$. Thus $2 \cdot 1 \cdot (\gamma+K/2) = 2\gamma+K$.
+3. **Dominator integrability**: `hγ_int.const_mul 2 |>.add (integrable_const K)` gives $\int (2\gamma+K)\,d\mu < \infty$.
+4. **Apply DCT**: `hasDerivAt_integral_of_dominated_loc_of_deriv_le` with $\mu = \mu$ (no body restriction), bound $= \lambda\omega.\,2\gamma(\omega)+K$.
+
+**Build**: ✔ [2697/2697] Built KuramotoLean.ContinuumFullLeibniz (4.2s). Warning: unused variable `hα_neg` (vestigial, can be removed if needed).
+
+**Significance**: This is the Leibniz rule that the `TailBodyBarbalat` and `MonotoneLeibnizBridge` strategies require for their `h_body_drop` hypothesis under the finite first moment condition $\int|\omega|g\,d\omega < \infty$. Combined with `P ≥ P_body ≥ c(M) \cdot V_body`, it gives $V(t)-V(t+1) \geq K\cdot c(M)\cdot V_{\text{body}}(M,t)$ — closing the Leibniz gap for Gaussian, compactly supported, and Student-$t$ ($\nu > 2$) distributions.
+
+**What this does NOT close**: Lorentzian ($\int|\omega|g = \infty$). For Lorentzian, the dominator $2\gamma(\omega)+K = 2|\omega|+K$ is NOT in $L^1(g)$, so this proof does not apply. The Monotone Leibniz Bridge (body truncations $M' \to \infty$) remains the path for Lorentzian.
+
+**Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry. 2697 jobs.
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -683,6 +709,8 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 **oa-scalar-measurable-flow** — `lorentzian_oa_flow_aestronglyMeasurable` (OAScalarMeasurableFlow.lean, 0 sorry, 0 axioms, exp 286): $\omega \mapsto \alpha(\gamma(\omega),t)$ is AEStronglyMeasurable. Chain: `Measurable.subtype_mk` + `Continuous.measurable` + `Measurable.comp` + `.aestronglyMeasurable`. Closes the measurability gap for the canonical Lorentzian OA scalar flow.
 
 **wired7-proved** — `kuramoto_continuum_wired7` (ContinuumSolvedWired7.lean, 0 sorry, 0 axioms, exp 290): weakens `hδ₀_body_lb` from `∀ M > 0` to `∃ M₀ > 0, ∀ M ≥ M₀`. Five minimal code changes from wired6. Enables application to standard Kuramoto ($\gamma = |\omega|$, $\gamma_{\min} = 0$) with eventual $c/M$ bound.
+
+**full-leibniz-proved** — `full_v_leibniz_hasDerivAt` (ContinuumFullLeibniz.lean, 0 sorry, 0 axioms, exp 293): HasDerivAt for the full Lyapunov $V(t) = \int(\alpha-\alpha^*)^2\,d\mu$ using first moment $\int\gamma\,d\mu < \infty$. Dominator $\lambda\omega.\,2\gamma(\omega)+K$ (vs constant $2M+K$ in body version). Integrability from `hγ_int.const_mul 2 |>.add (integrable_const K)`. Closes the Leibniz gap for distributions with $\int|\omega|g < \infty$ (Gaussian, compact support, Student-$t$ $\nu>2$). Does NOT apply to Lorentzian ($\int|\omega|g=\infty$). 2697 jobs.
 
 **first-moment-tail-proved** — `first_moment_tail_vanish` (FirstMomentTailVanish.lean, 0 sorry, 0 axioms, exp 292): M·μ{γ>M} → 0 given γ ≥ 0 integrable. Analogous to `second_moment_tail_vanish` (exp 278) with first moment only. Key addition: `hγ_nn : ∀ ω, 0 ≤ γ ω` required for `setIntegral_mono_set` nonnegativity. Enables wired chain with γ_min > 0 to use first moment instead of second moment. Also (exp 292 first part): `MixedPowerLorentzianAnalyticExtension.lean` — most general rational frequency distribution $g(\omega) = \sum_k C_k/(\omega^2+a_k)^{n_k}$ is analytic in strip $\{|{\rm Im}\,z| < \min_k\sqrt{a_k}\}$; zero-error rational approximation. 2500 jobs.
 

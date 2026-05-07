@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | ContinuumFullLeibniz compiled — full-domain Leibniz rule for Lyapunov V (exp 293)
+
+- hypothesis: `body_leibniz_hasDerivAt` (BodyLeibnizProof.lean) adapts to the full domain Ω by replacing constant dominator 2M+K (valid on {γ≤M}) with function ω↦2γ(ω)+K, integrable from hγ_int:Integrable γ μ (first moment condition). Same DCT theorem `hasDerivAt_integral_of_dominated_loc_of_deriv_le` applies with μ (not μ.restrict body) and bound := fun ω => 2*γ ω + K.
+- result: confirmed. `ContinuumFullLeibniz.lean` proves `full_v_leibniz_hasDerivAt`: HasDerivAt for V(t) = ∫(α-α*)² dμ with derivative ∫ 2(α-α*)·oaScalarRHS dμ. Build: 0 errors, 0 sorry. 2697 jobs (✔ [2697/2697] Built KuramotoLean.ContinuumFullLeibniz 4.2s). Warning: unused variable hα_neg.
+- proof changes from body version: (1) Remove `set body := ...; haveI : IsFiniteMeasure (μ.restrict body)` — IsProbabilityMeasure implies IsFiniteMeasure automatically; (2) `bound := fun ω => 2 * γ ω + K` (function, not constant); (3) `h_norm_bound` now bounds by `2 * γ ω + K` using `hγ_pos ω` for nonnegativity (no hγ_le from body); (4) `bound_integrable := (hγ_int.const_mul 2).add (integrable_const K)`; (5) `h_bound := Eventually.of_forall ...` (no ae_restrict_mem); (6) Remove body restriction in hF_meas/hF_int/hF'_meas: `.mono_measure Measure.restrict_le_self` dropped.
+- significance: closes the Leibniz gap for h_body_drop in TailBodyBarbalat and MonotoneLeibnizBridge for distributions with ∫|ω|g < ∞ (Gaussian, compact support, Student-t ν>1). Combined with P ≥ P_body ≥ c(M)·V_body (body pair coercivity), gives V(t)-V(t+1) ≥ K·c(M)·V_body(M,t). Does NOT cover Lorentzian (∫|ω|g = ∞ — dominator not L¹); monotone truncation M'→∞ remains the path there.
+- created: KuramotoLean/ContinuumFullLeibniz.lean
+- updated: KuramotoLean.lean (manifest +1), syntheses/continuum-stability-debate.md (§4s, label full-leibniz-proved, experiment → 293)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | FirstMomentTailVanish + MixedPowerLorentzianAnalyticExtension compiled (exp 292)
 
 - hypothesis: `first_moment_tail_vanish` analogous to `second_moment_tail_vanish` (exp 278) but with weaker condition ∫γdμ<∞ + γ≥0; proof via Antitone.tendsto_setIntegral (ℕ) + setIntegral_mono_set (ℝ) + Markov bound squeeze. Requires `hγ_nn : ∀ω, 0 ≤ γ ω` for `setIntegral_mono_set` global nonnegativity.
