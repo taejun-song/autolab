@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
-status: wired-chain-complete
-experiment: 280
+status: lorentzian-connecting-proved
+experiment: 282
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -399,6 +399,61 @@ Eliminates `hμ_body_pos` ($\mu(\{\gamma \leq M\}) > 0$ for each $M > 0$) from `
 
 **Physical interpretation**: The hypothesis `hμ_body_pos` says "the distribution $g$ has positive mass on every half-line $[0,M]$." This fails only if $g$ is a point mass at $\gamma = 0$ — i.e., all oscillators have zero frequency, which is the trivial (already locked) case. Eliminating it means the theorem now applies to all non-degenerate probability distributions with finite second moment.
 
+## 4h. Proved: per-ω Gronwall for Lorentzian (exp 281)
+
+`LorentzianPointwiseConv.lean` — three theorems (0 sorry, 0 axioms):
+
+**Three theorems proved**:
+
+1. **`oa_V_deriv_bound`** (private): Algebraic inequality
+   $$2(\alpha-\alpha^*)\cdot\text{oaScalarRHS} \leq -2\gamma(\alpha-\alpha^*)^2 + K|r-r^*|$$
+   Proof: `linear_combination -2*(α-α*)*hequil` establishes the algebraic identity; two `nlinarith` lemmas bound $(α-α^*)(1-α^2) \leq 1$ and $\geq -1$.
+
+2. **`oa_scalar_pointwise_tendsto`**: Per-$\omega$ convergence — for $\gamma > 0$ and $r(t) \to r^*$:
+   $$(α(t)-α^*)^2 \to 0 \text{ as } t\to\infty$$
+   Proof: $\varepsilon$-splitting on the Gronwall bound. Choose $T$ so $|r(t)-r^*| < \gamma\varepsilon/K$ for $t \geq T$. On $[T,\infty)$: $dV/dt \leq -2\gamma V + \gamma\varepsilon$. Apply `gronwall_with_forcing` to get $V(T+s) \leq e^{-2\gamma s} + \varepsilon/2 \to \varepsilon$ for large $s$.
+
+3. **`V_inf_tendsto_zero_from_r`**: Global convergence — for any probability measure $\mu$ with $\gamma(\omega) > 0$ a.e.:
+   $$\int (\alpha(\omega,t)-\alpha^*(\omega))^2\,d\mu \to 0$$
+   Proof: pointwise convergence (from 2) + dominated convergence theorem with bound 4 (constant, integrable).
+
+**Key technical decisions**:
+- `linear_combination` (not `nlinarith`) for the 4-degree polynomial identity with equilibrium
+- Remove `hγ_sq_int` entirely: per-$\omega$ Gronwall needs only pointwise $\gamma(\omega) > 0$
+- Fix `unfold_let` (not a Lean 4 tactic) → drop it (let-bindings are definitionally transparent)
+- Gronwall produces `rexp (-(2*γ)*s)` not `rexp (-2*γ*s)`; bridge via `have h3 : -(2*γ)*V = -2*γ*V := by ring`
+- `div_le_iff₀` (not `div_le_iff`) for division rearrangement in exp-atTop proof
+- DCT bound must be a function `fun _ : Ω => (4 : ℝ)`, not the scalar `4`
+
+**Physical significance**: For the Lorentzian distribution $g(\omega) = \frac{\gamma_0}{\pi(\omega^2+\gamma_0^2)}$, the damping is $\gamma(\omega) = |\omega|$. This is positive almost everywhere (the Lorentzian is absolutely continuous, so $\{|\omega|=0\} = \{0\}$ has measure zero). Therefore `V_inf_tendsto_zero_from_r` applies to Lorentzian given $r(t) \to r^*$ — and $r(t) \to r^*$ is already proved in `LorentzianExistence.lean`.
+
+**Remaining gap for complete Lorentzian theorem**: instantiate `V_inf_tendsto_zero_from_r` with:
+- `hr_tendsto`: from `lorentzian_explicit_tendsto` (LorentzianExistence.lean) ✓
+- `hγ_ae_pos`: $|\omega| > 0$ a.e. for Lorentzian measure (follows from absolute continuity) — needs a separate proof
+- ODE data (`hα_cont`, `hα_ode`, `hα_bdd`): existence/regularity of OA flow for Lorentzian — needs instantiation
+
+Writing the combining file `LorentzianContinuumConvergence.lean` is the next step.
+
+## 4i. Proved: Lorentzian connecting theorem (exp 282)
+
+`LorentzianContinuumConvergence.lean` — `lorentzian_continuum_V_inf_tendsto` (0 sorry, 0 axioms):
+
+**Statement**: Given a probability measure $\mu$ on $\Omega$ with $\gamma(\omega) > 0$ a.e., equilibrium $\alpha^*$, and OA flow $\alpha(\omega,t)$ with forcing $r(t) = \text{lorentzian\_explicit}\; K\; \gamma_0\; r_0\; t$:
+$$V_\infty(t) = \int_\Omega (\alpha(\omega,t)-\alpha^*(\omega))^2\,d\mu \to 0$$
+
+**Proof chain**: Direct application of `V_inf_tendsto_zero_from_r` with:
+- `r(t) = lorentzian_explicit K γ₀ r₀ t`
+- `hr_tendsto := lorentzian_explicit_tendsto` (r(t) → r* = √(1-2γ₀/K))
+- `hr_star_pos := Real.sqrt_pos_of_pos (lorentzian_rstar_pos K γ₀ hK hKγ₀)`
+- All ODE data passed through from hypotheses
+
+**Cleanup in exp 282**: Removed unused hypothesis `hr_bdd_r : ∀ t, |r t| ≤ 1` from `oa_scalar_pointwise_tendsto` and `hr_bdd` from `V_inf_tendsto_zero_from_r` (neither appeared in proof bodies — vestigial from earlier drafts).
+
+**What remains open**: The ODE existence hypotheses (`hα_cont`, `hα_ode`, `hα_bdd`) are still external. For the Lorentzian specifically:
+- `hα_ode`: the per-ω OA scalar ODE with forcing r(t) = lorentzian_explicit; solvable by Picard-Lindelöf on each $[0,\infty)$
+- `hγ_ae_pos`: $|\omega| > 0$ a.e. under the Lorentzian measure — immediate from absolute continuity since $\{0\}$ has measure zero
+- `hα_bdd`: invariance of $[0,1]$ under the OA flow — follows from barrier comparison
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -425,4 +480,6 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 
 ## 6. Label
 
-**wired-chain-complete** — The wired chain `kuramoto_continuum_wired6` (0 sorry, 0 axioms) proves $r(t) \to r^*$ for any probability distribution $\mu$ on frequencies with finite second moment $\int\gamma^2\,d\mu < \infty$ and initial body lower bound $\delta_0(M) \geq c/M$. This covers Gaussian, Student-$t$ ($\nu > 2$), and compactly supported distributions. Lorentzian ($\int\gamma^2 g = \infty$) remains open — the `hγ_sq_int` hypothesis fails for the Lorentzian distribution $g(\omega) = \frac{1}{\pi}\frac{\gamma}{\omega^2+\gamma^2}$.
+**lorentzian-connecting-proved** — The connecting theorem `lorentzian_continuum_V_inf_tendsto` (LorentzianContinuumConvergence.lean, 0 sorry, 0 axioms, exp 282) combines `lorentzian_explicit_tendsto` ($r(t) \to r^*$) with `V_inf_tendsto_zero_from_r` (per-$\omega$ Gronwall + DCT) to prove $V_\infty(t) \to 0$ for any probability measure $\mu$ with $\gamma(\omega) > 0$ a.e. and OA flow data with Lorentzian forcing. The remaining gap: instantiate ODE existence hypotheses for the specific Lorentzian model (Picard-Lindelöf for per-$\omega$ forced ODE, absolute continuity for $|\omega|>0$ a.e.).
+
+**wired-chain-complete** — The wired chain `kuramoto_continuum_wired6` (0 sorry, 0 axioms) proves $r(t) \to r^*$ for any probability distribution $\mu$ with $\int\gamma^2\,d\mu < \infty$ and $\delta_0(M) \geq c/M$. Covers Gaussian, Student-$t$ ($\nu > 2$), and compactly supported distributions.

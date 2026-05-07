@@ -4913,3 +4913,10 @@ Major restructuring of MainTheorem.lean and companion files:
 - created: KuramotoLean/LorentzianPointwiseConv.lean
 - updated: syntheses/continuum-stability-debate.md (+section 4h, status → lorentzian-pointwise-proved, experiment → 281)
 - index.md: regenerated
+
+## [2026-05-07] experiment | LorentzianContinuumConvergence — V∞→0 for Lorentzian forcing via connecting theorem (exp 282)
+
+- created: KuramotoLean/LorentzianContinuumConvergence.lean
+- updated: KuramotoLean/LorentzianPointwiseConv.lean (removed vestigial hr_bdd parameters)
+- updated: syntheses/continuum-stability-debate.md (+section 4i, status → lorentzian-connecting-proved, experiment → 282)
+- index.md: regenerated

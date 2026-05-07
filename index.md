@@ -1,9 +1,11 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-07 (ContinuumSolvedWired6.lean, exp 280)_
+_Last regenerated: 2026-05-07 (LorentzianContinuumConvergence.lean, exp 282)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — LorentzianContinuumConvergence.lean (exp 282): `lorentzian_continuum_V_inf_tendsto` — connecting theorem combining `lorentzian_explicit_tendsto` with `V_inf_tendsto_zero_from_r`. Direct proof: r(t) = lorentzian_explicit K γ₀ r₀ → r_star, fed into V_inf theorem. Also removed vestigial `hr_bdd` from `oa_scalar_pointwise_tendsto` and `V_inf_tendsto_zero_from_r`. 0 sorry, 0 axioms.
+- [[continuum-stability-debate]] — LorentzianPointwiseConv.lean (exp 281): `V_inf_tendsto_zero_from_r` — per-ω Gronwall argument for Lorentzian. Proves V∞→0 from r(t)→r* whenever γ>0 a.e. No hγ_sq_int. Three theorems: oa_V_deriv_bound (linear_combination identity), oa_scalar_pointwise_tendsto (ε-splitting + gronwall_with_forcing), V_inf_tendsto_zero_from_r (DCT bound 4). Combined with lorentzian_explicit_tendsto, only the connecting instantiation file remains for complete Lorentzian theorem. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — ContinuumSolvedWired6.lean (exp 280): `kuramoto_continuum_wired6` — **WIRED CHAIN COMPLETE**. Eliminates `hμ_body_pos` from wired5 via null-body case split. Null: V_body=0 via `Measure.restrict_eq_zero.mpr`. Positive: `ENNReal.toReal_pos hμ_null`. h_combined_vanish: b(M)→1 automatically for large M (τ→0). Zero remaining hypotheses beyond ODE data, `hγ_sq_int`, `hδ₀_body_lb`. Covers Gaussian, Student-t ν>2, compact support. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — ContinuumSolvedWired5.lean (exp 279): `kuramoto_continuum_wired5` — eliminates `h_combined_vanish` from wired4. Derived from `hγ_sq_int : Integrable (γ²)` + `hδ₀_body_lb : ∃ c>0, c/M ≤ δ₀_body M`. Key: denominator ≥ C₂/M², so C(M) ≤ K/C₂·M²τ(M) → 0. Remaining open: `hμ_body_pos` only. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — TailSecondMoment.lean (exp 278): `second_moment_tail_vanish` — M²·μ{γ>M} → 0 given ∫(γω)²dμ < ∞. Proof: Antitone.tendsto_setIntegral (ℕ) + monotone transfer (ℝ) + Markov bound M²τ(M) ≤ ∫_{γ>M}γ² + squeeze. 0 sorry, 0 axioms. Enables wired5: replace h_combined_vanish with ∫γ²dμ < ∞ for Gaussian/Student-t ν>2.
