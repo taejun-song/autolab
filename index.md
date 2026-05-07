@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-08 (kuramoto_gamma_min_first_moment + ContinuumGammaMinFirstMoment, exp 294)_
+_Last regenerated: 2026-05-08 (KuramotoGammaMinFirstMomentConcrete, exp 295)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — KuramotoGammaMinFirstMomentConcrete.lean (exp 295): `kuramoto_gamma_min_first_moment_concrete` — concrete end-to-end r→r* from γ_min>0 + first moment + global persistence α₀_lb + hV_body_cont + hμ_body_pos. Derives (C, h_body_rate, h_combined_vanish) internally. Private lemma `equil_lb_from_constraint`: α* ≥ Kr*/(2M+Kr*) algebraically. Squeeze via first_moment_tail_vanish + tail_measure_tendsto_zero'. 0 sorry, 0 axioms. 2703 jobs.
 - [[continuum-stability-debate]] — ContinuumGammaMinFirstMoment.lean (exp 294): `kuramoto_gamma_min_first_moment` — r→r* from γ_min>0 + FIRST MOMENT (replaces second moment of KuramotoGammaMinConvergence). Proof: `continuum_v_antitone` (V antitone from ∫γ<∞) + `iss_implies_definitive` (body Gronwall + combined vanishing → r→r*). Covers Student-t 1<ν≤2, power-law α∈(1,2]. 0 sorry, 0 axioms. 2698 jobs.
 - [[continuum-stability-debate]] — ContinuumFullLeibniz.lean (exp 293): `full_v_leibniz_hasDerivAt` — HasDerivAt for full Lyapunov V(t)=∫(α-α*)²dμ using first moment hγ_int. Dominator ω↦2γ(ω)+K (not constant 2M+K). Bound integrability: hγ_int.const_mul 2 |>.add (integrable_const K). No body restriction. Closes Leibniz gap for ∫|ω|g<∞ (Gaussian, compact support, Student-t ν>1). Does NOT apply to Lorentzian. 0 sorry, 0 axioms. 2697 jobs.
 - [[continuum-stability-debate]] — FirstMomentTailVanish.lean + MixedPowerLorentzianAnalyticExtension.lean (exp 292): `first_moment_tail_vanish` — M·μ{γ>M}→0 from ∫γdμ<∞ + γ≥0; analogous to second_moment_tail_vanish with first moment only. `MixedPowerLorentzianAnalyticExtension`: most general rational g(ω)=ΣC_k/(ω²+a_k)^{n_k} analytic in strip; zero-error approximation. 0 sorry, 0 axioms. 2500 jobs.

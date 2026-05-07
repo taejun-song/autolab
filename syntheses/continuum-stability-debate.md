@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-08
-status: gamma-min-first-moment-proved
-experiment: 294
+status: concrete-first-moment-proved
+experiment: 295
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -701,6 +701,28 @@ $$\frac{d}{dt}V(t_0) = \int_\Omega 2(\alpha(\omega,t_0)-\alpha^*(\omega))\cdot\t
 
 **Build**: ✔ [2698/2698] Built KuramotoLean.ContinuumGammaMinFirstMoment (3.1s). Warning: unused variable `hγ` (implied by `hγ_lb` + `hγ_min`; kept for API consistency).
 
+## 4u. Proved: concrete end-to-end first-moment convergence (exp 295)
+
+`KuramotoGammaMinFirstMomentConcrete.lean` — `kuramoto_gamma_min_first_moment_concrete` (0 sorry, 0 axioms):
+
+**Statement**: If $\gamma \geq \gamma_{\min} > 0$, $\int\gamma\,d\mu < \infty$, $r^* > 0$, $\alpha(ω,t) \geq \alpha_{0,\text{lb}} > 0$ for all $\omega, t \geq 0$, $V_{\text{body}}(M,\cdot)$ continuous on $[0,\infty)$, and $\mu\{\gamma \leq M\} > 0$ for each $M > 0$, then $r(t) \to r^*$.
+
+**Key improvement over `kuramoto_gamma_min_first_moment` (exp 294)**: Removes the abstract $(C, h_{\text{body\_rate}}, h_{\text{combined\_vanish}})$ triad. All three are derived internally from concrete physical inputs:
+
+1. **Equilibrium lower bound**: Private lemma `equil_lb_from_constraint` proves $\alpha^*(\omega) \geq Kr^*/(2M+Kr^*)$ for $\gamma(\omega) \leq M$. Algebraic proof: $\alpha^*(2\gamma+Kr^*) = Kr^*(1+\alpha^*(1-\alpha^*)) \geq Kr^*$ since $\alpha^*(1-\alpha^*) \geq 0$.
+
+2. **Body Gronwall**: Calls `body_gronwall_from_persistence` with $\delta = \alpha_{0,\text{lb}}$, $ds = Kr^*/(2M+Kr^*)$. Rate $= K\alpha_{0,\text{lb}}\cdot(Kr^*/(2M+Kr^*))\cdot\mu\{\gamma\leq M\}$.
+
+3. **Combined vanishing**: $C(M) = \tau(M)(2M+Kr^*)/(\alpha_{0,\text{lb}}\cdot Kr^*\cdot\mu_{\text{body}})$. Bound $C(M) \leq A\cdot M\cdot\tau + B\cdot\tau$ (using $\mu_{\text{body}} \geq \mu_1 := \mu\{\gamma\leq 1\} > 0$). Squeeze to 0 via `first_moment_tail_vanish` + `tail_measure_tendsto_zero'`.
+
+**Debugging lessons**:
+- `div_le_iff` → `div_le_iff₀` (Lean 4 naming, as in KuramotoGammaMinConvergence)
+- `unfold_let C` not in Lean 4.30 → replaced by `show` tactic for explicit unfolding
+- `le_or_lt` not available → use `le_or_gt` or `by_cases`
+- `field_simp [h_ne]; ring` → `field_simp [h_ne]` (field_simp closes algebraic goals)
+
+**Build**: ✔ [2703/2703] Built KuramotoLean.KuramotoGammaMinFirstMomentConcrete.
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -746,5 +768,7 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 **oa-scalar-barrier-proved** — `oaScalar_invariant_box` (OAScalarBarrier.lean, 0 sorry, 0 axioms, exp 283) proves $(0,1)$ is positively invariant for the per-$\omega$ OA scalar ODE with $r(t) \in [0,1]$ and $\gamma, K > 0$. Upper barrier via sInf + `strictAntiOn_of_deriv_neg`; lower barrier via Grönwall multiplier monotonicity. Closes the `hα_bdd` hypothesis in `lorentzian_continuum_V_inf_tendsto`. Remaining gap: global ODE existence (`hα_ode`) via Picard-Lindelöf extension.
 
 **lorentzian-connecting-proved** — The connecting theorem `lorentzian_continuum_V_inf_tendsto` (LorentzianContinuumConvergence.lean, 0 sorry, 0 axioms, exp 282) combines `lorentzian_explicit_tendsto` ($r(t) \to r^*$) with `V_inf_tendsto_zero_from_r` (per-$\omega$ Gronwall + DCT) to prove $V_\infty(t) \to 0$ for any probability measure $\mu$ with $\gamma(\omega) > 0$ a.e. and OA flow data with Lorentzian forcing. The remaining gap: instantiate ODE existence hypotheses for the specific Lorentzian model (Picard-Lindelöf for per-$\omega$ forced ODE, absolute continuity for $|\omega|>0$ a.e.).
+
+**gamma-min-first-moment-concrete** — `kuramoto_gamma_min_first_moment_concrete` (KuramotoGammaMinFirstMomentConcrete.lean, 0 sorry, 0 axioms, exp 295): fully concrete instantiation. Derives $C(M)$, body Gronwall, and combined vanishing from: $\gamma_{\min} > 0$, $\int\gamma\,d\mu < \infty$, $r^* > 0$, uniform persistence $\alpha \geq \alpha_{0,\text{lb}} > 0$, body Lyapunov continuity, body measure positive. No caller obligations. Key: equilibrium lower bound $\alpha^* \geq Kr^*/(2M+Kr^*)$ + squeeze $C(M) \leq A\cdot M\cdot\tau + B\cdot\tau \to 0$ via `first_moment_tail_vanish`. Covers Student-$t$ $1 < \nu \leq 2$, power-law $\alpha \in (1,2]$. 2703 jobs.
 
 **wired-chain-complete** — The wired chain `kuramoto_continuum_wired6` (0 sorry, 0 axioms) proves $r(t) \to r^*$ for any probability distribution $\mu$ with $\int\gamma^2\,d\mu < \infty$ and $\delta_0(M) \geq c/M$. Covers Gaussian, Student-$t$ ($\nu > 2$), and compactly supported distributions.

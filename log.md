@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoGammaMinFirstMomentConcrete compiled — concrete end-to-end first-moment convergence (exp 295)
+
+- hypothesis: `kuramoto_gamma_min_first_moment_concrete` wraps `kuramoto_gamma_min_first_moment` (exp 294) by deriving (C, h_body_rate, h_combined_vanish) from concrete physical inputs: global persistence α₀_lb, positive body mass hμ_body_pos, and body Lyapunov continuity hV_body_cont. Key: equilibrium lower bound α*(ω) ≥ Kr*/(2M+Kr*) derived algebraically from γ·α* = (K/2)r*(1-α*²) + α*∈(0,1). C(M) = τ(M)·(2M+Kr*)/(α₀_lb·K·r*·μ_body) via body_gronwall_from_persistence. Combined vanishing C(M)+τ(M)→0 squeezed from A·M·τ+B·τ where A,B bounded by μ₁=μ{γ≤1}>0 (monotone body mass lower bound).
+- result: confirmed. Build: 0 errors, 0 sorry. 2703 jobs. Debugging: (1) `div_le_iff` → `div_le_iff₀`; (2) `unfold_let C` not available in Lean 4.30 → replaced by `show ...` tactic; (3) `le_or_lt` → `le_or_gt`/`by_cases`; (4) `field_simp [h_ne]; ring` → `field_simp [h_ne]` (ring not needed, field_simp closes goal); (5) `ENNReal.toReal_nonneg (α := ...)` → `ENNReal.toReal_nonneg` (no named arg).
+- proof sketch: (1) `equil_lb_from_constraint`: α*·(2γ+Kr) = Kr·(1+α*(1-α*)) ≥ Kr → α* ≥ Kr/(2γ+Kr) ≥ Kr/(2M+Kr). (2) `h_body_rate`: direct application of `body_gronwall_from_persistence` with δ=α₀_lb, ds=Kr*/(2M+Kr*). (3) `hC_nn`: by_cases on M≥0 (positivity) vs M<0 (body empty → C=0). (4) `h_combined_vanish`: squeeze C M + τ ≤ A·M·τ + B·τ → 0 using first_moment_tail_vanish + tail_measure_tendsto_zero'. (5) Bound `div_le_div_of_nonneg_left` with monotone μ_body bound.
+- significance: makes `kuramoto_gamma_min_first_moment` applicable without abstract (C, h_body_rate, h_combined_vanish) triad. Physical inputs: r*>0, α₀_lb>0 (global persistence), μ{γ≤M}>0 for M>0, V_body continuous. Covers Student-t 1<ν≤2, power-law α∈(1,2] with concrete initial lower bound.
+- created: KuramotoLean/KuramotoGammaMinFirstMomentConcrete.lean
+- updated: KuramotoLean.lean (manifest +2: ContinuumGammaMinFirstMoment + KuramotoGammaMinFirstMomentConcrete), syntheses/continuum-stability-debate.md (§4u, status → concrete-first-moment-proved, experiment → 295)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | ContinuumGammaMinFirstMoment compiled — γ_min>0 + first moment → r→r* (exp 294)
 
 - hypothesis: `kuramoto_gamma_min_first_moment` wraps `continuum_v_antitone` (V antitone from first moment ∫γdμ<∞) + `iss_implies_definitive` (body Gronwall + combined vanishing → r→r*). Replaces second moment `hγ_sq_int` of `KuramotoGammaMinConvergence` with first moment `hγ_int`. Key: γ_min>0 → hγ_pos trivially; `continuum_v_antitone` uses integrable dominator 2γ+K and Q-integrability from 1/α*=α*+2γ/(Kr*).
