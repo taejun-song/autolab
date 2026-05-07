@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentConcreteV6 compiled — drops hr_star_pos via integral_pos (exp 302)
+
+- hypothesis: `kuramoto_first_moment_concrete_v6` drops `hr_star_pos : 0 < r_star` from V5. Proof: r* = ∫ α* ∂μ with α* > 0 everywhere → support(α*) = univ → μ(support(α*)) = 1 > 0 → 0 < ∫ α* (integral_pos_iff_support_of_nonneg). Key: `eq_univ_of_forall (fun ω => mem_support.mpr (ne_of_gt (hα_star_pos ω)))`.
+- result: confirmed. Build: 0 errors, 0 sorry. 2702 jobs. Clean one-liner for positivity of integral of strictly positive function on probability space.
+- significance: 5 fewer hypotheses than exp 296 base. The sequence V1→V6 removes: hV_body_cont, hα_cont, hγ_meas, hr_bdd, hr_star_pos. Remaining hypotheses are all mathematically essential (ODE data, equilibrium equation, first moment, level-set measurability, persistence, integrability, positive body mass).
+- created: KuramotoLean/KuramotoFirstMomentConcreteV6.lean
+- updated: KuramotoLean.lean (manifest +1), syntheses/continuum-stability-debate.md (§4w++, v6 label, status → v6-minimal-proved, experiment → 302)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoFirstMomentConcreteV5 compiled — eliminates hr_bdd via r_abs_le_one_from_sc (exp 301)
 
 - hypothesis: `kuramoto_first_moment_concrete_v5` drops `hr_bdd : ∀ t > 0, |r t| ≤ 1` from V4 by deriving it via `r_abs_le_one_from_sc r α h_sc hα_int hα_inv t (le_of_lt ht)`. BodyGronwallBound.lean was first weakened: `body_leibniz_at_nn` and `body_gronwall_from_persistence` now take `hr_bdd : ∀ t, 0 < t → |r t| ≤ 1` (only positive times), matching actual usage (s ∈ Ioi 0 at line 69). Callers that had `∀ t` wrap via `fun t ht => hr_bdd t` or `fun t _ => hr_bdd t`.
