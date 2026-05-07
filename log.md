@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentEndToEndV2 compiled — end-to-end without hα_sq_int or r_star (exp 307)
+
+- hypothesis: Combining V8 (drops hα_sq_int) + sc_fixed_point (drops r_star) gives cleanest end-to-end theorem.
+- result: confirmed. `kuramoto_first_moment_end_to_end_v2` compiles 0 sorry, 0 axioms. 2710 jobs.
+- signature: given K·∫1/γ>2, ODE + hα_neg + persistence → ∃ r_star∈(0,1), r(t)→r_star. No r_star input, no hα_sq_int.
+- created: KuramotoLean/KuramotoFirstMomentEndToEndV2.lean
+- updated: syntheses/continuum-stability-debate.md (+V2 end-to-end entry, exp 307)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoFirstMomentConcreteV8 compiled — drops hα_sq_int via hα_neg derivation (exp 306)
 
 - hypothesis: (α ω t - α_star ω)^2 ≤ 1 follows from α,α* ∈ (0,1); for t<0 use hα_neg to reduce to t=0 case. AEStronglyMeasurability from hα_int + internal α_star measurability.
