@@ -1,9 +1,11 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-06 (ContinuumStandardSolved, exp 267)_
+_Last regenerated: 2026-05-07 (VBodyContinuous.lean, exp 274)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — VBodyContinuous.lean (exp 274): `V_body_continuousOn` and `V_body_continuousOn_prob` — V_body(M,t) = ∫_{γ≤M} (α-α*)² dμ is ContinuousOn on Ici 0. Proof via `continuousOn_of_dominated` with bound 4. Also fixed 25+ compile errors in BodyGronwallBound.lean. Both files: 0 sorry, 0 axioms. Closes `hV_body_cont` gap.
+- [[continuum-stability-debate]] — BodyGronwallBound.lean (exp 273): `body_gronwall_from_persistence` (0 sorry, 0 axioms) — body Gronwall absorbing ball V_body(t) ≤ V_body(0)·exp(-rate·t) + K·μ(tail)/rate. Rate = K·δ·ds·μ(body). Closes h_gronwall_from_persist in kuramoto_continuum_wired. Chain: body Leibniz (hγ_nn, no hα_neg) → per-ω identity → Fubini → coercivity → tail bounds → body_gronwall_from_deriv.
 - [[continuum-stability-debate]] — ContinuumStandardSolved.lean (exp 267): `kuramoto_solved_continuum_standard` — Self-contained definitive theorem for standard continuum Kuramoto with γ=|ω| unbounded on R. RESOLVES ALL 3 PROBLEMS: (1) no uniform persistence, (2) no bounded γ, (3) no c_min. Body L² drop per M as SINGLE hypothesis. Proof: integral_add_compl + Cauchy-Schwarz + tail vanishing. Also `kuramoto_solved_is_special_case` subsumption + `kuramoto_from_body_exp` bridge. 0 sorry, 0 axioms. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — ContinuumSolvedStandardModel.lean (exp 266): `kuramoto_solved_standard_model` — DEFINITIVE theorem for standard continuum Kuramoto with γ=|ω| unbounded on R. RESOLVES ALL 3 PROBLEMS: (1) no uniform persistence (body only), (2) no bounded γ (Leibniz per body), (3) no c_min (body coercivity). Takes body exp decay per M. Also `body_exp_from_body_gronwall` + `body_equil_lower_bound` + subsumption. 0 sorry, 0 axioms. ALL g ∈ L¹(R).
 - [[continuum-stability-debate]] — ContinuumSolvedTailBodyV2.lean (exp 265): `kuramoto_solved_continuum'` — DEFINITIVE tail-body theorem for standard continuum Kuramoto on R. RESOLVES ALL 3 REVIEWER PROBLEMS: (1) no uniform persistence (body persistence only on {γ≤M}), (2) no bounded γ (body bounded by M per truncation), (3) no c_min (body coercivity K·δ(M)·ds(M)). Takes body exp decay per M as SINGLE convergence hypothesis. Tail vanishing automatic. `body_exp_of_bounded_gamma` subsumption. 0 sorry, 0 axioms. ALL g ∈ L¹(R).

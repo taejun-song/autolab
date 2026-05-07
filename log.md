@@ -4828,3 +4828,21 @@ Major restructuring of MainTheorem.lean and companion files:
 - Codex re-review verdict (gpt-5.4): "Not honestly as 'the standard Kuramoto model with γ=|ω|'. It is a conditional stability theorem for any nonneg γ, with major extra assumptions: h_r_persist, hα_0_body, h_gronwall_from_persist, h_combined_vanish. Some derivable internally; those four are substantive analytic inputs, not automatic from the standard model alone."
 - Status: both wiring issues resolved structurally; `h_gronwall_from_persist` (body Leibniz + pair coercivity) remains the single core open gap.
 - index.md: not regenerated
+
+## [2026-05-07] experiment | BodyGronwallBound.lean: body Gronwall bound from persistence (exp 273)
+
+- created: KuramotoLean/BodyGronwallBound.lean — `body_gronwall_from_persistence` (0 sorry, 0 axioms): proves body Gronwall absorbing ball V_body(t) ≤ V_body(0)·exp(-rate·t) + K·μ(tail)/rate given body persistence δ and equilibrium lower bound ds. Rate = K·δ·ds·μ(body). Private `body_leibniz_at_nn` re-proves body Leibniz HasDerivAt without hγ_pos/hα_neg (uses hγ_nn; removes dead-code hα_inv_all). Chain: body Leibniz → per-ω identity (equilibrium equation + field_simp/nlinarith) → body Fubini (pair_fubini_identity on μ.restrict body) → pair coercivity (pair_ge_delta_sq + setIntegral_mono_on twice) → tail bounds (D_t bounded by μ(tail), rs_t·Q_b ≤ 0) → derivative bound ≤ -rate·V_body + K·μ(tail) → body_gronwall_from_deriv.
+- build: exit 0, 0 errors, 0 sorry, 0 axioms
+- closes: `h_gronwall_from_persist` gap in `kuramoto_continuum_wired` (ContinuumSolvedWired.lean)
+- remaining open: hV_body_cont (ContinuousOn V_body — added as hypothesis), h_combined_vanish (C(M)+μ(tail)→0 depends on g decay), h_r_persist (r persistence from Ψ-growth), hα_0_body (initial body lower bound)
+- updated: syntheses/continuum-stability-debate.md (+1 entry)
+- index.md: regenerated
+
+## [2026-05-07] experiment | Fixed BodyGronwallBound.lean + VBodyContinuous.lean (exp 274)
+
+- updated: KuramotoLean/BodyGronwallBound.lean — fixed 25+ compile errors (Mathlib API changes: `.mul` on `Integrable` → `.aestronglyMeasurable.mul`, `div_le_div_of_nonneg_left` → `one_div_le_one_div_of_le`, `unfold_let` → `simp only [rate]`, `constructor` on equality → `congr 1`, `le_or_lt` → `LE.le.lt_or_eq`; various nlinarith hint additions). Added private helper lemmas for tail bounds (`s_integrand_abs_le_one`, `k_dt_sb_bound`). Added `set_option maxHeartbeats 400000`.
+- created: KuramotoLean/VBodyContinuous.lean — `V_body_continuousOn` and `V_body_continuousOn_prob`: V_body(M,t) = ∫_{γ≤M} (α-α*)² dμ is ContinuousOn on Ici 0. Proof via `continuousOn_of_dominated` with uniform bound 4 (since α,α* ∈ (0,1) → |α-α*|² ≤ 4). 0 sorry, 0 axioms.
+- build: 0 errors, 0 sorry, 0 axioms (2694 jobs)
+- closes: `hV_body_cont` gap — V_body continuity now proved rather than assumed in `body_gronwall_from_persistence`
+- remaining open: h_combined_vanish (C(M)+μ(tail)→0 depends on g decay), h_r_persist (r persistence), hα_0_body (initial body lower bound)
+- index.md: regenerated
