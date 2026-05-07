@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-08
-status: v4-minimal-proved
-experiment: 300
+status: v5-minimal-proved
+experiment: 301
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -777,7 +777,9 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 
 **first-moment-no-gmin-v4** — `kuramoto_first_moment_concrete_v4` (KuramotoFirstMomentConcreteV4.lean, 0 sorry, 0 axioms, exp 299): drops `hγ_meas` from V3 via `measurable_of_Iic`. Net: 3 fewer hypotheses than exp 296 (hV_body_cont, hα_cont, hγ_meas). Caller needs only level-set measurability (hγ_level), ODE data, integrability, equilibrium data.
 
-**r-order-bounds** — `r_nonneg_from_sc`, `r_le_one_from_sc`, `r_abs_le_one_from_sc` (KuramotoROrderBounds.lean, 0 sorry, 0 axioms, exp 300): standalone lemmas proving r(t) ∈ [0,1] for t ≥ 0 from self-consistency + OA trajectory bounds. Enables future elimination of `hr_bdd : ∀ t, |r t| ≤ 1` from caller hypotheses.
+**r-order-bounds** — `r_nonneg_from_sc`, `r_le_one_from_sc`, `r_abs_le_one_from_sc` (KuramotoROrderBounds.lean, 0 sorry, 0 axioms, exp 300): standalone lemmas proving r(t) ∈ [0,1] for t ≥ 0 from self-consistency + OA trajectory bounds.
+
+**first-moment-no-gmin-v5** — `kuramoto_first_moment_concrete_v5` (KuramotoFirstMomentConcreteV5.lean, 0 sorry, 0 axioms, exp 301): drops `hr_bdd` from V4. BodyGronwallBound.lean was weakened to only require `∀ t > 0, |r t| ≤ 1` (body Leibniz only uses s ∈ Ioi 0). V5 provides this via `r_abs_le_one_from_sc`. Net: 4 fewer hypotheses than exp 296 (hV_body_cont, hα_cont, hγ_meas, hr_bdd). Minimal form: ODE + equilibrium + integrability + level-set measurability + persistence.
 
 **gamma-min-first-moment-concrete** — `kuramoto_gamma_min_first_moment_concrete` (KuramotoGammaMinFirstMomentConcrete.lean, 0 sorry, 0 axioms, exp 295): fully concrete instantiation. Derives $C(M)$, body Gronwall, and combined vanishing from: $\gamma_{\min} > 0$, $\int\gamma\,d\mu < \infty$, $r^* > 0$, uniform persistence $\alpha \geq \alpha_{0,\text{lb}} > 0$, body Lyapunov continuity, body measure positive. No caller obligations. Key: equilibrium lower bound $\alpha^* \geq Kr^*/(2M+Kr^*)$ + squeeze $C(M) \leq A\cdot M\cdot\tau + B\cdot\tau \to 0$ via `first_moment_tail_vanish`. Covers Student-$t$ $1 < \nu \leq 2$, power-law $\alpha \in (1,2]$. 2703 jobs.
 

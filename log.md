@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentConcreteV5 compiled — eliminates hr_bdd via r_abs_le_one_from_sc (exp 301)
+
+- hypothesis: `kuramoto_first_moment_concrete_v5` drops `hr_bdd : ∀ t > 0, |r t| ≤ 1` from V4 by deriving it via `r_abs_le_one_from_sc r α h_sc hα_int hα_inv t (le_of_lt ht)`. BodyGronwallBound.lean was first weakened: `body_leibniz_at_nn` and `body_gronwall_from_persistence` now take `hr_bdd : ∀ t, 0 < t → |r t| ≤ 1` (only positive times), matching actual usage (s ∈ Ioi 0 at line 69). Callers that had `∀ t` wrap via `fun t ht => hr_bdd t` or `fun t _ => hr_bdd t`.
+- result: confirmed. Full build: 3535 jobs, 0 errors, 0 sorry. V5 chain builds: V2(2.8s) → V3(2.8s) → V4(2.7s) → V5(2.9s). Six files modified: BodyGronwallBound.lean (2 changes), BodyGronwallWired.lean (1), KuramotoFirstMomentConcrete.lean (2), KuramotoFirstMomentConcreteV2-V4.lean (1 each), KuramotoGammaMinFirstMomentConcrete.lean (1). No regressions.
+- proof: `hr_bdd := fun t ht => r_abs_le_one_from_sc r α h_sc hα_int hα_inv t (le_of_lt ht)` — one-liner.
+- significance: `kuramoto_first_moment_concrete_v5` has 4 fewer hypotheses than exp 296 base (hV_body_cont, hα_cont, hγ_meas, hr_bdd all dropped). Minimal concrete first-moment theorem: caller provides only ODE data + equilibrium + integrability + measurable level sets + persistence. Physical bound |r| ≤ 1 no longer needed explicitly.
+- created: KuramotoLean/KuramotoFirstMomentConcreteV5.lean
+- updated: KuramotoLean.lean (manifest +1), BodyGronwallBound.lean (hr_bdd weakened), BodyGronwallWired.lean (wrapper added), KuramotoFirstMomentConcrete.lean (signature + call updated), KuramotoFirstMomentConcreteV2-V4.lean (signatures updated), KuramotoGammaMinFirstMomentConcrete.lean (wrapper added)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoROrderBounds compiled — standalone r∈(0,1) bounds from self-consistency (exp 300)
 
 - hypothesis: `r_nonneg_from_sc`, `r_le_one_from_sc`, `r_abs_le_one_from_sc` — for t≥0, the order parameter r(t) = ∫ α ω t ∂μ lies in [0,1] under hα_inv + hα_int + h_sc. Proof: r_nonneg via integral_nonneg (α > 0 everywhere); r_le_one via integral_mono with f = α ≤ g = 1 pointwise + simp closes ∫1 = 1; r_abs via abs_le.mpr combining both.
