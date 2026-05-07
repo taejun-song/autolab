@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
-status: lorentzian-connecting-proved
-experiment: 282
+status: oa-scalar-barrier-proved
+experiment: 283
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -454,6 +454,21 @@ $$V_\infty(t) = \int_\Omega (\alpha(\omega,t)-\alpha^*(\omega))^2\,d\mu \to 0$$
 - `hγ_ae_pos`: $|\omega| > 0$ a.e. under the Lorentzian measure — immediate from absolute continuity since $\{0\}$ has measure zero
 - `hα_bdd`: invariance of $[0,1]$ under the OA flow — follows from barrier comparison
 
+## 4j. Proved: OA scalar invariant box (0,1) (exp 283)
+
+`OAScalarBarrier.lean` — `oaScalar_invariant_box` (0 sorry, 0 axioms):
+
+**Statement**: For $\gamma, K > 0$, $r(t) \in [0,1]$, and $\alpha(0) \in (0,1)$:
+$$\forall t \geq 0,\quad 0 < \alpha(t) < 1$$
+
+**Two barriers**:
+- **Upper** (`oaScalar_upper_barrier`): sInf argument — if $t_0 = \inf\{t \geq 0 : \alpha(t) \geq 1\}$, then $\text{oaScalarRHS}\;\gamma\;K\;r\;t_0\;1 = -\gamma < 0$, so `strictAntiOn_of_deriv_neg` gives $\alpha$ decreasing into $t_0$, contradicting $\alpha(t_0)=1$.
+- **Lower** (`oaScalar_lower_barrier`): Grönwall multiplier $\text{gm}(t) = \alpha(t)e^{\gamma t}$ satisfies $\text{gm}'(t) = \frac{K}{2}r(t)(1-\alpha(t)^2)e^{\gamma t} \geq 0$ on $[0, t_m)$ (where $t_m$ is the first zero and $\alpha \in (0,1)$ there from upper barrier). So $\text{gm}$ is monotone from $\text{gm}(0) = \alpha(0) > 0$, contradicting $\text{gm}(t_m) = 0$.
+
+**Proof technique**: `fun_prop` handles the continuity of `oaScalarRHS` composition after `simp only [oaScalarRHS]`. The `nlinarith [mul_nonneg ...]` trick proves $1 - \alpha^2 \geq 0$ from $\alpha \in (0,1)$ via the factorization $(1-\alpha)(1+\alpha) \geq 0$.
+
+**What remains open**: Global ODE existence on $[0,\infty)$ for the per-$\omega$ forced OA scalar ODE. `OAScalarBarrier.lean` closes the `hα_bdd` hypothesis in `lorentzian_continuum_V_inf_tendsto`; next is `hα_ode` via Picard-Lindelöf extension.
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -479,6 +494,8 @@ h_coercive (P<δ ⟹ V<ε) [WeakStarLaSalle]
 h_body_drop is purely analytic (interchange of limit and integral). No dynamics, no compactness.
 
 ## 6. Label
+
+**oa-scalar-barrier-proved** — `oaScalar_invariant_box` (OAScalarBarrier.lean, 0 sorry, 0 axioms, exp 283) proves $(0,1)$ is positively invariant for the per-$\omega$ OA scalar ODE with $r(t) \in [0,1]$ and $\gamma, K > 0$. Upper barrier via sInf + `strictAntiOn_of_deriv_neg`; lower barrier via Grönwall multiplier monotonicity. Closes the `hα_bdd` hypothesis in `lorentzian_continuum_V_inf_tendsto`. Remaining gap: global ODE existence (`hα_ode`) via Picard-Lindelöf extension.
 
 **lorentzian-connecting-proved** — The connecting theorem `lorentzian_continuum_V_inf_tendsto` (LorentzianContinuumConvergence.lean, 0 sorry, 0 axioms, exp 282) combines `lorentzian_explicit_tendsto` ($r(t) \to r^*$) with `V_inf_tendsto_zero_from_r` (per-$\omega$ Gronwall + DCT) to prove $V_\infty(t) \to 0$ for any probability measure $\mu$ with $\gamma(\omega) > 0$ a.e. and OA flow data with Lorentzian forcing. The remaining gap: instantiate ODE existence hypotheses for the specific Lorentzian model (Picard-Lindelöf for per-$\omega$ forced ODE, absolute continuity for $|\omega|>0$ a.e.).
 

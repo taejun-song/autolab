@@ -4920,3 +4920,9 @@ Major restructuring of MainTheorem.lean and companion files:
 - updated: KuramotoLean/LorentzianPointwiseConv.lean (removed vestigial hr_bdd parameters)
 - updated: syntheses/continuum-stability-debate.md (+section 4i, status → lorentzian-connecting-proved, experiment → 282)
 - index.md: regenerated
+
+## [2026-05-07] experiment | OAScalarBarrier — (0,1) positively invariant for per-ω OA scalar ODE (exp 283)
+
+- created: KuramotoLean/OAScalarBarrier.lean
+- updated: syntheses/continuum-stability-debate.md (+section 4j, status → oa-scalar-barrier-proved, experiment → 283)
+- index.md: regenerated
