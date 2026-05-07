@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-08 (KuramotoFirstMomentConcreteV6, exp 302)_
+_Last regenerated: 2026-05-08 (KuramotoFirstMomentConcreteV7, exp 303)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — KuramotoFirstMomentConcreteV7.lean (exp 303): `kuramoto_first_moment_concrete_v7` — drops explicit α_star and all equilibrium data (6 hypotheses) via `explicitEquil`. Replaces with hγ_pos + hr_star_pos + hr_star_sc (self-consistency FP). Net drop of 3 hypotheses vs V6. V1→V7 chain: 8 fewer hypotheses than exp 296. 0 sorry, 0 axioms. 2705 jobs.
 - [[continuum-stability-debate]] — KuramotoFirstMomentConcreteV6.lean (exp 302): `kuramoto_first_moment_concrete_v6` — drops hr_star_pos via integral_pos_iff_support_of_nonneg + support(α*)=univ. 5 fewer hypotheses than exp 296. 0 sorry, 0 axioms. 2702 jobs.
 - [[continuum-stability-debate]] — KuramotoFirstMomentConcreteV5.lean (exp 301): `kuramoto_first_moment_concrete_v5` — drops hr_bdd by weakening BodyGronwallBound to accept ∀t>0. Derives ∀t>0, |r t|≤1 from r_abs_le_one_from_sc. 4 fewer hypotheses than exp 296. Full build: 3535 jobs, 0 errors. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — KuramotoROrderBounds.lean (exp 300): `r_nonneg_from_sc`, `r_le_one_from_sc`, `r_abs_le_one_from_sc` — r(t) ∈ [0,1] for t ≥ 0 from h_sc + hα_inv + hα_int. Uses integral_nonneg + integral_mono. 0 sorry, 0 axioms.

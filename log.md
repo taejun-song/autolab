@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentConcreteV7 compiled — drops explicit α_star via explicitEquil formula (exp 303)
+
+- hypothesis: `kuramoto_first_moment_concrete_v7` drops all explicit equilibrium data from V6 (α_star, hα_star_pos, hα_star_lt, hαs_int, hα_star_equil, hr_star_eq — 6 hypotheses). Replaces with 3: `hγ_pos : ∀ ω, 0 < γ ω`, `hr_star_pos : 0 < r_star`, `hr_star_sc : r_star = ∫ ω, explicitEquil (γ ω) K r_star ∂μ`. Internally defines `α_star ω := explicitEquil (γ ω) K r_star` and derives all dropped hypotheses.
+- derivation chain: (1) `hα_star_pos` ← `explicitEquil_pos (hγ_pos ω) hK hr_star_pos`; (2) `hα_star_lt` ← `explicitEquil_lt_one`; (3) `Measurable α_star` ← `Continuous (fun x => explicitEquil x K r_star)` via `continuous_neg.add (Real.continuous_sqrt.comp ...)` + `hc.measurable.comp hγ_meas`; (4) `hαs_int` ← `(integrable_const 1).mono` with `abs_of_pos + le_of_lt`; (5) `hr_star_eq` := `hr_star_sc`; (6) `hα_star_equil` ← `explicitEquil_solves` + `unfold componentEquil` + `linarith`. Calls V6. Fix: `Filter.eventually_of_forall` → `Eventually.of_forall`.
+- result: confirmed. Build: 0 errors, 0 sorry. 2705 jobs.
+- significance: net drop of 3 hypotheses vs V6. Equilibrium function no longer an explicit input — the caller provides only the self-consistency fixed point condition. The explicit formula α_star ω = (-γω + √(γω² + K²r*²))/(Kr*) is entirely derived from the Kuramoto equilibrium ODE. The V1→V7 chain (exp 296→303) has now eliminated 8 hypotheses from the base theorem.
+- created: KuramotoLean/KuramotoFirstMomentConcreteV7.lean
+- updated: KuramotoLean.lean (manifest +1), syntheses/continuum-stability-debate.md (§4w, status → v7-minimal-proved, experiment → 303)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoFirstMomentConcreteV6 compiled — drops hr_star_pos via integral_pos (exp 302)
 
 - hypothesis: `kuramoto_first_moment_concrete_v6` drops `hr_star_pos : 0 < r_star` from V5. Proof: r* = ∫ α* ∂μ with α* > 0 everywhere → support(α*) = univ → μ(support(α*)) = 1 > 0 → 0 < ∫ α* (integral_pos_iff_support_of_nonneg). Key: `eq_univ_of_forall (fun ω => mem_support.mpr (ne_of_gt (hα_star_pos ω)))`.
