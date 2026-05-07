@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentConcreteV8 compiled — drops hα_sq_int via hα_neg derivation (exp 306)
+
+- hypothesis: (α ω t - α_star ω)^2 ≤ 1 follows from α,α* ∈ (0,1); for t<0 use hα_neg to reduce to t=0 case. AEStronglyMeasurability from hα_int + internal α_star measurability.
+- result: confirmed. `kuramoto_first_moment_concrete_v8` compiles 0 sorry, 0 axioms.
+- proof sketch: `by_cases ht : 0 ≤ t` splits into hα_inv (t≥0) and hα_neg (t<0) cases; `nlinarith [ha.1, ha.2, hα_star_pos ω, hα_star_lt ω]` closes the ≤1 bound. `simp_rw [sq]; exact ha_int.1.mul ha_int.1` gives AEStronglyMeasurability.
+- debugging: `le_or_lt` not in scope with current opens; use `by_cases ht : 0 ≤ t; push_neg at ht` instead.
+- significance: replaces subtle square-integrability hypothesis with more natural "constant extension" convention for t<0. Net: hα_sq_int → hα_neg (±0 hypotheses, but more physical).
+- created: KuramotoLean/KuramotoFirstMomentConcreteV8.lean
+- updated: syntheses/continuum-stability-debate.md (+V8 entry, exp 306)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoFirstMomentEndToEnd compiled — end-to-end convergence from critical coupling (exp 305)
 
 - hypothesis: sc_fixed_point_exists_continuum + v7 combine in 2 lines: obtain r_star, apply v7.
