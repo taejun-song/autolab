@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
-status: oa-scalar-gamma-lip
-experiment: 285
+status: oa-scalar-measurable-flow
+experiment: 286
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -484,7 +484,7 @@ where $r(t) = \text{lorentzian\_explicit}\;K\;\gamma_0\;r_0\;t$.
 - `r_ext_bdd`: `|r_ext t| ≤ 1` for all t, since $r_{\text{ext}} \in (0,1)$ everywhere (Lorentzian pos/lt_one at max)
 - Recovers original: `oaScalarRHS γ K r_ext t α = oaScalarRHS γ K r t α` for $t \geq 0$
 
-**What remains open**: The measurability hypothesis `hα_sq_meas` in `lorentzian_continuum_V_inf_tendsto` — that the map $\omega \mapsto (\alpha(\omega,t) - \alpha^*(\omega))^2$ is AE strongly measurable. This requires a measurable selection theorem for the parameterized ODE $\omega \mapsto \alpha(\omega,\cdot)$. The $\gamma$-Lipschitz bound in exp 285 gives one approach: approximate $\omega \mapsto \alpha(\gamma(\omega),t)$ by step functions in $\gamma$, each of which is measurable.
+**What remains open**: Using `lorentzian_oa_flow_aestronglyMeasurable` (exp 286) to close `hα_sq_meas` in `lorentzian_continuum_V_inf_tendsto`. The AE strong measurability of $\omega \mapsto \alpha(\gamma(\omega),t)$ is now proved; connecting it to the square $(\alpha - \alpha^*)^2$ requires measurability of $\alpha^*$ (the fixed-point selector) as well.
 
 ## 4l. Proved: Gronwall γ-sensitivity for the OA scalar ODE (exp 285)
 
@@ -501,6 +501,27 @@ giving Lipschitz continuity in $\gamma$ with constant $|\gamma_1-\gamma_2|/(\gam
 - `oaScalarRHS_gamma_diff`: $|\operatorname{RHS}(\gamma_1, x) - \operatorname{RHS}(\gamma_2, x)| \leq |\gamma_1 - \gamma_2|$ for $x \in [0,1]$, since the difference equals $(\gamma_2 - \gamma_1)x$ and $|x| \leq 1$.
 
 **Significance**: Gives the measurability bridge. If $\gamma \mapsto \alpha(\gamma,t)$ is Lipschitz with constant $C(t)$ on $\mathbb{R}_{\geq 0}$, then $\omega \mapsto \alpha(\gamma(\omega),t)$ is measurable (composition of measurable $\omega \mapsto \gamma(\omega)$ with Lipschitz hence continuous function).
+
+## 4m. Proved: Canonical Lorentzian OA scalar flow — measurable in γ (exp 286)
+
+`OAScalarMeasurableFlow.lean` — 3 key theorems (0 sorry, 0 axioms):
+
+**`lorentzian_oa_flow`** (def): canonical per-$\gamma$ ODE solution via `Classical.choose` from `lorentzian_scalar_ode_global`. Proof-irrelevant: two calls with different proofs of `0 < γ` return definitionally equal functions.
+
+**`lorentzian_oa_flow_lipschitz_in_gamma`**: two canonical flows with the same initial condition satisfy
+$$\operatorname{dist}(\alpha_1(t), \alpha_2(t)) \leq \operatorname{gronwallBound}\;0\;(\gamma_2+K)\;|\gamma_1-\gamma_2|\;t$$
+Proved by applying `oa_scalar_gamma_gronwall` to the spec from `lorentzian_oa_flow_spec_raw`.
+
+**`lorentzian_oa_flow_continuous_subtype`**: the map $F : \{\gamma : \mathbb{R} \mid 0 < \gamma\} \to \mathbb{R}$ sending $\gamma \mapsto \alpha(\gamma,t)$ is continuous (as a function on the subtype). ε-δ proof: pick $\delta = \varepsilon/(C+1)$ where $C = \operatorname{gronwallBound}\;0\;(\gamma_0+K)\;1\;t$; use `gronwallBound_of_K_ne_0` to establish linearity of the bound in $|\gamma_1 - \gamma_0|$.
+
+**`lorentzian_oa_flow_aestronglyMeasurable`**: if $\gamma : \Omega \to \mathbb{R}$ is measurable with $\gamma(\omega) > 0$ everywhere, then $\omega \mapsto \alpha(\gamma(\omega),t)$ is AE strongly measurable. Chain: $\omega \mapsto \langle\gamma(\omega), h(\omega)\rangle : \{\gamma > 0\}$ is measurable (`Measurable.subtype_mk`), then composed with the continuous $F$ gives AE strong measurability.
+
+**Significance**: Closes the measurability gap for the OA scalar flow. Combined with measurability of the fixed-point $\alpha^*$, this enables closing `hα_sq_meas` in `lorentzian_continuum_V_inf_tendsto`.
+
+**Key proof lessons**:
+- `gronwallBound_of_K_ne_0` gives $\operatorname{gronwallBound}\;0\;K\;\varepsilon\;t = \varepsilon/K \cdot (\exp(Kt)-1)$, linear in $\varepsilon$ — enables `ring` for linearity steps.
+- Proof irrelevance: `lorentzian_oa_flow ... γ hγ₁` and `lorentzian_oa_flow ... γ hγ₂` are definitionally equal (Classical.choose is proof-irrelevant), so `exact lt_of_le_of_lt ...` closes the final goal despite `⋯` vs `hγ₁` in the proof argument.
+- `Measurable.subtype_mk` has implicit `h : ∀ x, p (f x)` — do NOT pass it explicitly.
 
 ## 5. Recommended next steps
 
@@ -527,6 +548,8 @@ h_coercive (P<δ ⟹ V<ε) [WeakStarLaSalle]
 h_body_drop is purely analytic (interchange of limit and integral). No dynamics, no compactness.
 
 ## 6. Label
+
+**oa-scalar-measurable-flow** — `lorentzian_oa_flow_aestronglyMeasurable` (OAScalarMeasurableFlow.lean, 0 sorry, 0 axioms, exp 286): $\omega \mapsto \alpha(\gamma(\omega),t)$ is AEStronglyMeasurable. Chain: `Measurable.subtype_mk` + `Continuous.measurable` + `Measurable.comp` + `.aestronglyMeasurable`. Closes the measurability gap for the canonical Lorentzian OA scalar flow.
 
 **oa-scalar-gamma-lip** — `oa_scalar_gamma_gronwall` (OAScalarGammaLip.lean, 0 sorry, 0 axioms, exp 285) proves Lipschitz continuity of the OA scalar ODE solution in the damping parameter $\gamma$: $\operatorname{dist}(\alpha_1(t), \alpha_2(t)) \leq \operatorname{gronwallBound}\;0\;(\gamma_2+K)\;|\gamma_1-\gamma_2|\;t$. Uses `dist_le_of_approx_trajectories_ODE_of_mem` with $\varepsilon_f = |\gamma_1-\gamma_2|$ (RHS mismatch). Provides the measurability bridge: $\gamma \mapsto \alpha(\gamma,t)$ is Lipschitz (hence continuous), so $\omega \mapsto \alpha(\gamma(\omega),t)$ is measurable.
 

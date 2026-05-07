@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-07 (OAScalarGammaLip.lean, exp 285)_
+_Last regenerated: 2026-05-07 (OAScalarMeasurableFlow.lean, exp 286)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — OAScalarMeasurableFlow.lean (exp 286): `lorentzian_oa_flow_aestronglyMeasurable` — ω ↦ lorentzian_oa_flow(γ(ω),t) is AEStronglyMeasurable. Chain: Lipschitz-in-γ → continuity on {γ>0} subtype → Measurable.subtype_mk + Continuous.measurable + comp. Also: lorentzian_oa_flow_lipschitz_in_gamma + lorentzian_oa_flow_continuous_subtype. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — OAScalarGammaLip.lean (exp 285): `oa_scalar_gamma_gronwall` — Lipschitz continuity of OA scalar ODE solution in γ: dist(α₁(t),α₂(t)) ≤ gronwallBound 0 (γ₂+K) |γ₁-γ₂| t. Treats α₁ as ε-approx solution (ε=|γ₁-γ₂|) and applies dist_le_of_approx_trajectories_ODE_of_mem. Measurability bridge: γ ↦ α(γ,t) Lipschitz hence measurable. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — LorentzianScalarODE.lean (exp 284): `lorentzian_scalar_ode_global` — global ODE existence for per-ω OA scalar with Lorentzian forcing. r_ext time-clamping trick + oa_solve_global_v2 + ODE agreement for t≥0. Closes hα_ode/hα_bdd/hα_cont for single oscillator. Remaining gap: parameterized measurability. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — OAScalarBarrier.lean (exp 283): `oaScalar_invariant_box` — proves (0,1) positively invariant for per-ω OA scalar ODE. Upper: sInf + `strictAntiOn_of_deriv_neg` at α=1 boundary. Lower: Grönwall multiplier gm=α·exp(γt) monotone from gm(0)>0. Closes `hα_bdd` in `lorentzian_continuum_V_inf_tendsto`. 0 sorry, 0 axioms.

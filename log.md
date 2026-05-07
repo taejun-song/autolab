@@ -1,5 +1,16 @@
 # Activity Log
 
+## [2026-05-07] experiment | OAScalarMeasurableFlow compiled — canonical Lorentzian OA scalar flow AEStronglyMeasurable (exp 286)
+
+- hypothesis: ω ↦ lorentzian_oa_flow(γ(ω),t) is AEStronglyMeasurable via the Lipschitz-in-γ → continuity → measurability chain; `Measurable.subtype_mk` handles the subtype embedding.
+- result: confirmed. New file `OAScalarMeasurableFlow.lean` proves 3 theorems: `lorentzian_oa_flow_lipschitz_in_gamma`, `lorentzian_oa_flow_continuous_subtype`, `lorentzian_oa_flow_aestronglyMeasurable`. Build: 0 errors, 0 sorry. 3379 jobs.
+- significance: closes the measurability gap for the parameterized OA scalar flow. `lorentzian_oa_flow_aestronglyMeasurable` can now be plugged into `lorentzian_continuum_V_inf_tendsto` to close `hα_sq_meas` (once α* measurability is also established).
+- key lessons: (1) `gronwallBound_of_K_ne_0` gives linearity-in-ε for `ring`, avoiding `nlinarith` for the ε-δ bound; (2) proof irrelevance means `exact lt_of_le_of_lt ...` closes goals with `⋯` vs named proof arguments; (3) `Measurable.subtype_mk` has `h : ∀ x, p (f x)` as IMPLICIT — do not pass explicitly; (4) in `exact oa_scalar_gamma_gronwall ... α₁ α₂ ...` the function arguments must be given explicitly (apply unifies them via set, exact does not).
+- debugging: 8 compile errors fixed: `gronwallBound_nonneg` (nonexistent) → `gronwallBound_mono`+`gronwallBound_x0`; `one_nonneg` (unavailable) → `zero_le_one`; `Metric.dist_comm` → `dist_comm`; `Measurable.subtype_mk (hγ_pos)` → `Measurable.subtype_mk` (h implicit); bullet count for `apply oa_scalar_gamma_gronwall` (11 not 12, ht auto-unified); `nlinarith [hC_nn]` → algebraic `field_simp; ring`+`linarith` for C*(ε/(C+1)) < ε.
+- created: KuramotoLean/OAScalarMeasurableFlow.lean
+- updated: syntheses/continuum-stability-debate.md (§4m, status=oa-scalar-measurable-flow)
+- index.md: regenerated
+
 ## [2026-05-07] experiment | TailSecondMoment compiled — second_moment_tail_vanish proved (exp 278)
 
 - hypothesis: M²·μ{γ > M} → 0 as M → ∞ is provable from `Integrable (γ²)` alone using antitone set integrals + Markov bound.
