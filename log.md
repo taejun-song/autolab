@@ -4926,3 +4926,9 @@ Major restructuring of MainTheorem.lean and companion files:
 - created: KuramotoLean/OAScalarBarrier.lean
 - updated: syntheses/continuum-stability-debate.md (+section 4j, status → oa-scalar-barrier-proved, experiment → 283)
 - index.md: regenerated
+
+## [2026-05-07] experiment | LorentzianScalarODE — global per-ω OA scalar ODE existence under Lorentzian forcing (exp 284)
+
+- created: KuramotoLean/LorentzianScalarODE.lean
+- updated: syntheses/continuum-stability-debate.md (+section 4k, status → lorentzian-scalar-ode-global, experiment → 284)
+- index.md: regenerated

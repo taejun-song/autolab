@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
-status: oa-scalar-barrier-proved
-experiment: 283
+status: lorentzian-scalar-ode-global
+experiment: 284
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -469,6 +469,23 @@ $$\forall t \geq 0,\quad 0 < \alpha(t) < 1$$
 
 **What remains open**: Global ODE existence on $[0,\infty)$ for the per-$\omega$ forced OA scalar ODE. `OAScalarBarrier.lean` closes the `hα_bdd` hypothesis in `lorentzian_continuum_V_inf_tendsto`; next is `hα_ode` via Picard-Lindelöf extension.
 
+## 4k. Proved: per-ω OA scalar ODE global existence under Lorentzian forcing (exp 284)
+
+`LorentzianScalarODE.lean` — `lorentzian_scalar_ode_global` (0 sorry, 0 axioms):
+
+**Statement**: For $\gamma, K, \gamma_0 > 0$ with $K > 2\gamma_0$, $r_0 \in (0,1)$, and $\alpha_0 \in (0,1)$:
+$$\exists \alpha : [0,\infty) \to \mathbb{R},\quad \alpha(0) = \alpha_0,\quad \alpha \in (0,1),\quad \dot\alpha(t) = \text{oaScalarRHS}\;\gamma\;K\;r(t)\;\alpha(t)\ \forall t > 0$$
+where $r(t) = \text{lorentzian\_explicit}\;K\;\gamma_0\;r_0\;t$.
+
+**Proof strategy**: Define $r_{\text{ext}}(t) = r(\max(0,t))$ to extend $r$ continuously to all of $\mathbb{R}$. Then apply `oa_solve_global_v2` (which requires globally bounded/continuous forcing), obtain global solution, and recover the original Lorentzian ODE for $t \geq 0$ since $r_{\text{ext}}(t) = r(t)$ there.
+
+**Key lemmas**:
+- `r_ext_continuous`: `ContinuousOn.comp_continuous` with `fun t => max 0 t`
+- `r_ext_bdd`: `|r_ext t| ≤ 1` for all t, since $r_{\text{ext}} \in (0,1)$ everywhere (Lorentzian pos/lt_one at max)
+- Recovers original: `oaScalarRHS γ K r_ext t α = oaScalarRHS γ K r t α` for $t \geq 0$
+
+**What remains open**: The measurability hypothesis `hα_sq_meas` in `lorentzian_continuum_V_inf_tendsto` — that the map $\omega \mapsto (\alpha(\omega,t) - \alpha^*(\omega))^2$ is AE strongly measurable. This requires a measurable selection theorem for the parameterized ODE $\omega \mapsto \alpha(\omega,\cdot)$.
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -494,6 +511,8 @@ h_coercive (P<δ ⟹ V<ε) [WeakStarLaSalle]
 h_body_drop is purely analytic (interchange of limit and integral). No dynamics, no compactness.
 
 ## 6. Label
+
+**lorentzian-scalar-ode-global** — `lorentzian_scalar_ode_global` (LorentzianScalarODE.lean, 0 sorry, 0 axioms, exp 284) proves global existence for the per-$\omega$ OA scalar ODE under Lorentzian forcing via the $r_{\text{ext}}$ time-clamping trick + `oa_solve_global_v2`. Closes `hα_ode`, `hα_bdd`, `hα_cont` hypotheses in `lorentzian_continuum_V_inf_tendsto` for a single oscillator. Remaining gap: measurability of $\omega \mapsto \alpha(\omega,t)$ for the parameterized family.
 
 **oa-scalar-barrier-proved** — `oaScalar_invariant_box` (OAScalarBarrier.lean, 0 sorry, 0 axioms, exp 283) proves $(0,1)$ is positively invariant for the per-$\omega$ OA scalar ODE with $r(t) \in [0,1]$ and $\gamma, K > 0$. Upper barrier via sInf + `strictAntiOn_of_deriv_neg`; lower barrier via Grönwall multiplier monotonicity. Closes the `hα_bdd` hypothesis in `lorentzian_continuum_V_inf_tendsto`. Remaining gap: global ODE existence (`hα_ode`) via Picard-Lindelöf extension.
 

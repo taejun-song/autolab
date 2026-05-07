@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-07 (OAScalarBarrier.lean, exp 283)_
+_Last regenerated: 2026-05-07 (LorentzianScalarODE.lean, exp 284)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — LorentzianScalarODE.lean (exp 284): `lorentzian_scalar_ode_global` — global ODE existence for per-ω OA scalar with Lorentzian forcing. r_ext time-clamping trick + oa_solve_global_v2 + ODE agreement for t≥0. Closes hα_ode/hα_bdd/hα_cont for single oscillator. Remaining gap: parameterized measurability. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — OAScalarBarrier.lean (exp 283): `oaScalar_invariant_box` — proves (0,1) positively invariant for per-ω OA scalar ODE. Upper: sInf + `strictAntiOn_of_deriv_neg` at α=1 boundary. Lower: Grönwall multiplier gm=α·exp(γt) monotone from gm(0)>0. Closes `hα_bdd` in `lorentzian_continuum_V_inf_tendsto`. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — LorentzianContinuumConvergence.lean (exp 282): `lorentzian_continuum_V_inf_tendsto` — connecting theorem combining `lorentzian_explicit_tendsto` with `V_inf_tendsto_zero_from_r`. Direct proof: r(t) = lorentzian_explicit K γ₀ r₀ → r_star, fed into V_inf theorem. Also removed vestigial `hr_bdd` from `oa_scalar_pointwise_tendsto` and `V_inf_tendsto_zero_from_r`. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — LorentzianPointwiseConv.lean (exp 281): `V_inf_tendsto_zero_from_r` — per-ω Gronwall argument for Lorentzian. Proves V∞→0 from r(t)→r* whenever γ>0 a.e. No hγ_sq_int. Three theorems: oa_V_deriv_bound (linear_combination identity), oa_scalar_pointwise_tendsto (ε-splitting + gronwall_with_forcing), V_inf_tendsto_zero_from_r (DCT bound 4). Combined with lorentzian_explicit_tendsto, only the connecting instantiation file remains for complete Lorentzian theorem. 0 sorry, 0 axioms.
