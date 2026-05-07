@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-07] experiment | LorentzianContinuumInstantiation compiled — complete Lorentzian continuum convergence (exp 287)
+
+- hypothesis: instantiating `lorentzian_continuum_V_inf_tendsto` with canonical flow closes the last measurability gap; two fixes needed: (1) hα_sq_meas requires ∀t but lorentzian_oa_flow_aestronglyMeasurable only gives t≥0, and (2) hγ_ae_pos needs ∀ᵐ not ∀.
+- result: confirmed. Fixes: (1) weakened hα_sq_meas from `∀ t, AEStronglyMeasurable` to `∀ᶠ t in atTop, AEStronglyMeasurable` in V_inf_tendsto_zero_from_r and lorentzian_continuum_V_inf_tendsto (sufficient for DCT); (2) use `Eventually.of_forall (fun ω => hγ_pos ω)` for hγ_ae_pos; (3) `AEStronglyMeasurable.pow_const 2` does not exist — use `(continuous_pow 2).comp_aestronglyMeasurable` instead. Build: 0 errors, 0 sorry. 3395 jobs.
+- significance: **COMPLETE Lorentzian continuum convergence**. Given measurable γ>0 everywhere and α₀∈(0,1), the canonical OA flow satisfies V∞(t)=∫(α(ω,t)-α*(ω))²dμ→0. All 6-file chain is 0 sorry, 0 axioms: LorentzianExistence + ScalarODE + Barrier + GammaLip + MeasurableFlow + PointwiseConv + ContinuumConvergence + Instantiation.
+- key lessons: (1) `∀ᶠ t in atTop, AEStronglyMeasurable` is sufficient for DCT (the `tendsto_integral_filter_of_dominated_convergence` second argument); (2) `AEStronglyMeasurable` does not have `.pow_const` — use `Continuous.comp_aestronglyMeasurable` for power composition; (3) `Eventually.of_forall` converts `∀ ω, P ω` to `∀ᵐ ω ∂μ, P ω`.
+- created: KuramotoLean/LorentzianContinuumInstantiation.lean
+- updated: KuramotoLean/LorentzianPointwiseConv.lean (hα_sq_meas weakened to ∀ᶠ), KuramotoLean/LorentzianContinuumConvergence.lean (signature cascaded), syntheses/continuum-stability-debate.md (§4n, status=lorentzian-canonical-complete)
+- index.md: regenerated
+
 ## [2026-05-07] experiment | OAScalarMeasurableFlow compiled — canonical Lorentzian OA scalar flow AEStronglyMeasurable (exp 286)
 
 - hypothesis: ω ↦ lorentzian_oa_flow(γ(ω),t) is AEStronglyMeasurable via the Lipschitz-in-γ → continuity → measurability chain; `Measurable.subtype_mk` handles the subtype embedding.

@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
-status: oa-scalar-measurable-flow
-experiment: 286
+status: lorentzian-canonical-complete
+experiment: 287
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -523,6 +523,33 @@ Proved by applying `oa_scalar_gamma_gronwall` to the spec from `lorentzian_oa_fl
 - Proof irrelevance: `lorentzian_oa_flow ... γ hγ₁` and `lorentzian_oa_flow ... γ hγ₂` are definitionally equal (Classical.choose is proof-irrelevant), so `exact lt_of_le_of_lt ...` closes the final goal despite `⋯` vs `hγ₁` in the proof argument.
 - `Measurable.subtype_mk` has implicit `h : ∀ x, p (f x)` — do NOT pass it explicitly.
 
+## 4n. Proved: canonical Lorentzian continuum convergence (exp 287)
+
+`LorentzianContinuumInstantiation.lean` — `lorentzian_continuum_V_inf_tendsto_canonical` (0 sorry, 0 axioms):
+
+**Statement**: Given a measurable $\gamma : \Omega \to \mathbb{R}$ with $\gamma(\omega) > 0$ everywhere, $\alpha_0 \in (0,1)$, and $K > 2\gamma_0$:
+$$V_\infty(t) = \int_\Omega \bigl(\alpha(\omega,t) - \alpha^*(\omega)\bigr)^2\,d\mu \to 0$$
+where $\alpha(\omega,t) = \text{lorentzian\_oa\_flow}\;K\;\gamma_0\;r_0\;\alpha_0\;(\gamma(\omega))\;t$ and $\alpha^*(\omega) = \text{explicitEquil}\;(\gamma(\omega))\;K\;r^*$ with $r^* = \sqrt{1 - 2\gamma_0/K}$.
+
+**This is the complete Lorentzian continuum convergence theorem.**
+
+**Proof chain** (all machine-checked, 6 files):
+1. `LorentzianExistence.lean`: $r(t) = \text{lorentzian\_explicit} \to r^*$ (Bernoulli closed form)
+2. `LorentzianScalarODE.lean`: per-$\omega$ global ODE existence via $r_{\text{ext}}$ time-clamping + Picard-Lindelöf
+3. `OAScalarBarrier.lean`: $(0,1)$ positively invariant for the OA scalar ODE
+4. `OAScalarGammaLip.lean` + `OAScalarMeasurableFlow.lean`: $\omega \mapsto \alpha(\gamma(\omega),t)$ AEStronglyMeasurable
+5. `LorentzianPointwiseConv.lean`: per-$\omega$ Gronwall + DCT → $V_\infty \to 0$ given $r \to r^*$
+6. `LorentzianContinuumConvergence.lean` + `LorentzianContinuumInstantiation.lean`: connecting theorem + canonical instantiation
+
+**Key technical fixes (exp 287)**:
+- `V_inf_tendsto_zero_from_r` signature: weakened `hα_sq_meas` from `∀ t, AEStronglyMeasurable` to `∀ᶠ t in atTop, AEStronglyMeasurable` (sufficient for DCT). This allows supplying measurability only for $t \geq 0$ (where the ODE is defined).
+- `hγ_ae_pos`: `Eventually.of_forall (fun ω => hγ_pos ω)` converts pointwise `0 < γ(ω)` to `∀ᵐ ω ∂μ, 0 < γ(ω)`.
+- `AEStronglyMeasurable.pow_const 2` does not exist; use `(continuous_pow 2).comp_aestronglyMeasurable` instead.
+
+**Axioms**: `propext`, `Classical.choice`, `Quot.sound` — the three standard Lean kernel axioms. Zero sorry.
+
+**Physical interpretation**: For the Lorentzian distribution $g(\omega) = \gamma_0/(\pi(\omega^2+\gamma_0^2))$, this proves that every OA trajectory with initial condition $\alpha_0 \in (0,1)$ converges in $L^2(\mu)$ to the unique equilibrium $\alpha^*$. The $\gamma(\omega)$ here is an arbitrary positive measurable function (not necessarily $|\omega|$ — the theorem applies to any frequency distribution that is positive everywhere).
+
 ## 5. Recommended next steps
 
 1. **Prove h_body_drop (Leibniz for full V)** [WEAKEST KNOWN SUFFICIENT CONDITION, from `TailBodyBarbalat.lean`]:
@@ -548,6 +575,8 @@ h_coercive (P<δ ⟹ V<ε) [WeakStarLaSalle]
 h_body_drop is purely analytic (interchange of limit and integral). No dynamics, no compactness.
 
 ## 6. Label
+
+**lorentzian-canonical-complete** — `lorentzian_continuum_V_inf_tendsto_canonical` (LorentzianContinuumInstantiation.lean, 0 sorry, 0 axioms, exp 287): complete Lorentzian continuum convergence. Given measurable $\gamma : \Omega \to \mathbb{R}$ with $\gamma(\omega) > 0$ everywhere and $\alpha_0 \in (0,1)$, the canonical OA flow satisfies $V_\infty(t) = \int(\alpha(\omega,t) - \alpha^*(\omega))^2\,d\mu \to 0$. Also: `hα_sq_meas` weakened to `∀ᶠ t in atTop` in `V_inf_tendsto_zero_from_r` and `lorentzian_continuum_V_inf_tendsto`. Chain: 6 files, 0 sorry, 0 axioms.
 
 **oa-scalar-measurable-flow** — `lorentzian_oa_flow_aestronglyMeasurable` (OAScalarMeasurableFlow.lean, 0 sorry, 0 axioms, exp 286): $\omega \mapsto \alpha(\gamma(\omega),t)$ is AEStronglyMeasurable. Chain: `Measurable.subtype_mk` + `Continuous.measurable` + `Measurable.comp` + `.aestronglyMeasurable`. Closes the measurability gap for the canonical Lorentzian OA scalar flow.
 

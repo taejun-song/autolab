@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-07 (OAScalarMeasurableFlow.lean, exp 286)_
+_Last regenerated: 2026-05-07 (LorentzianContinuumInstantiation.lean, exp 287)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — LorentzianContinuumInstantiation.lean (exp 287): `lorentzian_continuum_V_inf_tendsto_canonical` — **COMPLETE Lorentzian continuum convergence**. Given measurable γ>0 everywhere and α₀∈(0,1), V∞(t)=∫(α(ω,t)-α*(ω))²dμ→0. Chain: 6 files (LorentzianExistence → ScalarODE → Barrier → GammaLip → MeasurableFlow → PointwiseConv → ContinuumConvergence → Instantiation). Also: weakened hα_sq_meas from ∀t to ∀ᶠt in atTop in V_inf_tendsto_zero_from_r. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — OAScalarMeasurableFlow.lean (exp 286): `lorentzian_oa_flow_aestronglyMeasurable` — ω ↦ lorentzian_oa_flow(γ(ω),t) is AEStronglyMeasurable. Chain: Lipschitz-in-γ → continuity on {γ>0} subtype → Measurable.subtype_mk + Continuous.measurable + comp. Also: lorentzian_oa_flow_lipschitz_in_gamma + lorentzian_oa_flow_continuous_subtype. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — OAScalarGammaLip.lean (exp 285): `oa_scalar_gamma_gronwall` — Lipschitz continuity of OA scalar ODE solution in γ: dist(α₁(t),α₂(t)) ≤ gronwallBound 0 (γ₂+K) |γ₁-γ₂| t. Treats α₁ as ε-approx solution (ε=|γ₁-γ₂|) and applies dist_le_of_approx_trajectories_ODE_of_mem. Measurability bridge: γ ↦ α(γ,t) Lipschitz hence measurable. 0 sorry, 0 axioms.
 - [[continuum-stability-debate]] — LorentzianScalarODE.lean (exp 284): `lorentzian_scalar_ode_global` — global ODE existence for per-ω OA scalar with Lorentzian forcing. r_ext time-clamping trick + oa_solve_global_v2 + ODE agreement for t≥0. Closes hα_ode/hα_bdd/hα_cont for single oscillator. Remaining gap: parameterized measurability. 0 sorry, 0 axioms.
