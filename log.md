@@ -1,5 +1,14 @@
 # Activity Log
 
+## [2026-05-08] experiment | ContinuumGammaMinFirstMoment compiled — γ_min>0 + first moment → r→r* (exp 294)
+
+- hypothesis: `kuramoto_gamma_min_first_moment` wraps `continuum_v_antitone` (V antitone from first moment ∫γdμ<∞) + `iss_implies_definitive` (body Gronwall + combined vanishing → r→r*). Replaces second moment `hγ_sq_int` of `KuramotoGammaMinConvergence` with first moment `hγ_int`. Key: γ_min>0 → hγ_pos trivially; `continuum_v_antitone` uses integrable dominator 2γ+K and Q-integrability from 1/α*=α*+2γ/(Kr*).
+- result: confirmed. Build: 0 errors, 0 sorry. 2698 jobs. Warning: unused `hγ` (implied by hγ_lb, kept for API consistency). First attempt used `exact hr'_tend` which failed (theorem proofs opaque, r'≠r definitionally); revised to use `continuum_v_antitone` + `iss_implies_definitive` for direct output.
+- significance: closes the moment gap for γ_min>0 models. KuramotoGammaMinConvergence requires second moment (Gronwall/absorbing-ball path). This file requires only first moment (Leibniz-FTC path). Covers Student-t 1<ν≤2, power-law α∈(1,2]. Combined vanishing C(M)+τ(M)→0 deferred to caller; with α₀_lb>0 it follows from `first_moment_tail_vanish` (M·τ(M)→0).
+- created: KuramotoLean/ContinuumGammaMinFirstMoment.lean
+- updated: syntheses/continuum-stability-debate.md (§4t, status → gamma-min-first-moment-proved, experiment → 294)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | ContinuumFullLeibniz compiled — full-domain Leibniz rule for Lyapunov V (exp 293)
 
 - hypothesis: `body_leibniz_hasDerivAt` (BodyLeibnizProof.lean) adapts to the full domain Ω by replacing constant dominator 2M+K (valid on {γ≤M}) with function ω↦2γ(ω)+K, integrable from hγ_int:Integrable γ μ (first moment condition). Same DCT theorem `hasDerivAt_integral_of_dominated_loc_of_deriv_le` applies with μ (not μ.restrict body) and bound := fun ω => 2*γ ω + K.

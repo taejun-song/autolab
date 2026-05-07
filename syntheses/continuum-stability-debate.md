@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-08
-status: full-leibniz-proved
-experiment: 293
+status: gamma-min-first-moment-proved
+experiment: 294
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -677,6 +677,29 @@ $$\frac{d}{dt}V(t_0) = \int_\Omega 2(\alpha(\omega,t_0)-\alpha^*(\omega))\cdot\t
 **What this does NOT close**: Lorentzian ($\int|\omega|g = \infty$). For Lorentzian, the dominator $2\gamma(\omega)+K = 2|\omega|+K$ is NOT in $L^1(g)$, so this proof does not apply. The Monotone Leibniz Bridge (body truncations $M' \to \infty$) remains the path for Lorentzian.
 
 **Axioms**: `propext`, `Classical.choice`, `Quot.sound`. Zero sorry. 2697 jobs.
+
+## 4t. Proved: γ_min > 0 + first moment → r → r* (exp 294)
+
+`ContinuumGammaMinFirstMoment.lean` — `kuramoto_gamma_min_first_moment` (0 sorry, 0 axioms):
+
+**Statement**: If $\gamma(\omega) \geq \gamma_{\min} > 0$ and $\int\gamma\,d\mu < \infty$ (first moment, NOT second moment), with body Gronwall absorbing radius $C(M)$ satisfying $C(M) + \mu(\{\gamma > M\}) \to 0$, then $r(t) \to r^*$.
+
+**Key improvement over `KuramotoGammaMinConvergence`**:
+- OLD: requires `hγ_sq_int : Integrable (fun ω => (γ ω)^2) μ` (second moment)
+- NEW: requires only `hγ_int : Integrable γ μ` (first moment)
+
+**Proof structure** (two building blocks):
+1. `continuum_v_antitone` (ContinuumSolvedContinuum.lean): V antitone from first moment. Uses integrable dominator $2\gamma(\omega)+K \in L^1$ for Leibniz rule, and $1/\alpha^* = \alpha^* + 2\gamma/(Kr^*)$ for Q-integrability. No `hγ_sq_int` needed.
+2. `iss_implies_definitive` (ContinuumFiniteMoment.lean): direct `Tendsto r atTop (nhds r_star)` from V antitone + body Gronwall + combined vanishing.
+
+**Caller obligations**: body Gronwall $C(M)$ and $C(M)+\tau(M) \to 0$. For the canonical choice with initial lower bound $\alpha_0 \geq \alpha_{0,\text{lb}} > 0$: $C(M) \sim M\cdot\tau(M)/(\alpha_{0,\text{lb}}\cdot K\cdot r^*)$. Combined vanishing follows from `first_moment_tail_vanish` (exp 292): $M\cdot\mu\{\gamma>M\} \to 0$ from $\int\gamma\,d\mu < \infty$.
+
+**Coverage**: Distributions with finite first moment AND $\gamma \geq \gamma_{\min} > 0$:
+- Student-$t$ $1 < \nu \leq 2$ (second moment infinite, first moment finite)
+- Power-law $g(\omega) \sim \omega^{-(1+\alpha)}$ with $1 < \alpha \leq 2$ on $[\gamma_{\min}, \infty)$
+- Any $g$ supported on $[\gamma_{\min}, \infty)$ with $\int\omega g(\omega)\,d\omega < \infty$
+
+**Build**: ✔ [2698/2698] Built KuramotoLean.ContinuumGammaMinFirstMoment (3.1s). Warning: unused variable `hγ` (implied by `hγ_lb` + `hγ_min`; kept for API consistency).
 
 ## 5. Recommended next steps
 

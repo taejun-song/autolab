@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-08 (full_v_leibniz_hasDerivAt + ContinuumFullLeibniz, exp 293)_
+_Last regenerated: 2026-05-08 (kuramoto_gamma_min_first_moment + ContinuumGammaMinFirstMoment, exp 294)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumGammaMinFirstMoment.lean (exp 294): `kuramoto_gamma_min_first_moment` — r→r* from γ_min>0 + FIRST MOMENT (replaces second moment of KuramotoGammaMinConvergence). Proof: `continuum_v_antitone` (V antitone from ∫γ<∞) + `iss_implies_definitive` (body Gronwall + combined vanishing → r→r*). Covers Student-t 1<ν≤2, power-law α∈(1,2]. 0 sorry, 0 axioms. 2698 jobs.
 - [[continuum-stability-debate]] — ContinuumFullLeibniz.lean (exp 293): `full_v_leibniz_hasDerivAt` — HasDerivAt for full Lyapunov V(t)=∫(α-α*)²dμ using first moment hγ_int. Dominator ω↦2γ(ω)+K (not constant 2M+K). Bound integrability: hγ_int.const_mul 2 |>.add (integrable_const K). No body restriction. Closes Leibniz gap for ∫|ω|g<∞ (Gaussian, compact support, Student-t ν>1). Does NOT apply to Lorentzian. 0 sorry, 0 axioms. 2697 jobs.
 - [[continuum-stability-debate]] — FirstMomentTailVanish.lean + MixedPowerLorentzianAnalyticExtension.lean (exp 292): `first_moment_tail_vanish` — M·μ{γ>M}→0 from ∫γdμ<∞ + γ≥0; analogous to second_moment_tail_vanish with first moment only. `MixedPowerLorentzianAnalyticExtension`: most general rational g(ω)=ΣC_k/(ω²+a_k)^{n_k} analytic in strip; zero-error approximation. 0 sorry, 0 axioms. 2500 jobs.
 - [[continuum-stability-debate]] — KuramotoExplicitInitWired7.lean (exp 291): `kuramoto_explicit_init_convergence` — applies wired7 to explicitEquil initial data. Key lemma: explicitEquil M K r₀ ≥ (Kr₀/4)/M for M ≥ Kr₀/2. Replaces hδ₀_body_pos + hδ₀_body_lb with `hγ_pos : ∀ω, 0 < γ ω` and `hα_0_explicitEquil`. Proof: rationalized form Kr₀/(M+√(M²+K²r₀²)), denominator ≤ 2M+Kr₀, then div_le_div_of_nonneg_left. 0 sorry, 0 axioms. 2713 jobs.
