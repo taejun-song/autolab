@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-07] experiment | TailSecondMoment compiled — second_moment_tail_vanish proved (exp 278)
+
+- hypothesis: M²·μ{γ > M} → 0 as M → ∞ is provable from `Integrable (γ²)` alone using antitone set integrals + Markov bound.
+- result: confirmed. New file `TailSecondMoment.lean` proves `second_moment_tail_vanish` in 3 steps: (1) `Antitone.tendsto_setIntegral` with s_n={γ>n} antitone + ⋂ₙs_n=∅ gives ∫_{γ>n}γ²→0 along ℕ; (2) transfer to ℝ via monotone bound ∫_{γ>M}γ² ≤ ∫_{γ>⌊M⌋}γ²; (3) Markov M²τ(M) ≤ ∫_{γ>M}γ² + squeeze. Build: 0 errors, 0 sorry. `#print axioms second_moment_tail_vanish` → [propext, Classical.choice, Quot.sound]. 2500 jobs.
+- significance: enables `ContinuumSolvedWired5.lean` which replaces `h_combined_vanish` with `Integrable (γ²)` for concrete distributions (Gaussian, Student-t ν>2).
+- key lemma used: `Antitone.tendsto_setIntegral` (Mathlib DominatedConvergence.lean) — for antitone sets s_n with ⋂s_n=∅ and f integrable on s_0, ∫_{s_n}f→0.
+- created: KuramotoLean/TailSecondMoment.lean
+- updated: syntheses/continuum-stability-debate.md (§4e)
+- index.md: regenerated
+
 ## [2026-05-07] experiment | ContinuumSolvedWired4 compiled — hr_star_pos eliminated (exp 277)
 
 - hypothesis: `hr_star_pos` (r* > 0) is derivable internally from `hα_star_pos + hαs_int + hr_star_eq + [IsProbabilityMeasure μ]` using the `integral_eq_zero_iff_of_nonneg` pattern.

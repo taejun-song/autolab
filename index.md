@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-07 (ContinuumSolvedWired4.lean, exp 277)_
+_Last regenerated: 2026-05-07 (TailSecondMoment.lean, exp 278)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — TailSecondMoment.lean (exp 278): `second_moment_tail_vanish` — M²·μ{γ>M} → 0 given ∫(γω)²dμ < ∞. Proof: Antitone.tendsto_setIntegral (ℕ) + monotone transfer (ℝ) + Markov bound M²τ(M) ≤ ∫_{γ>M}γ² + squeeze. 0 sorry, 0 axioms. Enables wired5: replace h_combined_vanish with ∫γ²dμ < ∞ for Gaussian/Student-t ν>2.
 - [[continuum-stability-debate]] — ContinuumSolvedWired4.lean (exp 277): `kuramoto_continuum_wired4` — eliminates hr_star_pos (r* > 0) from kuramoto_continuum_wired3. Derived internally: r* = ∫α*dμ > 0 from hα_star_pos (α* > 0 everywhere) + IsProbabilityMeasure + integral_eq_zero_iff_of_nonneg. 0 sorry, 0 axioms. Remaining open: hμ_body_pos, h_combined_vanish (2 down from 3).
 - [[continuum-stability-debate]] — ContinuumSolvedWired3.lean (exp 276): `kuramoto_continuum_wired3` — eliminates hα_lb (body persistence) from kuramoto_continuum_wired2 by wiring in body_persistence_lower_bound. Derives δ_lb M := min(δ₀_body M, bodyEquilibrium M K r_min) and hr_min_le internally. 0 sorry, 0 axioms. Remaining open: hr_star_pos, hμ_body_pos, h_combined_vanish (3 down from 4).
 - [[continuum-stability-debate]] — ContinuumSolvedWired2.lean (exp 275): `kuramoto_continuum_wired2` — eliminates h_gronwall_from_persist from kuramoto_continuum_wired by using body_gronwall_wired internally. Key fix: changed body_gronwall_from_persistence return type from `∃ rate` to `let rate := ...; 0 < rate ∧ ...` to make rate transparent. 0 sorry, 0 axioms. Remaining open: hα_lb, hr_star_pos, hμ_body_pos, h_combined_vanish.

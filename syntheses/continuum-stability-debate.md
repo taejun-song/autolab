@@ -4,7 +4,7 @@ title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-07
 status: partially-resolved
-experiment: 277
+experiment: 278
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -323,6 +323,24 @@ Eliminates `hr_star_pos` ($r^* > 0$) from `kuramoto_continuum_wired3` by derivin
 **Remaining open** (2 hypotheses):
 - `hμ_body_pos` — $\mu(\{\gamma \leq M\}) > 0$ for each $M > 0$ (support condition on $g$)
 - `h_combined_vanish` — $C(M) + \mu(\text{tail}) \to 0$ (depends on $g$'s tail decay; not satisfied for Lorentzian)
+
+## 4e. Proved: second_moment_tail_vanish (exp 278)
+
+`TailSecondMoment.lean` — `second_moment_tail_vanish` (0 sorry, 0 axioms):
+
+**Statement**: If $(γ·)^2$ is $\mu$-integrable, then $M^2 \cdot \mu\{\gamma > M\} \to 0$ as $M \to \infty$.
+
+**Proof chain**:
+1. **ℕ-indexed**: Let $s_n = \{\gamma > n\}$. $s_n$ is antitone, $\bigcap_n s_n = \emptyset$ (since $\lceil\gamma(\omega)\rceil_+ \geq \gamma(\omega)$). Apply `Antitone.tendsto_setIntegral` to get $\int_{s_n} \gamma^2 \to \int_\emptyset \gamma^2 = 0$.
+2. **Transfer to ℝ**: By antitone monotonicity, for $M \geq N$, $\int_{\gamma>M}\gamma^2 \leq \int_{\gamma>N}\gamma^2 \to 0$.
+3. **Markov bound**: On $\{\gamma > M\}$: $M^2 \leq (\gamma\omega)^2$ (since $0 \leq M \leq \gamma\omega$), so $M^2 \cdot \tau(M) = \int_{\gamma>M} M^2\,d\mu \leq \int_{\gamma>M} \gamma^2\,d\mu$.
+4. **Squeeze**: $0 \leq M^2\tau(M) \leq \int_{\gamma>M}\gamma^2 \to 0$ by `tendsto_of_tendsto_of_tendsto_of_le_of_le'`.
+
+**Significance for wired5**: The combined vanishing $C(M) + \tau(M) \to 0$ where
+$$C(M) = \frac{K\tau(M)}{K\cdot\delta(M)\cdot\frac{Kr^*}{2M+Kr^*}\cdot b(M)}$$
+satisfies $C(M) \lesssim \frac{M^2\tau(M)}{K^2\delta(M)^{\min}\cdot r^*\cdot r_{\min}\cdot b_{\min}} \to 0$ when $\int\gamma^2\,d\mu < \infty$ and $\delta(M)\cdot M$ is bounded below.
+
+**Concrete distributions covered**: Gaussian ($\int\gamma^2 g < \infty$), Student-$t$ $\nu > 2$, compactly supported distributions. Lorentzian ($\int\gamma^2 g = \infty$) remains open.
 
 ## 5. Recommended next steps
 
