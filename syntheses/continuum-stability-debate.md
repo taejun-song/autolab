@@ -2,9 +2,9 @@
 type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
-updated: 2026-05-06
+updated: 2026-05-07
 status: partially-resolved
-experiment: 260
+experiment: 276
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -269,6 +269,48 @@ Key question: does the self-consistent coupling $K r(t)(1-\alpha^2)$ contract in
 The n-pole theorem IS proved (0 sorry). If $V_n(t) \to 0$ for each $n$, and the n-pole approximation $V_n \to V_\infty$ with quantitative rates, then $V_\infty \to 0$ by $\varepsilon/3$. This is `PassageToLimit.lean` — currently argument-level with 3 True placeholders for continuous dependence bounds.
 
 Key question: can rational approximation of $g$ give uniform-in-$t$ error bounds? The uniform rate theorem (`UniformRate.lean`: $dV/dt \leq -K\delta\delta^* V$ with $n$-independent constants) makes this plausible.
+
+## 4b. Proved: body Gronwall bound (exp 273)
+
+`BodyGronwallBound.lean` — `body_gronwall_from_persistence` (0 sorry, 0 axioms):
+
+**Statement**: given body persistence $\delta > 0$ ($\alpha(\omega,t) \geq \delta$ on $\{\gamma \leq M\}$ for all $t \geq 0$) and equilibrium lower bound $ds > 0$ ($\alpha^*(\omega) \geq ds$ on $\{\gamma \leq M\}$), there exists rate $= K\delta\cdot ds\cdot\mu(\{\gamma \leq M\}) > 0$ such that
+$$V_{\text{body}}(t) \leq V_{\text{body}}(0)\cdot e^{-\text{rate}\cdot t} + K\cdot\mu(\{\gamma > M\})/\text{rate}.$$
+
+**Proof chain** (all machine-checked):
+1. Body Leibniz: `HasDerivAt V_body (∫_b 2(α-α*)·RHS) t₀` — private `body_leibniz_at_nn` (uses `hγ_nn`, no `hα_neg`)
+2. Per-ω identity: `2(α-α*)·RHS = (-K·r*)·Q_term + K·D·S_term` via equilibrium equation (`field_simp`/`nlinarith`)
+3. Body Fubini: `∫∫_body pair = 2·(rs_b·Q_b - D_b·S_b)` via `pair_fubini_identity` on `μ.restrict body`
+4. Coercivity: `∫∫_body pair ≥ 2·δ·ds·μ(body)·V_body` via `pair_ge_delta_sq` + `setIntegral_mono_on` twice
+5. Tail bounds: `rs_t·Q_b ≥ 0` (non-negative × non-negative), `|D_t·S_b| ≤ μ(tail)` (since $|\alpha - \alpha^*| \leq 1$)
+6. Derivative bound: `d/dt V_body ≤ -rate·V_body + K·μ(tail)` assembled by `ring`/`linarith`
+7. Apply `body_gronwall_from_deriv` (ContinuumDerivedGronwall)
+
+**Closes**: `h_gronwall_from_persist` in `kuramoto_continuum_wired`. The caller (`kuramoto_continuum_wired`) derives $\delta(M)$ from `continuum_body_persistence`, then instantiates `body_gronwall_from_persistence`, providing $C(M) = K\cdot\mu(\{\gamma > M\})/\text{rate}(M)$.
+
+**Remaining hypotheses** (still external to the chain):
+- `hV_body_cont`: $t \mapsto V_{\text{body}}(t)$ is ContinuousOn $[0,\infty)$ — needed by `comparison_decay` in GronwallBridge; hard to prove without `hα_neg`
+- `h_combined_vanish`: $C(M) + \mu(\{\gamma > M\}) \to 0$ as $M \to \infty$ — depends on decay of $g$
+- `h_r_persist`: $r(t) \geq r_{\min} > 0$ for all $t \geq 0$ — r persistence from $\Psi$-growth / instability escape
+- `hα_0_body`: initial body lower bound — $\exists \delta_0 > 0$, $\alpha(\omega, 0) \geq \delta_0$ on $\{\gamma \leq M\}$
+
+## 4c. Proved: body persistence wired in (exp 276)
+
+`ContinuumSolvedWired3.lean` — `kuramoto_continuum_wired3` (0 sorry, 0 axioms):
+
+Eliminates `hα_lb`, `hδ_lb_pos`, and the explicit `δ_lb` function from `kuramoto_continuum_wired2` by deriving body persistence internally via `body_persistence_lower_bound`.
+
+**Key derivation**: `δ_lb M := min (δ₀_body M) (bodyEquilibrium M K r_min)` where `bodyEquilibrium` is the comparison-ODE equilibrium with $\gamma = M$, $r = r_{\min}$. Given $r(t) \geq r_{\min} > 0$ and initial bound $\alpha(\omega,0) \geq \delta_0(M)$ on $\{\gamma \leq M\}$, `body_persistence_lower_bound` proves $\alpha(\omega,t) \geq \min(\alpha(\omega,0), \beta^*) \geq \min(\delta_0(M), \beta^*) = \delta_{\text{lb}}(M)$.
+
+Also eliminates `hr_min_le` ($r_{\min} \leq 1$) by deriving it from `hr_bound + hr_bdd + hr_nn`.
+
+**Remaining open** (3 hypotheses):
+- `hr_star_pos` — $r^* > 0$ (supercritical $K > K_c$)
+- `hμ_body_pos` — $\mu(\{\gamma \leq M\}) > 0$ for each $M > 0$
+- `h_combined_vanish` — $C(M) + \mu(\text{tail}) \to 0$ (depends on $g$'s tail decay)
+
+The combined vanishing hypothesis is now written in fully explicit form:
+$$C(M) = \frac{K\mu(\{\gamma>M\})}{K \cdot \min(\delta_0(M), \beta^*(M)) \cdot \frac{Kr^*}{2M+Kr^*} \cdot \mu(\{\gamma\leq M\})}$$
 
 ## 5. Recommended next steps
 

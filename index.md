@@ -1,9 +1,10 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-07 (ContinuumSolvedWired2.lean, exp 275)_
+_Last regenerated: 2026-05-07 (ContinuumSolvedWired3.lean, exp 276)_
 
 ## Recently Updated
 
+- [[continuum-stability-debate]] — ContinuumSolvedWired3.lean (exp 276): `kuramoto_continuum_wired3` — eliminates hα_lb (body persistence) from kuramoto_continuum_wired2 by wiring in body_persistence_lower_bound. Derives δ_lb M := min(δ₀_body M, bodyEquilibrium M K r_min) and hr_min_le internally. 0 sorry, 0 axioms. Remaining open: hr_star_pos, hμ_body_pos, h_combined_vanish (3 down from 4).
 - [[continuum-stability-debate]] — ContinuumSolvedWired2.lean (exp 275): `kuramoto_continuum_wired2` — eliminates h_gronwall_from_persist from kuramoto_continuum_wired by using body_gronwall_wired internally. Key fix: changed body_gronwall_from_persistence return type from `∃ rate` to `let rate := ...; 0 < rate ∧ ...` to make rate transparent. 0 sorry, 0 axioms. Remaining open: hα_lb, hr_star_pos, hμ_body_pos, h_combined_vanish.
 - [[continuum-stability-debate]] — VBodyContinuous.lean (exp 274): `V_body_continuousOn` and `V_body_continuousOn_prob` — V_body(M,t) = ∫_{γ≤M} (α-α*)² dμ is ContinuousOn on Ici 0. Proof via `continuousOn_of_dominated` with bound 4. Also fixed 25+ compile errors in BodyGronwallBound.lean. Both files: 0 sorry, 0 axioms. Closes `hV_body_cont` gap.
 - [[continuum-stability-debate]] — BodyGronwallBound.lean (exp 273): `body_gronwall_from_persistence` (0 sorry, 0 axioms) — body Gronwall absorbing ball V_body(t) ≤ V_body(0)·exp(-rate·t) + K·μ(tail)/rate. Rate = K·δ·ds·μ(body). Closes h_gronwall_from_persist in kuramoto_continuum_wired. Chain: body Leibniz (hγ_nn, no hα_neg) → per-ω identity → Fubini → coercivity → tail bounds → body_gronwall_from_deriv.

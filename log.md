@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-07] experiment | ContinuumSolvedWired3 compiled — hα_lb eliminated (exp 276)
+
+- hypothesis: wiring body_persistence_lower_bound into kuramoto_continuum_wired2 would eliminate hα_lb (body persistence) from the hypothesis list, reducing open assumptions from 4 to 3.
+- result: confirmed. New file ContinuumSolvedWired3.lean derives δ_lb M := min(δ₀_body M, bodyEquilibrium M K r_min) and calls body_persistence_lower_bound for each (M, ω). Also eliminates hr_min_le (r_min ≤ 1) internally from hr_bound + hr_bdd + hr_nn. Build: 0 errors, 0 sorry. `#print axioms kuramoto_continuum_wired3` → [propext, Classical.choice, Quot.sound].
+- proof details: `body_persistence_lower_bound (γ ω) M K r (α ω) r_min` gives `min (α ω 0) (bodyEquilibrium M K r_min) ≤ α ω t`. Combined with `hα_0_body M hM ω hγω : δ₀_body M ≤ α ω 0` via `min_le_min` to get δ_lb M ≤ α ω t.
+- new theorem `kuramoto_continuum_wired3`: takes r_min + hr_min_pos + hr_bound + δ₀_body + hδ₀_body_pos + hα_0_body + hμ_body_pos + h_combined_vanish. Remaining open: hr_star_pos (r* > 0), hμ_body_pos (body measure positive), h_combined_vanish (tail decay).
+- created: KuramotoLean/ContinuumSolvedWired3.lean
+- updated: syntheses/continuum-stability-debate.md (§4c)
+- index.md: regenerated
+
 ## [2026-05-07] experiment | ContinuumSolvedWired2 compiled — h_gronwall_from_persist eliminated (exp 275)
 
 - hypothesis: changing body_gronwall_from_persistence return type from `∃ rate` to `let rate := ...; 0 < rate ∧ ...` would make the rate transparent to callers, unblocking ContinuumSolvedWired2.
