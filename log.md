@@ -1,5 +1,15 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentEndToEnd compiled — end-to-end convergence from critical coupling (exp 305)
+
+- hypothesis: sc_fixed_point_exists_continuum + v7 combine in 2 lines: obtain r_star, apply v7.
+- result: confirmed. `kuramoto_first_moment_end_to_end` compiles 0 sorry, 0 axioms.
+- proof sketch: `obtain ⟨r_star, hr_pos, hr_lt, hr_sc⟩ := sc_fixed_point_exists_continuum ...`, then `exact ⟨r_star, hr_pos, hr_lt, kuramoto_first_moment_concrete_v7 ... (hα_sq_int r_star) ...⟩`. Key: `hα_sq_int` universally quantified over r_s so we can specialize after extraction.
+- significance: eliminates `(r_star : ℝ) (hr_star_pos) (hr_star_sc)` from signature; replaces with `(h_inv_int) (hK_crit)`; conclusion existential ∃ r_star, r(t) → r_star instead of pointwise convergence to externally supplied r_star.
+- created: KuramotoLean/KuramotoFirstMomentEndToEnd.lean
+- updated: syntheses/continuum-stability-debate.md (+section continuum-end-to-end, exp 305)
+- index.md: regenerated
+
 ## [2026-05-08] experiment | KuramotoContinuumSCFixedPoint compiled — continuum self-consistency fixed point existence (exp 304)
 
 - hypothesis: For K·∫(1/γ)dμ > 2, IVT on Φ(r)=∫explicitEquil(γω,K,r)dμ gives fixed point r*∈(0,1). Key steps: |explicitEquil|≤1 via rationalized form; DCT for continuity and slope limit; explicitEquil_lower for Φ(r₀)>r₀.
