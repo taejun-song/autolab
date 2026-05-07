@@ -1,5 +1,50 @@
 # Activity Log
 
+## [2026-05-08] experiment | KuramotoFirstMomentBarbalat compiled — closes Student-t 1<ν≤2 with γ=|ω| gap (exp 310)
+
+- hypothesis: combining sc_fixed_point_exists_continuum + a new public `kuramoto_standard_tendsto` theorem in ContinuumSolvedFinal.lean (which takes explicit r/α and returns `Tendsto r atTop (nhds r_star)` directly) gives a correct end-to-end theorem for first-moment distributions WITHOUT γ_min or second moment. Key: the body_pair_coercive contradiction route (already in ContinuumSolvedFinal.lean) needs only body persistence + first moment, avoiding the ISS route's need for C(M)→0 (which requires second moment).
+- result: confirmed. `kuramoto_first_moment_barbalat` compiles 0 sorry, 0 axioms. 2702 jobs.
+- proof sketch: (1) sc_fixed_point_exists_continuum gives r_star from K·∫(1/γ)>2. (2) α_star = explicitEquil (γ ω) K r_star derived with V7 technique. (3) hα_sq_int derived from hα_neg + hα_inv via by_cases on t≥0; for t<0, hα_neg reduces to t=0. (4) hγ_int_pos from γ>0 everywhere + IsProbabilityMeasure via integral_pos_iff_support_of_nonneg with support(γ)=univ. (5) kuramoto_standard_tendsto called with all internal derivations.
+- significance: CLOSES the Student-t 1<ν≤2 with γ=|ω| gap. This distribution class has no γ_min>0 and no second moment, so neither ContinuumGammaMinFirstMoment (exp 294, needs γ_min) nor EndToEndWired (exp 309, needs second moment) covers it. FirstMomentBarbalat fills this gap using the body_pair_coercive route which needs only body persistence + first moment.
+- architecture fix: `kuramoto_standard_continuum` is opaque (it is a `theorem`), so calling it with `h_exists = ⟨r, α, ...⟩` and then trying to extract `Tendsto r atTop` fails — `obtain ⟨r', ...⟩` creates a fresh `w✝` that cannot be unified with the original `r`. Solution: added `kuramoto_standard_tendsto` as a new PUBLIC theorem to ContinuumSolvedFinal.lean with identical proof body but explicit r/α arguments, enabling direct return of `Tendsto r atTop (nhds r_star)`.
+- tradeoffs: vs EndToEndWired (exp 309): drops hγ_sq_int + hα_bdd + r₀ + hα_0_explicitEquil + r_min + hr_bound; adds hα_neg + h_body_persist. No wired initialization required, no uniform r persistence, but needs extension convention for t<0 and per-body persistence. First-moment-only coverage is now complete.
+- created: KuramotoLean/KuramotoFirstMomentBarbalat.lean
+- updated: KuramotoLean/ContinuumSolvedFinal.lean (+kuramoto_standard_tendsto public theorem)
+- updated: syntheses/continuum-stability-debate.md (+first-moment-barbalat label, §7 coverage map updated: Student-t 1<ν≤2 γ=|ω| now covered)
+- index.md: regenerated
+
+## [2026-05-08] experiment | KuramotoFirstMomentEndToEndWired compiled — non-vacuous end-to-end for second-moment distributions (exp 309)
+
+- hypothesis: combining sc_fixed_point_exists_continuum + kuramoto_explicit_init_convergence + V7/V9 derivations gives a correct end-to-end theorem for Gaussian/Student-t ν>2 WITHOUT hα_lb (which is vacuous for unbounded γ). Key: replace hα_lb + hμ_body_pos with hγ_sq_int + hα_bdd + hα_0_explicitEquil + hr_bound.
+- result: confirmed. `kuramoto_first_moment_end_to_end_wired` compiles 0 sorry, 0 axioms. 2715 jobs.
+- proof sketch: (1) sc_fixed_point_exists_continuum gives r_star from K·∫(1/γ)>2. (2) α_star = explicitEquil (γ ω) K r_star derived with V7 technique (hα_star_pos, hα_star_lt, hαs_int, hr_star_eq, hα_star_equil). (3) hα_sq_int derived from hα_bdd via V9 technique: for any t, hα_bdd gives 0≤α≤1 and hα_star_pos/lt give 0<α*<1, so (α-α*)²<1; AEStronglyMeasurability from (hα_int t).sub hαs_int; nlinarith closes. (4) kuramoto_explicit_init_convergence called with all internal derivations.
+- significance: first end-to-end theorem that is NON-VACUOUS for Gaussian/Student-t ν>2. EndToEndV3 was vacuous (hα_lb inconsistent with convergence). This version uses per-body initial bound (hα_0_explicitEquil) which decays correctly: δ₀(M) = explicitEquil(M,K,r₀) ~ Kr₀/(2M) → 0 as M→∞, matching equilibrium. Rate C(M) ~ M²·τ(M) → 0 from second moment.
+- tradeoffs: vs EndToEndV3 (hα_lb+hμ_body_pos → hγ_sq_int+hα_bdd+hα_0_explicitEquil+r_min+r₀+hr_cont+hα_cont). Hypothesis count higher but ALL consistent with convergence. First-moment (∫γ<∞) without γ_min>0 still not covered (needs second moment in wired chain for C(M)→0).
+- created: KuramotoLean/KuramotoFirstMomentEndToEndWired.lean
+- updated: syntheses/continuum-stability-debate.md (+§7 hα_lb vacuousness + exp 309 label)
+- index.md: regenerated
+
+## [2026-05-08] query | hα_lb vacuousness analysis — coverage correction for V9/EndToEndV3 chain (post exp 308)
+
+- finding: `hα_lb : ∀ ω t, 0 ≤ t → α₀_lb ≤ α ω t` (with α₀_lb > 0) is inconsistent with convergence for unbounded γ distributions. As t→∞, α(ω,t)→α*(ω)→0 for large γ(ω), so no positive lower bound can hold at equilibrium.
+- consequence: V9/EndToEndV3 claims of covering Gaussian/Student-t are false (vacuously true). True coverage: bounded γ only for V1–V9 chain; wired chain covers Gaussian/Student-t ν>2 correctly.
+- coverage map: bounded γ → V9/EndToEndV3; Gaussian/Student-t ν>2 → wired chain (exp 280-291); Student-t 1<ν≤2 with γ_min>0 → exp 295; Lorentzian → exp 287; Student-t 1<ν≤2 with γ=|ω| → OPEN (body LaSalle gap).
+- rate scaling: global α₀_lb → C(M)~M·τ(M) → first moment; per-body δ(M)~1/M → C(M)~M²·τ(M) → second moment. Per-body is consistent with equilibrium; global is not for unbounded γ.
+- updated: syntheses/continuum-stability-debate.md (§7 hα_lb vacuousness + coverage correction)
+- updated: index.md (regenerated, exps 304-308 in Recently Updated, coverage note in syntheses entry)
+- index.md: regenerated
+
+## [2026-05-08] experiment | KuramotoFirstMomentConcreteV9 + EndToEndV3 compiled — drops hα_neg via hα_bdd (exp 308)
+
+- hypothesis: `hα_neg` (extension convention for t<0) can be replaced by the weaker `hα_bdd : ∀ ω t, 0 ≤ α ω t ∧ α ω t ≤ 1` (global [0,1]-invariance) when deriving `hα_sq_int`. For any t, `0 ≤ α ω t ≤ 1` and `0 < α_star ω < 1` directly give `(α ω t - α_star ω)² ≤ 1` without any case split on sign of t.
+- result: confirmed. Both files compile 0 sorry, 0 axioms. 2710 jobs.
+- proof sketch: V9 proof same structure as V8 but `hα_bdd ω t` replaces `by_cases ht : 0 ≤ t` case split. Single `nlinarith [ha.1, ha.2, hα_star_pos ω, hα_star_lt ω]` closes the bound for all t.
+- hypothesis comparison: V8 takes `hα_neg` (extension convention); V9 takes `hα_bdd` (global invariant). Neither implies the other; `hα_bdd` is physically more natural (OA trajectories remain in [0,1] by invariance).
+- end-to-end V3: same signature as V2 but `hα_bdd` instead of `hα_neg`. Same 2-line proof structure (obtain r_star from sc_fixed_point, apply V9).
+- created: KuramotoLean/KuramotoFirstMomentConcreteV9.lean, KuramotoLean/KuramotoFirstMomentEndToEndV3.lean
+- updated: syntheses/continuum-stability-debate.md (+V9+V3 entry, exp 308)
+- index.md: no
+
 ## [2026-05-08] experiment | KuramotoFirstMomentEndToEndV2 compiled — end-to-end without hα_sq_int or r_star (exp 307)
 
 - hypothesis: Combining V8 (drops hα_sq_int) + sc_fixed_point (drops r_star) gives cleanest end-to-end theorem.

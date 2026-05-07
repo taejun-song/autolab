@@ -3,8 +3,8 @@ type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
 updated: 2026-05-08
-status: v7-minimal-proved
-experiment: 303
+status: v9-no-hα_neg
+experiment: 308
 sources:
   - "[[continuum-l2-lyapunov]]"
   - "[[h-approx-equivalence]]"
@@ -794,3 +794,57 @@ h_body_drop is purely analytic (interchange of limit and integral). No dynamics,
 **continuum-end-to-end** — `kuramoto_first_moment_end_to_end` (KuramotoFirstMomentEndToEnd.lean, 0 sorry, 0 axioms, exp 305): end-to-end convergence without explicit r_star. Given K·∫(1/γ)dμ > 2 + ODE system + persistence, concludes ∃ r_star ∈ (0,1) with r(t) → r_star. Signature: drops (r_star, hr_star_pos, hr_star_sc) from v7; adds (h_inv_int, hK_crit); generalizes hα_sq_int to ∀ r_s. Proof: 2-line application of sc_fixed_point_exists_continuum + v7. Covers any distribution with ∫(1/γ) < ∞ and ∫γ < ∞ (e.g., wired model, Gamma distributions bounded away from 0).
 
 **continuum-sc-fixed-point** — `sc_fixed_point_exists_continuum` (KuramotoContinuumSCFixedPoint.lean, 0 sorry, 0 axioms, exp 304): For $K \cdot \int (1/\gamma)\,d\mu > 2$, proves $\exists r^* \in (0,1)$ with $r^* = \int \mathrm{explicitEquil}(\gamma(\omega), K, r^*)\,d\mu$. Strategy: (1) $\Phi$ continuous by DCT with bound $|\mathrm{explicitEquil}| \leq 1$ (proved via rationalized form $K r/(\gamma+\sqrt{\gamma^2+K^2r^2})$). (2) $\Phi(1) < 1$ via strict pointwise inequality + `integral_pos_iff_support_of_nonneg`. (3) $\Phi(r_0) > r_0$ for small $r_0$: DCT shows $\int K/(2\gamma+Kr)\,d\mu \to (K/2)\int 1/\gamma\,d\mu > 1$; combined with `explicitEquil_lower`. (4) IVT via `isPreconnected_Icc.intermediate_value₂`. Key fixes: `probReal_univ` for $\mu.real(\mathrm{univ})=1$; `nhdsWithin_le_nhds (s := Ioi 0)` for monotone filter; `div_le_one` instead of `div_le_one_of_le`; `eventually_nhdsWithin_iff` (no `Filter.` prefix).
+
+**first-moment-v9** — `kuramoto_first_moment_concrete_v9` (KuramotoFirstMomentConcreteV9.lean, 0 sorry, 0 axioms, exp 308): replaces `hα_neg` in V8 with `hα_bdd : ∀ ω t, 0 ≤ α ω t ∧ α ω t ≤ 1` (global $[0,1]$-invariance of the OA trajectory). Key: the two hypotheses are incomparable (`hα_neg` specifies the value for $t<0$; `hα_bdd` only bounds it); `hα_bdd` is more physically natural (OA trajectories remain in $[0,1]$ by invariance, with no extension convention). Proof: for any $t$, $0 \leq \alpha(\omega,t) \leq 1$ and $0 < \alpha^*(\omega) < 1$ directly give $(\alpha - \alpha^*)^2 \leq 1$ — no case split on sign of $t$ needed. `nlinarith [ha.1, ha.2, hα_star_pos ω, hα_star_lt ω]` closes in one step.
+
+**continuum-end-to-end-wired** — `kuramoto_first_moment_end_to_end_wired` (KuramotoFirstMomentEndToEndWired.lean, 0 sorry, 0 axioms, exp 309): NON-VACUOUS end-to-end for Gaussian/Student-t ν>2. Combines sc_fixed_point + kuramoto_explicit_init_convergence + V7/V9 α_star derivations. Drops `hα_lb` (vacuous for unbounded γ — inconsistent with convergence) and `hμ_body_pos`. Adds `hγ_sq_int` (second moment), `hα_bdd` (trajectory invariance, for hα_sq_int derivation), `hα_0_explicitEquil` (above-equilibrium initialization), `r_min`/`hr_bound` (r persistence). Per-body δ₀(M) = explicitEquil(M,K,r₀) ~ Kr₀/(2M) → 0 matches equilibrium correctly; C(M) ~ M²·τ(M) → 0 from second moment. 2715 jobs.
+
+**continuum-end-to-end-v3** — `kuramoto_first_moment_end_to_end_v3` (KuramotoFirstMomentEndToEndV3.lean, 0 sorry, 0 axioms, exp 308): cleanest end-to-end form with `hα_bdd` instead of `hα_neg`. Combines V9 + sc_fixed_point. Signature: same as V2 with `hα_neg` replaced by `hα_bdd : ∀ ω t, 0 ≤ α ω t ∧ α ω t ≤ 1`. Net: no technical integrability conditions, no extension convention, no explicit $r^*$, no $r^*$ self-consistency input. The global trajectory invariant `hα_bdd` is derivable from `OAScalarBarrier.lean` (`oaScalar_invariant_box` + a trivial extension to all $t \geq 0$).
+
+**first-moment-barbalat** — `kuramoto_first_moment_barbalat` (KuramotoFirstMomentBarbalat.lean, 0 sorry, 0 axioms, exp 310): **CLOSES the Student-t 1<ν≤2 with γ=|ω| gap.** End-to-end for first-moment distributions WITHOUT γ_min or second moment. Combines sc_fixed_point_exists_continuum + new `kuramoto_standard_tendsto` (added to ContinuumSolvedFinal.lean). Key architectural fix: `kuramoto_standard_tendsto` takes explicit r/α and returns `Tendsto r atTop (nhds r_star)` directly — avoids the Lean 4 theorem opacity issue where `obtain ⟨r', ...⟩` from the existential output of `kuramoto_standard_continuum` creates a fresh `w✝` that cannot be unified with the original `r`. By adding `kuramoto_standard_tendsto` to the same file, it accesses private lemmas (`body_pair_coercive`, `q_int_of_gamma_int`, `s_int_bdd`) in-scope. Drops vs EndToEndWired: `hγ_sq_int` (second moment — barrier to Student-t 1<ν≤2), `hα_bdd` + `r₀` + `hα_0_explicitEquil` (wired initialization). Adds vs EndToEndWired: `hα_neg` (extension convention for t<0), `h_body_persist` (body persistence, weaker than wired's `hr_bound`+`hα_0_explicitEquil`). Coverage: ALL distributions with ∫(1/γ)<∞, ∫γ<∞, γ>0 pointwise, body persistence. 2702 jobs.
+
+## 7. Coverage correction: hα_lb vacuousness (post exp 308 analysis)
+
+### The vacuousness issue
+
+The V9/EndToEndV3 chain (and all V1–V8 ancestors) carries the hypothesis:
+```
+hα_lb : ∀ ω t, 0 ≤ t → α₀_lb ≤ α ω t
+```
+where `hα₀_lb_pos : 0 < α₀_lb`. This asserts a **uniform global lower bound**: every oscillator's trajectory stays above $\alpha_{0,\text{lb}} > 0$ for all $t \geq 0$.
+
+**This is inconsistent with convergence for unbounded $\gamma$ distributions.** Reason: as $t \to \infty$, $\alpha(\omega,t) \to \alpha^*(\omega) = (-\gamma(\omega) + \sqrt{\gamma(\omega)^2 + K^2 r^{*2}})/(Kr^*)$. For large $\gamma(\omega)$:
+$$\alpha^*(\omega) = \frac{Kr^*}{2\gamma(\omega) + Kr^*} + O(\gamma^{-2}) \to 0 \text{ as } \gamma(\omega) \to \infty$$
+
+So for any $\alpha_{0,\text{lb}} > 0$, there exist $\omega$ with $\alpha^*(\omega) < \alpha_{0,\text{lb}}$, making $\alpha(\omega,t) < \alpha_{0,\text{lb}}$ for large $t$. The hypothesis `hα_lb` is **unsatisfied at equilibrium** when $\gamma$ is unbounded.
+
+**Consequence**: For Gaussian ($\gamma(\omega) = |\omega|$, $\omega \sim \mathcal{N}(0,\sigma^2)$), Student-$t$ $\nu > 1$, or any distribution with $\gamma$ unbounded above, the theorems `kuramoto_first_moment_concrete_v9` and `kuramoto_first_moment_end_to_end_v3` are **vacuously true** — their hypothesis set is inconsistent, so they prove nothing about actual Kuramoto dynamics on those distributions.
+
+### True coverage map
+
+| Distribution | Covered by | Theorem | Reason |
+|---|---|---|---|
+| Bounded γ (γ ≤ γ_max a.s.) | V9/EndToEndV3 | `kuramoto_first_moment_end_to_end_v3` | hα_lb holds: α* ≥ Kr*/(2γ_max+Kr*) > 0 uniformly |
+| Gaussian / Student-t ν>2 | Wired chain | `kuramoto_explicit_init_convergence` (exp 291) | Second moment + per-body δ(M)=c/M; hα_lb NOT needed |
+| Student-t 1<ν≤2 with γ_min>0 | Wired chain + first moment | `kuramoto_gamma_min_first_moment_concrete` (exp 295) | First moment + γ_min>0 → coercivity constant; hα_lb NOT needed |
+| Lorentzian (Bernoulli closed-form) | Direct | `lorentzian_continuum_V_inf_tendsto_canonical` (exp 287) | r(t) closed-form → V∞→0 via per-ω Gronwall + DCT |
+| Student-t 1<ν≤2 with γ=\|ω\| (γ_min=0) | First-moment Barbalat | `kuramoto_first_moment_barbalat` (exp 310) | Body persistence + body_pair_coercive; no γ_min, no second moment |
+| Compact support, γ ≥ 0 | V9/EndToEndV3 or Wired | Both | hα_lb satisfiable if γ_max < ∞; or wired chain covers |
+
+### Rate scaling argument
+
+The distinction between global and per-body persistence determines which moment condition is needed:
+
+- **Global α₀_lb** (V1–V9): body rate $= K\cdot\alpha_{0,\text{lb}}\cdot\alpha^*_{\min}(M)\cdot\mu(\{\gamma\leq M\})$. Here $\alpha^*_{\min}(M) \sim Kr^*/(2M)$ so rate $\sim K^2 r^* \alpha_{0,\text{lb}}/(2M)\cdot\mu_{\text{body}}(M)$. Absorbing radius $C(M) \sim M\cdot\tau(M) \to 0$ iff $\int\gamma\,d\mu < \infty$ (**first moment sufficient**). BUT $\alpha_{0,\text{lb}}$ cannot hold at equilibrium for unbounded $\gamma$.
+
+- **Per-body δ(M)** (wired chain): body rate $= K\cdot\delta(M)\cdot ds(M)\cdot\mu_{\text{body}}(M)$ where $\delta(M) \sim bodyEquil(M) \sim Kr^*/(2M)$. Then $C(M) \sim M^2\cdot\tau(M) \to 0$ iff $\int\gamma^2\,d\mu < \infty$ (**second moment needed**). Per-body $\delta(M)$ IS consistent with convergence: $\delta(M)$ decreases with $M$, matching $\alpha^*(\omega) \to 0$ for large $\gamma(\omega)$.
+
+### Next experiment direction (exp 309)
+
+The most productive non-vacuous experiment is to eliminate `hα_lb` from the first-moment concrete chain while keeping correctness for Gaussian. Options:
+
+**Option A**: Wire per-body persistence into the first-moment chain (analogous to wired3 → wired5 for the body chain). This would give a `kuramoto_first_moment_wired` theorem taking only `hγ_int` (first moment) and `hδ₀_body_lb : ∃ c > 0, ∀ M, 0 < M → c/M ≤ δ₀_body M`. Coverage: Gaussian + Student-t ν>1.
+
+**Option B**: Extend `kuramoto_explicit_init_wired7` to accept "above-equilibrium" initial conditions relative to some reference $r_0$ (weaker than requiring exactly at equilibrium). This directly models physical initialization where $r(0) = r_0 \approx r^*$ from a warm-start.
+
+The true open mathematical problem remains **Student-t 1<ν≤2 with γ=|ω|** (no γ_min, first moment only): body LaSalle gap — the pair coercivity bound fails for the body-restricted integral under global self-consistency.
