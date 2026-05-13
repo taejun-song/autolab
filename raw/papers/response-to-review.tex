@@ -50,47 +50,49 @@ The manuscript will be revised to clearly separate these three levels and state 
 
 \textbf{Concern:} Is equation~(1) a valid reduction of the complex OA equation? The subspace $y = \mathrm{Im}(a) = 0$ is not invariant unless $\omega x = 0$.
 
-\textbf{Response:} The reviewer is correct that the real subspace $\{y = 0\}$ is \emph{not} invariant under the complex OA flow in general. However, the correct statement involves a \emph{co-rotating frame} combined with the symmetry assumption:
+\textbf{Response:} The reviewer is correct. We accept this point in full.
 
-\begin{proposition}[Real reduction of complex OA]
-Let $g$ be symmetric ($g(-\omega) = g(\omega)$) and let the initial data satisfy $z(\omega, 0) = \overline{z(-\omega, 0)}$ (symmetric initial condition). Define $\alpha(\omega, t) := \mathrm{Re}(z(\omega, t) e^{-i\omega t})$ in the co-rotating frame. Then:
+\textbf{Equation~(1) is NOT a reduction of the standard complex OA equation.} The scalar dissipative model $\dot\alpha = -\gamma(\omega)\alpha + (K/2)r(1-\alpha^2)$ and the complex OA $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$ are \textbf{different dynamical systems}. They share the same equilibrium structure (same self-consistency equation for $r^*$, same fixed points) but have different transient dynamics.
+
+In the revised manuscript, our stability theorem for the \textbf{standard Kuramoto model} proceeds entirely through the complex OA equation:
+
 \begin{enumerate}
-\item The symmetry $z(\omega,t) = \overline{z(-\omega,t)}$ is preserved for all $t$.
-\item Under this symmetry, $\eta(t) = r(t) \in \R$ (the order parameter is real).
-\item In the co-rotating frame, $\alpha$ satisfies a dissipative equation with effective damping.
+\item \texttt{ComplexOAEnergy.lean}: $d\Psi/dt = K|\eta|^2 \geq 0$ (Dietert energy identity, 0 sorry)
+\item \texttt{ComplexOASymmetry.lean}: symmetric $g$ + symmetric initial data $\Rightarrow$ $\eta(t) \in \R$ (0 sorry)
+\item \texttt{ComplexOAStability.lean}: $V$ antitone + $V(0) < (r^*)^2$ $\Rightarrow$ $|\eta| \to r^*$ (0 sorry)
+\item \texttt{FullKuramotoTheorem.lean}: + OA attractivity $\Rightarrow$ full PDE stability (0 sorry + 1 axiom)
 \end{enumerate}
-\end{proposition}
 
-The connection to $\gamma(\omega) = |\omega|$ is addressed in C3 below.
+This proof chain does NOT use equation~(1) at any point. The scalar model result (\texttt{ContinuumSolvedFinal.lean}) is a separate, independent theorem for a related but distinct mean-field system.
 
-We emphasize that the Level~2 result (complex OA stability) does \emph{not} require this reduction. It works directly with the complex equation~(OA) for general (possibly asymmetric) $g$. The scalar real equation~(1) is now presented as a \emph{special case} of the complex result, not as the primary theorem.
-
-The new file \texttt{ComplexOAStability.lean} contains \texttt{complex\_oa\_subsumes\_real}: when $z(\omega,t) \in \R$, the complex order parameter $\eta$ reduces to the real self-consistency integral.
+The revised manuscript will:
+\begin{itemize}
+\item Remove the claim that equation~(1) ``is the OA reduction.''
+\item Present equation~(1) as an independent dissipative mean-field model.
+\item State the complex OA chain as the primary Kuramoto stability result.
+\item Explicitly note (in \texttt{ComplexOAConvergence.lean}) that the two models share equilibria but differ dynamically.
+\end{itemize}
 
 \section*{Response to C3: The Assumption $\gamma(\omega) = |\omega|$}
 
 \textbf{Concern:} The replacement $-i\omega a \leadsto -|\omega| a$ is not standard and requires justification.
 
-\textbf{Response:} The reviewer raises a valid point. The connection between the rotational term $-i\omega z$ and the dissipative term $-\gamma(\omega)\alpha$ requires careful explanation:
+\textbf{Response:} The reviewer is correct. We withdraw the claim that $\gamma(\omega) = |\omega|$ is ``the standard Kuramoto model after reduction.''
 
+The correct statements are:
 \begin{enumerate}[label=(\alph*)]
-\item For the \textbf{Lorentzian} $g(\omega) = \Delta/(\pi(\omega^2 + \Delta^2))$: the reduction to a scalar ODE $\dot r = (K/2 - \Delta)r - (K/2)r^3$ proceeds by residue evaluation at the pole $\omega = -i\Delta$. Here $\gamma = \Delta$ is the width parameter, not $|\omega|$. Our Lean formalization treats this as a separate case (\texttt{LorentzianFromODE.lean}, 0 sorry).
+\item For the \textbf{Lorentzian} $g(\omega) = \Delta/(\pi(\omega^2 + \Delta^2))$: the scalar ODE $\dot r = (K/2 - \Delta)r - (K/2)r^3$ is derived by residue evaluation at $\omega = -i\Delta$. Here $\gamma = \Delta$ (the width parameter), not $|\omega|$. This is machine-checked (\texttt{LorentzianFromODE.lean}, 0 sorry).
 
-\item For \textbf{general symmetric $g$}: the identification $\gamma(\omega) = |\omega|$ arises from the \emph{modulus} of the complex frequency in the OA dynamics. Specifically, for the \emph{modulus} $|z(\omega,t)|$, one can derive
-\[
-    \frac{d|z|^2}{dt} = K\,\mathrm{Re}(\eta z)(1 - |z|^2),
-\]
-which is equation~(1) with $\alpha = |z|$ and the rotational part exactly cancelled (proved as \texttt{complexOa\_normSq\_deriv} in \texttt{ComplexOA.lean}, 0 sorry). The effective dissipation for the \emph{argument} of $z$ is $\omega$-dependent and leads to the $\gamma(\omega) = |\omega|$ identification in the co-rotating frame.
+\item For \textbf{general $g$}: the scalar equation~(1) with $\gamma(\omega) = |\omega|$ is a \textbf{separate model}, not derived from the complex OA. It has the same equilibrium structure as the complex OA (same self-consistency equation, same $r^*$) but different transient dynamics.
 
-\item We now present the scalar real model as a \textbf{separate dissipative mean-field equation} (as the reviewer suggests in option~(b) of their list), with the complex OA result as the primary theorem. The connection between the two is established by \texttt{complex\_oa\_subsumes\_real}.
+\item Our stability theorem for the \textbf{standard Kuramoto model} now proceeds entirely through the complex OA equation (\texttt{ComplexOAConvergence.lean}), which does not involve $\gamma(\omega)$ at all. The complex OA has $-i\omega z$ (rotational), not $-|\omega|\alpha$ (dissipative).
 \end{enumerate}
 
-We will revise the manuscript to:
+The revised manuscript presents:
 \begin{itemize}
-\item Remove the claim that $\gamma(\omega) = |\omega|$ is ``the standard Kuramoto model after reduction.''
-\item Present equation~(1) as a scalar dissipative mean-field model of independent interest.
-\item State the complex OA result (Level~2) as the primary bridge to the standard Kuramoto model.
-\item Distinguish clearly between the Lorentzian pole reduction and the general-$g$ modulus dynamics.
+\item The complex OA stability result as the primary Kuramoto theorem.
+\item Equation~(1) as an independent mean-field model of separate interest.
+\item No claim that $\gamma = |\omega|$ derives from the OA ansatz.
 \end{itemize}
 
 \section*{Response to C4: Equilibrium Profile}
