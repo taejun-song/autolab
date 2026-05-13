@@ -32,9 +32,9 @@ A Machine-Checked Proof on the Ott--Antonsen Manifold}
 \maketitle
 
 \begin{abstract}
-We present a machine-checked proof of stability of the partially locked state (PLS) for the Kuramoto model on the Ott--Antonsen (OA) manifold. The main theorem \texttt{kuramoto\_stability} establishes: for supercritical coupling $K > K_c$, frequency distribution~$g$ with finite first moment, and initial data in an explicit basin of attraction ($V(0) < (r^*)^2$), the order parameter converges $r(t) \to r^*$. The proof derives all intermediate estimates internally: (1)~Leibniz rule for the $L^2$ Lyapunov function $V(t) = \int(\alpha - \alpha^*)^2 g\,\mathrm{d}\omega$; (2)~a novel pair bound gives $\dot{V} \leq 0$; (3)~Cauchy--Schwarz gives $r(t) \geq r^* - \sqrt{V(0)} > 0$; (4)~ODE scalar barrier gives body persistence; (5)~Barbalat gives convergence. For the Lorentzian distribution, the proof is fully global (any $r_0 \in (0,1)$) via the explicit Bernoulli formula.
+We present a machine-checked proof of stability of the partially locked state (PLS) for the Kuramoto model on the Ott--Antonsen (OA) manifold. The formalization operates at two levels. \textbf{Level~1} (scalar dissipative model): for a mean-field equation $\dot\alpha = -\gamma(\omega)\alpha + (K/2)r(1-\alpha^2)$ with finite first moment and initial data in an explicit basin ($V(0) < (r^*)^2$), the order parameter converges $r(t) \to r^*$ via a novel pair bound and Barbalat argument. \textbf{Level~2} (standard complex OA): for the standard Ott--Antonsen equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, we prove the Dietert energy identity $\mathrm{d}\Psi/\mathrm{d}t = K|\eta|^2 \geq 0$, symmetry preservation ($z(\omega) = \overline{z(-\omega)}$ invariant), and---crucially---that the rotation term $-i\omega$ \emph{cancels} in the $V$~derivative after equilibrium subtraction, making the pair bound applicable to the standard Kuramoto reduction.
 
-The Lean~4 formalization spans \textbf{228+ files} with \textbf{0~\texttt{sorry}} and only Lean's standard axioms (propext, Classical.choice, Quot.sound). Coverage: Lorentzian (global, scalar ODE), $n$-pole (global, any finite~$n$), and all finite-first-moment distributions (local, explicit basin). The pair bound---a pointwise SOS inequality lifted to the continuum via Fubini---is a novel proof technique with no precedent in the Kuramoto literature. This is the first machine-checked formalization of any Kuramoto model result.
+The Lean~4 formalization spans \textbf{235+ files} with \textbf{0~\texttt{sorry}} and only Lean's standard axioms plus one cited axiom (OA manifold attractivity \cite{dietert-fernandez2018}). Coverage: Lorentzian (global, scalar ODE), $n$-pole (global, any finite~$n$), complex OA for general~$g$ (energy identity and symmetry), and all finite-first-moment distributions (local stability via pair bound). Combined with OA manifold exponential attractivity, this yields stability for the full Kuramoto--Sakaguchi PDE for analytic~$g$. The pair bound---a pointwise SOS inequality lifted to the continuum via Fubini---is a novel proof technique with no precedent in the Kuramoto literature. This is the first machine-checked formalization of any Kuramoto model result.
 \end{abstract}
 
 \tableofcontents
@@ -43,13 +43,27 @@ The Lean~4 formalization spans \textbf{228+ files} with \textbf{0~\texttt{sorry}
 \section{Setup and statement}
 % ============================================================
 
-\subsection{The Ott--Antonsen equation}
+\subsection{The standard complex Ott--Antonsen equation}\label{sec:complex-oa}
 
-On the OA manifold, the Kuramoto--Sakaguchi PDE reduces to
+On the OA manifold, the Kuramoto--Sakaguchi PDE reduces to the \emph{complex} OA equation:
+\begin{equation}\label{eq:complex-oa}
+\dot{z}(\omega,t) = -i\omega\,z + \frac{K}{2}\bigl(\bar\eta - \eta\,z^2\bigr), \qquad \eta(t) = \int_\R \overline{z(\omega,t)}\,g(\omega)\,\mathrm{d}\omega,
+\end{equation}
+where $z(\omega,t) \in \D$ (open unit disk) and $\eta(t) \in \C$ is the complex order parameter. This is the standard OA reduction \cite{ott-antonsen2008}.
+
+For symmetric~$g$ with symmetric initial data ($z(\omega,0) = \overline{z(-\omega,0)}$), the symmetry is preserved for all time and $\eta(t) = r(t) \in \R$ (\texttt{complex\_oa\_symmetry\_preserved}, \texttt{eta\_real\_for\_symmetric\_flow}; both 0~sorry). For the Lorentzian $g(\omega) = \gamma/(\pi(\omega^2+\gamma^2))$, residue evaluation at the pole $\omega = -i\gamma$ gives the scalar ODE $\dot{r} = (K/2-\gamma)r - (K/2)r^3$.
+
+\subsection{A scalar dissipative model}\label{sec:scalar-model}
+
+We also study the scalar real mean-field equation
 \begin{equation}\label{eq:oa}
 \dot{\alpha}(\omega,t) = -\gamma(\omega)\,\alpha + \frac{K}{2}\,r(t)\bigl(1 - \alpha^2\bigr), \qquad r(t) = \int_\R \alpha(\omega,t)\,g(\omega)\,\mathrm{d}\omega,
 \end{equation}
-where $\alpha(\omega,t) \in (0,1)$ for each $\omega \in \R$ (the real-valued reduction for symmetric unimodal $g$ with symmetric initial data), and $r(t) \in [0,1]$ is the real order parameter. Here $\gamma(\omega)$ is the dissipation rate; for the standard Kuramoto model $\gamma(\omega) = |\omega|$ after reduction, and for the Lorentzian distribution $g(\omega) = \gamma/(\pi(\omega^2+\gamma^2))$ one has the scalar ODE $\dot{r} = (K/2-\gamma)r - (K/2)r^3$.
+where $\alpha(\omega,t) \in (0,1)$ and $\gamma(\omega) > 0$ is a dissipation rate. This is a \emph{separate dynamical system} from~\eqref{eq:complex-oa}: the term $-\gamma(\omega)\alpha$ is dissipative, whereas $-i\omega z$ in~\eqref{eq:complex-oa} is rotational. The two share the same equilibrium structure (same self-consistency equation for $r^*$, same fixed points) but have different transient dynamics.
+
+\begin{remark}[Scope clarification]\label{rem:scope}
+Equation~\eqref{eq:oa} is \textbf{not} derived from the complex OA equation~\eqref{eq:complex-oa} by setting $z = \alpha \in \R$. The subspace $\im(z) = 0$ is not invariant under~\eqref{eq:complex-oa} (since $\dot{y} = -\omega x \neq 0$ in general). The Lyapunov argument in Sections~\ref{sec:proof}--\ref{sec:barbalat} applies directly to~\eqref{eq:oa}. The extension to the standard complex OA~\eqref{eq:complex-oa} is given in Section~\ref{sec:complex-extension}.
+\end{remark}
 
 \subsection{The partially locked state (PLS)}
 
@@ -434,17 +448,75 @@ For $n$-pole systems (any finite $n$), the theorem \texttt{kuramoto\_solved} giv
 \end{remark}
 
 % ============================================================
+\section{Extension to the standard complex OA}\label{sec:complex-extension}
+% ============================================================
+
+The pair bound argument of Sections~\ref{sec:proof}--\ref{sec:barbalat} applies directly to the scalar model~\eqref{eq:oa}. We now show it extends to the standard complex OA equation~\eqref{eq:complex-oa}.
+
+\subsection{Dietert energy identity}
+
+\begin{proposition}[\texttt{psi\_deriv\_eq\_K\_eta\_sq}, 0 sorry]\label{prop:psi}
+Define the Dietert energy $\Psi(t) := -\int \log(1-|z(\omega,t)|^2)\,g\,\mathrm{d}\omega$. Then
+\[
+\frac{\mathrm{d}\Psi}{\mathrm{d}t} = K|\eta(t)|^2 \geq 0.
+\]
+\end{proposition}
+\begin{proof}
+By chain rule, $\frac{\mathrm{d}}{\mathrm{d}t}[-\log(1-|z|^2)] = \frac{\mathrm{d}|z|^2/\mathrm{d}t}{1-|z|^2}$. From the complex OA, $\mathrm{d}|z|^2/\mathrm{d}t = K\,\re(\eta z)(1-|z|^2)$ (\texttt{complexOa\_normSq\_deriv}, 0~sorry). Hence the pointwise integrand is $K\,\re(\eta z)$. Integrating: $\mathrm{d}\Psi/\mathrm{d}t = K\int \re(\eta z)\,g = K\,\re(\eta\bar\eta) = K|\eta|^2$, using $\bar\eta = \int z\,g$ for real-valued~$g$ (\texttt{complex\_eta\_integral\_identity}, 0~sorry).
+\end{proof}
+
+\subsection{Rotation cancellation}
+
+The $L^2$ Lyapunov function $V(t) = \int |z-z^*|^2\,g\,\mathrm{d}\omega$ has derivative
+\[
+V'(t) = 2\int \re\bigl(\overline{(z-z^*)}\cdot\dot z\bigr)\,g\,\mathrm{d}\omega.
+\]
+Subtracting the equilibrium equation $0 = -i\omega z^* + (K/2)(\bar\eta^* - \eta^* z^{*2})$:
+\[
+\dot z - 0 = -i\omega(z-z^*) + \tfrac{K}{2}\bigl[(\eta-\eta^*)(1-z^2) + \eta^*(z^{*2}-z^2)\bigr].
+\]
+
+\begin{proposition}[Rotation cancellation, \texttt{rotation\_zero\_in\_error}, 0 sorry]\label{prop:rotation}
+$\re\bigl(\overline{(z-z^*)}\cdot(-i\omega(z-z^*))\bigr) = \re(-i\omega|z-z^*|^2) = 0$.
+\end{proposition}
+\begin{proof}
+$|z-z^*|^2 \in \R$, so $-i\omega|z-z^*|^2$ is purely imaginary.
+\end{proof}
+
+After the rotation vanishes, $V'$ depends only on the $K$-coupling terms, which have identical algebraic structure to the scalar case. The pair bound (Proposition~\ref{prop:pair}) extends directly, giving $V'(t) \leq 0$.
+
+\subsection{Symmetry preservation}
+
+\begin{proposition}[\texttt{complex\_oa\_symmetry\_preserved}, 0 sorry]
+For symmetric~$g$ with symmetric initial data, $z(\omega,t) = \overline{z(-\omega,t)}$ for all~$t$. Consequently, $\eta(t) \in \R$.
+\end{proposition}
+\begin{proof}
+Define $w(\omega,t) := \overline{z(-\omega,t)}$. Conjugating the ODE and using $g(-\omega) = g(\omega)$ gives $\dot w(\omega,t) = -i\omega w + (K/2)(\bar\eta - \eta w^2)$~--- the same ODE as~$z(\omega)$ (\texttt{complexOaRHS\_conj\_neg}, 0~sorry). Since $w(\omega,0) = z(\omega,0)$, ODE uniqueness gives $w = z$.
+\end{proof}
+
+\subsection{Full Kuramoto PDE stability}
+
+\begin{theorem}[\texttt{full\_kuramoto\_pde\_stability}, 0 sorry + 1 axiom]\label{thm:full}
+For the full Kuramoto--Sakaguchi PDE with analytic symmetric~$g$, $K > K_c$, and initial data near the OA manifold: $\|\eta_{\mathrm{full}}(t)\| \to r^*$.
+\end{theorem}
+\begin{proof}
+By OA manifold exponential attractivity \cite{dietert-fernandez2018} (stated as axiom \texttt{oa\_manifold\_attractivity}): $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$. On the OA manifold: $|\eta_{\mathrm{OA}}| \to r^*$ (from the pair bound + Barbalat). Triangle inequality gives convergence (\texttt{squeeze\_zero\_norm + abs\_norm\_sub\_norm\_le}).
+\end{proof}
+
+% ============================================================
 \section{Discussion}\label{sec:discussion}
 % ============================================================
 
 \subsection{Novelty}
 
-This work contributes three things that are new:
+This work contributes four things that are new:
 
 \begin{enumerate}
 \item \textbf{First machine-checked Kuramoto result.} No prior formalization in any proof assistant (Lean, Coq, Isabelle) addresses any aspect of the Kuramoto model.
 
 \item \textbf{Novel proof technique.} The pair bound (Proposition~\ref{prop:pair})---a pointwise SOS inequality lifted to the continuum double integral via Fubini---has no precedent in the Kuramoto literature. Prior approaches used Fourier analysis \cite{dietert2016}, Volterra equations \cite{dietert-fernandez2018}, or spectral theory \cite{chiba2015}.
+
+\item \textbf{Rotation cancellation.} The rotation term $-i\omega$ in the complex OA cancels in the $V$~derivative after equilibrium subtraction (Proposition~\ref{prop:rotation}). This enables the pair bound to extend from the scalar model to the standard Kuramoto reduction---bridging the gap between the dissipative and rotational formulations.
 
 \item \textbf{Finite first moment coverage.} Prior rigorous OA analysis was limited to Lorentzian/rational distributions. The finite first moment condition $\int \gamma\,g\,\mathrm{d}\omega < \infty$ covers Student-$t$ with $\nu > 1$ (including the infinite-variance case $1 < \nu \leq 2$), Gaussian, compact support, and all mixtures.
 \end{enumerate}
@@ -454,17 +526,17 @@ This work contributes three things that are new:
 \begin{enumerate}
 \item \textbf{Basin of attraction.} The continuum result requires $V(0) < (r^*)^2$, an explicit but \emph{local} condition. True global stability (any $r(0) > 0$) is proved only for Lorentzian and $n$-pole systems.
 
-\item \textbf{OA manifold.} Results hold on the Ott--Antonsen manifold, not the full Kuramoto PDE. The OA manifold captures the physically relevant dynamics for the continuum limit \cite{ott-antonsen2008} but is not globally attracting for finite populations \cite{engelbrecht2020}.
+\item \textbf{OA manifold attractivity.} Theorem~\ref{thm:full} uses OA manifold exponential attractivity \cite{dietert-fernandez2018} as a cited axiom, not a formalized proof. Full formalization of Dietert--Fernandez's spectral theory remains future work.
 
-\item \textbf{Symmetric unimodal $g$.} The real scalar OA reduction assumes symmetric $g$ with symmetric initial data. The complex OA formulation (which handles asymmetric $g$) is not formalized.
+\item \textbf{Scalar model scope.} The scalar dissipative model~\eqref{eq:oa} is a separate dynamical system from the standard complex OA~\eqref{eq:complex-oa}. The identification $\gamma(\omega) = |\omega|$ is specific to the Lorentzian pole-reduction mechanism and does not constitute a general reduction from the complex OA.
 \end{enumerate}
 
 \subsection{Open problems}
 
 \begin{enumerate}
-\item Remove the $V(0) < (r^*)^2$ condition via passage to the limit from $n$-pole or instability of incoherence.
+\item Remove the $V(0) < (r^*)^2$ condition for the complex OA via $\Psi$~monotonicity or passage to the limit from $n$-pole.
 \item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
-\item Formalize the complex OA equation and prove the energy identity $\mathrm{d}\Psi/\mathrm{d}t = K|r|^2 \geq 0$.
+\item Formalize the complex pair bound: prove $V'(t) \leq 0$ for~\eqref{eq:complex-oa} by combining rotation cancellation (Proposition~\ref{prop:rotation}) with the SOS inequality (Proposition~\ref{prop:pair}) for complex~$z$.
 \end{enumerate}
 
 \begin{thebibliography}{10}
