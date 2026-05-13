@@ -483,7 +483,7 @@ $\re\bigl(\overline{(z-z^*)}\cdot(-i\omega(z-z^*))\bigr) = \re(-i\omega|z-z^*|^2
 $|z-z^*|^2 \in \R$, so $-i\omega|z-z^*|^2$ is purely imaginary.
 \end{proof}
 
-After the rotation vanishes, $V'$ depends only on the $K$-coupling terms, which have identical algebraic structure to the scalar case. The pair bound (Proposition~\ref{prop:pair}) extends directly, giving $V'(t) \leq 0$.
+After the rotation vanishes, $V'$ depends only on the $K$-coupling terms. Whether the pair bound (Proposition~\ref{prop:pair}) extends to complex~$z \in \D$ remains an open question (see Open Problem~3). The antitonicity $V'(t) \leq 0$ for the complex OA is \textbf{not yet machine-checked}.
 
 \subsection{Symmetry preservation}
 
@@ -497,11 +497,15 @@ Define $w(\omega,t) := \overline{z(-\omega,t)}$. Conjugating the ODE and using $
 \subsection{Full Kuramoto PDE stability}
 
 \begin{theorem}[\texttt{full\_kuramoto\_pde\_stability}, 0 sorry + 1 axiom]\label{thm:full}
-For the full Kuramoto--Sakaguchi PDE with analytic symmetric~$g$, $K > K_c$, and initial data near the OA manifold: $\|\eta_{\mathrm{full}}(t)\| \to r^*$.
+For the full Kuramoto--Sakaguchi PDE with analytic symmetric~$g$, $K > K_c$: if the OA order parameter converges ($\|\eta_{\mathrm{OA}}(t)\| \to r^*$) and the full PDE approximates the OA trajectory ($\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$), then $\|\eta_{\mathrm{full}}(t)\| \to r^*$.
 \end{theorem}
 \begin{proof}
-By OA manifold exponential attractivity \cite{dietert-fernandez2018} (stated as axiom \texttt{oa\_manifold\_attractivity}): $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$. On the OA manifold: $|\eta_{\mathrm{OA}}| \to r^*$ (from the pair bound + Barbalat). Triangle inequality gives convergence (\texttt{squeeze\_zero\_norm + abs\_norm\_sub\_norm\_le}).
+Triangle inequality: $\bigl|\|\eta_{\mathrm{full}}\| - \|\eta_{\mathrm{OA}}\|\bigr| \leq \|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$. Squeeze gives convergence (\texttt{squeeze\_zero\_norm + abs\_norm\_sub\_norm\_le}, 0~sorry).
 \end{proof}
+
+\begin{remark}[Hypotheses of Theorem~\ref{thm:full}]
+The hypothesis $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$ follows from OA manifold exponential attractivity \cite{dietert-fernandez2018} (stated as axiom \texttt{oa\_manifold\_attractivity}). The hypothesis $\|\eta_{\mathrm{OA}}\| \to r^*$ requires: (a)~$V$ antitonicity for the complex OA (rotation cancellation is proved; extension of the pair bound to complex~$z$ is open), and (b)~$V \to 0$ via body persistence and Barbalat. For the scalar model~\eqref{eq:oa}, both (a) and (b) are machine-checked (0~sorry).
+\end{remark}
 
 % ============================================================
 \section{Discussion}\label{sec:discussion}
