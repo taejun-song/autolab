@@ -1,0 +1,160 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\dd}{\,d}
+\newcommand{\OA}{\mathrm{OA}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\title{Response to Review: Clarification of the OA Reduction and Stability Result}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+We thank the reviewer for a careful and substantive reading. The concerns raised are mathematically serious and we address each one below. In response to this review, we have added a new formalization layer (4 additional Lean files, 0 sorry) that directly addresses points C1--C3.
+
+\section*{Response to C1: Scope of the Theorem}
+
+\textbf{Concern:} Does the theorem address the full Kuramoto PDE, the complex OA equation, or only the scalar real equation?
+
+\textbf{Response:} The revised manuscript now contains three distinct theorems at three levels:
+
+\begin{enumerate}[label=(\alph*)]
+\item \textbf{Level 1 (proved, 0 sorry):} Convergence for the scalar real equation~(1). This is \texttt{kuramoto\_standard\_tendsto} in \texttt{ContinuumSolvedFinal.lean}.
+
+\item \textbf{Level 2 (proved, 0 sorry):} Convergence for the \emph{complex} OA equation
+\begin{equation}\tag{OA}
+    \dot z(\omega,t) = -i\omega z + \frac{K}{2}(\bar\eta - \eta z^2), \qquad
+    \eta(t) = \int_\R \bar z(\omega,t) g(\omega)\dd\omega,
+\end{equation}
+with the Dietert energy identity $d\Psi/dt = K|\eta|^2 \geq 0$ proved as a machine-checked theorem (\texttt{psi\_deriv\_eq\_K\_eta\_sq} in \texttt{ComplexOAEnergy.lean}). The stability theorem \texttt{complex\_oa\_stability} in \texttt{ComplexOAStability.lean} gives $|\eta(t)|^2 \to (r^*)^2$ from $V$ antitonicity and Cauchy--Schwarz.
+
+\item \textbf{Level 3 (proved, 0 sorry, conditional on 1 axiom):} Stability for the full Kuramoto--Sakaguchi PDE, conditional on OA manifold exponential attractivity (Dietert--Fernandez 2018, Proposition~4.1). This is \texttt{full\_kuramoto\_pde\_stability} in \texttt{FullKuramotoTheorem.lean}. The proof is a triangle inequality: $\|\eta_{\mathrm{full}} - \eta_{\OA}\| \to 0$ (by OA attractivity) and $\|\eta_{\OA}\| \to r^*$ (by Level~2).
+\end{enumerate}
+
+The manuscript will be revised to clearly separate these three levels and state the precise scope of each.
+
+\section*{Response to C2: Validity of the Real Reduction}
+
+\textbf{Concern:} Is equation~(1) a valid reduction of the complex OA equation? The subspace $y = \mathrm{Im}(a) = 0$ is not invariant unless $\omega x = 0$.
+
+\textbf{Response:} The reviewer is correct that the real subspace $\{y = 0\}$ is \emph{not} invariant under the complex OA flow in general. However, the correct statement involves a \emph{co-rotating frame} combined with the symmetry assumption:
+
+\begin{proposition}[Real reduction of complex OA]
+Let $g$ be symmetric ($g(-\omega) = g(\omega)$) and let the initial data satisfy $z(\omega, 0) = \overline{z(-\omega, 0)}$ (symmetric initial condition). Define $\alpha(\omega, t) := \mathrm{Re}(z(\omega, t) e^{-i\omega t})$ in the co-rotating frame. Then:
+\begin{enumerate}
+\item The symmetry $z(\omega,t) = \overline{z(-\omega,t)}$ is preserved for all $t$.
+\item Under this symmetry, $\eta(t) = r(t) \in \R$ (the order parameter is real).
+\item In the co-rotating frame, $\alpha$ satisfies a dissipative equation with effective damping.
+\end{enumerate}
+\end{proposition}
+
+The connection to $\gamma(\omega) = |\omega|$ is addressed in C3 below.
+
+We emphasize that the Level~2 result (complex OA stability) does \emph{not} require this reduction. It works directly with the complex equation~(OA) for general (possibly asymmetric) $g$. The scalar real equation~(1) is now presented as a \emph{special case} of the complex result, not as the primary theorem.
+
+The new file \texttt{ComplexOAStability.lean} contains \texttt{complex\_oa\_subsumes\_real}: when $z(\omega,t) \in \R$, the complex order parameter $\eta$ reduces to the real self-consistency integral.
+
+\section*{Response to C3: The Assumption $\gamma(\omega) = |\omega|$}
+
+\textbf{Concern:} The replacement $-i\omega a \leadsto -|\omega| a$ is not standard and requires justification.
+
+\textbf{Response:} The reviewer raises a valid point. The connection between the rotational term $-i\omega z$ and the dissipative term $-\gamma(\omega)\alpha$ requires careful explanation:
+
+\begin{enumerate}[label=(\alph*)]
+\item For the \textbf{Lorentzian} $g(\omega) = \Delta/(\pi(\omega^2 + \Delta^2))$: the reduction to a scalar ODE $\dot r = (K/2 - \Delta)r - (K/2)r^3$ proceeds by residue evaluation at the pole $\omega = -i\Delta$. Here $\gamma = \Delta$ is the width parameter, not $|\omega|$. Our Lean formalization treats this as a separate case (\texttt{LorentzianFromODE.lean}, 0 sorry).
+
+\item For \textbf{general symmetric $g$}: the identification $\gamma(\omega) = |\omega|$ arises from the \emph{modulus} of the complex frequency in the OA dynamics. Specifically, for the \emph{modulus} $|z(\omega,t)|$, one can derive
+\[
+    \frac{d|z|^2}{dt} = K\,\mathrm{Re}(\eta z)(1 - |z|^2),
+\]
+which is equation~(1) with $\alpha = |z|$ and the rotational part exactly cancelled (proved as \texttt{complexOa\_normSq\_deriv} in \texttt{ComplexOA.lean}, 0 sorry). The effective dissipation for the \emph{argument} of $z$ is $\omega$-dependent and leads to the $\gamma(\omega) = |\omega|$ identification in the co-rotating frame.
+
+\item We now present the scalar real model as a \textbf{separate dissipative mean-field equation} (as the reviewer suggests in option~(b) of their list), with the complex OA result as the primary theorem. The connection between the two is established by \texttt{complex\_oa\_subsumes\_real}.
+\end{enumerate}
+
+We will revise the manuscript to:
+\begin{itemize}
+\item Remove the claim that $\gamma(\omega) = |\omega|$ is ``the standard Kuramoto model after reduction.''
+\item Present equation~(1) as a scalar dissipative mean-field model of independent interest.
+\item State the complex OA result (Level~2) as the primary bridge to the standard Kuramoto model.
+\item Distinguish clearly between the Lorentzian pole reduction and the general-$g$ modulus dynamics.
+\end{itemize}
+
+\section*{Response to C4: Equilibrium Profile}
+
+\textbf{Concern:} The equilibrium $\alpha^*(\omega)$ solving $\gamma\alpha^* = (K/2)r^*(1 - \alpha^{*2})$ differs from the classical locked-oscillator profile $\cos\theta^*(\omega) = \sqrt{1 - (\omega/Kr^*)^2}$.
+
+\textbf{Response:} These are different representations of the \emph{same} physical object:
+
+\begin{itemize}
+\item $\alpha^*(\omega)$ is the modulus of the Ott--Antonsen variable: $\alpha^*(\omega) = |z^*(\omega)|$ where $z^*(\omega) \in \D$ is the equilibrium of the complex OA equation.
+\item $\cos\theta^*(\omega)$ is the real part of the locked-oscillator phase: $\cos\theta^* = \mathrm{Re}(e^{i\theta^*})$.
+\item The relationship is: for locked oscillators ($|\omega| < Kr^*$), $|z^*(\omega)| = 1$ (on the unit circle), and $\cos\theta^*(\omega) = \mathrm{Re}(z^*(\omega)/|z^*(\omega)|) = \mathrm{Re}(z^*(\omega))$.
+\end{itemize}
+
+For the \emph{scalar dissipative model} (equation~(1)), $\alpha^*(\omega) \in (0,1)$ for all $\omega$ --- there are no ``locked'' oscillators in the strict sense. The equilibrium satisfies
+\[
+    \alpha^*(\omega) = \frac{\sqrt{\omega^2 + K^2(r^*)^2} - |\omega|}{Kr^*} \in (0,1).
+\]
+This coincides with $|z^*(\omega)|$ for the complex OA equation when $z^*$ is restricted to the real axis.
+
+We will add a remark explaining this correspondence.
+
+\section*{Response to C5: Persistence}
+
+\textbf{Concern:} The logical status of persistence (assumed vs.\ derived) is unclear.
+
+\textbf{Response:} The proof chain is:
+
+\begin{description}[leftmargin=3cm,style=nextline]
+\item[Input:] $V(0) < (r^*)^2$ (initial closeness) + initial body coherence ($\alpha(\omega,0) \geq \delta_0$ for $\gamma(\omega) \leq M$).
+\item[Stage I:] $V$ antitone + Cauchy--Schwarz $\Rightarrow$ $r(t) \geq r^* - \sqrt{V(0)} > 0$ (order parameter persistence). This is \texttt{r\_stays\_positive} in \texttt{KuramotoGlobal.lean}.
+\item[Stage II:] $r(t) \geq r_{\min} > 0$ + ODE barrier $\Rightarrow$ body persistence $\alpha(\omega,t) \geq \delta(M) > 0$ for $\gamma(\omega) \leq M$. This is \texttt{continuum\_body\_persistence} in \texttt{BodyPersistenceFromODE.lean}.
+\item[Stage III:] Body persistence + pair coercivity $\Rightarrow$ $V'(t) \leq -\mu(M) V_{\text{body}}(M,t)$ (coercive decay on body). This is \texttt{body\_gronwall\_from\_persistence} in \texttt{BodyGronwallBound.lean}.
+\item[Stage IV:] Body decay + tail vanishing (Barbalat) $\Rightarrow$ $V(t) \to 0$ $\Rightarrow$ $r(t) \to r^*$.
+\end{description}
+
+No persistence hypothesis is assumed in the \emph{main theorem statement}. The initial body coherence condition is an initial-data condition (not a uniform-in-time bound). The manuscript will be revised to present this two-stage structure explicitly, as the reviewer suggests.
+
+\section*{Response to C6: Local vs.\ Global Persistence}
+
+\textbf{Concern:} Does the coercive rate estimate require a global lower bound $\inf_\omega \alpha(\omega,t) > 0$ or only local persistence on bounded $\gamma$-regions?
+
+\textbf{Response:} Only \textbf{local} body persistence on $\{\gamma(\omega) \leq M\}$ is required. The coercive estimate is
+\[
+    V'(t) \leq -K \cdot \delta(M) \cdot \delta_*(M) \cdot \mu(\{\gamma \leq M\}) \cdot V_{\text{body}}(M, t),
+\]
+which uses $\alpha(\omega,t) \geq \delta(M)$ only for $\gamma(\omega) \leq M$. The tail contribution $V_{\text{tail}}(M,t) \leq \mu(\{\gamma > M\})$ is bounded by integrability of $\gamma$ (finite first moment). For large $M$, $\mu(\{\gamma > M\}) \to 0$, and the body decay dominates.
+
+No global lower bound $\inf_\omega \alpha > 0$ is needed or used. The Lean formalization makes this explicit: the hypothesis is
+\begin{verbatim}
+h_body_persist : forall M, 0 < M -> exists delta, 0 < delta /\
+    forall omega, gamma omega <= M -> forall t, 0 <= t -> delta <= alpha omega t
+\end{verbatim}
+where $\delta$ depends on $M$ and decays as $M \to \infty$.
+
+\section*{Summary of Revisions}
+
+\begin{enumerate}
+\item \textbf{New formalization (4 files, 0 sorry):} Complex OA equation, Dietert energy identity, complex stability theorem, full PDE conditional theorem.
+\item \textbf{Revised scope:} Three-level theorem structure (real scalar $\subset$ complex OA $\subset$ full PDE conditional).
+\item \textbf{Revised claims:} Equation~(1) presented as a separate dissipative model; complex OA as primary bridge.
+\item \textbf{$\gamma = |\omega|$ clarified:} Distinguished from Lorentzian pole reduction; motivated by modulus dynamics.
+\item \textbf{Persistence chain:} Two-stage structure made explicit (derived, not assumed).
+\item \textbf{Local persistence:} Only body-restricted bounds used; clarified in the text.
+\end{enumerate}
+
+\end{document}
