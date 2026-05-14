@@ -66,24 +66,13 @@ while [ $TURN -lt $MAX_TURNS ]; do
   # --- Phase 1: Codex implements ---
   echo "[$(date)] Codex implementing..." | tee -a "$LOG"
 
-  codex exec --dangerously-bypass-approvals-and-sandbox -C "$LEAN_DIR" "You are a Lean 4 proof engineer. Your ONLY job: close the sorry in this file.
-
-TARGET FILE: $LEAN_DIR/KuramotoLean/${TARGET}.lean
-
-CURRENT CONTENT:
-$CURRENT_FILE
-
-PREVIOUS GEMINI FEEDBACK:
-$PREV_GEMINI
-
-RULES:
-- Edit ONLY the target file
-- Run 'cd $LEAN_DIR && lake build KuramotoLean.${TARGET}' to verify
-- If you cannot close the sorry fully, make PARTIAL progress (replace one sorry with a proof + smaller sorry)
-- Commit with 'git -C $LEAN_DIR add KuramotoLean/${TARGET}.lean && git -C $LEAN_DIR commit -m \"progress: turn $TURN\"'
-- State ONE precise mathematical question for the next iteration
-
-DO NOT create new files. DO NOT modify other files." > "$QA/codex-latest.txt" 2>&1 || true
+  cat > "$QA/prompt.txt" << PROMPT
+Close the sorry in $LEAN_DIR/KuramotoLean/${TARGET}.lean.
+Read the file first. Replace each sorry with a proof. Run lake build KuramotoLean.${TARGET} to check.
+If you cannot close all sorry, close as many as possible. Commit progress with git.
+Previous feedback: $PREV_GEMINI
+PROMPT
+  codex exec --dangerously-bypass-approvals-and-sandbox -C "$LEAN_DIR" "$(cat "$QA/prompt.txt")" > "$QA/codex-latest.txt" 2>&1 || true
 
   echo "[$(date)] Codex done ($(wc -l < "$QA/codex-latest.txt") lines)" | tee -a "$LOG"
 
