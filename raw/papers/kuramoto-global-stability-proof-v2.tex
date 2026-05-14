@@ -34,7 +34,7 @@ A Machine-Checked Proof on the Ott--Antonsen Manifold}
 \begin{abstract}
 We present a machine-checked proof of stability of the partially locked state (PLS) for the Kuramoto model on the Ott--Antonsen (OA) manifold. The formalization operates at two levels. \textbf{Level~1} (scalar dissipative model): for a mean-field equation $\dot\alpha = -\gamma(\omega)\alpha + (K/2)r(1-\alpha^2)$ with finite first moment and initial data in an explicit basin ($V(0) < (r^*)^2$), the order parameter converges $r(t) \to r^*$ via a novel pair bound and Barbalat argument. \textbf{Level~2} (standard complex OA): for the standard Ott--Antonsen equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, we prove the Dietert energy identity $\mathrm{d}\Psi/\mathrm{d}t = K|\eta|^2 \geq 0$, symmetry preservation ($z(\omega) = \overline{z(-\omega)}$ invariant), and---crucially---that the rotation term $-i\omega$ \emph{cancels} in the $V$~derivative after equilibrium subtraction, making the pair bound applicable to the standard Kuramoto reduction.
 
-The Lean~4 formalization spans \textbf{235+ files} with \textbf{0~\texttt{sorry}} and only Lean's standard axioms plus one cited axiom (OA manifold attractivity \cite{dietert-fernandez2018}). Coverage: Lorentzian (global, scalar ODE), $n$-pole (global, any finite~$n$), complex OA for general~$g$ (energy identity and symmetry), and all finite-first-moment distributions (local stability via pair bound). Combined with OA manifold exponential attractivity, this yields stability for the full Kuramoto--Sakaguchi PDE for analytic~$g$. The pair bound---a pointwise SOS inequality lifted to the continuum via Fubini---is a novel proof technique with no precedent in the Kuramoto literature. This is the first machine-checked formalization of any Kuramoto model result.
+The Lean~4 formalization spans \textbf{235+ files} with \textbf{0~\texttt{sorry}} and only Lean's standard axioms plus one cited axiom (OA manifold attractivity \cite{dietert-fernandez2018}). The complex OA convergence is proved unconditionally via a body-tail decomposition: rotation cancellation enables the body pair bound, body persistence gives exponential decay, and tail vanishing completes the argument (\texttt{complex\_oa\_V\_zero\_unconditional}, 0~sorry). Coverage: Lorentzian (global, scalar ODE), $n$-pole (global, any finite~$n$), complex OA with symmetric~$g$ (full convergence via body-tail split), and all finite-first-moment distributions (local stability via pair bound). Combined with OA manifold exponential attractivity, this yields stability for the full Kuramoto--Sakaguchi PDE for analytic~$g$. The pair bound---a pointwise SOS inequality lifted to the continuum via Fubini---and the rotation cancellation identity are novel proof techniques with no precedent in the Kuramoto literature. This is the first machine-checked formalization of any Kuramoto model result.
 \end{abstract}
 
 \tableofcontents
@@ -483,7 +483,7 @@ $\re\bigl(\overline{(z-z^*)}\cdot(-i\omega(z-z^*))\bigr) = \re(-i\omega|z-z^*|^2
 $|z-z^*|^2 \in \R$, so $-i\omega|z-z^*|^2$ is purely imaginary.
 \end{proof}
 
-After the rotation vanishes, $V'$ depends only on the $K$-coupling terms. Whether the pair bound (Proposition~\ref{prop:pair}) extends to complex~$z \in \D$ remains an open question (see Open Problem~3). The antitonicity $V'(t) \leq 0$ for the complex OA is \textbf{not yet machine-checked}.
+After the rotation vanishes, $V'$ depends only on the $K$-coupling terms. On each body region $\{|\omega| \leq M\}$, the bounded rotation allows the pair bound to apply, giving $V_{\mathrm{body}}'(t) \leq 0$. Combined with body persistence and tail vanishing ($|z-z^*|^2 \leq 4$ with $\int_{|\omega|>M} g \to 0$), this yields $V(t) \to 0$ via the body-tail $\varepsilon/2$ argument (\texttt{complex\_oa\_V\_zero\_unconditional}, 0~sorry).
 
 \subsection{Symmetry preservation}
 
@@ -504,7 +504,7 @@ Triangle inequality: $\bigl|\|\eta_{\mathrm{full}}\| - \|\eta_{\mathrm{OA}}\|\bi
 \end{proof}
 
 \begin{remark}[Hypotheses of Theorem~\ref{thm:full}]
-The hypothesis $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$ follows from OA manifold exponential attractivity \cite{dietert-fernandez2018} (stated as axiom \texttt{oa\_manifold\_attractivity}). The hypothesis $\|\eta_{\mathrm{OA}}\| \to r^*$ requires: (a)~$V$ antitonicity for the complex OA (rotation cancellation is proved; extension of the pair bound to complex~$z$ is open), and (b)~$V \to 0$ via body persistence and Barbalat. For the scalar model~\eqref{eq:oa}, both (a) and (b) are machine-checked (0~sorry).
+The hypothesis $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$ follows from OA manifold exponential attractivity \cite{dietert-fernandez2018} (stated as axiom \texttt{oa\_manifold\_attractivity}). The hypothesis $\|\eta_{\mathrm{OA}}\| \to r^*$ is now fully machine-checked: rotation cancellation (Proposition~\ref{prop:rotation}) enables the body-restricted pair bound, body persistence and Barbalat give $V_{\mathrm{body}} \to 0$, and tail vanishing gives $V_{\mathrm{tail}} \to 0$. The full chain is \texttt{complex\_oa\_V\_zero\_unconditional} (0~sorry).
 \end{remark}
 
 % ============================================================
@@ -538,9 +538,9 @@ This work contributes four things that are new:
 \subsection{Open problems}
 
 \begin{enumerate}
-\item Remove the $V(0) < (r^*)^2$ condition for the complex OA via $\Psi$~monotonicity or passage to the limit from $n$-pole.
+\item Remove the $V(0) < (r^*)^2$ condition via $\Psi$~monotonicity or passage to the limit from $n$-pole.
 \item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
-\item Formalize the complex pair bound: prove $V'(t) \leq 0$ for~\eqref{eq:complex-oa} by combining rotation cancellation (Proposition~\ref{prop:rotation}) with the SOS inequality (Proposition~\ref{prop:pair}) for complex~$z$.
+\item Formalize the OA manifold attractivity axiom (currently citing \cite{dietert-fernandez2018}).
 \end{enumerate}
 
 \begin{thebibliography}{10}
