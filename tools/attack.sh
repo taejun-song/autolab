@@ -66,7 +66,7 @@ while [ $TURN -lt $MAX_TURNS ]; do
   # --- Phase 1: Codex implements ---
   echo "[$(date)] Codex implementing..." | tee -a "$LOG"
 
-  codex --approval-mode full-auto -q "You are a Lean 4 proof engineer. Your ONLY job: close the sorry in this file.
+  codex exec --dangerously-bypass-approvals-and-sandbox -C "$LEAN_DIR" "You are a Lean 4 proof engineer. Your ONLY job: close the sorry in this file.
 
 TARGET FILE: $LEAN_DIR/KuramotoLean/${TARGET}.lean
 
@@ -103,28 +103,8 @@ DO NOT create new files. DO NOT modify other files." > "$QA/codex-latest.txt" 2>
   CODEX_OUT=$(tail -30 "$QA/codex-latest.txt")
   CURRENT_FILE=$(cat "$TARGET_FILE")
 
-  echo "You are a mathematician reviewing a Lean 4 proof attempt for the Kuramoto complex pair bound.
-
-THE PROBLEM: Prove that V'(t) ≤ 0 for the complex OA equation on the symmetric subspace.
-Key fact already proved: rotation cancels (Re(-iω|z-z*|²) = 0).
-After rotation cancels, V' involves K-coupling terms.
-The real pair bound (for α ∈ (0,1)) IS proved. Need complex extension.
-
-CURRENT LEAN FILE:
-$CURRENT_FILE
-
-CODEX OUTPUT:
-$CODEX_OUT
-
-YOUR TASKS:
-1. Is the approach mathematically correct?
-2. If stuck, suggest a DIFFERENT decomposition or inequality
-3. Identify the exact algebraic obstacle
-4. Propose a concrete next step (state as a Lean theorem signature if possible)
-
-Key insight: on symmetric subspace z(-ω) = conj(z(ω)), so z = x+iy with x even, y odd.
-Self-consistency: r = ∫x·g (imaginary parts cancel by oddness).
-Challenge: cross terms (y-y*)·(2xy) are EVEN and do NOT vanish." | gemini -p "$(cat)" > "$QA/gemini-latest.txt" 2>&1 || true
+  GEMINI_PROMPT="You are a mathematician. Problem: prove V'(t) ≤ 0 for complex OA on symmetric subspace. Rotation cancels (proved). Cross terms (y-y*)(2xy) are even, don't vanish. Real pair bound proved for α∈(0,1). Suggest strategy for complex extension. Codex said: $CODEX_OUT"
+  echo "$GEMINI_PROMPT" | gemini -p "$(cat)" > "$QA/gemini-latest.txt" 2>&1 || echo "Gemini unavailable — Codex solo mode" > "$QA/gemini-latest.txt"
 
   echo "[$(date)] Gemini done ($(wc -l < "$QA/gemini-latest.txt") lines)" | tee -a "$LOG"
 
