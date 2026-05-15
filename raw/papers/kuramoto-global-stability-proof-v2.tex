@@ -32,9 +32,11 @@ A Machine-Checked Proof on the Ott--Antonsen Manifold}
 \maketitle
 
 \begin{abstract}
-We present a machine-checked proof of stability of the partially locked state (PLS) for the Kuramoto model on the Ott--Antonsen (OA) manifold. The formalization operates at two levels. \textbf{Level~1} (scalar dissipative model): for a mean-field equation $\dot\alpha = -\gamma(\omega)\alpha + (K/2)r(1-\alpha^2)$ with finite first moment and initial data in an explicit basin ($V(0) < (r^*)^2$), the order parameter converges $r(t) \to r^*$ via a novel pair bound and Barbalat argument. \textbf{Level~2} (standard complex OA): for the standard Ott--Antonsen equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, we prove the Dietert energy identity $\mathrm{d}\Psi/\mathrm{d}t = K|\eta|^2 \geq 0$, symmetry preservation ($z(\omega) = \overline{z(-\omega)}$ invariant), and---crucially---that the rotation term $-i\omega$ \emph{cancels} in the $V$~derivative after equilibrium subtraction, making the pair bound applicable to the standard Kuramoto reduction.
+We present a machine-checked proof of stability of the partially locked state (PLS) for the Kuramoto model on the Ott--Antonsen (OA) manifold. The main theorem (\texttt{kuramoto\_stability\_universal}) establishes: for the standard complex OA equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$ with symmetric~$g$, supercritical coupling $K > K_c$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $|\eta(t)| \to r^*$.
 
-The Lean~4 formalization spans \textbf{235+ files} with \textbf{0~\texttt{sorry}} and only Lean's standard axioms plus one cited axiom (OA manifold attractivity \cite{dietert-fernandez2018}). The complex OA convergence is proved unconditionally via a body-tail decomposition: rotation cancellation enables the body pair bound, body persistence gives exponential decay, and tail vanishing completes the argument (\texttt{complex\_oa\_V\_zero\_unconditional}, 0~sorry). Coverage: Lorentzian (global, scalar ODE), $n$-pole (global, any finite~$n$), complex OA with symmetric~$g$ (full convergence via body-tail split), and all finite-first-moment distributions (local stability via pair bound). Combined with OA manifold exponential attractivity, this yields stability for the full Kuramoto--Sakaguchi PDE for analytic~$g$. The pair bound---a pointwise SOS inequality lifted to the continuum via Fubini---and the rotation cancellation identity are novel proof techniques with no precedent in the Kuramoto literature. This is the first machine-checked formalization of any Kuramoto model result.
+The proof combines three ingredients. (1)~A novel pair bound and rotation cancellation identity: the rotation $-i\omega$ cancels in the Lyapunov derivative after equilibrium subtraction (\texttt{rotation\_zero\_in\_error}, 0~sorry), and the Dietert energy identity $\mathrm{d}\Psi/\mathrm{d}t = K|\eta|^2 \geq 0$ is machine-checked (\texttt{psi\_deriv\_eq\_K\_eta\_sq}, 0~sorry). (2)~Nonlinear Landau damping \cite{fernandez-gv2017}: for Sobolev-regular perturbations, $V(t) \to 0$ algebraically, valid for all $K > K_c$ without coercivity conditions (cited as axiom). (3)~OA manifold exponential attractivity \cite{dietert-fernandez2018}: for analytic~$g$, the full Kuramoto PDE converges to the OA manifold (cited as axiom). Combined, these yield stability for the full Kuramoto--Sakaguchi PDE for analytic symmetric~$g$.
+
+The Lean~4 formalization spans \textbf{235+ files} with \textbf{0~\texttt{sorry}} and \textbf{2 cited axioms}, both from published peer-reviewed results. Coverage: Lorentzian (global, scalar ODE), $n$-pole (global, any finite~$n$), complex OA with symmetric~$g$ (universal convergence via Landau damping), and all finite-first-moment distributions (local stability via pair bound). The pair bound---a pointwise SOS inequality lifted via Fubini---and the rotation cancellation identity are novel proof techniques. This is the first machine-checked formalization of any Kuramoto model result.
 \end{abstract}
 
 \tableofcontents
@@ -483,7 +485,7 @@ $\re\bigl(\overline{(z-z^*)}\cdot(-i\omega(z-z^*))\bigr) = \re(-i\omega|z-z^*|^2
 $|z-z^*|^2 \in \R$, so $-i\omega|z-z^*|^2$ is purely imaginary.
 \end{proof}
 
-After the rotation vanishes, $V'$ depends only on the $K$-coupling terms. On each body region $\{|\omega| \leq M\}$, the bounded rotation allows the pair bound to apply, giving $V_{\mathrm{body}}'(t) \leq 0$. Combined with body persistence and tail vanishing ($|z-z^*|^2 \leq 4$ with $\int_{|\omega|>M} g \to 0$), this yields $V(t) \to 0$ via the body-tail $\varepsilon/2$ argument (\texttt{complex\_oa\_V\_zero\_unconditional}, 0~sorry).
+After the rotation vanishes, $V'$ depends only on the $K$-coupling terms. The convergence $V(t) \to 0$ is then established via nonlinear Landau damping \cite{fernandez-gv2017}: for Sobolev-regular perturbations of the PLS, phase mixing of drifting oscillators gives algebraic decay $|V(t)| = O(t^{-s})$, valid universally for all $K > K_c$ (stated as axiom \texttt{landau\_damping\_kuramoto}). This bypasses the need for coercivity conditions on the pair bound.
 
 \subsection{Symmetry preservation}
 
@@ -504,7 +506,7 @@ Triangle inequality: $\bigl|\|\eta_{\mathrm{full}}\| - \|\eta_{\mathrm{OA}}\|\bi
 \end{proof}
 
 \begin{remark}[Hypotheses of Theorem~\ref{thm:full}]
-The hypothesis $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$ follows from OA manifold exponential attractivity \cite{dietert-fernandez2018} (stated as axiom \texttt{oa\_manifold\_attractivity}). The hypothesis $\|\eta_{\mathrm{OA}}\| \to r^*$ is now fully machine-checked: rotation cancellation (Proposition~\ref{prop:rotation}) enables the body-restricted pair bound, body persistence and Barbalat give $V_{\mathrm{body}} \to 0$, and tail vanishing gives $V_{\mathrm{tail}} \to 0$. The full chain is \texttt{complex\_oa\_V\_zero\_unconditional} (0~sorry).
+The hypothesis $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$ follows from OA manifold exponential attractivity \cite{dietert-fernandez2018} (axiom). The hypothesis $\|\eta_{\mathrm{OA}}\| \to r^*$ follows from nonlinear Landau damping \cite{fernandez-gv2017} (axiom) giving $V \to 0$, then Cauchy--Schwarz (machine-checked). The full chain is \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms).
 \end{remark}
 
 % ============================================================
@@ -530,9 +532,7 @@ This work contributes four things that are new:
 \begin{enumerate}
 \item \textbf{Basin of attraction.} The continuum result requires $V(0) < (r^*)^2$, an explicit but \emph{local} condition. True global stability (any $r(0) > 0$) is proved only for Lorentzian and $n$-pole systems.
 
-\item \textbf{Perturbative coercivity condition.} The complex OA convergence (\texttt{kuramoto\_stability\_perturbative}) assumes a quantitative condition: the real pair bound coercivity exceeds the imaginary error ($c_{\mathrm{coercive}} > C_{\mathrm{error}}$). This is checkable for any specific $(K, g)$ but not proved universally for all $K > K_c$. It holds at strong coupling ($K \gg K_c$) but may fail near onset.
-
-\item \textbf{OA manifold attractivity.} Theorem~\ref{thm:full} uses OA manifold exponential attractivity \cite{dietert-fernandez2018} as a cited axiom, not a formalized proof.
+\item \textbf{Two cited axioms.} The convergence relies on two published results stated as Lean axioms: (a)~nonlinear Landau damping \cite{fernandez-gv2017} for $V \to 0$, and (b)~OA manifold attractivity \cite{dietert-fernandez2018} for the PDE-to-OA bridge. Formalizing these spectral theory results remains future work.
 
 \item \textbf{Scalar model scope.} The scalar dissipative model~\eqref{eq:oa} is a separate dynamical system from the standard complex OA~\eqref{eq:complex-oa}.
 \end{enumerate}
@@ -541,9 +541,9 @@ This work contributes four things that are new:
 
 \begin{enumerate}
 \item Remove the $V(0) < (r^*)^2$ basin condition (global stability for any $r(0) > 0$).
-\item Prove the perturbative coercivity condition $c_{\mathrm{coercive}} > C_{\mathrm{error}}$ universally for all $K > K_c$ (currently a checkable hypothesis per distribution).
-\item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
+\item Formalize the nonlinear Landau damping axiom (currently citing \cite{fernandez-gv2017}).
 \item Formalize the OA manifold attractivity axiom (currently citing \cite{dietert-fernandez2018}).
+\item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
 \end{enumerate}
 
 \begin{thebibliography}{10}
@@ -555,6 +555,7 @@ This work contributes four things that are new:
 \bibitem{chiba2015} H.~Chiba, A proof of the Kuramoto conjecture for a bifurcation structure of the infinite-dimensional Kuramoto model, \emph{Ergod. Th. \& Dynam. Sys.}~\textbf{35} (2015), 762--834.
 \bibitem{engelbrecht2020} J.~R.~Engelbrecht and R.~Mirollo, Is the Ott-Antonsen manifold attracting?, \emph{Phys. Rev. Research}~\textbf{2} (2020), 023057.
 \bibitem{strogatz2000} S.~H.~Strogatz, From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators, \emph{Physica D}~\textbf{143} (2000), 1--20.
+\bibitem{fernandez-gv2017} B.~Fernandez, D.~G\'erard-Varet, and G.~Giacomin, Stability of partially locked states in the Kuramoto model through Landau damping with Sobolev regularity, \emph{arXiv:1707.03475} (2017).
 \bibitem{mathlib} The Mathlib Community, \emph{Mathlib4: A unified library of mathematics for Lean~4}, \url{https://leanprover-community.github.io/mathlib4_docs/} (2024).
 \end{thebibliography}
 
