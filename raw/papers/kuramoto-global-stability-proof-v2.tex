@@ -530,15 +530,18 @@ This work contributes four things that are new:
 \begin{enumerate}
 \item \textbf{Basin of attraction.} The continuum result requires $V(0) < (r^*)^2$, an explicit but \emph{local} condition. True global stability (any $r(0) > 0$) is proved only for Lorentzian and $n$-pole systems.
 
-\item \textbf{OA manifold attractivity.} Theorem~\ref{thm:full} uses OA manifold exponential attractivity \cite{dietert-fernandez2018} as a cited axiom, not a formalized proof. Full formalization of Dietert--Fernandez's spectral theory remains future work.
+\item \textbf{Perturbative coercivity condition.} The complex OA convergence (\texttt{kuramoto\_stability\_perturbative}) assumes a quantitative condition: the real pair bound coercivity exceeds the imaginary error ($c_{\mathrm{coercive}} > C_{\mathrm{error}}$). This is checkable for any specific $(K, g)$ but not proved universally for all $K > K_c$. It holds at strong coupling ($K \gg K_c$) but may fail near onset.
 
-\item \textbf{Scalar model scope.} The scalar dissipative model~\eqref{eq:oa} is a separate dynamical system from the standard complex OA~\eqref{eq:complex-oa}. The identification $\gamma(\omega) = |\omega|$ is specific to the Lorentzian pole-reduction mechanism and does not constitute a general reduction from the complex OA.
+\item \textbf{OA manifold attractivity.} Theorem~\ref{thm:full} uses OA manifold exponential attractivity \cite{dietert-fernandez2018} as a cited axiom, not a formalized proof.
+
+\item \textbf{Scalar model scope.} The scalar dissipative model~\eqref{eq:oa} is a separate dynamical system from the standard complex OA~\eqref{eq:complex-oa}.
 \end{enumerate}
 
 \subsection{Open problems}
 
 \begin{enumerate}
-\item Remove the $V(0) < (r^*)^2$ condition via $\Psi$~monotonicity or passage to the limit from $n$-pole.
+\item Remove the $V(0) < (r^*)^2$ basin condition (global stability for any $r(0) > 0$).
+\item Prove the perturbative coercivity condition $c_{\mathrm{coercive}} > C_{\mathrm{error}}$ universally for all $K > K_c$ (currently a checkable hypothesis per distribution).
 \item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
 \item Formalize the OA manifold attractivity axiom (currently citing \cite{dietert-fernandez2018}).
 \end{enumerate}
