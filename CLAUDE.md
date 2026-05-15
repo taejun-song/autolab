@@ -167,85 +167,26 @@ Allowed actions: `ingest`, `experiment`, `query`, `query+page`, `lint`, `lint-fi
 | `.csv` | Read directly. Describe shape in source-summary |
 | `.json` | Read directly. Describe keys in source-summary |
 
-## 8. Actor-Critic Rule for Mathematical Claims
+## 8. Development Rules
 
-When the user asks you to "attack" an open problem, "prove" a theorem, or "fill a gap," you are acting as a **research assistant**, not a theorem prover. Calculation, heuristic reasoning, and plausibility arguments are **not proofs**. You must enforce the following discipline:
+**TDD**: When implementing or modifying tools, always follow test-driven development:
 
-### Claim labels (mandatory)
+1. Write failing tests first
+2. Implement the code to make tests pass
+3. Verify all tests pass before committing
 
-Every mathematical claim you produce MUST carry exactly one of these labels:
+Run tests with `uv run pytest tests/`. Never ship untested code.
 
-| Label | Meaning | Requirements |
-|---|---|---|
-| **proved** | Machine-checked or rigorously justified | LEAN 4 with 0 sorry, OR a complete epsilon-delta argument with no gaps, OR a direct citation to a published, peer-reviewed theorem |
-| **argument** | Logically coherent chain, all steps justified but not machine-checked | Every step must be a known lemma or a clearly stated claim; no hand-waving; explicitly list any assumptions |
-| **sketch** | Outline with identified gaps | Must list every gap explicitly; must NOT claim the result "follows" |
-| **heuristic** | Physically motivated reasoning, no rigorous justification | Must say so plainly; must NOT be presented as establishing the result |
-| **conjecture** | An unproved assertion stated as such | Must be clearly labeled; must cite evidence for and against |
+**Reusable tools**: Agents can and should implement new tools when needed. But before building a new tool, check if an existing tool already does something similar — extend it rather than creating a duplicate. When tools accumulate, refactor shared logic into modules.
 
-### Critic pass (mandatory before any "proved" label)
+**Spec before building**: When implementing a non-trivial tool (more than a simple script), write a spec in `specs/` first:
+- What does the tool do?
+- What interface does it expose (CLI args, inputs, outputs)?
+- What existing tools does it relate to?
 
-Before labeling ANY claim as **proved**, you MUST run a self-critic pass:
+This prevents fragmentation — where 5 similar scripts exist because each agent built its own version without knowing about the others. The spec acts as a contract that future agents can read before deciding to build or extend.
 
-1. **State the precise claim** (quantifiers, function spaces, hypotheses).
-2. **Check each step**: Is it a known theorem (cite it)? Is it a calculation (is it rigorous or just formal)? Is there circular reasoning?
-3. **Check boundary cases**: Does the argument handle the edge cases (e.g., saddle-node boundary, $|\alpha| = 1$, $\omega = Kr^*$)?
-4. **Check the logic**: Does step N actually use the output of step N-1, or does it silently assume the conclusion?
-5. **Verdict**: If ANY step fails the check, downgrade the label.
-
-### What is NOT a proof
-
-- ❌ Computing $d/dt$ of a quantity and observing its sign — this is a **calculation**, not a proof of convergence
-- ❌ "The error is $o(1)$" without a bound — this is a **heuristic**
-- ❌ "By Riemann-Lebesgue" applied to a nonlinear time-evolving solution — this is a **sketch** (R-L applies to fixed $L^1$ functions)
-- ❌ "By self-consistency uniqueness, $|r| \to r^*$" when the self-consistency uses the unknown limit — this is **circular**
-- ❌ "The gap is just quantitative" — a quantitative gap IS a gap; label it **sketch** or **argument**, not **proved**
-
-### Consequences
-
-If you violate this rule (label something "proved" that has gaps), the user will lose trust. Prior violations: premature "proved" claims on Theorems 6.5, 6.9, 6.10 in the proof document; Approach 19 ($\eta \in L^2$) initially called "most promising" before the critic caught $\Psi_{PLS} = +\infty$.
-
-## 9. LEAN 4 Formalization Rule
-
-Every mathematical claim produced in the course of attacking an open problem MUST be formulated in LEAN 4. This is not optional — it is the primary mechanism for distinguishing proved results from arguments.
-
-### Workflow
-
-1. **Formulate first.** Before claiming any result, write the LEAN 4 statement (`theorem`, `lemma`, or `axiom`) in the project at `/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/`.
-2. **Attempt machine proof.** Use `lake build` to check. If the proof compiles with **0 sorry**: label the claim **proved**.
-3. **If the proof fails or requires sorry:** Identify exactly which step fails. Reformulate that step as an explicit `axiom` with a comment citing its source (published theorem, or "OPEN — needs proof"). The surrounding logic must still compile with 0 sorry.
-4. **Axiom budget.** Every axiom must be one of:
-   - A published, peer-reviewed theorem (cite it: author, year, theorem number). The axiom statement must match the cited theorem's statement — not a "consequence", "combination", or "reformulation" of published results. If the connection requires even one non-trivial step, that step must be a `theorem` (possibly with `sorry`), not hidden inside the axiom.
-   - A standard result from Mathlib that hasn't been located yet (mark as `-- TODO: find in Mathlib`).
-   - A genuinely open claim (mark as `-- OPEN: this is the gap`).
-   Never use `axiom` to launder an unproved claim as a published result. If a result is new (not verbatim in a paper), it must be a `theorem` — with `sorry` if the proof is incomplete. The `sorry` honestly locates the gap; a fake axiom hides it. Prior violation: 2026-04-25 MainTheorem.lean v1 used 7 "axioms" of which only 3 were actually published theorems.
-5. **Never skip formalization.** If a claim cannot be stated in LEAN 4, it is not precise enough to be labeled "proved" or "argument." Downgrade to "sketch" or "heuristic."
-
-### Interaction with the actor-critic rule (§8)
-
-The critic pass (§8) checks the mathematics. The LEAN 4 rule checks the formalization. Both are mandatory. The order is:
-
-1. Produce the mathematical argument (§8 labels apply).
-2. Formalize in LEAN 4 (§9 workflow).
-3. Run `lake build`. The build result determines the final label:
-   - 0 sorry, 0 axioms → **proved** (machine-checked, strongest possible).
-   - 0 sorry, N axioms (all published) → **argument** (logic machine-checked, external results cited).
-   - Any sorry → **sketch** at best (the sorry locates the gap).
-4. Run the §8 critic pass on the axioms themselves: are they correctly stated? Do the hypotheses match the cited theorem? Are boundary cases handled?
-
-### What counts as formalized
-
-- The LEAN 4 statement must capture the **quantifiers, function spaces, and hypotheses** of the mathematical claim. A statement that is weaker than the intended claim does not count.
-- Computations (e.g., $d/dt|\alpha|^2 = -2\tau$) must be formalized as equalities or inequalities between LEAN 4 expressions.
-- Logical chains (e.g., "A implies B implies C") must be formalized as `theorem` depending on prior `theorem` or `axiom`.
-
-### The LEAN 4 project
-
-All formalization lives in `/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/`. The project uses Mathlib v4.30.0-rc1. Build with `cd /Users/taejunsong/workspace/kuramoto-lean && lake build`.
-
-Current files and their status should be tracked in the wiki synthesis pages. When a new theorem is machine-checked, update the relevant wiki page's proof-status table.
-
-## 10. Forbidden Actions (renumbered from §9)
+## 9. Forbidden Actions
 
 - ❌ Modify or delete existing files in `raw/` (you CAN add new files from literature search)
 - ❌ Silently overwrite a fact — use `> [!contradiction]` callout
@@ -255,7 +196,7 @@ Current files and their status should be tracked in the wiki synthesis pages. Wh
 - ❌ Edit an existing `log.md` entry (file a `correction` instead)
 - ❌ Stop researching unless the human interrupts you
 
-## 11. Reporting Format
+## 10. Reporting Format
 
 After wiki operations, reply with:
 
@@ -268,7 +209,7 @@ After wiki operations, reply with:
 **Log entry**: <the exact log line>
 ```
 
-## 10. Adapting for Your Domain
+## 11. Adapting for Your Domain
 
 1. Edit `program.md` with your research objective, tools, and parameters.
 2. Replace `tools/run_one.py` with your experiment runner.

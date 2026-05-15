@@ -1,6 +1,6 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-08 (KuramotoFirstMomentBarbalat, exp 310)_
+_Last regenerated: 2026-05-08 (order-parameter-persistence + r-stays-positive-strategies)_
 
 ## Recently Updated
 
@@ -96,6 +96,7 @@ _Last regenerated: 2026-05-08 (KuramotoFirstMomentBarbalat, exp 310)_
 - [[order-parameter]] — An order parameter is a scalar (or low-dimensional) quantity whose value distinguishes the phases of a many-body system and serves as the dependent variable in a phase-transition description.
 - [[ott-antonsen-ansatz]] — The Ott-Antonsen ansatz is an exact dimension reduction of the Kuramoto-Sakaguchi equation in which a two-parameter family of densities parameterised by a complex function collapses the nonlinear integro-differential PDE to a closed ODE.
 - [[phase-locked-state]] — A phase-locked state of a coupled-oscillator ensemble is a configuration in which every pairwise phase difference is constant in time, so the whole population rotates rigidly while its shape in phase space is frozen.
+- [[order-parameter-persistence]] — Order parameter persistence is the property that $r(t) \geq r_{\min} > 0$ for all $t \geq 0$ given $r(0) > 0$ and $K > K_c$ in the Ott-Antonsen reduced Kuramoto model.
 - [[synchronization]] — Synchronization is the spontaneous emergence of collective rhythmic order in a population of self-sustained oscillators with differing native frequencies, arising as a phase transition once pairwise coupling exceeds a threshold.
 
 ## Entities
@@ -138,6 +139,7 @@ _(none yet)_
 - [[cooperative-oa-global-stability]] — A focused synthesis assembling the ingredients for Approach 22 (rational approximation + cooperativity) — the most promising attack on full-range global stability of the Kuramoto PLS.
 - [[hyperbolic-lyapunov-attack-on-kuramoto-stability]] — A research hypothesis for a partial resolution of the Kuramoto stability problem by extending the Lipton-Mirollo-Strogatz hyperbolic Lyapunov construction to the Ott-Antonsen manifold.
 - [[kuramoto-stability-state-of-the-art]] — A cross-source synthesis of the current state of the 50-year-old problem of global nonlinear stability of the partially locked state (PLS) of the Kuramoto model.
+- [[r-stays-positive-strategies]] — Synthesis of all mathematical strategies to prove $r(t) \geq r_{\min} > 0$ for the OA Kuramoto model, the single remaining gap in the machine-checked proof.
 - [[research-program]] — A concrete sequence of progressively harder problems, where each level builds on the previous and the final level IS the open problem.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
 

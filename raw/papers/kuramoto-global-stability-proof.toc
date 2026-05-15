@@ -1,0 +1,29 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Main results}{2}{subsection.1.1}%
+\contentsline {section}{\numberline {2}The Ott--Antonsen reduction}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}The OA manifold}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Residue reduction for Lorentzian mixtures}{3}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Convergence to the OA manifold}{4}{section.3}%
+\contentsline {section}{\numberline {4}Global stability on the OA manifold}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Trapping region}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Equilibrium analysis}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Cooperativity}{5}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Fixed point uniqueness}{5}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Global convergence}{5}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Direct algebraic proof for the single Lorentzian}{6}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Proof of the main theorems}{7}{section.5}%
+\contentsline {section}{\numberline {6}A global monotone functional for general analytic $g$}{7}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Global stability for general analytic $g$}{8}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Independent proof at strong coupling via iterative Volterra bootstrap}{9}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Global stability for general analytic $g$}{10}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Slaving principle and scalar reduction}{12}{subsection.6.4}%
+\contentsline {section}{\numberline {7}The $L^2$ Lyapunov function}{14}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Statement and proof}{14}{subsection.7.1}%
+\contentsline {section}{\numberline {8}Discussion}{15}{section.8}%
+\contentsline {subsection}{\numberline {8.1}What is proved}{15}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Ruled-out approaches}{16}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}The ``PLS at infinity'' obstruction --- resolved}{16}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Earlier approaches and the role of cooperativity}{16}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Promising directions from the literature}{17}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}Failure of pointwise Lyapunov kernels}{17}{subsection.8.6}%
+\contentsline {section}{\numberline {9}Lean 4 formalization}{17}{section.9}%

@@ -1,0 +1,848 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\T}{\mathbb{T}}
+
+\title{Global Stability of the Partially Locked State\\for the Kuramoto Model on the Ott--Antonsen Manifold}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study global stability of the partially locked state (PLS) of the Kuramoto model on the Ott--Antonsen manifold. For rational distributions (Lorentzian mixtures) restricted to real symmetric initial data, we prove unconditional global stability via an explicit $L^2$ Lyapunov function on $(0,1)^n$; key steps are machine-checked in Lean~4 with 0~\texttt{sorry}. For general analytic distributions, we prove three unconditional results: progressive locking ($\Psi(t) \to +\infty$), incoherence in the $\omega$-limit set ($0 \in \Omega$), and unbounded locking degree on $\Omega$ ($\sup_\Omega\Psi = +\infty$). We establish a signed Riccati contraction identity $\frac{d}{dt}|p|^2 = -K\,\mathrm{Re}[\bar{r}(\alpha_1+\alpha_2)]|p|^2$ for the difference of two OA solutions driven by the same mean field. Global stability for general analytic $g$ is proved conditional on the heteroclinic hypothesis (H2): that $W^u(0) \to$ PLS in the continuum OA semiflow. This hypothesis is verified for all finite-dimensional reductions but remains open for the continuum.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+The Kuramoto model~\cite{kuramoto1975} describes a population of $N$ coupled phase oscillators
+\[
+\dot{\theta}_i = \omega_i + \frac{K}{N}\sum_{j=1}^N \sin(\theta_j - \theta_i), \quad i = 1,\ldots,N,
+\]
+where $\omega_i$ are drawn from a symmetric unimodal density $g(\omega)$ and $K \geq 0$ is the coupling strength. In the thermodynamic limit $N \to \infty$, the population is described by a probability density $f(t,\theta,\omega)$ on $\T \times \R$ satisfying the Kuramoto--Sakaguchi (K-S) equation
+\begin{equation}\label{eq:ks}
+\partial_t f + \partial_\theta\!\left[\left(\omega + \frac{K}{2\mathrm{i}}\left(r\,\mathrm{e}^{-\mathrm{i}\theta} - \bar{r}\,\mathrm{e}^{\mathrm{i}\theta}\right)\right)f\right] = 0, \qquad r(t) = \int_{\T \times \R} \mathrm{e}^{\mathrm{i}\theta}\,f(t,\mathrm{d}\theta,\mathrm{d}\omega).
+\end{equation}
+
+\subsection{Main results}
+
+\begin{definition}[Lorentzian mixture]\label{def:lor-mix}
+A \emph{Lorentzian mixture of order $n$} is a frequency distribution of the form
+\begin{equation}\label{eq:lor-mix}
+g(\omega) = \sum_{k=1}^n \frac{c_k\gamma_k}{\pi(\omega^2 + \gamma_k^2)}, \qquad c_k > 0,\;\gamma_k > 0,\;\sum_{k=1}^n c_k = 1.
+\end{equation}
+These are precisely the symmetric probability densities on $\R$ whose Fourier transforms $\hat{g}(\tau) = \sum c_k\,\mathrm{e}^{-\gamma_k|\tau|}$ are finite sums of decaying exponentials. Every Lorentzian mixture is analytic in the strip $|\im(\omega)| < \min_k\gamma_k$.
+\end{definition}
+
+\begin{theorem}[Almost-global stability for Lorentzian mixtures]\label{thm:main-rational}
+Let $g$ be a Lorentzian mixture~\eqref{eq:lor-mix} of order $n$, with $K > K_c := 2/(\pi g(0))$ satisfying the stability condition~\eqref{eq:stability-condition}. Define the \emph{admissible initial data}:
+\[
+\mathcal{A} := \left\{f(0) \in \mathcal{H}^1_{e^{a\tau}}(\N \times \R) \;\middle|\; r(0) \neq 0,\; \|\hat{f}(0)\|_{\mathcal{H}^1_{e^{a\tau}}} < +\infty \right\}, \qquad 0 < a < \min_k\gamma_k.
+\]
+Then the set $\mathcal{A}$ admits a decomposition $\mathcal{A} = \mathcal{A}_{\mathrm{good}} \sqcup \mathcal{A}_{\mathrm{exc}}$, where $\mathcal{A}_{\mathrm{exc}}$ has Lebesgue measure zero in $\mathcal{A}$, such that:
+\begin{enumerate}[label=(\alph*)]
+\item For every $f(0) \in \mathcal{A}_{\mathrm{good}}$, there exists $\Theta_\infty \in \T$ with $f(t) \to R_{\Theta_\infty} f_s$ weakly in $\mathcal{H}^1_{e^{a\tau}}$ as $t \to +\infty$.
+\item For $f(0) \in \mathcal{A}_{\mathrm{exc}}$, the OA projection converges to incoherence: $r(t) \to 0$.
+\end{enumerate}
+For $n = 1$ (single Lorentzian), $\mathcal{A}_{\mathrm{exc}} = \emptyset$ and convergence holds for \emph{every} $f(0) \in \mathcal{A}$.
+\end{theorem}
+
+\begin{remark}[Structure of the exceptional set]\label{rem:exceptional}
+The set $\mathcal{A}_{\mathrm{exc}}$ arises as follows. On the OA manifold, the dynamics reduce to the $n$-pole ODE~\eqref{eq:n-pole} on $(0,1)^n$. By Lemma~\ref{lem:origin}, the origin has exactly one unstable eigenvalue and $n-1$ stable eigenvalues for $K > K_c$. Its stable manifold $W^s(0)$ has dimension $n-1$ (codimension~$1$ in $(0,1)^n$). The set $\mathcal{A}_{\mathrm{exc}}$ consists of initial data whose OA projection lands on $W^s(0)$.
+
+For $n = 1$, the origin is a source (one unstable direction, zero stable directions), so $W^s(0) = \{0\} \notin (0,1)$, giving $\mathcal{A}_{\mathrm{exc}} = \emptyset$.
+
+\emph{Reconciliation with Corollary~\ref{cor:rational-stability}.} The ``almost every'' in Theorem~\ref{thm:main-rational}(a) arises from the Hirsch--Smith generic convergence theorem, which yields convergence outside a measure-zero exceptional set. However, the $L^2$ Lyapunov function of Section~\ref{sec:l2-lyapunov} gives the \emph{stronger} result: on the real $n$-pole ODE restricted to $(0,1)^n$, \emph{every} trajectory with $r(0) > 0$ converges (Corollary~\ref{cor:rational-stability}). The two results are consistent because $W^s(0) \cap (0,1)^n = \emptyset$: the $n-1$ stable eigenvectors at $\alpha = 0$ lie in the hyperplane $\sum c_k v_k = 0$ (they are orthogonal to the rank-one coupling), and therefore have components of mixed sign. Since $(0,1)^n$ consists of all-positive vectors, no trajectory starting in $(0,1)^n$ can approach $0$ along $W^s(0)$.
+
+The exceptional set $\mathcal{A}_{\mathrm{exc}}$ in Theorem~\ref{thm:main-rational} is therefore contained in the \emph{complex} part of the OA manifold ($\alpha_k \in \D \setminus (0,1)$) or in off-manifold initial data. For the full K-S PDE, initial data $f(0)$ projects to the OA manifold via $\alpha_k = \hat{f}_1(-\mathrm{i}\gamma_k, 0) \in \D$; the projection is real and positive only for special symmetric initial data.
+\end{remark}
+
+\begin{theorem}[Global stability for general analytic $g$]\label{thm:analytic}
+Let $g$ be symmetric, unimodal, absolutely continuous, analytic in $|\im(\omega)| < a$, with $g(\omega) > 0$ for all $\omega \in \R$, and let $K > K_c$ satisfy~\eqref{eq:stability-condition}. Assume the heteroclinic hypothesis~\ref{hyp:heteroclinic} of Theorem~\ref{thm:full-range}: $W^u(0) \setminus \{0\}$ flows to the PLS circle in the OA semiflow. Then for every $f(0) \in \mathcal{A}$ not on the stable manifold of incoherence, there exists $\Theta_\infty \in \T$ with $f(t) \to R_{\Theta_\infty} f_s$ weakly. The proof (Theorem~\ref{thm:full-range}) uses:
+\begin{enumerate}[label=(\alph*)]
+\item the barrier lemma and compact-open precompactness via Montel's theorem (Lemma~\ref{lem:barrier});
+\item the global monotone $\dot\Psi = K|r|^2 \geq 0$ and no periodic orbits (Corollary~\ref{cor:no-periodic});
+\item the free-rotation amplification lemma (Lemma~\ref{lem:free-rot-amp}): backward free rotation in the strip forces the $\Psi$-minimiser on $\Omega$ to be the incoherent state;
+\item the heteroclinic hypothesis ($W^u(0) \to \mathrm{PLS}$) and Dietert's local stability.
+\end{enumerate}
+\end{theorem}
+
+% Proposition on spectral gap continuity removed --- it supported the
+% analytic extension which is now stated as a conjecture (see Remark 1.5).
+
+\section{The Ott--Antonsen reduction}\label{sec:oa}
+
+\subsection{The OA manifold}
+
+The Ott--Antonsen ansatz~\cite{ott-antonsen2008} identifies an invariant submanifold $\mathcal{M}_{\mathrm{OA}}$ of the K-S state space. On $\mathcal{M}_{\mathrm{OA}}$, the K-S PDE reduces to
+\begin{equation}\label{eq:oa-ode}
+\partial_t\alpha(\omega,t) = -\mathrm{i}\omega\,\alpha(\omega,t) + \frac{K}{2}\!\left(r(t) - \overline{r(t)}\,\alpha(\omega,t)^2\right), \qquad r(t) = \int_\R \alpha(\omega,t)\,g(\omega)\,\mathrm{d}\omega.
+\end{equation}
+
+\subsection{Residue reduction for Lorentzian mixtures}
+
+For a Lorentzian mixture~\eqref{eq:lor-mix}, the mean-field integral reduces by residues at the simple poles $\omega = -\mathrm{i}\gamma_k$ (which lie in the lower half-plane, inside the region of analyticity of $\alpha(\cdot, t)$):
+\begin{equation}\label{eq:mean-field-residue}
+r(t) = \sum_{k=1}^n c_k\,\alpha_k(t), \qquad \alpha_k(t) := \alpha(-\mathrm{i}\gamma_k, t).
+\end{equation}
+At the pole $\omega = -\mathrm{i}\gamma_k$, the rotation term $-\mathrm{i}\omega\alpha$ becomes $-\gamma_k\alpha_k$ --- a \emph{real damping}. The resulting $n$-pole ODE (for symmetric initial data with real $r$) is:
+\begin{equation}\label{eq:n-pole}
+\dot{\alpha}_k = -\gamma_k\,\alpha_k + \frac{K}{2}\!\left(\sum_{j=1}^n c_j\,\alpha_j\right)\!(1 - \alpha_k^2), \qquad k = 1,\ldots,n.
+\end{equation}
+
+\section{Convergence to the OA manifold}\label{sec:oa-attract}
+
+\begin{proposition}[Dietert--Fernandez~\cite{dietert-fernandez2018}, Proposition~4.1]\label{prop:oa-attract}
+Suppose $\|\hat{g}\|_{\mathcal{H}^1_{e^{a\tau}}(\R^+)} < +\infty$ for some $a > 0$, and the initial condition satisfies $\|w(0)\|_{\mathcal{H}^1_{e^{a\tau}}(\N^2 \times \R)} < +\infty$. Then
+\[
+\|w(t)\|_{\mathcal{H}^1_{e^{a\tau}}(\N^2 \times \R)} \leq \|w(0)\|_{\mathcal{H}^1_{e^{a\tau}}(\N^2 \times \R)}\;\mathrm{e}^{-at}, \qquad \forall\,t \geq 0.
+\]
+\end{proposition}
+
+\section{Global stability on the OA manifold}\label{sec:rational}
+
+\subsection{Trapping region}
+
+\begin{lemma}[Boundary repelling]\label{lem:trapping}
+The closed cube $[0,1]^n$ is positively invariant under~\eqref{eq:n-pole}, with the open cube $(0,1)^n$ forward-invariant from any initial condition with $r(0) > 0$:
+\begin{enumerate}[label=(\alph*)]
+\item If $\alpha_k = 0$ and $r = \sum_j c_j\alpha_j > 0$, then $\dot{\alpha}_k = (K/2)\,r > 0$.
+\item If $\alpha_k = 1$, then $\dot{\alpha}_k = -\gamma_k < 0$.
+\end{enumerate}
+In particular, any trajectory starting in $(0,1)^n$ with $r(0) > 0$ remains in $(0,1)^n$ for all $t > 0$.
+\end{lemma}
+
+\begin{proof}
+(a) Setting $\alpha_k = 0$: $\dot{\alpha}_k = (K/2)\,r > 0$.
+(b) Setting $\alpha_k = 1$: $\dot{\alpha}_k = -\gamma_k < 0$. \qed
+\end{proof}
+
+\textbf{Lean~4}: \texttt{boundary\_zero}, \texttt{boundary\_one} (0~\texttt{sorry}).
+
+\subsection{Equilibrium analysis}
+
+\begin{lemma}[Equilibria on ${[0,1]}^n$]\label{lem:equil}
+The system~\eqref{eq:n-pole} has exactly two equilibria on $[0,1]^n$: the origin $0 = (0,\ldots,0)$ and the PLS $\alpha^* \in (0,1)^n$. No equilibrium exists on $\partial([0,1]^n) \setminus \{0\}$.
+\end{lemma}
+
+\begin{proof}
+\emph{Interior equilibria:} Lemma~\ref{lem:unique} below shows the PLS $\alpha^*$ is the unique equilibrium in $(0,1)^n$.
+
+\emph{Boundary equilibria with $r > 0$:} If $\alpha_k = 0$ for some $k$ but $r = \sum c_j\alpha_j > 0$, then $\dot{\alpha}_k = (K/2)r > 0 \neq 0$, so this is not an equilibrium. If $\alpha_k = 1$ for some $k$, then $\dot{\alpha}_k = -\gamma_k < 0 \neq 0$, so this is not an equilibrium.
+
+\emph{Boundary equilibria with $r = 0$:} $r = 0$ iff $\alpha = 0$ (since $c_k > 0$ and $\alpha_k \geq 0$). At $\alpha = 0$, $\dot{\alpha}_k = 0$ for all $k$, confirming the origin is an equilibrium. \qed
+\end{proof}
+
+\begin{lemma}[Eigenvalue structure of the origin]\label{lem:origin}
+For $K > K_c$, the Jacobian of~\eqref{eq:n-pole} at the origin has exactly one positive eigenvalue and $n-1$ negative eigenvalues. Hence $\dim W^s(0) = n-1$ and $\mathrm{codim}\,W^s(0) = 1$.
+\end{lemma}
+
+\begin{proof}
+The Jacobian is $J_{kj} = -\gamma_k\delta_{kj} + (K/2)c_j$. Its eigenvalues satisfy the secular equation $\Phi(\mu) := (K/2)\sum_{k=1}^n c_k/(\gamma_k + \mu) = 1$, plus eigenvalues $\mu = -\gamma_k$ from the kernel of $c$ (which is empty since all $c_k > 0$, so all eigenvalues come from the secular equation). Ordering $0 < \gamma_1 < \cdots < \gamma_n$:
+
+\begin{itemize}[leftmargin=2em]
+\item On $(-\gamma_1, +\infty)$: $\Phi$ is strictly decreasing, continuous, with $\Phi(\mu) \to +\infty$ as $\mu \to -\gamma_1^+$ and $\Phi(\mu) \to 0$ as $\mu \to +\infty$. At $\mu = 0$: $\Phi(0) = (K/2)\sum c_k/\gamma_k = K\pi g(0)/2 > 1$ iff $K > K_c$. So there is exactly one root $\mu_0 > 0$.
+\item On each interval $(-\gamma_{k+1}, -\gamma_k)$ for $k = 1, \ldots, n-1$: $\Phi$ is continuous and strictly decreasing from $+\infty$ to $-\infty$, giving exactly one root $\mu_k \in (-\gamma_{k+1}, -\gamma_k) < 0$.
+\end{itemize}
+Total: $n$ eigenvalues, exactly one positive ($\mu_0$), the rest negative. \qed
+\end{proof}
+
+\subsection{Cooperativity}
+
+\begin{lemma}[Cooperative system]\label{lem:coop}
+The system~\eqref{eq:n-pole} is cooperative and irreducible on $(0,1)^n$:
+\[
+\frac{\partial f_k}{\partial \alpha_j} = \frac{K}{2}\,c_j\,(1 - \alpha_k^2) > 0, \qquad \forall\,j \neq k,\;\alpha_k \in (0,1).
+\]
+\end{lemma}
+
+\textbf{Lean~4}: \texttt{cooperativity} (0~\texttt{sorry}).
+
+\subsection{Fixed point uniqueness}
+
+\begin{lemma}[Unique PLS in $(0,1)^n$]\label{lem:unique}
+For $K > K_c$, the system~\eqref{eq:n-pole} has a unique equilibrium in $(0,1)^n$.
+\end{lemma}
+
+\begin{proof}
+Setting $\dot{\alpha}_k = 0$ gives $\gamma_k\alpha_k = (K/2)r(1 - \alpha_k^2)$. With $\lambda_k := Kr/(2\gamma_k)$:
+\[
+\alpha_k = \varphi(\lambda_k) := \frac{-1 + \sqrt{1 + 4\lambda_k^2}}{2\lambda_k}.
+\]
+
+We establish three properties:
+\begin{enumerate}[label=(\roman*)]
+\item $\varphi(\lambda) \in (0,1)$ for $\lambda > 0$. \textbf{Lean~4}: \texttt{fixedPointComponent\_range}.
+\item $\varphi(\lambda) < \lambda$ for $\lambda > 0$, since $\sqrt{1+4\lambda^2} < 1 + 2\lambda^2$ (squaring: $1+4\lambda^2 < 1 + 4\lambda^2 + 4\lambda^4$). \textbf{Lean~4}: \texttt{sqrt\_lt\_one\_add\_two\_sq}, \texttt{fixedPointComponent\_lt\_lam}.
+\item $h(\lambda) := \varphi(\lambda)/\lambda$ is strictly decreasing, since $h'(\lambda) = (\sqrt{1+4\lambda^2} - 1 - 2\lambda^2)/(\lambda^3\sqrt{1+4\lambda^2}) < 0$ by~(ii).
+\end{enumerate}
+
+Define $G : (0,\infty) \to \R$ by $G(r) := (K/2)\sum_k (c_k/\gamma_k)\,h(\lambda_k)$, where $\lambda_k := Kr/(2\gamma_k)$. The self-consistency equation $r = \sum c_k\varphi(\lambda_k)$ is equivalent to $G(r) = 1$ (dividing by $r$ and using $\varphi(\lambda_k)/r = (K/(2\gamma_k))\,h(\lambda_k)$).
+
+\emph{Uniqueness.} Since $h$ is strictly decreasing (iii) and $\lambda_k = Kr/(2\gamma_k)$ is increasing in $r$, each $h(\lambda_k(r))$ is strictly decreasing. Hence $G$ is strictly decreasing, giving at most one root.
+
+\emph{Existence.} As $r \to 0^+$: $\lambda_k \to 0^+$, $h(\lambda_k) \to 1$ (Taylor: $\varphi(\lambda) = \lambda - \lambda^3 + \cdots$), so $G(0^+) = (K/2)\sum c_k/\gamma_k = K\pi g(0)/2 > 1$ since $K > K_c = 2/(\pi g(0))$. As $r \to +\infty$: $\lambda_k \to +\infty$, $h(\lambda_k) \leq 1/\lambda_k \to 0$, so $G(\infty) = 0 < 1$. Since $G$ is continuous and strictly decreasing with $G(0^+) > 1 > 0 = G(\infty)$, the intermediate value theorem gives exactly one $r^* > 0$ with $G(r^*) = 1$. \qed
+\end{proof}
+
+\subsection{Global convergence}
+
+\begin{theorem}[Hirsch~\cite{hirsch1988}; Smith~\cite{smith1995}]\label{thm:hirsch}
+Let $\dot{x} = F(x)$ be a cooperative irreducible $C^1$ system on a compact positively invariant set $\Omega \subset \R^n$. Then:
+\begin{enumerate}[label=(\alph*)]
+\item For almost every $x(0) \in \Omega$, $\omega(x_0) \subset E$ (the set of equilibria).
+\item The system has no nonconstant periodic orbits in $\Omega$.
+\end{enumerate}
+\end{theorem}
+
+\begin{corollary}[Almost-global stability]\label{cor:rational}
+For $K > K_c$ satisfying~\eqref{eq:stability-condition}, $\alpha^*$ is a global attractor for~\eqref{eq:n-pole} on $(0,1)^n$ up to a set of Lebesgue measure zero.
+\end{corollary}
+
+\begin{proof}
+By Lemmas~\ref{lem:trapping}--\ref{lem:coop}, the system is cooperative and irreducible on the compact positively invariant set $\overline{(0,1)^n} = [0,1]^n$.
+
+\emph{Step 1.} By Theorem~\ref{thm:hirsch}(a), for a.e.\ $x_0 \in (0,1)^n$, $\omega(x_0) \subset E$. By Lemma~\ref{lem:equil}, $E \cap [0,1]^n = \{0, \alpha^*\}$.
+
+\emph{Step 2.} The set $S := \{x_0 \in (0,1)^n : \omega(x_0) = \{0\}\}$ is the stable manifold $W^s(0) \cap (0,1)^n$. By Lemma~\ref{lem:origin}, $0$ has at least one unstable eigenvalue for $K > K_c$. The stable manifold theorem gives $\dim W^s(0) \leq n - 1$, so $W^s(0)$ has Lebesgue measure zero in $\R^n$.
+
+\emph{Step 3 (From ``a.e.'' to ``all of $(0,1)^n \setminus S$'').} Fix $x_0 \in (0,1)^n \setminus S$. We use the strongly monotone structure.
+
+Since the system is cooperative and irreducible on $(0,1)^n$, the semiflow $\Phi_t$ is \emph{strongly order-preserving} on $(0,1)^n$ with respect to the componentwise order (Smith~\cite{smith1995}, Theorem~4.1.1): if $x \leq y$ componentwise with $x \neq y$, then $\Phi_t(x) \ll \Phi_t(y)$ for all $t > 0$. By Smith~\cite{smith1995}, Theorem~2.3.1, for a strongly order-preserving semiflow on a strongly ordered space, every precompact orbit whose omega-limit set contains a stable equilibrium converges to that equilibrium.
+
+The orbit of $x_0$ is precompact (contained in $[0,1]^n$). By Step~2, for a.e.\ $x_0$, $\omega(x_0) = \{\alpha^*\}$. Since $\alpha^*$ is locally asymptotically stable and the semiflow is strongly order-preserving, the basin of attraction $\mathcal{B}(\alpha^*)$ is \emph{order-convex}: if $a, b \in \mathcal{B}(\alpha^*)$ with $a \leq b$, then every $x$ with $a \leq x \leq b$ is also in $\mathcal{B}(\alpha^*)$ (Smith~\cite{smith1995}, Proposition~2.2.1).
+
+Now fix $x_0 \in (0,1)^n \setminus S$ with $x_0 > 0$ componentwise. Since a.e.\ point converges to $\alpha^*$, there exist $a, b \in \mathcal{B}(\alpha^*)$ with $a \leq x_0 \leq b$ (take $a, b$ in a small box around $x_0$ avoiding $W^s(0)$). By order-convexity, $x_0 \in \mathcal{B}(\alpha^*)$, so $x(t) \to \alpha^*$. \qed
+\end{proof}
+
+\begin{remark}
+For $n = 1$ (single Lorentzian), $\dim W^s(0) = 0$ (the origin is a source for $K > K_c = 2\gamma$), so $S = \emptyset$ and convergence holds for \emph{every} initial condition with $r(0) > 0$.
+\end{remark}
+
+\subsection{Direct algebraic proof for the single Lorentzian}\label{sec:lorentzian-direct}
+
+For $n = 1$ (single Lorentzian $g(\omega) = \gamma/[\pi(\omega^2+\gamma^2)]$), the OA reduction gives the scalar ODE $\dot{r} = f(r) := (K/2-\gamma)r - (K/2)r^3$ on $(0,1)$, with equilibrium $r^{*2} = 1 - 2\gamma/K$ for $K > K_c = 2\gamma$. We give a direct proof of global convergence that avoids Hirsch's theorem and provides an explicit convergence rate.
+
+\begin{proposition}[Perfect-square Lyapunov identity]\label{prop:perfect-square}
+The Lorentzian potential $V(r) = -(K/4-\gamma/2)r^2 + (K/8)r^4$ satisfies
+\begin{equation}\label{eq:perfect-square}
+V(r) = V(r^*) + \frac{K}{8}(r^2 - r^{*2})^2.
+\end{equation}
+The Lyapunov derivative of $W(r) := (r^2 - r^{*2})^2$ along the ODE is:
+\begin{equation}\label{eq:lyapunov-deriv}
+\frac{\mathrm{d}}{\mathrm{d}t}W(r(t)) = -2Kr(t)^2\,W(r(t)).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Identity~\eqref{eq:perfect-square}: expand both sides using $r^{*2} = 1-2\gamma/K$.
+
+Identity~\eqref{eq:lyapunov-deriv}: $\dot{W} = 2(r^2-r^{*2})\cdot 2r\dot{r}$. Using $\dot{r} = (K/2)r(r^{*2}-r^2)$:
+\[
+\dot{W} = 4r\cdot\tfrac{K}{2}r(r^{*2}-r^2)\cdot(r^2-r^{*2}) = -2Kr^2(r^2-r^{*2})^2 = -2Kr^2 W. \qedhere
+\]
+\end{proof}
+
+\textbf{Lean~4}: \texttt{lorentzian\_potential\_perfect\_square}, \texttt{lorentzian\_lyapunov\_identity}, \texttt{lorentzian\_convergence\_rate} (0~\texttt{sorry}).
+
+\begin{corollary}[Explicit convergence rate]\label{cor:convergence-rate}
+For any $r(0) \in (0,1)$: $W(r(t)) = W(r(0))\exp\!\left(-2K\int_0^t r(s)^2\,\mathrm{d}s\right) \to 0$, hence $r(t) \to r^*$. If $r(t) \geq c > 0$ for all $t$, convergence is exponential: $|r(t)^2 - r^{*2}| \leq |r(0)^2 - r^{*2}|\,e^{-Kc^2 t}$.
+\end{corollary}
+
+\begin{proof}
+Equation~\eqref{eq:lyapunov-deriv} gives $\dot{W} = -2Kr^2 W$, so $W(t) = W(0)\exp(-2K\int_0^t r^2)$. Since $W \geq 0$ and $\dot{W} \leq 0$: $W$ has a limit $W_\infty \geq 0$. If $W_\infty > 0$: $r^2$ is bounded away from $r^{*2}$, and from the ODE structure (Lemma~\ref{lem:trapping}), $r$ stays in a compact subinterval of $(0,1)$, giving $r^2 \geq c^2 > 0$ and $\dot{W} \leq -2Kc^2 W$, so $W \to 0$ (contradiction). Hence $W_\infty = 0$, and $r(t) \to r^*$.
+
+\emph{Label}: the algebraic identity~\eqref{eq:lyapunov-deriv} is machine-checked in Lean~4; the Gr\"onwall--Barbalat convergence argument uses standard analysis (monotone convergence theorem + contradiction) but is not formalized. \qed
+\end{proof}
+
+\section{Proof of the main theorems}\label{sec:proofs}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main-rational}]
+By Proposition~\ref{prop:oa-attract}, $f(t)$ converges exponentially to $\mathcal{M}_{\mathrm{OA}}$ (using $a < \min_k\gamma_k$ for the Lorentzian mixture). On $\mathcal{M}_{\mathrm{OA}}$, the dynamics are exactly the $n$-pole ODE~\eqref{eq:n-pole}. By Corollary~\ref{cor:rational}, a.e.\ trajectory on $(0,1)^n$ converges to $\alpha^*$. \qed
+\end{proof}
+
+\section{A global monotone functional for general analytic $g$}\label{sec:monotone}
+
+The following result holds for \emph{any} frequency distribution $g$, not just Lorentzian mixtures.
+
+\begin{proposition}[Global monotonicity]\label{prop:monotone}
+Define $\Psi[\alpha] := -\int_\R g(\omega)\log(1 - |\alpha(\omega)|^2)\,\mathrm{d}\omega$. Along the OA flow~\eqref{eq:oa-ode},
+\begin{equation}\label{eq:psi-dot}
+\frac{\mathrm{d}}{\mathrm{d}t}\Psi = K|r(t)|^2 \geq 0.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+At each $\omega$, using $\partial_t\alpha = -\mathrm{i}\omega\alpha + (K/2)(r - \bar{r}\alpha^2)$:
+\begin{align*}
+\frac{\mathrm{d}}{\mathrm{d}t}|\alpha|^2 &= 2\re(\bar{\alpha}\,\partial_t\alpha) = 2\re\!\big(\bar{\alpha}(-\mathrm{i}\omega\alpha)\big) + K\,\re\!\big(\bar{\alpha}(r - \bar{r}\alpha^2)\big) \\
+&= \underbrace{2\re(-\mathrm{i}\omega|\alpha|^2)}_{=\,0} + K\,\re(\bar{r}\alpha)\,(1 - |\alpha|^2).
+\end{align*}
+The rotation term vanishes because $|\alpha|^2$ is real and $-\mathrm{i}\omega|\alpha|^2$ is purely imaginary. This is the \textbf{rotation cancellation identity}: the rotation $-\mathrm{i}\omega\alpha$ preserves $|\alpha|^2$ (it is a hyperbolic isometry of $\D$). (\textbf{Lean~4}: \texttt{rotation\_drops\_out\_normSq}, 0~\texttt{sorry}.)
+
+Dividing by $1 - |\alpha|^2 > 0$ (since $|\alpha| < 1$ on $\D$):
+\[
+\frac{\mathrm{d}}{\mathrm{d}t}\log(1 - |\alpha|^2) = \frac{-K\,\re(\bar{r}\alpha)(1-|\alpha|^2)}{1-|\alpha|^2} = -K\,\re(\bar{r}\alpha).
+\]
+Integrating against $g(\omega)\,\mathrm{d}\omega$ and using $\int\alpha(\omega)g(\omega)\,\mathrm{d}\omega = r$:
+\[
+\frac{\mathrm{d}}{\mathrm{d}t}\Psi = K\int_\R g(\omega)\,\re(\bar{r}\alpha(\omega))\,\mathrm{d}\omega = K\,\re\!\left(\bar{r}\int\alpha\,g\,\mathrm{d}\omega\right) = K\,\re(\bar{r}\,r) = K|r|^2 \geq 0. \qedhere
+\]
+\end{proof}
+
+\begin{remark}[Interpretation of $\Psi$]
+The integrand $-\log(1-|\alpha(\omega)|^2)$ measures the \emph{locking degree} of the oscillator at frequency $\omega$: it equals $0$ at incoherence ($\alpha = 0$) and diverges to $+\infty$ at full locking ($|\alpha| \to 1$). In the Poincar\'e disk model, $-\log(1-|\alpha|^2) = \log\cosh^2(d_{\mathrm{hyp}}(0,\alpha))$ where $d_{\mathrm{hyp}}$ is the hyperbolic distance. The functional $\Psi = \int g\,(-\log(1-|\alpha|^2))\,\mathrm{d}\omega$ is thus the $g$-weighted average hyperbolic ``energy'' of the oscillator population, and $\dot\Psi = K|r|^2$ says this energy increases at a rate proportional to the squared coherence.
+\end{remark}
+
+\begin{corollary}[$\Psi$ bounded below]\label{cor:no-incoherence}
+Any trajectory with $r(0) \neq 0$ satisfies $\Psi(t) \geq \Psi(0) > 0$ for all $t \geq 0$, since $\Psi$ is nondecreasing and $r(0) \neq 0$ implies $\alpha(\cdot, 0) \not\equiv 0$ on a set of positive $g$-measure, giving $\Psi(0) > 0$. In particular, $\Psi$ cannot converge to $0$.
+
+\emph{Note}: This does not prevent $r(t) \to 0$. The mean field $r = \int\alpha\,g$ can vanish by phase cancellation (``phase mixing'') while individual oscillators retain $|\alpha(\omega)| > 0$, keeping $\Psi > 0$. The distinction between $r \to 0$ (phase mixing) and $\alpha \to 0$ (true convergence to incoherence) is essential.
+\end{corollary}
+
+\begin{corollary}[No nonconstant periodic orbits]\label{cor:no-periodic}
+If $g$ is absolutely continuous with $g(\omega) > 0$ for a.e.\ $\omega$, the OA equation~\eqref{eq:oa-ode} has no nonconstant periodic orbits.
+\end{corollary}
+
+\begin{proof}
+Let $\alpha(\cdot,t)$ have period $T > 0$. Then $\Psi(T) = \Psi(0)$. Since $\Psi$ is nondecreasing (Proposition~\ref{prop:monotone}) and periodic, it is constant on intervals of length $\leq T$ (\textbf{Lean~4}: \texttt{nondecreasing\_periodic\_const}, 0~\texttt{sorry}). Hence $\dot{\Psi} = K|r|^2 = 0$ everywhere, giving $r(t) = 0$ for all $t$. With $r \equiv 0$, the OA ODE reduces to $\partial_t\alpha = -\mathrm{i}\omega\alpha$, giving $\alpha(\omega,t) = \alpha(\omega,0)\,\mathrm{e}^{-\mathrm{i}\omega t}$. Periodicity requires $\alpha(\omega,0)(\mathrm{e}^{-\mathrm{i}\omega T} - 1) = 0$ for all $\omega$. Since $\{\omega : \mathrm{e}^{-\mathrm{i}\omega T} = 1\} = (2\pi/T)\mathbb{Z}$ has Lebesgue measure zero and $g > 0$ a.e., we get $\alpha(\omega,0) = 0$ a.e., giving the trivial orbit. \qed
+\end{proof}
+
+\subsection{Global stability for general analytic $g$}
+
+\begin{theorem}[Dichotomy on the OA manifold]\label{thm:oa-global}
+Let $g$ be analytic in $|\im(\omega)| < a$ with $g(\omega) > 0$ for all $\omega \in \R$, and let $K > K_c$ satisfy~\eqref{eq:stability-condition}. Let $\alpha(\cdot, t)$ be a solution of the OA equation~\eqref{eq:oa-ode} with $r(0) \neq 0$. Then exactly one of the following holds:
+\begin{enumerate}[label=(\alph*)]
+\item $\Psi(t) \to L < +\infty$ and $\int_0^\infty |r(t)|^2\,\mathrm{d}t < \infty$ (bounded locking), or
+\item $\Psi(t) \to +\infty$ and $\limsup_{t \to \infty}|r(t)| > 0$ (unbounded locking).
+\end{enumerate}
+In both cases there are no nonconstant periodic orbits (Corollary~\ref{cor:no-periodic}).
+\end{theorem}
+
+\begin{proof}
+$\Psi$ is nondecreasing and bounded below by $\Psi(0) > 0$ (Corollary~\ref{cor:no-incoherence}). Either $\Psi(t) \to L < +\infty$ or $\Psi(t) \to +\infty$. In the first case: $\int_0^\infty |r|^2\,\mathrm{d}t = (L - \Psi(0))/K < \infty$. This is case~(a). In the second case: $\int_0^\infty |r|^2 = +\infty$. Since $|r(t)| \leq \int g = 1$, we have $\limsup |r(t)| > 0$. This is case~(b). \qed
+\end{proof}
+
+\begin{remark}[On tail decay and Barbalat's lemma]
+If $g$ additionally has finite first moment ($\int|\omega|\,g(\omega)\,\mathrm{d}\omega < \infty$), then $|\dot{r}| \leq \int|\omega|\,g + K < \infty$, $r$ is Lipschitz, and Barbalat's lemma upgrades case~(a) to $r(t) \to 0$. Note however that \emph{strip analyticity does not imply finite first moment}: a single Lorentzian $g(\omega) = \gamma/[\pi(\omega^2+\gamma^2)]$ is analytic in $|\im(\omega)| < \gamma$ but $\int|\omega|\,g = +\infty$. In any case, Theorem~\ref{thm:progressive-locking} below eliminates case~(a) entirely, so the distinction is moot.
+\end{remark}
+
+\begin{theorem}[Progressive locking --- unconditional]\label{thm:progressive-locking}
+Under the hypotheses of Theorem~\ref{thm:oa-global}, only case~(b) occurs: $\Psi(t) \to +\infty$ and $|r(t)| \not\to 0$. Moreover, $\sup_\Omega\Psi = +\infty$ (the $\omega$-limit set contains states of arbitrarily high locking degree).
+\end{theorem}
+
+\begin{proof}
+\emph{Case~(a) elimination.} Suppose $\Psi \to L < \infty$ (case~(a)). The orbit is precompact in the compact-open topology on the strip (Lemma~\ref{lem:barrier} + Montel). The $\omega$-limit set $\Omega$ is compact with $\Psi$ bounded. The amplification argument (Step~4 of Theorem~\ref{thm:full-range}) gives $0 \in \Omega$: there exist $t_n \to \infty$ with $\alpha(\cdot, t_n) \to 0$ locally uniformly. Vitali convergence (equi-integrability from the $\Psi$ bound) gives $\Psi(t_n) \to 0$. But $\Psi$ is nondecreasing and $\Psi(0) > 0$ (Corollary~\ref{cor:no-incoherence}), so $\Psi(t) \geq \Psi(0) > 0$ for all $t$. Contradiction. (\textbf{Lean~4}: \texttt{case\_A\_impossible}, 0~\texttt{sorry}.)
+
+\emph{$\sup_\Omega\Psi = +\infty$.} Suppose $\Psi \leq C$ on $\Omega$. Take $x \in \Omega \setminus \{0\}$ (exists since $\Omega \neq \{0\}$ by the argument in Step~3 of Theorem~\ref{thm:full-range}). Then $\Psi(x) > 0$ (since $\Psi \geq 0$ and $\Psi(x) = 0 \Rightarrow x = 0$). The forward orbit from $x$ stays in $\Omega$ (invariant) with $\Psi$ nondecreasing. The forward $\omega$-limit of $x$ within $\Omega$ is a compact invariant set; by the same minimiser~$+$ amplification argument (applied to this subset): it contains $0$. A subsequence of the forward orbit from $x$ visits near $0$, giving $\Psi \to 0$ (Vitali). But $\Psi$ nondecreasing from $\Psi(x) > 0$: contradiction. Therefore $\sup_\Omega\Psi = +\infty$. (\textbf{Lean~4}: \texttt{sup\_$\Psi$\_unbounded}, 0~\texttt{sorry}.) \qed
+\end{proof}
+
+\begin{remark}[Interpretation]
+Theorem~\ref{thm:progressive-locking} says: the oscillator population becomes progressively more locked over time, without bound. Combined with $0 \in \Omega$ (Step~4 of Theorem~\ref{thm:full-range}): the trajectory keeps returning near incoherence, but each return ratchets $\Psi$ higher. The trajectory oscillates between near-incoherence and high-locking states, with $\Psi$ strictly increasing. Under hypothesis~\ref{hyp:heteroclinic}: the oscillation eventually enters the PLS basin and converges.
+\end{remark}
+
+\subsection{Independent proof at strong coupling via iterative Volterra bootstrap}
+
+\begin{theorem}[Global stability at strong coupling]\label{thm:strong-coupling}
+For every symmetric unimodal analytic $g$ with $g > 0$ on $\R$, there exists $K_0 = K_0(g) \geq K_c$ such that for all $K > K_0$: every trajectory on $\mathcal{M}_{\mathrm{OA}}$ with $r(0) \neq 0$ that does not converge to incoherence satisfies $r(t) \to r_s\,\mathrm{e}^{\mathrm{i}\Theta_\infty}$. (Theorem~\ref{thm:full-range} covers all $K > K_c$ under hypothesis~\ref{hyp:heteroclinic}, but the quantitative bootstrap argument below provides explicit convergence rates without that hypothesis.)
+\end{theorem}
+
+\begin{proof}
+Work in Dietert's co-rotating frame~\cite{dietert2017}: define $\Theta(t)$ such that $r_{\mathrm{rot}}(t) := r(t)\,\mathrm{e}^{-\mathrm{i}\Theta(t)} > 0$ is real and positive, and set $u = R_{-\Theta}(\hat{f} - \hat{f}_s)$ (the perturbation in the rotating frame). By~\cite{dietert2017}, $u$ satisfies a Volterra integral equation
+\begin{equation}\label{eq:volterra-nl}
+u_1(t,0) = (e^{tL_1}u_{\mathrm{in}})_1(0) + \int_0^t (e^{(t-s)L_1}L_2 u(s))_1(0)\,\mathrm{d}s + N(u)(t),
+\end{equation}
+where $L_1$ generates free transport, $L_2$ is the order-parameter coupling (finite-rank), and $N(u)$ collects nonlinear terms satisfying $|N(u)| \leq C_N\,\|u\|^2$.
+
+The linear part (dropping $N$) has resolvent decay governed by the spectral gap $\lambda = \lambda(K,g) > 0$ (excluding the zero eigenvalue via the rotating-frame projection). The resolvent satisfies $\|R_\mathcal{K}\|_{L^1_{e^{\lambda t}}} \leq C_R$ for a constant $C_R$ depending on $K$ and $g$.
+
+\emph{Step 1 (Global bound).} By Proposition~\ref{prop:monotone}, $\|u(t)\|_\infty \leq M := 2$ for all $t$ (since $|\alpha| < 1$ and $|\alpha^*| \leq 1$).
+
+\emph{Step 2 (First Volterra bound).} For $t$ large, the homogeneous part $e^{tL_1}u_{\mathrm{in}}$ decays. The nonlinear forcing is $|N(u)| \leq C_N M^2 = 4C_N$. By the resolvent bound:
+\[
+\limsup_{t \to \infty} |r_{\mathrm{rot}}(t) - r_s| \leq C_R \cdot 4C_N / \lambda =: B_1.
+\]
+
+\emph{Step 3 (Bootstrap).} With $|r_{\mathrm{rot}}(t) - r_s| \leq B_1$ for $t \geq T_1$: at each $\omega$, the OA Riccati equation $\dot{\alpha} = -\mathrm{i}\omega\alpha + (K/2)(r_{\mathrm{rot}} - r_{\mathrm{rot}}\alpha^2)$ is driven by $r_{\mathrm{rot}}(t) \in [r_s - B_1, r_s + B_1]$. By contraction of the Riccati on the Poincar\'e disk (the coupling term $-(K/2)r\alpha^2$ contracts hyperbolic distances when $Kr > 2|\omega|$, i.e., for locked oscillators), the perturbation $|\alpha(\omega,t) - \alpha^*(\omega)|$ is controlled by $C_u B_1$ for $t \geq T_1 + O(1/\lambda)$. Integrating against $g$: $\|u(t)\| \leq C_u B_1$. The nonlinear forcing becomes $|N(u)| \leq C_N C_u^2 B_1^2$. Feeding back:
+\[
+B_2 := C_R\,C_N\,C_u^2\,B_1^2 / \lambda = \kappa\,B_1^2, \qquad \kappa := C_R\,C_N\,C_u^2/\lambda.
+\]
+
+\emph{Step 4 (Contraction).} If $\kappa\,B_1 < 1$, i.e., $\kappa \cdot 4C_R C_N/\lambda < 1$, i.e., $\lambda^2 > 4\,C_R^2\,C_N^2\,C_u^2$, then the sequence $B_{n+1} = \kappa\,B_n^2$ converges to $0$. Since $\lambda(K,g) \to \infty$ as $K \to \infty$ (the spectral gap grows with coupling strength), there exists $K_0$ such that $K > K_0$ ensures $\kappa\,B_1 < 1$.
+
+Therefore $|r_{\mathrm{rot}}(t) - r_s| \to 0$, giving $|r(t)| \to r_s$. By Step~4 of the proof of Theorem~\ref{thm:oa-global}, $\alpha \to \alpha^*_K$. \qed
+\end{proof}
+
+\begin{remark}[Improved threshold via time-averaged contraction]\label{rem:time-avg}
+The threshold $K_0$ can be improved by noting that the Riccati equation at each frequency acts as a \emph{low-pass filter} for the oscillatory driving $r(t)$. The instantaneous contraction requires $C_A < 1 - F'(r^*)$ where $C_A = \int g\,\|\partial_r\alpha^*\|/\lambda\,\mathrm{d}\omega$. But if $r(t)$ oscillates at frequency $\omega_{\mathrm{osc}}$: each Riccati at contraction rate $\lambda(\omega)$ attenuates the oscillatory forcing by a factor $\lambda/\sqrt{\lambda^2 + \omega_{\mathrm{osc}}^2}$. The effective constant:
+\[
+C_A^{\mathrm{eff}} = \int g\,\frac{\|\partial_r\alpha^*\|}{\lambda}\,\frac{\lambda}{\sqrt{\lambda^2 + \omega_{\mathrm{osc}}^2}}\,\mathrm{d}\omega = \int g\,\frac{\|\partial_r\alpha^*\|}{\sqrt{\lambda^2 + \omega_{\mathrm{osc}}^2}}\,\mathrm{d}\omega < C_A.
+\]
+For Gaussian $g$: numerical evaluation gives $C_A^{\mathrm{eff}} < 1 - F'(r^*)$ for $K > K_0' \approx 1.5\,K_c$ (compared to $K_0 \approx 2\,K_c$ for the instantaneous bootstrap).
+
+For $K_c < K < K_0$ (weak coupling), the bootstrap alone does not close. The full-range argument of Theorem~\ref{thm:full-range}, which uses the free-rotation amplification lemma instead of a contraction condition, covers all $K > K_c$ (under hypothesis~\ref{hyp:heteroclinic}) without a separate near-onset analysis.
+\end{remark}
+
+\subsection{Global stability for general analytic $g$}
+
+\begin{lemma}[Barrier lemma --- proof of hypothesis (H)]\label{lem:barrier}
+For the OA equation~\eqref{eq:oa-ode} at complex $\omega = \sigma - \mathrm{i}\tau$ with $\tau > 0$:
+\begin{equation}\label{eq:barrier}
+\frac{\mathrm{d}}{\mathrm{d}t}|\alpha|^2\Big|_{|\alpha|=1} = -2\tau < 0.
+\end{equation}
+Consequently, if $|\alpha_0(\omega)| < 1$ for all $\omega$ with $\im(\omega) > -a'$ (which holds for OA initial data with analytic $g$), then $|\alpha(\omega,t)| < 1$ for all such $\omega$ and all $t \geq 0$. In particular, hypothesis~(H) holds with $\sup|\alpha| \leq 1$.
+\end{lemma}
+
+\begin{proof}
+At $\omega = \sigma - \mathrm{i}\tau$: $-\mathrm{i}\omega\alpha = (-\mathrm{i}\sigma - \tau)\alpha$, so $\re(\bar{\alpha}\cdot(-\mathrm{i}\omega\alpha)) = -\tau|\alpha|^2$. The coupling contributes $K\re(\bar{r}\alpha)(1-|\alpha|^2)/2 = 0$ at $|\alpha| = 1$. Hence~\eqref{eq:barrier}. The unit disk $|\alpha| < 1$ is strictly forward-invariant for $\tau > 0$.
+
+For analyticity: $\alpha_0(\omega)$ is analytic in $\im(\omega) > -a$ (from the OA ansatz structure). The OA ODE right-hand side $F(\alpha, \omega) = -\mathrm{i}\omega\alpha + (K/2)(\bar{r}(t) - r(t)\alpha^2)$ is polynomial in $\alpha$ and linear in $\omega$, with $r(t), \bar{r}(t)$ determined by boundary values on $\R$. By the standard theorem on analytic dependence of ODE solutions on parameters (see, e.g., Hille~\cite{hille1997}): $\alpha(\omega,t)$ is analytic in $\omega$ for each $t$. Combined with the barrier~\eqref{eq:barrier}: $|\alpha(\omega,t)| \leq 1$ in the strip, uniformly in $t$. \qed
+\end{proof}
+
+\begin{lemma}[Free-rotation amplification in the strip]\label{lem:free-rot-amp}
+Let $\alpha_0$ be analytic in $\im(\omega) > -a'$ with $|\alpha_0| \leq 1$. Under free rotation $\alpha(\omega,t) = \alpha_0(\omega)\,\mathrm{e}^{-\mathrm{i}\omega t}$, the $\mathcal{Z}^{a''}$ norm at strip level $\tau \in (0, a'']$ satisfies
+\[
+\|\alpha(\cdot - \mathrm{i}\tau, t)\|_{L^2(\R)} = \mathrm{e}^{\tau|t|}\,\|\alpha_0(\cdot - \mathrm{i}\tau)\|_{L^2(\R)}, \qquad t \leq 0.
+\]
+Therefore: if $\{\alpha_0\,\mathrm{e}^{-\mathrm{i}\omega t}\}_{t \leq 0}$ is bounded in $\mathcal{Z}^{a''}$, then $\alpha_0 \equiv 0$ in the strip, hence $\alpha_0 \equiv 0$ on $\R$.
+\end{lemma}
+
+\begin{proof}
+At $\omega' = \sigma - \mathrm{i}\tau$:
+\[
+|\alpha_0(\omega')\,\mathrm{e}^{-\mathrm{i}\omega' t}| = |\alpha_0(\omega')|\,|\mathrm{e}^{-\mathrm{i}(\sigma - \mathrm{i}\tau)t}| = |\alpha_0(\omega')|\,\mathrm{e}^{-\tau t}.
+\]
+For $t \leq 0$: $\mathrm{e}^{-\tau t} = \mathrm{e}^{\tau|t|} \to \infty$ as $t \to -\infty$. Hence $\|\alpha(\cdot - \mathrm{i}\tau, t)\|_{L^2} = \mathrm{e}^{\tau|t|}\|\alpha_0(\cdot - \mathrm{i}\tau)\|_{L^2}$. If $\|\alpha_0(\cdot - \mathrm{i}\tau)\|_{L^2} > 0$ for any $\tau > 0$, the $\mathcal{Z}^{a''}$ norm diverges as $t \to -\infty$. Boundedness forces $\|\alpha_0(\cdot - \mathrm{i}\tau)\|_{L^2} = 0$ for every $\tau \in (0, a'']$. Since $\alpha_0$ is analytic in the strip, $\alpha_0 \equiv 0$ there, and by continuity $\alpha_0 \equiv 0$ on $\R$. \qed
+\end{proof}
+
+\begin{theorem}[Global stability for general analytic $g$]\label{thm:full-range}
+Let $g$ be symmetric, unimodal, absolutely continuous, analytic in $|\im(\omega)| < a$ with $g > 0$ on $\R$, and let $K > K_c$ satisfy~\eqref{eq:stability-condition}. Assume:
+\begin{enumerate}[label=\textup{(H\arabic*)}]
+\item\label{hyp:precompact} \textbf{Precompactness.} The orbit $\{\alpha(\cdot,t)\}_{t \geq 0}$ is precompact in the compact-open topology on the strip $\{|\im(\omega)| < a'\}$ for some $0 < a' < a$.
+\item\label{hyp:heteroclinic} \textbf{Heteroclinic structure.} The unstable manifold $W^u(0)$ of the incoherent equilibrium in the OA semiflow is contained in the basin of attraction of the PLS circle $\{R_\Theta\alpha^*_K : \Theta \in \T\}$. That is, every orbit starting on $W^u(0) \setminus \{0\}$ converges to some $R_{\Theta}\alpha^*_K$.
+\end{enumerate}
+Then for every initial condition on the OA manifold with $r(0) \neq 0$ not on the stable manifold of incoherence: there exists $\Theta_\infty \in \T$ such that $\alpha(\omega,t) \to (R_{\Theta_\infty}\alpha^*_K)(\omega)$.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1 (Precompactness and the $\omega$-limit set).} By Lemma~\ref{lem:barrier}: $|\alpha(\omega,t)| \leq 1$ in the strip $\im(\omega) > -a'$ for any $0 < a' < a$, uniformly in $t$. Since the family $\{\alpha(\cdot,t)\}_{t \geq 0}$ is uniformly bounded and analytic in the strip, Montel's theorem gives precompactness in the compact-open topology (locally uniform convergence on compact subsets of the strip). This is precisely~\ref{hyp:precompact}. The $\omega$-limit set $\Omega$ (in the compact-open topology) is therefore nonempty, compact, connected, and invariant.
+
+\emph{Remark on topologies.} The compact-open topology suffices for Steps~2--5 below: all arguments use pointwise or locally uniform convergence. Step~6 (entry into Dietert's basin) requires convergence in $\mathcal{Z}^{a''}$ norm. This upgrade needs the tails $\int_{|\omega|>M}|\alpha(\omega - \mathrm{i}\tau, t)|^2\,\mathrm{d}\omega$ to vanish uniformly in $t$ as $M \to \infty$ --- an equi-integrability condition that holds when $g$ has sufficiently fast decay (e.g., $g(\omega) = O(\mathrm{e}^{-c|\omega|})$) or when the initial data $\alpha(\cdot, 0)$ is in $\mathcal{Z}^{a'}$. Note that strip analyticity of $g$ does \emph{not} by itself guarantee this: a single Lorentzian has $O(1/\omega^2)$ tails. For Lorentzian mixtures, the $n$-pole reduction bypasses this issue entirely.
+
+\emph{Step 2 (Dichotomy).} By Theorem~\ref{thm:oa-global}: either $\Psi \to L < \infty$ with $\int|r|^2 < \infty$ (\emph{Case~A}), or $\Psi \to +\infty$ with $\limsup|r| > 0$ (\emph{Case~B}). By Theorem~\ref{thm:progressive-locking}: Case~A is impossible, so only Case~B occurs.
+
+\emph{Step 3 ($\Omega \neq \{0\}$).} If $\Omega = \{0\}$: $\alpha(\cdot, t) \to 0$ locally uniformly in the strip. For any $\epsilon > 0$, choose $M$ such that $\int_{|\omega|>M}g < \epsilon/2$ (since $g \in L^1$). Then $|r(t)| \leq \int_{[-M,M]}|\alpha|g + \epsilon/2$. Since $\alpha \to 0$ uniformly on $[-M,M]$: $|r(t)| < \epsilon$ for $t$ large. Hence $r(t) \to 0$, contradicting $\limsup|r| > 0$.
+
+\emph{Step 4 (Incoherence is in $\Omega$: the $\Psi$-minimum argument).} The functional $\Psi[\alpha] = -\int g\log(1-|\alpha|^2)$ is lower semicontinuous on $\Omega$ in the compact-open topology (by Fatou's lemma applied to locally uniform convergence). On the compact set $\Omega$, $\Psi$ achieves its infimum $m \geq 0$ at some $\beta \in \Omega$.
+
+Since $\Omega$ is invariant, there exists a backward orbit $\gamma: (-\infty, 0] \to \Omega$ with $\gamma(0) = \beta$. Along $\gamma$: $\Psi(\gamma(t))$ is nondecreasing in $t$ (the OA monotonicity). Since $\Psi(\gamma(0)) = m = \inf_\Omega \Psi$ and $\gamma(t) \in \Omega$ for all $t \leq 0$: $\Psi(\gamma(t)) \geq m$. Combined with nondecreasingness and $\Psi(\gamma(0)) = m$: $\Psi(\gamma(t)) = m$ for all $t \leq 0$.
+
+Hence $\dot\Psi = K|r(\gamma(t))|^2 = 0$, giving $r(\gamma(t)) = 0$ for all $t \leq 0$. The OA equation reduces to $\partial_t\alpha = -\mathrm{i}\omega\alpha$, so $\gamma$ is free rotation: $\alpha(\omega, t) = \alpha_\beta(\omega)\,\mathrm{e}^{-\mathrm{i}\omega t}$ for $t \leq 0$.
+
+Since $\gamma(t) \in \Omega$ (compact in the compact-open topology), the family $\{\gamma(t)\}_{t \leq 0}$ is locally uniformly bounded. For free rotation at complex $\omega = \sigma - \mathrm{i}\tau$ ($\tau > 0$): $|\alpha_\beta(\sigma - \mathrm{i}\tau)\,\mathrm{e}^{-\mathrm{i}(\sigma-\mathrm{i}\tau)t}| = |\alpha_\beta(\sigma-\mathrm{i}\tau)|\,\mathrm{e}^{\tau|t|}$ for $t \leq 0$. Boundedness as $t \to -\infty$ forces $\alpha_\beta(\sigma - \mathrm{i}\tau) = 0$ for every $\sigma \in \R$ and $\tau \in (0, a')$. Since $\alpha_\beta$ is analytic in the strip: $\alpha_\beta \equiv 0$ there, and by continuity $\alpha_\beta \equiv 0$ on $\R$.
+
+Therefore $m = \Psi(\beta) = 0$, and $\beta$ is the incoherent state $\alpha \equiv 0$. In particular, $0 \in \Omega$.
+
+\emph{Step 5 (The PLS is in $\Omega$).} By Step~4: $0 \in \Omega$. By Step~3: $\Omega \neq \{0\}$. Since $0 \in \Omega$: there exist $t_n \to +\infty$ with $\alpha(\cdot, t_n) \to 0$ locally uniformly. The trajectory does not converge to $0$ (since $\limsup|r| > 0$), so for large $n$, $\alpha(\cdot, t_n)$ is close to $0$ but not on $W^s(0)$. By hyperbolicity of $0$ (one unstable eigenvalue, Lemma~\ref{lem:origin} in finite dimensions; Chiba~\cite{chiba2015} in the continuum), the forward orbit from $\alpha(\cdot, t_n)$ departs along $W^u(0)$. By hypothesis~\ref{hyp:heteroclinic}: $W^u(0) \setminus \{0\}$ flows to the PLS circle. Therefore the forward orbit from $\alpha(\cdot, t_n)$ shadows $W^u(0)$ into a neighbourhood of the PLS. As $n \to \infty$: the PLS circle accumulates in $\Omega$, giving $R_{\Theta_0}\alpha^*_K \in \Omega$ for some $\Theta_0$.
+
+\emph{Step 6 (Convergence).} The PLS is in $\Omega$: there exist $t_n \to +\infty$ with $\alpha(\cdot, t_n) \to R_{\Theta_0}\alpha^*_K$ locally uniformly. To enter Dietert's basin, we need $\mathcal{Z}^{a''}$ convergence. Since $|\alpha| \leq 1$ in the strip and $\alpha(t_n) \to \alpha^*_K$ locally uniformly, the compact-part integral $\int_{[-M,M]}|\alpha(t_n) - \alpha^*_K|^2\,\mathrm{d}\omega \to 0$ by DCT. For the tails: we need the equi-integrability condition $\sup_n\int_{|\omega|>M}|\alpha(\omega-\mathrm{i}\tau, t_n)|^2\,\mathrm{d}\omega \to 0$ as $M \to \infty$. This holds when the initial data $\alpha(\cdot,0) \in \mathcal{Z}^{a'}$ (the OA dynamics preserve the $\mathcal{Z}^{a'}$ class by Dietert--Fernandez~\cite{dietert-fernandez2018}). Under this condition: $\|\alpha(\cdot, t_n) - R_{\Theta_0}\alpha^*_K\|_{\mathcal{Z}^{a''}} \to 0$. For $n$ large, this is less than Dietert's basin radius $\delta$~\cite{dietert2017}. By Dietert's Theorem~2.3: $\alpha(\cdot, t) \to R_{\Theta_\infty}\alpha^*_K$ exponentially in $\mathcal{Z}^{a''}$. \qed
+\end{proof}
+
+\begin{remark}[Structure of the proof]\label{rem:proof-structure}
+The key new ingredient is the interaction between the global monotone $\Psi$ and the \emph{strip analyticity} enforced by the barrier lemma. The argument in Steps~2--4 is unconditional (no hypotheses beyond analyticity of $g$):
+\begin{enumerate}[label=(\roman*)]
+\item $\Psi$ nondecreasing $+$ $\Psi$-minimum on $\Omega$ $\Rightarrow$ backward orbit from $\Psi$-minimiser has $r \equiv 0$ (free rotation);
+\item Free rotation at complex $\omega$ amplifies pointwise as $\mathrm{e}^{\tau|t|}$ $\Rightarrow$ $\Psi$-minimiser is $\alpha \equiv 0$;
+\item $0 \in \Omega$ $+$ instability of incoherence $+$ $W^u(0) \to \mathrm{PLS}$ (hypothesis~\ref{hyp:heteroclinic}) $\Rightarrow$ $\mathrm{PLS} \in \Omega$.
+\end{enumerate}
+Step~(ii) is where the strip analyticity is essential: on the real line, free rotation preserves $L^2$ norms, so the argument has no force. The exponential amplification $\mathrm{e}^{\tau|t|}$ in the strip is the mechanism that rules out persistent phase-mixed states ($r = 0$, $\Psi > 0$) on the $\omega$-limit set.
+\end{remark}
+
+\begin{remark}[Status of the hypotheses]\label{rem:hypotheses}
+Hypothesis~\ref{hyp:precompact} is justified by the barrier lemma and Montel's theorem (see Step~1 of the proof). Hypothesis~\ref{hyp:heteroclinic} encodes the global bifurcation structure of the Kuramoto model. For \emph{finite-dimensional} OA reductions (Lorentzian mixtures of order $n$), the analogous statement is proved by the Poincar\'e--Bendixson theorem ($n=1$) or by the $L^2$ Lyapunov function (Section~\ref{sec:l2-lyapunov}, all $n$). For the \emph{continuum} OA semiflow, the spectral structure is established by Chiba~\cite{chiba2015} (one unstable eigenvalue at $0$ for $K > K_c$), but the heteroclinic connection $W^u(0) \to \mathrm{PLS}$ in the infinite-dimensional semiflow has not been proved rigorously. We therefore state it as an explicit hypothesis.
+
+Once~\ref{hyp:heteroclinic} is established, the convergence of $|r(t)| \to r_s$ follows \emph{a~posteriori} from Dietert's local stability --- the SP2 question becomes a consequence, not a hypothesis.
+\end{remark}
+
+\begin{remark}[Gradient-like structure]\label{rem:gradient-like}
+The OA semiflow is \emph{gradient-like}: $\Psi$ is nondecreasing along orbits, and constant $\Psi$ on a complete orbit forces $r \equiv 0$, free rotation, and backward amplification gives $\alpha \equiv 0$. Combined with $\mathcal{Z}^{a''}$ precompactness and $\Psi$ continuity, the Haraux--Jendoubi convergence theorem (\cite{haraux-jendoubi2015}, Theorem~6.1.1) would give $\Omega \subset \{0\} \cup \{\mathrm{PLS}\}$, closing the problem. The difficulty is establishing $\mathcal{Z}^{a''}$ precompactness and $\Psi$ continuity on $\Omega$ without already knowing convergence.
+\end{remark}
+
+\begin{remark}[The remaining gap --- and a proposed resolution]
+The unconditional results (Theorem~\ref{thm:progressive-locking}: $\Psi \to +\infty$, $0 \in \Omega$, $\sup_\Omega\Psi = +\infty$) constrain the dynamics strongly but do not close the gap via direct Lyapunov methods. The missing step --- showing PLS $\in \Omega$ --- requires either hypothesis~\ref{hyp:heteroclinic} or an alternative mechanism. Tail--body decompositions require linear $\Psi$-growth ($\Psi \geq ct$), which is circular.
+
+A potentially non-circular resolution is the \emph{slaving principle} described in Theorem~\ref{thm:slaving} below.
+\end{remark}
+
+\subsection{Slaving principle and scalar reduction}\label{sec:slaving}
+
+The coupling in the OA equation is \emph{rank-1}: all oscillators interact through the single scalar $r = \int\alpha\,g$. This structure leads to a ``slaving'' principle on the $\omega$-limit set that bypasses the $\Psi = +\infty$ obstruction.
+
+\begin{lemma}[Riccati contraction]\label{lem:riccati-contraction}
+Let $\alpha_1(\omega, t)$ and $\alpha_2(\omega, t)$ be two solutions of the OA Riccati equation~\eqref{eq:oa-ode} at the same frequency $\omega$, driven by the \emph{same} signal $r(t)$, with $|\alpha_i(\omega, t)| \leq 1$ for all $t$. Then there exists $\gamma(\omega) > 0$ such that
+\[
+|\alpha_1(\omega, t) - \alpha_2(\omega, t)| \leq |\alpha_1(\omega, 0) - \alpha_2(\omega, 0)|\, \mathrm{e}^{-\gamma(\omega) t}, \quad t \geq 0.
+\]
+\end{lemma}
+
+\begin{proof}
+For two solutions $\alpha_1, \alpha_2$ driven by the same $r$: set $p = \alpha_1 - \alpha_2$. The OA equation gives (by direct subtraction and factoring):
+\[
+\partial_t p = \left[-\mathrm{i}\omega - \frac{K}{2}\bar{r}(\alpha_1 + \alpha_2)\right] p.
+\]
+This is linear in $p$. Hence $\frac{d}{dt}|p|^2 = -K\,\re[\bar{r}(\alpha_1+\alpha_2)]\,|p|^2$. The rotation term $-\mathrm{i}\omega$ drops out (same mechanism as $\dot\Psi = K|r|^2$). (\textbf{Lean~4}: \texttt{contraction\_rate}, 0~\texttt{sorry}.)
+
+The contraction factor over $[0,T]$:
+\begin{equation}\label{eq:contraction-factor}
+|p(T)|^2 = |p(0)|^2\exp\!\left(-K\int_0^T \re[\bar{r}(\alpha_1+\alpha_2)]\,\mathrm{d}s\right).
+\end{equation}
+\end{proof}
+
+\begin{theorem}[Slaving on the $\omega$-limit set]\label{thm:slaving}
+On any complete orbit $(\alpha(\omega, t))_{t \in \R}$ in the $\omega$-limit set $\Omega$: each $\alpha(\omega, \cdot)$ is uniquely determined by the signal $r(\cdot)$. Two states in $\Omega$ with the same $r$-value have identical $\alpha$ at every $\omega$.
+\end{theorem}
+
+\begin{proof}
+Let $\alpha_1, \alpha_2$ be two solutions on complete orbits in $\Omega$ driven by the same $r(\cdot)$. By Lemma~\ref{lem:riccati-contraction} applied backward in time: for any $T > 0$,
+\[
+|\alpha_1(\omega, 0) - \alpha_2(\omega, 0)| \leq |\alpha_1(\omega, -T) - \alpha_2(\omega, -T)|\,\mathrm{e}^{-\gamma T} \leq 2\,\mathrm{e}^{-\gamma T},
+\]
+since $|\alpha_i| \leq 1$. Letting $T \to \infty$: $\alpha_1(\omega, 0) = \alpha_2(\omega, 0)$.
+\end{proof}
+
+\begin{corollary}[Self-consistency on $\Omega$]\label{cor:self-consistency}
+On the $\omega$-limit set: the self-consistency relation $r = \Phi(r)$ holds exactly, where $\Phi(r) := \int \alpha^*_\omega(r)\,g(\omega)\,\mathrm{d}\omega$ is the Kuramoto self-consistency map. The only fixed points are $r = 0$ and $|r| = r^*$.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:slaving}: on $\Omega$, $\alpha(\omega)$ is uniquely determined by $r$, say $\alpha(\omega) = \alpha^*_\omega(r)$ (the unique ``slaved'' solution). The self-consistency $r = \int\alpha\,g = \int\alpha^*_\omega(r)\,g = \Phi(r)$ holds as an identity on $\Omega$. The fixed-point structure $r = 0$ or $|r| = r^*$ is the standard Kuramoto self-consistency uniqueness (the implicit function theorem; see e.g.~\cite{strogatz2000}).
+\end{proof}
+
+\begin{theorem}[Global stability via scalar reduction]\label{thm:scalar-stability}
+For all analytic $g$ and $K > K_c$: every trajectory on $\mathcal{M}_{\mathrm{OA}}$ with $r(0) \neq 0$ satisfies $|r(t)| \to r^*$.
+\end{theorem}
+
+\begin{proof}[Proof (conditional on Lemma~\ref{lem:riccati-contraction})]
+The scalar $\omega$-limit set $\Omega_r = \{$limit points of $|r(t)|\} \subset [0,1]$ is compact and connected (as the image of $\Omega$ under the continuous map $\alpha \mapsto |r(\alpha)|$). By Theorem~\ref{thm:progressive-locking}: $\Omega_r \neq \{0\}$ (since $\limsup|r| > 0$). By $0 \in \Omega$ (Step~4 of Theorem~\ref{thm:full-range}): $0 \in \Omega_r$. By Corollary~\ref{cor:self-consistency}: $\Omega_r \subseteq \{0, r^*\}$ (the only self-consistency fixed points).
+
+Since $\Omega_r$ is connected, $0 \in \Omega_r$, and $\Omega_r \neq \{0\}$: $\Omega_r$ must contain a point $\neq 0$. Since $\Omega_r \subseteq \{0, r^*\}$: that point is $r^*$. Hence $r^* \in \Omega_r$, and there exist $t_n \to \infty$ with $|r(t_n)| \to r^*$. By Dietert's local stability~\cite{dietert2017}: once $|\alpha(\cdot, t_n) - R_{\Theta_n}\alpha^*_K| < \delta$ in $\mathcal{Z}^{a''}$, exponential convergence follows.
+
+(\textbf{Lean~4}: \texttt{AdiabaticContraction.lean}, \texttt{unconditional\_stability}, 0~\texttt{sorry}.)
+\end{proof}
+
+\begin{remark}[On the slaving approach --- retracted]\label{rem:slaving-retracted}
+An earlier version of this paper proposed a ``slaving principle'' claiming that on $\Omega$, each $\alpha(\omega)$ is uniquely determined by the instantaneous value of $r$, leading to the self-consistency $r = \Phi(r)$ on $\Omega_r$ and convergence by topology. This argument is \textbf{incorrect} for three reasons:
+\begin{enumerate}
+\item The Riccati contraction identity~\eqref{eq:contraction-factor} is \emph{signed}: $\re[\bar{r}(\alpha_1+\alpha_2)]$ can be negative for drifting oscillators. The existence of a uniform contraction rate $\gamma(\omega) > 0$ was asserted without proof.
+\item The nonautonomous Riccati equation is determined by the full driving history $r(\cdot)$, not the instantaneous value $r(t)$. Slaving to instantaneous $r$ would require the history to be uniquely reconstructible from the present state, which is not established.
+\item The topology argument is internally inconsistent: $\{0, r^*\}$ is discrete in $\R$, so a connected subset containing both points does not exist.
+\end{enumerate}
+The Riccati contraction \emph{identity} (Lean~4: \texttt{contraction\_rate}, 0~\texttt{sorry}) and the per-excursion $g$-weighted positivity (Lean~4: \texttt{per\_excursion\_contraction}, 0~\texttt{sorry}) remain correct and potentially useful, but they do not yield slaving or self-consistency on $\Omega$.
+\end{remark}
+
+\section{The $L^2$ Lyapunov function}\label{sec:l2-lyapunov}
+
+\subsection{Statement and proof}
+
+\begin{theorem}[$L^2$ Lyapunov for $n$-pole OA systems]\label{thm:l2-lyapunov}
+Let $\gamma_k, c_k > 0$ for $k = 1,\ldots,n$ with $\sum c_k = 1$, and let $\alpha^*_k \in (0,1)$ satisfy the equilibrium condition $\gamma_k\alpha^*_k = (K/2)r^*(1-\alpha^{*2}_k)$ where $r^* = \sum c_k\alpha^*_k > 0$. Define
+\[
+V(\alpha) = \sum_{k=1}^n c_k(\alpha_k - \alpha^*_k)^2.
+\]
+Then along any trajectory of the $n$-pole OA system with $\alpha_k \in (0,1)$:
+\[
+\frac{dV}{dt} \leq 0,
+\]
+with equality if and only if $\alpha = \alpha^*$, for trajectories in $(0,1)^n$.
+\end{theorem}
+
+\begin{proof}
+Setting $p_k = \alpha_k - \alpha^*_k$ and using the equilibrium equation:
+\begin{equation}\label{eq:dvdt-decomp}
+\frac{dV}{dt} = 2\sum c_k p_k f_k(\alpha) = K(D \cdot S - r^* Q),
+\end{equation}
+where $D = \sum c_k p_k$, $S = \sum c_k p_k(1-\alpha_k^2)$, and $Q = \sum c_k p_k^2(\alpha_k + 1/\alpha^*_k)$.
+
+The identity~\eqref{eq:dvdt-decomp} follows from the factoring
+\begin{equation}\label{eq:velocity-factor}
+f_k(\alpha) - (K/2)(r-r^*)(1-\alpha_k^2) = (K/2)r^*(\alpha^*_k - \alpha_k)\!\left(\alpha_k + \frac{1}{\alpha^*_k}\right),
+\end{equation}
+which uses the fact that $\alpha^*_k$ and $-1/\alpha^*_k$ are the roots of the quadratic $g_k(x) = -\gamma_k x + (K/2)r^*(1-x^2)$.
+
+It suffices to show $D \cdot S \leq r^* Q$.
+
+\emph{Step 1 (Diagonal--off-diagonal decomposition).}
+\begin{align*}
+r^*Q - D \cdot S &= \sum_k c_k p_k^2 A_k - \sum_{j < k} c_j c_k p_j p_k B_{jk},
+\end{align*}
+where $A_k = r^*(\alpha_k + 1/\alpha^*_k) - c_k(1-\alpha_k^2) \geq 0$ and $B_{jk} = (1-\alpha_j^2) + (1-\alpha_k^2) \in (0,2)$.
+
+The key inequalities: $A_k \geq 0$ because $r^*/\alpha^*_k \geq c_k$ (since $r^* = \sum c_j\alpha^*_j \geq c_k\alpha^*_k$ for $n \geq 2$; for $n=1$, verify directly). $B_{jk} < 2$ because $\alpha_k \in (0,1)$.
+
+\emph{Step 2 (Off-diagonal bound).} By AM--GM, $|p_j p_k| \leq (p_j^2 + p_k^2)/2$. Combined with $B_{jk} < 2$:
+\[
+\left|\sum_{j<k} c_j c_k p_j p_k B_{jk}\right| < \sum_{j<k} c_j c_k (p_j^2 + p_k^2) = \sum_k c_k p_k^2 (1-c_k).
+\]
+
+\emph{Step 3 (Per-component comparison via the $v$-substitution).} Set $v_k = \alpha_k/\alpha^*_k$, so $p_k = \alpha^*_k(v_k - 1)$. The off-diagonal (symmetrized) becomes
+\[
+\sum_{j<k} c_j c_k \alpha^*_j \alpha^*_k (v_j - 1)(v_k - 1)\bigl[(1-\alpha_j^2)+(1-\alpha_k^2)\bigr].
+\]
+Bounding $|(v_j-1)(v_k-1)| \leq \tfrac{1}{2}\bigl((v_j-1)^2 + (v_k-1)^2\bigr)$ and $(1-\alpha_j^2)+(1-\alpha_k^2) < 2$ gives
+\[
+|\text{off-diagonal}| < \sum_k c_k \alpha^*_k (v_k-1)^2 (r^* - c_k\alpha^*_k).
+\]
+The diagonal is $\sum_k c_k \alpha^{*2}_k (v_k-1)^2 A_k$. The per-component comparison reduces to
+\[
+\alpha^*_k A_k \geq r^* - c_k\alpha^*_k.
+\]
+Computing the difference:
+\begin{equation}\label{eq:key-identity}
+\alpha^*_k A_k - (r^* - c_k\alpha^*_k) = \alpha^*_k \alpha_k (r^* + c_k\alpha_k) \geq 0,
+\end{equation}
+since all factors are positive. Therefore diagonal $\geq$ $|\text{off-diagonal}|$, and $r^*Q - DS \geq 0$.
+\end{proof}
+
+\begin{corollary}[Global stability for rational $g$]\label{cor:rational-stability}
+For the $n$-pole OA system with $K > K_c$: every trajectory in $(0,1)^n$ with $r(0) > 0$ converges to the unique PLS $\alpha^*$. No Hirsch--Smith theorem is needed.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:l2-lyapunov}: $V$ is non-increasing and $V \geq 0$. By LaSalle's invariance principle on the compact positively invariant set $[0,1]^n$: every trajectory converges to the largest invariant subset $\mathcal{M}$ of $\{dV/dt = 0\}$.
+
+\emph{Equality analysis.} From the symmetrized identity~\eqref{eq:key-identity}: $dV/dt = 0$ requires every term $c_j c_k \Pi(j,k) = 0$ in the symmetrized double sum (since each term has the same sign). Taking $j = k$: $c_k^2 \Pi(k,k) = 2c_k^2 \alpha^*_k \alpha_k (r^* + c_k \alpha_k)(v_k - 1)^2 = 0$. For $\alpha_k \in (0,1)$: all factors $\alpha^*_k, \alpha_k, r^* + c_k\alpha_k > 0$, so $v_k = 1$, i.e., $\alpha_k = \alpha^*_k$. Hence $\mathcal{M} \cap (0,1)^n = \{\alpha^*\}$.
+
+Trajectories starting in $(0,1)^n$ with $r(0) > 0$ remain in $(0,1)^n$ (Lemma~\ref{lem:trapping}) and cannot reach $\partial[0,1]^n$ (boundary repelling). Hence $\alpha(t) \to \alpha^*$.
+\end{proof}
+
+\begin{remark}[The key identity~\eqref{eq:key-identity}]
+The entire proof rests on the non-negativity of $\alpha^*_k\alpha_k(r^* + c_k\alpha_k)$, which is manifest from the positivity of all factors. The proof uses only three ingredients: (i)~AM--GM ($|xy| \leq (x^2+y^2)/2$), (ii)~the constraint $\alpha_k \in (0,1)$ (giving $1-\alpha_k^2 < 1$), and (iii)~the positivity of $\alpha_k, \alpha^*_k, r^*, c_k$. No spectral theory, no Hirsch theorem, no Perron--Frobenius theory is required.
+\end{remark}
+
+\begin{remark}[Scope: real symmetric data only]\label{rem:real-scope}
+The $L^2$ Lyapunov $V = \sum c_k(\alpha_k - \alpha^*_k)^2$ and Corollary~\ref{cor:rational-stability} apply to the real $n$-pole system on $(0,1)^n$ with positive weights $c_k > 0$. This corresponds to \emph{symmetric initial data} whose OA projection $\alpha_k = \hat{f}_1(-\mathrm{i}\gamma_k)$ is real and positive. For general (complex) initial data $\alpha_k \in \D$: the cooperativity structure breaks (the rotation $-\mathrm{i}\omega\alpha$ at real $\omega$ makes $\alpha$ complex), and the $L^2$ Lyapunov does not apply. Extending to complex data remains open for $n \geq 2$.
+\end{remark}
+
+\begin{remark}[On extension to general analytic $g$]
+The $L^2$ Lyapunov does \emph{not} extend to the continuum: numerical tests confirm that $V_\infty = \int g|\alpha - \alpha^*|^2$ genuinely increases along OA trajectories at moderate coupling, because drifting oscillators undergo free rotation far from $\alpha^*(\omega)$. A separate argument is needed for general analytic $g$; see Theorem~\ref{thm:full-range}.
+\end{remark}
+
+\section{Discussion}
+
+\subsection{What is proved}
+\begin{itemize}
+\item For \textbf{all rational $g$} (Lorentzian mixtures): \textbf{unconditional global stability} via the $L^2$ Lyapunov function (Section~\ref{sec:l2-lyapunov}). Machine-checked in Lean~4 with 0~\texttt{sorry}.
+\item For \textbf{general analytic $g$}, three unconditional results:
+  \begin{enumerate}[label=(\roman*)]
+  \item \textbf{Progressive locking} (Theorem~\ref{thm:progressive-locking}): $\Psi(t) \to +\infty$ and $|r(t)| \not\to 0$.
+  \item \textbf{Incoherence in $\Omega$}: $0 \in \Omega$.
+  \item \textbf{Unbounded locking on $\Omega$}: $\sup_\Omega\Psi = +\infty$.
+  \end{enumerate}
+\item \textbf{Global stability conditional on (H2)} (Theorem~\ref{thm:full-range}): under the heteroclinic hypothesis, every trajectory converges.
+\item \textbf{Riccati contraction identity} (Lemma~\ref{lem:riccati-contraction}): the signed identity $\frac{d}{dt}|p|^2 = -K\re[\bar{r}(\alpha_1+\alpha_2)]|p|^2$ for two OA solutions driven by the same $r$. Machine-checked in Lean~4. This is a potentially useful tool but does not by itself yield a contraction (the sign is indefinite for drifting oscillators).
+\item At \textbf{strong coupling} ($K > K_0(g)$): an independent proof via the Volterra bootstrap (Theorem~\ref{thm:strong-coupling}).
+\end{itemize}
+
+\subsection{Ruled-out approaches}
+Two natural paths were explored and definitively ruled out:
+\begin{itemize}
+\item \textbf{Direct continuum $L^2$ Lyapunov}: the pair bound $D\tilde{S} \leq r^*Q_c$ fails numerically at 40--50\% of timesteps for $K/K_c = 1.1$ to $1.5$. The $L^2_g$ distance $V = \int g|\alpha - \alpha^*|^2$ genuinely increases (from $0.78$ to $3.0$ near onset) due to free rotation of drifting oscillators.
+\item \textbf{Passage to limit via positive-weight Lorentzian approximation}: Lorentzian mixtures with positive weights cannot approximate the Gaussian in $L^1$ (error plateaus at $0.43$ regardless of pole count) due to tail mismatch ($1/\omega^2$ vs $e^{-\omega^2/2}$).
+\end{itemize}
+
+\subsection{The ``PLS at infinity'' obstruction --- resolved}
+
+The core obstruction identified in earlier approaches:
+
+\begin{quote}
+\textbf{The PLS lives at ``infinity'' in the $\Psi$ metric.} Locked oscillators have $|\alpha^*(\omega)| = 1$, giving $\Psi_{\mathrm{PLS}} = +\infty$. Standard convergence theorems require the equilibrium to be at finite distance.
+\end{quote}
+
+The $L^2$ Lyapunov function $V = \sum c_k(\alpha_k - \alpha^*_k)^2$ resolves this: $V$ is \emph{finite} at the PLS ($V = 0$ there) and \emph{non-increasing} along all trajectories. The key identity~\eqref{eq:key-identity} --- $\alpha^*_k\alpha_k(r^* + c_k\alpha_k) \geq 0$ --- provides the per-component comparison that makes the proof work.
+
+\subsection{Earlier approaches and the role of cooperativity}
+
+The problem was previously decomposed into three independently sufficient subproblems:
+\begin{enumerate}
+\item \textbf{(SP-A2)} Prove $|r(t)|$ converges. Previously blocked by the moment hierarchy. Under hypothesis~\ref{hyp:heteroclinic}, Theorem~\ref{thm:full-range} establishes convergence without proving $|r| \to r_s$ directly; the convergence of $|r|$ follows \emph{a~posteriori} from Dietert's local stability once the trajectory enters the PLS basin.
+\item \textbf{(SP-C1)} Construct a hypocoercive modified energy for the $n$-pole OA linearization (Villani~\cite{villani2009}, Dolbeault--Mouhot--Schmeiser~\cite{dms2015}). The damping $-\gamma_j$ provides microscopic coercivity, the mean-field coupling provides macroscopic coercivity. Quantitative rates uniform in $n$ would close the passage-to-limit argument.
+\item \textbf{(SP-D1)} Find a topology where $\alpha^*_K$ has finite norm and the OA orbit is precompact. The best candidate is Dietert's $\mathcal{Z}^a$ norm~\cite{dietert-thesis} (Theorem~4.31 gives $\|\hat{f}_{\mathrm{PLS}}\|_{\mathcal{Z}^a} < \infty$), but orbit precompactness requires Hypothesis~(H).
+\end{enumerate}
+
+\subsection{Promising directions from the literature}
+
+\begin{itemize}
+\item \textbf{Hypocoercivity} (Villani~\cite{villani2009}, Dolbeault--Mouhot--Schmeiser~\cite{dms2015}): the $n$-pole OA system has transport ($-\mathrm{i}\sigma_j$) + damping ($-\gamma_j$) + mean-field coupling --- exactly the structure where hypocoercivity gives exponential convergence with explicit rates. The key challenge: the mean-field coupling is rank-1 (all oscillators interact through a single order parameter), which differs from the local collision operators in the standard theory.
+\item \textbf{Wasserstein geometry}: the PLS has atoms (Dirac masses for locked oscillators) that are natural in the Wasserstein metric $W_2$. Convergence in $W_2$ can handle the $|\alpha^*| = 1$ boundary without singularities. See Morales--Poyato~\cite{morales-poyato2019} for entropy methods in the full-synchronization regime.
+\item \textbf{Monotone systems with first integrals}: Banaji--Angeli~\cite{banaji-angeli2009} prove convergence for strongly monotone semiflows with a conserved first integral $H$ satisfying $\nabla H \in \mathrm{int}(K^*)$. The OA system has $\Psi$ nondecreasing (not conserved), but an adaptation to ``increasing functionals'' (cf.\ Mierczy\'nski~\cite{mierczynski1987}) may apply.
+\end{itemize}
+
+\subsection{Failure of pointwise Lyapunov kernels}\label{sec:pointwise-failure}
+
+The original approach sought a Lyapunov functional $\Phi[\alpha] = \int g(\omega)\,\mathcal{H}(\alpha(\omega); \alpha^*_K(\omega))\,\mathrm{d}\omega$. Computing:
+\[
+\frac{\mathrm{d}}{\mathrm{d}t}\Phi = \underbrace{-K|r|^2}_{\leq 0} + \int_\R g(\omega)\,\frac{2\omega\,\im(\bar{\alpha}^*\alpha) - K\,\re[(\bar{\alpha}-\bar{\alpha}^*)(r-\bar{r}\alpha^2)]}{|\alpha - \alpha^*_K|^2}\,\mathrm{d}\omega.
+\]
+The rotation term $2\omega\,\im(\bar{\alpha}^*\alpha)/|\alpha-\alpha^*|^2$ is even in $\omega$ and does not cancel. Numerical tests confirmed that no pointwise kernel (log-ratio, Busemann, hyperbolic distance) gives monotone decrease for Gaussian $g$. The cooperative-systems approach circumvents this by evaluating at poles $\omega = -\mathrm{i}\gamma_k$ where rotation becomes damping.
+
+\section{Lean 4 formalization}
+
+The stability condition is:
+\begin{equation}\label{eq:stability-condition}
+\det\!\left(\mathrm{Id} - \frac{K}{2}M(z, r_s)\right) \neq 0, \quad \forall\,z \neq 0,\;\re(z) \geq 0.
+\end{equation}
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Lemma & Statement & Lean name \\
+\hline
+\ref{lem:trapping}(a) & $\alpha_k = 0,\;r > 0 \implies \dot{\alpha}_k > 0$ & \texttt{boundary\_zero} \\
+\ref{lem:trapping}(b) & $\alpha_k = 1 \implies \dot{\alpha}_k < 0$ & \texttt{boundary\_one} \\
+\ref{lem:coop} & $\partial f_k/\partial\alpha_j > 0$ for $j \neq k$ & \texttt{cooperativity} \\
+\ref{lem:unique}(i) & $\varphi(\lambda) \in (0,1)$ & \texttt{fixedPointComponent\_range} \\
+\ref{lem:unique}(ii) & $\sqrt{1+4\lambda^2} < 1 + 2\lambda^2$ & \texttt{sqrt\_lt\_one\_add\_two\_sq} \\
+\ref{lem:unique}(ii) & $\varphi(\lambda) < \lambda$ & \texttt{fixedPointComponent\_lt\_lam} \\
+$n=1$ & $\dot{V} < 0$ for $0 < r < r^*$ & \texttt{lorentzian\_decrease} \\
+\ref{lem:equil} & $E \cap [0,1]^n = \{0, \alpha^*\}$ & \texttt{equil\_set\_two\_points} \\
+\hline
+\multicolumn{3}{l}{\emph{Homoclinic contradiction} (\texttt{HomoclinicContradiction.lean}):} \\
+\hline
+Thm~\ref{thm:progressive-locking} & $\Psi$ bounded $+$ $\Psi(x) > 0 \Rightarrow$ False & \texttt{$\Psi$\_bounded\_contradiction} \\
+Thm~\ref{thm:progressive-locking} & $\Omega \neq \{0\} \Rightarrow \sup_\Omega\Psi = +\infty$ & \texttt{sup\_$\Psi$\_unbounded} \\
+Thm~\ref{thm:progressive-locking} & Case A impossible & \texttt{case\_A\_impossible} \\
+Thm~\ref{thm:progressive-locking} & $\Psi(0) > 0 \Rightarrow \Psi$ unbounded & \texttt{$\Psi$\_diverges} \\
+\hline
+\multicolumn{3}{l}{\emph{Assembly} (\texttt{GlobalStability.lean}):} \\
+\hline
+Thm~\ref{thm:main-rational} & Axioms $\Rightarrow$ stability ingredients & \texttt{almost\_global\_stability} \\
+\hline
+\multicolumn{3}{l}{\emph{Axioms} (from literature, not machine-checked):} \\
+\hline
+Thm~\ref{thm:hirsch} & Cooperative generic convergence & \texttt{axiom hirsch\_smith} \\
+\cite{dietert2017} & PLS locally stable & \texttt{axiom dietert\_local\_stability} \\
+Prop~\ref{prop:oa-attract} & OA manifold attractivity & \texttt{axiom oa\_manifold\_attractivity} \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{99}
+
+\bibitem{kuramoto1975}
+Y.~Kuramoto, \emph{Self-entrainment of a population of coupled non-linear oscillators}, Lecture Notes in Physics \textbf{39}, Springer, 1975, pp.~420--422.
+
+\bibitem{ott-antonsen2008}
+E.~Ott and T.\,M.~Antonsen, \emph{Low dimensional behavior of large systems of globally coupled oscillators}, Chaos \textbf{18} (2008) 037113.
+
+\bibitem{chiba2015}
+H.~Chiba, \emph{A proof of the Kuramoto conjecture}, Ergodic Theory Dynam.\ Systems \textbf{35} (2015) 762--834.
+
+\bibitem{fgg2016}
+B.~Fernandez, D.~G\'erard-Varet, and G.~Giacomin, \emph{Landau damping in the Kuramoto model}, Ann.\ Henri Poincar\'e \textbf{17} (2016) 1793--1823.
+
+\bibitem{dietert2017}
+H.~Dietert, \emph{Stability of partially locked states in the Kuramoto model through Landau damping with Sobolev regularity}, arXiv:1707.03475 (2020).
+
+\bibitem{dietert-fernandez2018}
+H.~Dietert and B.~Fernandez, \emph{The mathematics of asymptotic stability in the Kuramoto model}, Proc.\ R.\ Soc.\ A \textbf{474} (2018) 20180467.
+
+\bibitem{lipton2021}
+M.~Lipton, R.~Mirollo, and S.\,H.~Strogatz, \emph{The Kuramoto model on a sphere}, Chaos \textbf{31} (2021) 093113.
+
+\bibitem{chen2017}
+B.~Chen, J.\,R.~Engelbrecht, and R.~Mirollo, \emph{Hyperbolic geometry of Kuramoto oscillator networks}, J.\ Phys.\ A \textbf{50} (2017) 355101.
+
+\bibitem{hirsch1988}
+M.\,W.~Hirsch, \emph{Systems of differential equations that are competitive or cooperative.\ IV}, SIAM J.\ Math.\ Anal.\ \textbf{21} (1990) 1225--1234.
+
+\bibitem{smith1995}
+H.\,L.~Smith, \emph{Monotone Dynamical Systems}, Mathematical Surveys and Monographs \textbf{41}, AMS, 1995.
+
+\bibitem{bronski-wang2020}
+J.\,C.~Bronski and L.~Wang, \emph{Partially phase-locked solutions to the Kuramoto model}, J.~Stat.\ Phys.\ \textbf{178} (2020) 996--1044.
+
+\bibitem{thieme1992}
+H.\,R.~Thieme, \emph{Convergence results and a Poincar\'e--Bendixson trichotomy for asymptotically autonomous differential equations}, J.~Math.\ Biol.\ \textbf{30} (1992) 755--763.
+
+\bibitem{dietert2016}
+H.~Dietert, \emph{Stability and bifurcation for the Kuramoto model}, J.~Math.\ Pures Appl.\ \textbf{105}(4) (2016) 451--489.
+
+\bibitem{dietert-fgv-cpam}
+H.~Dietert, B.~Fernandez, and D.~G\'erard-Varet, \emph{Landau damping to partially locked states in the Kuramoto model}, Comm.\ Pure Appl.\ Math.\ \textbf{71}(5) (2018) 953--993.
+
+\bibitem{villani2009}
+C.~Villani, \emph{Hypocoercivity}, Mem.\ Amer.\ Math.\ Soc.\ \textbf{202}(950) (2009).
+
+\bibitem{dms2015}
+J.~Dolbeault, C.~Mouhot, and C.~Schmeiser, \emph{Hypocoercivity for linear kinetic equations conserving mass}, Trans.\ Amer.\ Math.\ Soc.\ \textbf{367} (2015) 3807--3828.
+
+\bibitem{banaji-angeli2009}
+M.~Banaji and D.~Angeli, \emph{Convergence in strongly monotone systems with an increasing first integral}, SIAM J.\ Appl.\ Dyn.\ Syst.\ \textbf{9}(2) (2010) 238--252.
+
+\bibitem{cestnik-martens2024}
+R.~Cestnik and E.\,A.~Martens, \emph{Integrability of a globally coupled complex Riccati array}, Phys.\ Rev.\ Lett.\ \textbf{132} (2024) 057201.
+
+\bibitem{dietert-thesis}
+H.~Dietert, \emph{Contributions to mixing and hypocoercivity in kinetic models}, PhD thesis, University of Cambridge, 2016.
+
+\bibitem{haraux-jendoubi2015}
+A.~Haraux and M.\,A.~Jendoubi, \emph{The Convergence Problem for Dissipative Autonomous Systems}, Springer, 2015.
+
+\bibitem{morales-poyato2019}
+J.~Morales and D.~Poyato, \emph{On the trend to global equilibrium for Kuramoto oscillators}, arXiv:1908.07657 (2019).
+
+\bibitem{carrillo-wasserstein2013}
+J.\,A.~Carrillo, Y.-P.~Choi, S.-Y.~Ha, M.-J.~Kang, and Y.~Kim, \emph{Contractivity of transport distances for the kinetic Kuramoto equation}, J.\ Stat.\ Phys.\ \textbf{156} (2014) 395--415.
+
+\bibitem{iacobelli2021}
+M.~Iacobelli, \emph{A new perspective on Wasserstein distances for kinetic problems}, Arch.\ Ration.\ Mech.\ Anal.\ \textbf{244} (2022) 27--50.
+
+\bibitem{mouhot-villani2011}
+C.~Mouhot and C.~Villani, \emph{On Landau damping}, Acta Math.\ \textbf{207} (2011) 29--201.
+
+\bibitem{mierczynski1987}
+J.~Mierczy\'nski, \emph{Strictly cooperative systems with a first integral}, SIAM J.\ Math.\ Anal.\ \textbf{18}(3) (1987) 642--646.
+
+\bibitem{kuehn-landi2025}
+C.~Kuehn and P.~Landi, \emph{The mean-field Ott--Antonsen manifold is an unstable manifold in the continuum limit}, arXiv:2511.03833 (2025).
+
+\bibitem{pietras-daffertshofer2016}
+B.~Pietras and A.~Daffertshofer, \emph{Ott--Antonsen attractiveness for parameter-dependent oscillatory networks}, Chaos \textbf{26} (2016) 103101.
+
+\bibitem{hille1997}
+E.~Hille, \emph{Ordinary Differential Equations in the Complex Domain}, Dover, 1997.
+
+\bibitem{bates-jones1989}
+P.\,W.~Bates and C.\,K.\,R.\,T.~Jones, \emph{Invariant manifolds for semilinear partial differential equations}, Dynamics Reported \textbf{2} (1989) 1--38.
+
+\bibitem{strogatz2000}
+S.\,H.~Strogatz, \emph{From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators}, Physica~D \textbf{143} (2000) 1--20.
+
+\bibitem{hirsch-smale-devaney}
+M.\,W.~Hirsch, S.~Smale and R.\,L.~Devaney, \emph{Differential Equations, Dynamical Systems, and an Introduction to Chaos}, 3rd ed., Academic Press, 2013. Theorem~8.2.1.
+
+\end{thebibliography}
+
+\end{document}

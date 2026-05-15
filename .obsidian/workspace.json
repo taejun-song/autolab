@@ -1,0 +1,222 @@
+{
+  "main": {
+    "id": "03bb777bc3e13642",
+    "type": "split",
+    "children": [
+      {
+        "id": "8c1587c369776459",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ebd86b19062aaa6c",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "6f42cd66d015adb0",
+    "type": "split",
+    "children": [
+      {
+        "id": "3f660c9dede2c4b8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "298a23b3ea7dbe9d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "79ba129f85d50721",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "6652037670c49400",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 296.5
+  },
+  "right": {
+    "id": "ae9095f363ed221d",
+    "type": "split",
+    "children": [
+      {
+        "id": "0783dc194f3a9aa1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8dc497a0c2ae1b93",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "b39c18cf9e2d2893",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "a2627e312e875340",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "1b934df9e016b52d",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "722bd2cd7bd20ea1",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "298a23b3ea7dbe9d",
+  "lastOpenFiles": [
+    "syntheses/subproblem-decomposition.md",
+    "syntheses/research-program.md",
+    "syntheses/kuramoto-stability-state-of-the-art.md",
+    "syntheses/hyperbolic-lyapunov-attack-on-kuramoto-stability.md",
+    "syntheses/cooperative-oa-global-stability.md",
+    "summaries/villani-2009-hypocoercivity.md",
+    "summaries/tang-2025-lean4-survey.md",
+    "summaries/strogatz-2000-from-kuramoto-to-crawford.md",
+    "summaries/pietras-daffertshofer-2016-oa-parameter-dependent.md",
+    "summaries/pecorella-2024-kuramoto-kolmogorov.md",
+    "summaries/ott-antonsen-2008-low-dimensional.md",
+    "summaries/mouhot-villani-2011-landau-damping.md",
+    "summaries/morales-poyato-2019-trend-equilibrium.md",
+    "summaries/lipton-mirollo-strogatz-2021-kuramoto-on-sphere.md",
+    "summaries/kuramoto-1975-self-entrainment.md",
+    "summaries/kuehn-landi-2025-oa-unstable-manifold.md",
+    "summaries/jabin-wang-2019-mean-field-singular.md",
+    "summaries/iacobelli-2021-kinetic-wasserstein.md",
+    "summaries/haraux-jendoubi-2015-convergence-problem.md",
+    "summaries/hanche-olsen-holden-2010-kolmogorov-riesz.md",
+    "summaries/ha-ko-park-zhang-2016-collective-synchronization.md",
+    "summaries/ha-kim-ryoo-2016-emergence-phase-locked-states.md",
+    "summaries/fernandez-gerard-varet-giacomin-2016-landau-damping.md",
+    "summaries/faou-rousset-2014-vlasov-hmf.md",
+    "summaries/dolbeault-mouhot-schmeiser-2015-hypocoercivity-kinetic.md",
+    "summaries/dietert-fernandez-2018-asymptotic-stability.md",
+    "raw/scripts/oa_rational_global.py",
+    "raw/scripts/sp2_weak_coupling.py",
+    "raw/scripts/sp2_very_weak.py",
+    "raw/scripts/sp2_time_avg.py",
+    "raw/scripts/sp2_self_consistency.py",
+    "raw/scripts/sp2_r_convergence.py",
+    "raw/scripts/sp2_bootstrap_verify.py",
+    "raw/scripts/phi_oa_test.png",
+    "raw/scripts/phase_mixed_instability.py",
+    "raw/scripts/pair_bound_diagnostic.py",
+    "raw/scripts/oa_lyapunov_test.py",
+    "raw/scripts/lorentzian_global.png",
+    "raw/scripts/bicauchy_global.png",
+    "Untitled.canvas"
+  ]
+}

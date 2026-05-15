@@ -130,4 +130,4 @@ Similarly, ∫ω²g converges iff the integrand ∼ ω²·ω^{-(ν+1)} = ω^{-(�
 
 ## 7. Label
 
-**open** — The body LaSalle argument (BodyLaSalleConvergence.lean) is proved from BodyODEData, but BodyODEData cannot be instantiated for non-integrable γ due to the V_body antitonicity gap. The gap is the pair bound for body-restricted integrals under global (not body-local) self-consistency.
+**open** — The body LaSalle argument (BodyLaSalleConvergence.lean) is proved from BodyODEData, but BodyODEData cannot be instantiated for non-integrable γ due to the V_body antitonicity gap. The gap is the pair bound for body-restricted integrals under global (not body-local) self-consistency. See [[order-parameter-persistence]] and [[r-stays-positive-strategies]] for the closely related persistence gap.

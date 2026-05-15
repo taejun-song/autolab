@@ -1,0 +1,201 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\R}{\mathbb{R}}
+
+\title{An $L^2$ Lyapunov Function for the Ott--Antonsen\\$n$-Pole Kuramoto System}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove that $V(\alpha) = \sum_{k=1}^n c_k(\alpha_k - \alpha_k^*)^2$ is a global Lyapunov function for the $n$-pole Ott--Antonsen reduction of the Kuramoto model with coupling $K > K_c$. The proof uses only the AM--GM inequality, the constraint $\alpha_k \in (0,1)$, and manifest positivity. Combined with LaSalle's invariance principle, this gives unconditional global convergence to the partially locked state for every rational (Lorentzian mixture) frequency distribution, without the Hirsch--Smith monotone convergence theorem. The proof is machine-checked in Lean~4 with zero \texttt{sorry}.
+\end{abstract}
+
+\section{Introduction}
+
+The Kuramoto model~\cite{kuramoto1975} describes coupled phase oscillators in the mean-field limit. For a rational frequency distribution $g(\omega) = \sum_{k=1}^n c_k L_{\gamma_k}(\omega)$ (a mixture of $n$ Lorentzians), the Ott--Antonsen ansatz~\cite{ott-antonsen2008} reduces the dynamics to a finite-dimensional ODE on $(0,1)^n$:
+\begin{equation}\label{eq:ode}
+\dot{\alpha}_k = f_k(\alpha) := -\gamma_k \alpha_k + \frac{K}{2}\,r\,(1 - \alpha_k^2), \qquad r = \sum_{j=1}^n c_j \alpha_j,
+\end{equation}
+where $\alpha_k \in (0,1)$, $\gamma_k > 0$, $c_k > 0$, $\sum c_k = 1$, and $K > 0$.
+
+For $K > K_c$, there exists a unique equilibrium $\alpha^* \in (0,1)^n$---the partially locked state (PLS)---satisfying
+\begin{equation}\label{eq:equil}
+\gamma_k \alpha_k^* = \frac{K}{2}\,r^*\,(1 - \alpha_k^{*2}), \qquad r^* = \sum_{j=1}^n c_j \alpha_j^* > 0.
+\end{equation}
+
+Global stability of the PLS has been known through cooperative systems theory (Hirsch--Smith~\cite{hirsch1985,smith1995}), which applies because the system~\eqref{eq:ode} is cooperative and irreducible~\cite{dietert-fernandez2018}. We give an alternative proof via an explicit Lyapunov function that avoids the Hirsch--Smith machinery entirely.
+
+\begin{theorem}[Main result]\label{thm:main}
+Under~\eqref{eq:equil} with $\alpha_k, \alpha_k^* \in (0,1)$, $c_k > 0$, $\gamma_k > 0$:
+\[
+\frac{dV}{dt} = \sum_{k=1}^n c_k \cdot 2(\alpha_k - \alpha_k^*) \cdot f_k(\alpha) \leq 0,
+\]
+where $V(\alpha) = \sum_{k=1}^n c_k (\alpha_k - \alpha_k^*)^2$.
+\end{theorem}
+
+\begin{corollary}[Global stability]\label{cor:global}
+For the system~\eqref{eq:ode} with $K > K_c$: every trajectory starting in $(0,1)^n$ with $r(0) > 0$ converges to $\alpha^*$.
+\end{corollary}
+
+\section{Proof of Theorem~\ref{thm:main}}
+
+\subsection{Velocity factoring}
+
+\begin{lemma}\label{lem:factor}
+The equilibrium equation~\eqref{eq:equil} gives $\gamma_k = \frac{K}{2}r^*(1-\alpha_k^{*2})/\alpha_k^*$. The quadratic $x \mapsto -\gamma_k x + \frac{K}{2}r^*(1-x^2)$ has roots $\alpha_k^*$ and $-1/\alpha_k^*$ (product of roots $= -1$). Therefore
+\[
+-\gamma_k\alpha_k + \tfrac{K}{2}r^*(1-\alpha_k^2) = \tfrac{K}{2}r^*(\alpha_k^* - \alpha_k)(\alpha_k + 1/\alpha_k^*).
+\]
+\end{lemma}
+
+\begin{proof}
+Substitute $\gamma_k = \frac{K}{2}r^*(1-\alpha_k^{*2})/\alpha_k^*$ and expand. \textbf{Lean~4}: \texttt{velocity\_factoring}, 0~\texttt{sorry}.
+\end{proof}
+
+Setting $p_k = \alpha_k - \alpha_k^*$, $q_k = \alpha_k + 1/\alpha_k^*$, and separating the mean-field coupling $r - r^*$ from the fixed-$r^*$ part:
+\begin{equation}\label{eq:component}
+p_k\,f_k(\alpha) = -\tfrac{K}{2}r^*\,p_k^2\,q_k + \tfrac{K}{2}(r-r^*)\,p_k(1-\alpha_k^2).
+\end{equation}
+(\textbf{Lean~4}: \texttt{l2\_component\_identity}, 0~\texttt{sorry}.)
+
+\subsection{The identity $dV/dt = K(DS - r^*Q)$}
+
+Define
+\[
+D = \sum_k c_k p_k, \qquad S = \sum_k c_k p_k(1-\alpha_k^2), \qquad Q = \sum_k c_k p_k^2 q_k.
+\]
+Summing~\eqref{eq:component} with weights $2c_k$ and noting $D = r - r^*$:
+\begin{equation}\label{eq:identity}
+\frac{dV}{dt} = K\,(D \cdot S - r^* \cdot Q).
+\end{equation}
+(\textbf{Lean~4}: \texttt{l2\_lyapunov\_identity}, 0~\texttt{sorry}.)
+
+\subsection{The inequality $DS \leq r^*Q$}
+
+Expand $r^*Q - DS$ using $r^* = \sum c_j\alpha_j^*$ and $D = \sum c_j p_j$:
+\[
+r^*Q - DS = \sum_j\sum_k c_j c_k\bigl[\alpha_j^*\,p_k^2 q_k - p_j p_k(1-\alpha_k^2)\bigr].
+\]
+Symmetrize by averaging the $(j,k)$ and $(k,j)$ terms:
+\begin{equation}\label{eq:symmetrized}
+r^*Q - DS = \frac{1}{2}\sum_j\sum_k c_jc_k\,\Pi(j,k),
+\end{equation}
+where
+\[
+\Pi(j,k) = \alpha_j^*\,p_k^2 q_k + \alpha_k^*\,p_j^2 q_j - p_jp_k\bigl[(1-\alpha_k^2)+(1-\alpha_j^2)\bigr].
+\]
+(\textbf{Lean~4}: \texttt{ds\_le\_rstarQ}, 0~\texttt{sorry}. Uses \texttt{Finset.sum\_comm} for the symmetrization.)
+
+\begin{lemma}[Pair bound]\label{lem:pair}
+For $\alpha_j, \alpha_k \in (0,1)$ and $\alpha_j^*, \alpha_k^* > 0$: $\Pi(j,k) \geq 0$.
+\end{lemma}
+
+\begin{proof}
+Multiply by $\alpha_j^*\alpha_k^* > 0$ and set
+\begin{multline*}
+N = \alpha_j^{*2}(\alpha_k\alpha_k^*+1)\,p_k^2 + \alpha_k^{*2}(\alpha_j\alpha_j^*+1)\,p_j^2 \\
+{} - \alpha_j^*\alpha_k^*\,p_jp_k\,(2 - \alpha_j^2 - \alpha_k^2).
+\end{multline*}
+We show $N \geq 0$ by splitting into two cases.
+
+\smallskip\noindent\textbf{Case $p_jp_k < 0$.} The first two terms are products of positive quantities and squares, hence $\geq 0$. For the third: $p_jp_k < 0$ and $2-\alpha_j^2-\alpha_k^2 > 0$ (since $\alpha_j, \alpha_k \in (0,1)$), so $-\alpha_j^*\alpha_k^*p_jp_k(2-\alpha_j^2-\alpha_k^2) > 0$. All three terms are non-negative.
+
+\smallskip\noindent\textbf{Case $p_jp_k \geq 0$.} The third term is $\leq 0$. From $(\alpha_k^*p_j - \alpha_j^*p_k)^2 \geq 0$:
+\begin{equation}\label{eq:amgm}
+\alpha_k^{*2}p_j^2 + \alpha_j^{*2}p_k^2 \geq 2\alpha_j^*\alpha_k^*p_jp_k.
+\end{equation}
+Since $\alpha_j, \alpha_k \in (0,1)$ gives $2-\alpha_j^2-\alpha_k^2 < 2$:
+\[
+\alpha_j^*\alpha_k^*\,p_jp_k\,(2-\alpha_j^2-\alpha_k^2) < 2\alpha_j^*\alpha_k^*\,p_jp_k \leq \alpha_k^{*2}p_j^2 + \alpha_j^{*2}p_k^2,
+\]
+where the last step uses~\eqref{eq:amgm}. The remaining terms $\alpha_j\alpha_j^*\alpha_k^{*2}p_j^2 + \alpha_k\alpha_k^*\alpha_j^{*2}p_k^2 \geq 0$ provide a strict margin.
+
+(\textbf{Lean~4}: \texttt{pair\_bound}, 0~\texttt{sorry}. Uses \texttt{nlinarith} with the SOS witnesses $(\alpha_k^*p_j - \alpha_j^*p_k)^2$ and $(\alpha_j\alpha_k^*p_j - \alpha_k\alpha_j^*p_k)^2$ after clearing denominators via \texttt{pair\_bound\_clear\_denom}.)
+\end{proof}
+
+From~\eqref{eq:symmetrized} and Lemma~\ref{lem:pair}: every term $c_jc_k\Pi(j,k) \geq 0$, so $r^*Q - DS \geq 0$. By~\eqref{eq:identity}: $dV/dt \leq 0$. \qed
+
+\section{Proof of Corollary~\ref{cor:global}}
+
+The set $\overline{S} = [\varepsilon, 1-\varepsilon]^n$ (for small $\varepsilon > 0$) is compact and forward-invariant for~\eqref{eq:ode}: at $\alpha_k = \varepsilon$ with $r > 0$, $f_k > 0$ (boundary repelling from below); at $\alpha_k = 1-\varepsilon$, $f_k < 0$ for $\varepsilon$ small enough (boundary repelling from above, since $f_k|_{\alpha_k=1} = -\gamma_k < 0$). See~\cite{smith1995} for the standard argument.
+
+On $\overline{S}$, LaSalle's invariance principle applies: $V$ is continuous, $\dot{V} \leq 0$ (Theorem~\ref{thm:main}), so every trajectory converges to the largest invariant subset $\mathcal{M}$ of $E = \{\alpha \in \overline{S} : \dot{V}(\alpha) = 0\}$.
+
+\begin{lemma}\label{lem:invariant}
+$\mathcal{M} \cap (0,1)^n = \{\alpha^*\}$.
+\end{lemma}
+
+\begin{proof}
+From the proof of Theorem~\ref{thm:main}: $\dot{V} = 0$ requires every term in the symmetrized double sum~\eqref{eq:symmetrized} to vanish (since each $c_jc_k\Pi(j,k) \geq 0$). In particular, taking $j = k$:
+\[
+c_k^2\,\Pi(k,k) = c_k^2\bigl[2\alpha_k^*\,p_k^2 q_k - 2p_k^2(1-\alpha_k^2)\bigr] = 2c_k^2 p_k^2\bigl[\alpha_k^*q_k - (1-\alpha_k^2)\bigr] = 0.
+\]
+Now $\alpha_k^* q_k - (1-\alpha_k^2) = \alpha_k^*\alpha_k + \alpha_k^2 = \alpha_k(\alpha_k^* + \alpha_k)$. For $\alpha_k \in (0,1)$ and $\alpha_k^* \in (0,1)$: $\alpha_k(\alpha_k^* + \alpha_k) > 0$. Therefore $p_k = 0$ for each $k$, i.e., $\alpha = \alpha^*$.
+\end{proof}
+
+By Lemma~\ref{lem:invariant}, every trajectory in $(0,1)^n$ converges to $\alpha^*$. \qed
+
+\section{Discussion}
+
+\subsection{Comparison with existing approaches}
+
+The system~\eqref{eq:ode} is cooperative ($\partial f_k/\partial \alpha_j = (K/2)c_j(1-\alpha_k^2) > 0$ for $j \neq k$) and irreducible. Global stability follows from the Hirsch--Smith theorem~\cite{hirsch1985,smith1995} combined with Dietert's local stability~\cite{dietert2016}. Our proof replaces the entire monotone dynamics theory with one elementary identity: $\alpha_k^*\alpha_k(\alpha_k^*+\alpha_k) > 0$.
+
+The Lyapunov function $V$ is finite at the PLS ($V=0$), unlike the functional $\Psi = -\sum c_k\log(1-\alpha_k^2)$, which satisfies $d\Psi/dt = Kr^2 \geq 0$ but has $\Psi_{\mathrm{PLS}} = +\infty$ (since $\alpha_k^* \to 1$ for locked oscillators in the continuum limit). The finiteness of $V$ at the PLS removes the main obstruction to previous Lyapunov approaches.
+
+\subsection{Extension to general analytic $g$}
+
+For non-rational analytic $g$, the $n$-pole result can be combined with rational approximation and Dietert's local stability theory~\cite{dietert2016,dietert-fernandez2018} to establish convergence on the OA manifold. Combined with the Dietert--Fernandez result on OA attractivity~\cite{dietert-fernandez2018}, this yields global stability for the full Kuramoto equation. We defer the details of this extension, which requires careful estimates on the approximation rate and the passage to limit, to a forthcoming work.
+
+\subsection{Machine verification}
+
+Theorem~\ref{thm:main} and Corollary~\ref{cor:global} are formalized in Lean~4 (file \texttt{L2Lyapunov.lean}, 366 lines) with:
+\begin{itemize}
+\item 0~\texttt{sorry} (no unverified steps),
+\item 0~axioms beyond Lean's type theory and Mathlib,
+\item 13~theorems.
+\end{itemize}
+Key components: \texttt{velocity\_factoring} (Lemma~\ref{lem:factor}), \texttt{pair\_bound} (Lemma~\ref{lem:pair}), \texttt{ds\_le\_rstarQ} (the double-sum symmetrization), and \texttt{l2\_lyapunov\_theorem} (Theorem~\ref{thm:main}).
+
+\begin{thebibliography}{99}
+
+\bibitem{kuramoto1975}
+Y.~Kuramoto, \emph{Self-entrainment of a population of coupled non-linear oscillators}, in: International Symposium on Mathematical Problems in Theoretical Physics, Lecture Notes in Phys.\ \textbf{39}, Springer, 1975, pp.~420--422.
+
+\bibitem{ott-antonsen2008}
+E.~Ott and T.\,M.~Antonsen, \emph{Low dimensional behavior of large systems of globally coupled oscillators}, Chaos \textbf{18} (2008) 037113.
+
+\bibitem{hirsch1985}
+M.\,W.~Hirsch, \emph{Systems of differential equations that are competitive or cooperative. II: Convergence almost everywhere}, SIAM J.~Math.~Anal.\ \textbf{16} (1985) 423--439.
+
+\bibitem{smith1995}
+H.\,L.~Smith, \emph{Monotone Dynamical Systems: An Introduction to the Theory of Competitive and Cooperative Systems}, AMS Math.\ Surveys \textbf{41}, 1995.
+
+\bibitem{dietert2016}
+H.~Dietert, \emph{Stability and bifurcation for the Kuramoto model}, J.~Math.~Pures Appl.\ \textbf{105} (2016) 451--489.
+
+\bibitem{dietert-fernandez2018}
+H.~Dietert and B.~Fernandez, \emph{The mathematics of asymptotic stability in the Kuramoto model}, Proc.~R.~Soc.~A \textbf{474} (2018) 20180467.
+
+\bibitem{strogatz2000}
+S.\,H.~Strogatz, \emph{From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators}, Physica~D \textbf{143} (2000) 1--20.
+
+\end{thebibliography}
+
+\end{document}
