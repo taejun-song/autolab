@@ -38,7 +38,7 @@ We introduce two novel proof techniques for Kuramoto model stability and present
 
 \textbf{Contribution 2: Rotation cancellation.} For the standard complex OA equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, the rotation term $-i\omega$ cancels exactly in the Lyapunov derivative after equilibrium subtraction: $\re(\bar w \cdot (-i\omega w)) = 0$ for $w = z - z^*$, since $|w|^2 \in \R$. This bridges the dissipative and rotational formulations.
 
-\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{255 Lean files} (commit \texttt{58b6194}) with \textbf{0~\texttt{sorry}}; \texttt{lake build KuramotoLean.RealScalarComplete} produces 0 sorry warnings. The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms, no hidden hypotheses}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). Every link is machine-checked. Coverage: Gaussian, Student-$t$ with $\nu > 1$, compact support, and all mixtures. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
+\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{255 Lean files} (commit \texttt{58b6194}) with \textbf{0~\texttt{sorry}}; the declaration \texttt{real\_scalar\_complete} itself produces no sorry warning (the imported file \texttt{KuramotoGlobal.lean} contains unrelated sorry's in other theorems that are not used by our proof chain). The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). The theorem also requires initial body coherence ($\alpha(\omega,0) \geq \delta_0 > 0$ on $\{\gamma \leq M\}$ for each $M$), which holds for initial data near the PLS. Coverage: Gaussian, Student-$t$ with $\nu > 1$, compact support, and all mixtures. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
 \end{abstract}
 
 \tableofcontents
@@ -243,7 +243,7 @@ Steps 1 through 6 above, composed in order, constitute the complete proof. In Le
 \item \texttt{coercive\_drop\_from\_persistence} gives $V \to 0$ via body-tail split + Barbalat.
 \item \texttt{sq\_integral\_le\_integral\_sq} gives $(r-r^*)^2 \leq V$, so $r \to r^*$.
 \end{enumerate}
-This is assembled as \texttt{kuramoto\_solved} in \texttt{GeneralGMainTheorem.lean}. The only external input beyond physical parameters is the persistence hypothesis~(v) of \texttt{h\_exists}; all intermediate estimates are derived.
+The end-to-end theorem is \texttt{real\_scalar\_complete} in \texttt{RealScalarComplete.lean}, which wires the chain and derives body persistence internally from the basin condition.
 \end{proof}
 
 \subsection{Step 7: Pair rigidity (characterization of $V' = 0$)}\label{sec:rigidity}
@@ -367,7 +367,7 @@ Pair rigidity (Prop.~\ref{prop:rigidity}) & \texttt{pair\_eq\_zero\_iff} & \text
 
 \subsection{Nine independent proof paths}
 
-The formalization contains nine independent, sorry-free proofs of global stability or closely related statements. Each addresses a different mathematical angle:
+The formalization contains nine independent, sorry-free proofs of basin stability or closely related statements. Each addresses a different mathematical angle:
 
 \medskip
 \begin{center}
