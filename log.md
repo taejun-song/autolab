@@ -5965,3 +5965,103 @@ Major restructuring of MainTheorem.lean and companion files:
 - codex: I recorded the verified state with git commit `287951f`: `Record that ComplexOAFullChain is already closed` The worktree is clean. 
 - gemini: Gemini unavailable — Codex solo mode 
 - commit: 287951f Record that ComplexOAFullChain is already closed
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 1
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: 94,339 `[KuramotoLean/KuramotoFresh.lean](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean)` already had no `sorry`, so there was nothing to replace. I read the file and ran `lake build KuramotoLean.KuramotoFresh`; it completed successfully. The only output relevant to this target was a warning about an unused variable `hω_small` at `KuramotoLean/KuramotoFresh.lean:39`. There were no code changes to stage, so I recorded the verified state with an empty commit on `main`: `b230989bc77107810a32cb78891f10ce74602ba1`. The worktree is clean. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: b230989 Record that KuramotoFresh already closes without placeholder proofs
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 2
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: `KuramotoLean/KuramotoFresh.lean` already had no `sorry`, so there was nothing real to replace. I read the file, confirmed `rg -n sorry KuramotoLean/KuramotoFresh.lean` found nothing, and `lake build KuramotoLean.KuramotoFresh` completed successfully. I recorded that verified state with an empty Lore-format checkpoint commit on `main`: `dcf5f2a` (`Record that KuramotoFresh already closes without placeholder proofs`). The worktree is clean. 2026-05-16T00:48:52.738512Z ERROR codex_core::session: failed to record rollout items: thread 019e2e40-d6b8-73b2-a485-5b9b59c87ffe not found 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: dcf5f2a Record that KuramotoFresh already closes without placeholder proofs
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 3
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: 47,388 `KuramotoLean/KuramotoFresh.lean` already had no local `sorry` placeholders, so there was nothing to replace. I confirmed that with `rg -n "sorry" KuramotoLean/KuramotoFresh.lean`, then ran `lake build KuramotoLean.KuramotoFresh`, which completed successfully. I recorded the verification as an empty Lore-format commit on `main`: `583afa8` (`Record that KuramotoFresh already closes without placeholder proofs`). The worktree is clean. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: 583afa8 Record that KuramotoFresh already closes without placeholder proofs
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 4
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: 38,279 [KuramotoFresh.lean](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean) already had no `sorry` placeholders, so there was nothing to replace. I read the file, confirmed `rg -n "sorry" KuramotoLean/KuramotoFresh.lean` returns no matches, and `lake build KuramotoLean.KuramotoFresh` completed successfully. Because there was no honest source edit to make, I recorded verified progress with an empty Lore-format commit: `fc384d8` (`Record that KuramotoFresh already closes without placeholder proofs`). The build emitted pre-existing warnings elsewhere in the repo, and `KuramotoFresh.lean` itself has one warning for an unused variable `hω_small`, but no proof gaps. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: fc384d8 Record that KuramotoFresh already closes without placeholder proofs
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 5
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: 37,516 `KuramotoLean/KuramotoFresh.lean` already had no `sorry` terms, so there was nothing to replace. I read the file, confirmed `rg` found no `sorry`, and `lake build KuramotoLean.KuramotoFresh` completed successfully. The only warning in that target file is an unused variable `hω_small` at [KuramotoFresh.lean](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean:39), but it does not block the build. I recorded the verification state with an empty git commit: `be4af37` (`Record KuramotoFresh sorry-closure verification`). No source files were modified. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: be4af37 Record KuramotoFresh sorry-closure verification
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 6
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: `KuramotoLean/KuramotoFresh.lean` already had no `sorry`, so there was nothing to replace in that file. I verified that with `rg -n "sorry" KuramotoLean/KuramotoFresh.lean`, then ran `lake build KuramotoLean.KuramotoFresh`, which completed successfully. I recorded that verified state with an empty commit: `8de6abf` (`Record that KuramotoFresh already closes without placeholder proofs`). One minor note: the build emits a warning in [KuramotoFresh.lean](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean:39) about the unused hypothesis `hω_small`, but it is not a proof hole and does not block the target build. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: 8de6abf Record that KuramotoFresh already closes without placeholder proofs
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 7
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: 38,300 [KuramotoLean/KuramotoFresh.lean](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean:37) already contains proofs and no `sorry`. The two theorems are fully closed at [line 37](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean:37) and [line 54](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean:54), so there was nothing to replace. `lake build KuramotoLean.KuramotoFresh` completed successfully. The repo is still clean (`git status --short` returned nothing), so I did not create a commit because there are no file changes to commit. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: 8de6abf Record that KuramotoFresh already closes without placeholder proofs
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 8
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: 44,903 `KuramotoLean/KuramotoFresh.lean` did not contain any literal `sorry` when I read it, so there was no proof hole in that file to close. I made one minimal cleanup in [KuramotoFresh.lean](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean:39) by marking an unused hypothesis as `_hω_small`, which removes the file’s local unused-variable warning without changing the proof. Verification: `lake build KuramotoLean.KuramotoFresh` completed successfully. I committed the progress as `4e27c22` with a Lore-format message. The unrelated untracked file `KuramotoLean/BasinDecay.lean` was left untouched. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: e22151b feat: BasinDecay — real analysis for V decomposition (0 sorry)
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 9
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: 53,374 [KuramotoLean/KuramotoFresh.lean](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean) already had no `sorry` placeholders, so there was nothing legitimate to replace. I verified that with a direct search and `lake build KuramotoLean.KuramotoFresh`, which completed successfully. Because you asked for a git commit, I recorded the verified no-change state with an empty commit: `3b0c3c5`. The worktree is clean. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: 3b0c3c5 Record that KuramotoFresh already closes without placeholder proofs
+
+## [2026-05-16] experiment | attack KuramotoFresh turn 10
+
+- sorry: 0
+0 → 0
+0 (errors: 0
+0)
+- codex: 46,070 [KuramotoLean/KuramotoFresh.lean](/Users/taejunsong/workspace/kuramoto-lean/KuramotoLean/KuramotoFresh.lean) already had no `sorry` placeholders, so there was nothing legitimate to replace. I read the file, confirmed `rg -n sorry KuramotoLean/KuramotoFresh.lean` returned no matches, and `lake build KuramotoLean.KuramotoFresh` completed successfully. Because you asked for a git checkpoint, I recorded the verified no-op state with an empty commit: `e680b40` (`Record that KuramotoFresh already closes without placeholder proofs`). The worktree is clean. 
+- gemini: Gemini unavailable — Codex solo mode 
+- commit: e680b40 Record that KuramotoFresh already closes without placeholder proofs

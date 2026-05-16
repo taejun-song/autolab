@@ -82,3 +82,13 @@ timestamp	experiment	file	sorry_count	axiom_count	error_count	status	description
 2026-05-15 08:26:53	exp081	ComplexOAFullChain	0	0	0	keep	attack turn 9
 2026-05-15 08:28:46	exp082	ComplexOAFullChain	0	0	0	keep	attack turn 10
 2026-05-15 10:14:19	exp083	KuramotoEndToEnd	1	0	0	keep	perturbative approach, 1 sorry (Gronwall in basin)
+2026-05-16 09:47:38	exp084	KuramotoFresh	0	0	0	keep	attack turn 1
+2026-05-16 09:49:12	exp085	KuramotoFresh	0	0	0	keep	attack turn 2
+2026-05-16 09:51:05	exp086	KuramotoFresh	0	0	0	keep	attack turn 3
+2026-05-16 09:52:20	exp087	KuramotoFresh	0	0	0	keep	attack turn 4
+2026-05-16 09:53:28	exp088	KuramotoFresh	0	0	0	keep	attack turn 5
+2026-05-16 09:55:00	exp089	KuramotoFresh	0	0	0	keep	attack turn 6
+2026-05-16 09:55:52	exp090	KuramotoFresh	0	0	0	keep	attack turn 7
+2026-05-16 09:57:46	exp091	KuramotoFresh	0	0	0	keep	attack turn 8
+2026-05-16 09:58:58	exp092	KuramotoFresh	0	0	0	keep	attack turn 9
+2026-05-16 10:00:42	exp093	KuramotoFresh	0	0	0	keep	attack turn 10
