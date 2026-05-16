@@ -125,9 +125,9 @@ By the chain rule, $\frac{\partial}{\partial t}(\alpha(\omega,t) - \alpha^*(\ome
 since $|\alpha - \alpha^*| \leq 1$ and $|\dot{\alpha}| = |\gamma(\omega)\alpha - (K/2)r(1-\alpha^2)| \leq \gamma(\omega) + K$ for $\alpha, r \in (0,1)$. The dominator $2(\gamma(\omega) + K)$ is integrable since $\int \gamma\,g\,\mathrm{d}\omega < \infty$ by hypothesis. Mathlib's \texttt{hasDerivAt\_integral\_of\_dominated\_loc\_of\_deriv\_le} then gives the stated formula for the derivative of $t \mapsto \int (\alpha(\omega,t) - \alpha^*)^2\,g\,\mathrm{d}\omega$.
 \end{proof}
 
-\subsection{Step 2: Pair bound and derived rate estimate}\label{sec:pair}
+\subsection{Step 2: Pair bound and derived monotonicity}\label{sec:pair}
 
-We derive $V'(t) \leq -\mu V(t)$ from the pair bound and persistence. No rate bound is assumed.
+We derive $V'(t) \leq 0$ from the pair bound. Convergence $V(t) \to 0$ is obtained later by body-tail splitting and Barbalat (Proposition~\ref{prop:barbalat}).
 
 \begin{proposition}[Pair bound, \texttt{pair\_bound}]\label{prop:pair}
 For any $\alpha_j, \alpha_k, \alpha^*_j, \alpha^*_k \in (0,1)$:
@@ -137,11 +137,11 @@ For any $\alpha_j, \alpha_k, \alpha^*_j, \alpha^*_k \in (0,1)$:
 \end{proposition}
 
 \begin{proof}
-All terms can be expressed as a sum of squares (SOS) decomposition. With $p_j = \alpha_j - \alpha^*_j$ and $p_k = \alpha_k - \alpha^*_k$, clearing denominators by $\alpha^*_j \alpha^*_k > 0$ yields:
+The inequality follows from an algebraic decomposition plus a sign case split. With $p_j = \alpha_j - \alpha^*_j$ and $p_k = \alpha_k - \alpha^*_k$, clearing denominators by $\alpha^*_j \alpha^*_k > 0$ yields:
 \[
 \alpha^*_j \alpha^*_k \cdot \text{(LHS $-$ RHS)} = (\alpha^*_j p_k - \alpha^*_k p_j)^2 + (\alpha^*_j)^2 \alpha_k \alpha^*_k p_k^2 + (\alpha^*_k)^2 \alpha_j \alpha^*_j p_j^2 + \alpha^*_j \alpha^*_k (\alpha_j^2 + \alpha_k^2) p_j p_k.
 \]
-When $p_j p_k \leq 0$: each of the three original terms on the left of~\eqref{eq:pair} is non-negative (since $\alpha_j + 1/\alpha^*_j > 0$ and $2 - \alpha_j^2 - \alpha_k^2 > 0$ for $\alpha_j, \alpha_k \in (0,1)$), so the inequality holds trivially. When $p_j p_k > 0$: the SOS decomposition gives a positive lower bound, so the expression is strictly positive and hence non-negative. This is verified algebraically in \texttt{pair\_bound\_clear\_denom}.
+When $p_j p_k \leq 0$: each of the three original terms on the left of~\eqref{eq:pair} is non-negative (since $\alpha_j + 1/\alpha^*_j > 0$ and $2 - \alpha_j^2 - \alpha_k^2 > 0$ for $\alpha_j, \alpha_k \in (0,1)$), so the inequality holds trivially. When $p_j p_k > 0$: the algebraic decomposition plus sign case split gives a positive lower bound, so the expression is strictly positive and hence non-negative. This is verified algebraically in \texttt{pair\_bound\_clear\_denom}.
 \end{proof}
 
 \begin{proposition}[Continuum pair bound, \texttt{continuum\_pair\_nonneg}]\label{prop:cpair}
@@ -197,7 +197,27 @@ For any $\varepsilon > 0$, there exists $T > 0$ such that $V(t) < \varepsilon$ f
 \end{proposition}
 
 \begin{proof}
-Decompose $V = V_{\mathrm{body}} + V_{\mathrm{tail}}$ where $V_{\mathrm{body}} = \int_{\gamma \leq M} (\alpha - \alpha^*)^2\,g\,\mathrm{d}\omega$ and $V_{\mathrm{tail}} = \int_{\gamma > M} (\alpha - \alpha^*)^2\,g\,\mathrm{d}\omega$. By choosing $M$ large, $V_{\mathrm{tail}} \leq \int_{\gamma > M} g\,\mathrm{d}\omega$ is small (since $\int \gamma\,g < \infty$ implies $g(\{\gamma > M\}) \to 0$). On the body, body persistence gives a coercive lower bound on $-V'$, so Barbalat's lemma (applied to $V$ which is non-negative, antitone, and has $V'$ uniformly continuous) gives $V_{\mathrm{body}}(t) \to 0$. This is formalized in \texttt{ContinuumBarbalat.lean}.
+\textbf{Step A (Tail control).} Decompose
+\[
+V = V_{\mathrm{body},M} + V_{\mathrm{tail},M}, \quad
+V_{\mathrm{body},M} := \int_{\gamma \leq M} (\alpha - \alpha^*)^2\,g, \quad
+V_{\mathrm{tail},M} := \int_{\gamma > M} (\alpha - \alpha^*)^2\,g.
+\]
+Since $|\alpha - \alpha^*| \leq 1$ and $(\alpha - \alpha^*)^2 \leq 1$:
+\[
+V_{\mathrm{tail},M} \leq \int_{\gamma > M} g\,\mathrm{d}\omega.
+\]
+Since $\int \gamma\,g < \infty$, Markov's inequality gives $\int_{\gamma > M} g \leq \frac{1}{M}\int \gamma\,g \to 0$ as $M \to \infty$. Thus for every $\varepsilon > 0$, there exists $M_0$ such that $V_{\mathrm{tail},M_0}(t) < \varepsilon/2$ \emph{for all~$t$}.
+
+\textbf{Step B (Body convergence).} Fix $M = M_0$. On $\{\gamma \leq M\}$, body persistence (Proposition~\ref{prop:persist}) gives $\alpha(\omega,t) \geq \delta(M) > 0$. The body-restricted pair coercivity then gives a positive lower bound:
+\[
+-V'(t) \geq K \cdot \delta(M) \cdot \delta^*(M) \cdot \mu(\gamma \leq M) \cdot V_{\mathrm{body},M}(t),
+\]
+where $\delta^*(M) = \min_{\gamma \leq M} \alpha^*(\omega) > 0$. Since $V$ is antitone and $V' \leq -c \cdot V_{\mathrm{body},M}$ with $c > 0$: the time-integral $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t$ converges (bounded by $V(0)/c$). Since $V_{\mathrm{body},M}$ is also non-negative and antitone (as a partial integral of an antitone integrand), the integrable antitone function must converge to $0$. (This is a monotone version of Barbalat that avoids uniform continuity of $V'$: antitone $+$ integrable $\Rightarrow$ limit is $0$.)
+
+\textbf{Step C (Combine).} For $t$ large enough: $V_{\mathrm{body},M_0}(t) < \varepsilon/2$ (Step~B) and $V_{\mathrm{tail},M_0}(t) < \varepsilon/2$ (Step~A). Therefore $V(t) < \varepsilon$.
+
+This avoids any appeal to uniform continuity of $V'$. The Lean formalization uses \texttt{coercive\_drop\_from\_persistence} in \texttt{ContinuumBarbalat.lean}, which takes: non-negativity, antitonicity, body persistence, and tail vanishing.
 \end{proof}
 
 \begin{remark}
@@ -255,7 +275,7 @@ The pair integrand~\eqref{eq:pair} equals zero if and only if $\alpha_j = \alpha
 \end{proposition}
 
 \begin{proof}
-The SOS decomposition in the proof of Proposition~\ref{prop:pair} shows:
+The algebraic decomposition plus sign case split in the proof of Proposition~\ref{prop:pair} shows:
 \[
 \alpha^*_j \alpha^*_k \cdot (\text{LHS}-\text{RHS}) = (\alpha^*_j p_k - \alpha^*_k p_j)^2 + (\alpha^*_j)^2 \alpha_k \alpha^*_k p_k^2 + (\alpha^*_k)^2 \alpha_j \alpha^*_j p_j^2 + \alpha^*_j \alpha^*_k (\alpha_j^2+\alpha_k^2) p_j p_k.
 \]
