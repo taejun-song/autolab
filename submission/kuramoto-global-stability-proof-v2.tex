@@ -34,7 +34,7 @@ Machine-Checked Proofs via an Algebraic Lyapunov Technique}
 \begin{abstract}
 We introduce two novel proof techniques for Kuramoto model stability and present the first machine-checked formalization of any Kuramoto model result. The complex OA and full PDE results are conditional on two cited axioms (nonlinear Landau damping and OA manifold attractivity).
 
-\textbf{Contribution 1: The pair bound.} A pointwise sum-of-squares inequality, lifted to the continuum double integral via Fubini, that proves the $L^2$ Lyapunov derivative $\dot V \leq 0$ for the scalar OA mean-field equation. This is a purely algebraic technique with no precedent in the Kuramoto literature, replacing spectral theory, Volterra equations, and Fourier analysis approaches.
+\textbf{Contribution 1: The pair bound.} A pointwise algebraic pair inequality, lifted to the continuum double integral via Fubini, that proves the $L^2$ Lyapunov derivative $\dot V \leq 0$ for the scalar dissipative mean-field equation. This is a purely algebraic technique with no precedent in the Kuramoto literature, replacing spectral theory, Volterra equations, and Fourier analysis approaches.
 
 \textbf{Contribution 2: Rotation cancellation.} For the standard complex OA equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, the rotation term $-i\omega$ cancels exactly in the Lyapunov derivative after equilibrium subtraction: $\re(\bar w \cdot (-i\omega w)) = 0$ for $w = z - z^*$, since $|w|^2 \in \R$. This bridges the dissipative and rotational formulations.
 
@@ -63,7 +63,7 @@ We also study the scalar real mean-field equation
 \begin{equation}\label{eq:oa}
 \dot{\alpha}(\omega,t) = -\gamma(\omega)\,\alpha + \frac{K}{2}\,r(t)\bigl(1 - \alpha^2\bigr), \qquad r(t) = \int_\R \alpha(\omega,t)\,g(\omega)\,\mathrm{d}\omega,
 \end{equation}
-where $\alpha(\omega,t) \in (0,1)$ and $\gamma(\omega) > 0$ is a dissipation rate. This is a \emph{separate dynamical system} from~\eqref{eq:complex-oa}: the term $-\gamma(\omega)\alpha$ is dissipative, whereas $-i\omega z$ in~\eqref{eq:complex-oa} is rotational. The two share the same equilibrium structure (same self-consistency equation for $r^*$, same fixed points) but have different transient dynamics.
+where $\alpha(\omega,t) \in (0,1)$ and $\gamma(\omega) > 0$ is a dissipation rate. This is a \emph{separate dynamical system} from~\eqref{eq:complex-oa}: the term $-\gamma(\omega)\alpha$ is dissipative, whereas $-i\omega z$ in~\eqref{eq:complex-oa} is rotational. The scalar model is designed to share the same positive real self-consistency equation as the symmetric partially locked state, but its transient dynamics differ from the standard complex OA equation.
 
 \begin{remark}[Scope clarification]\label{rem:scope}
 Equation~\eqref{eq:oa} is \textbf{not} derived from the complex OA equation~\eqref{eq:complex-oa} by setting $z = \alpha \in \R$. The subspace $\im(z) = 0$ is not invariant under~\eqref{eq:complex-oa} (since $\dot{y} = -\omega x \neq 0$ in general). The Lyapunov argument in Sections~\ref{sec:proof}--\ref{sec:cauchy} applies directly to~\eqref{eq:oa}. The extension to the standard complex OA~\eqref{eq:complex-oa} is given in Section~\ref{sec:complex-extension}.
@@ -317,7 +317,7 @@ The complete proof is assembled in \texttt{lorentzian\_ode\_global\_stability\_c
 
 \subsection{Overall status}
 
-The formalization spans \textbf{255 Lean~4 files} (commit \texttt{58b6194}, Mathlib v4.30.0-rc1) with \textbf{0~\texttt{sorry}} and \textbf{0 additional axioms} beyond Lean~4's standard foundations, verified by \texttt{lake build KuramotoLean.RealScalarComplete} producing 0 sorry warnings.
+The formalization spans \textbf{255 Lean~4 files} (commit \texttt{58b6194}, Mathlib v4.30.0-rc1). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain. The formalization uses only Lean~4's standard foundations.
 
 There are two tiers of completeness:
 
@@ -449,7 +449,7 @@ For $n$-pole systems (any finite $n$), the theorem \texttt{kuramoto\_solved} giv
 \end{remark}
 
 % ============================================================
-\section{Extension to the standard complex OA}\label{sec:complex-extension}
+\section{Complex OA: rotation cancellation and conditional stability}\label{sec:complex-extension}
 % ============================================================
 
 The pair bound argument of Sections~\ref{sec:proof}--\ref{sec:cauchy} applies directly to the scalar model~\eqref{eq:oa}. We now show it extends to the standard complex OA equation~\eqref{eq:complex-oa}.
@@ -549,7 +549,7 @@ This work contributes four things that are new:
 \begin{enumerate}
 \item \textbf{First machine-checked Kuramoto result.} To our knowledge, this is the first formalization in any proof assistant (Lean, Coq, Isabelle) addressing any aspect of the Kuramoto model.
 
-\item \textbf{Novel proof technique.} The pair bound (Proposition~\ref{prop:pair})---a pointwise SOS inequality lifted to the continuum double integral via Fubini---has no precedent in the Kuramoto literature. Prior approaches used Fourier analysis \cite{dietert2016}, Volterra equations \cite{dietert-fernandez2018}, or spectral theory \cite{chiba2015}.
+\item \textbf{Novel proof technique.} The pair bound (Proposition~\ref{prop:pair})---a pointwise algebraic inequality lifted to the continuum double integral via Fubini---has no precedent in the Kuramoto literature. Prior approaches used Fourier analysis \cite{dietert2016}, Volterra equations \cite{dietert-fernandez2018}, or spectral theory \cite{chiba2015}.
 
 \item \textbf{Rotation cancellation.} The rotation term $-i\omega$ in the complex OA cancels in the $V$~derivative after equilibrium subtraction (Proposition~\ref{prop:rotation}). This removes the rotation contribution from $V'$, but the remaining nonlinear coupling terms differ structurally from the scalar case. The complex OA convergence relies on external Landau damping input (cited as axiom).
 
