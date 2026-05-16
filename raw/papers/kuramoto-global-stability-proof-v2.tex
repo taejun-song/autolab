@@ -32,7 +32,7 @@ Machine-Checked Proofs via an Algebraic Lyapunov Technique}
 \maketitle
 
 \begin{abstract}
-We introduce two novel proof techniques for Kuramoto model stability and present the first machine-checked formalization of any Kuramoto model result. The complex OA and full PDE results are conditional on two cited axioms (nonlinear Landau damping and OA manifold attractivity).
+We introduce two novel proof techniques for Kuramoto-type stability problems and present the first machine-checked formalization of any Kuramoto model result. The complex OA and full PDE results are conditional on two cited axioms (nonlinear Landau damping and OA manifold attractivity).
 
 \textbf{Contribution 1: The pair bound.} A pointwise algebraic pair inequality, lifted to the continuum double integral via Fubini, that proves the $L^2$ Lyapunov derivative $\dot V \leq 0$ for the scalar dissipative mean-field equation. This is a purely algebraic technique with no precedent in the Kuramoto literature, replacing spectral theory, Volterra equations, and Fourier analysis approaches.
 
@@ -127,7 +127,7 @@ since $|\alpha - \alpha^*| \leq 1$ and $|\dot{\alpha}| = |\gamma(\omega)\alpha -
 
 \subsection{Step 2: Pair bound and derived monotonicity}\label{sec:pair}
 
-We derive $V'(t) \leq 0$ from the pair bound. Convergence $V(t) \to 0$ is obtained later by body-tail splitting and Barbalat (Proposition~\ref{prop:barbalat}).
+We derive $V'(t) \leq 0$ from the pair bound. Convergence $V(t) \to 0$ is obtained later by body-tail splitting and Barbalat (Proposition~\ref{prop:drop}).
 
 \begin{proposition}[Pair bound, \texttt{pair\_bound}]\label{prop:pair}
 For any $\alpha_j, \alpha_k, \alpha^*_j, \alpha^*_k \in (0,1)$:
@@ -158,7 +158,7 @@ The double integral
 Mathlib's \texttt{integral\_nonneg} applied twice (once in $\omega_1$, once in $\omega_2$) reduces this to the pointwise inequality of Proposition~\ref{prop:pair}.
 \end{proof}
 
-\begin{proposition}[Derived monotonicity and convergence, \texttt{hV\_rate}]\label{prop:rate}
+\begin{proposition}[Derived monotonicity from the pair bound, \texttt{hV\_rate}]\label{prop:rate}
 Under the hypotheses of Theorem~\ref{thm:main}, $V'(t) \leq 0$ for all $t > 0$. Convergence $V \to 0$ follows from body persistence combined with Barbalat's lemma via the body-tail split: on $\{\gamma \leq M\}$, body persistence gives a coercive lower bound on $-V'$; on $\{\gamma > M\}$, the tail contribution vanishes as $M \to \infty$ since $\int \gamma\,g < \infty$. This is \emph{proved} from the pair bound and persistence; it is not assumed.
 \end{proposition}
 
@@ -209,11 +209,15 @@ V_{\mathrm{tail},M} \leq \int_{\gamma > M} g\,\mathrm{d}\omega.
 \]
 Since $\int \gamma\,g < \infty$, Markov's inequality gives $\int_{\gamma > M} g \leq \frac{1}{M}\int \gamma\,g \to 0$ as $M \to \infty$. Thus for every $\varepsilon > 0$, there exists $M_0$ such that $V_{\mathrm{tail},M_0}(t) < \varepsilon/2$ \emph{for all~$t$}.
 
-\textbf{Step B (Body convergence).} Fix $M = M_0$. On $\{\gamma \leq M\}$, body persistence (Proposition~\ref{prop:persist}) gives $\alpha(\omega,t) \geq \delta(M) > 0$. The body-restricted pair coercivity then gives a positive lower bound:
+\textbf{Step B (Body convergence).} Fix $M = M_0$. On $\{\gamma \leq M\}$, body persistence (derived in Step~3 of the proof of Theorem~\ref{thm:main}) gives $\alpha(\omega,t) \geq \delta(M) > 0$. The body-restricted pair coercivity then gives a positive lower bound:
 \[
 -V'(t) \geq K \cdot \delta(M) \cdot \delta^*(M) \cdot \mu(\gamma \leq M) \cdot V_{\mathrm{body},M}(t),
 \]
-where $\delta^*(M) = \min_{\gamma \leq M} \alpha^*(\omega) > 0$. Since $V$ is antitone and $V' \leq -c \cdot V_{\mathrm{body},M}$ with $c > 0$: the time-integral $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t$ converges (bounded by $V(0)/c$). On $\{\gamma \leq M\}$, the vector field is uniformly Lipschitz and bounded (since $|\dot\alpha| \leq \gamma(\omega) + K \leq M + K$), hence $V_{\mathrm{body},M}$ is uniformly continuous. Since $V_{\mathrm{body},M} \geq 0$ and $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t < \infty$, Barbalat's lemma gives $V_{\mathrm{body},M}(t) \to 0$.
+where $\delta^*(M) = \min_{\gamma \leq M} \alpha^*(\omega) > 0$. Since $V$ is antitone and $V' \leq -c \cdot V_{\mathrm{body},M}$ with $c > 0$: the time-integral $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t$ converges (bounded by $V(0)/c$). The derivative of $V_{\mathrm{body},M}$ satisfies
+\[
+\Bigl|\frac{d}{dt}V_{\mathrm{body},M}(t)\Bigr| = \Bigl|\int_{\gamma \leq M} 2(\alpha - \alpha^*)\dot\alpha\,g\Bigr| \leq 2(M+K)\,\mu(\gamma \leq M),
+\]
+since $|\alpha - \alpha^*| \leq 1$ and $|\dot\alpha| \leq M + K$ on $\{\gamma \leq M\}$. A bounded derivative gives Lipschitz, hence uniform continuity of $V_{\mathrm{body},M}$. Since $V_{\mathrm{body},M} \geq 0$ and $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t < \infty$, Barbalat's lemma gives $V_{\mathrm{body},M}(t) \to 0$.
 
 \textbf{Step C (Combine).} For $t$ large enough: $V_{\mathrm{body},M_0}(t) < \varepsilon/2$ (Step~B) and $V_{\mathrm{tail},M_0}(t) < \varepsilon/2$ (Step~A). Therefore $V(t) < \varepsilon$.
 
@@ -368,7 +372,7 @@ The following table shows how each proposition in Section~\ref{sec:proof} corres
 Leibniz rule (Prop.~\ref{prop:leibniz}) & \texttt{leibniz\_oa\_lyapunov} & \texttt{GeneralGMainTheorem.lean} \\
 Pair bound (Prop.~\ref{prop:pair}) & \texttt{pair\_bound} & \texttt{L2Lyapunov.lean} \\
 Continuum pair (Prop.~\ref{prop:cpair}) & \texttt{continuum\_pair\_nonneg} & \texttt{ContinuumLyapunov.lean} \\
-Rate bound (Prop.~\ref{prop:rate}) & \texttt{hV\_rate} & \texttt{ContinuumUniformRate.lean} \\
+Monotonicity bound (Prop.~\ref{prop:rate}) & \texttt{hV\_rate} & \texttt{ContinuumUniformRate.lean} \\
 $V$ antitone (Prop.~\ref{prop:antitone}) & \texttt{lyapunov\_antitone} & \texttt{GeneralGMainTheorem.lean} \\
 Exp.\ drop (Prop.~\ref{prop:drop}) & \texttt{supercritical\_coercive\_drops} & \texttt{GeneralGMainTheorem.lean} \\
 $V \to 0$ (Prop.~\ref{prop:vzero}) & \texttt{coercive\_drop\_from\_persistence} & \texttt{ContinuumBarbalat.lean} \\
@@ -387,7 +391,7 @@ Pair rigidity (Prop.~\ref{prop:rigidity}) & \texttt{pair\_eq\_zero\_iff} & \text
 
 \subsection{Nine independent proof paths}
 
-The formalization contains nine independent, sorry-free proofs of basin stability or closely related statements. Each addresses a different mathematical angle:
+The formalization contains nine complementary, sorry-free proof paths of basin stability or closely related statements. Each addresses a different mathematical angle:
 
 \medskip
 \begin{center}
