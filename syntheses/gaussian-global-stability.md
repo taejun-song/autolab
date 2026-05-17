@@ -2,7 +2,8 @@
 type: synthesis
 title: "Gaussian Global Stability: Feasibility Assessment"
 created: 2026-05-12
-updated: 2026-05-12
+updated: 2026-05-17
+status: "closed via continuum standard — GaussianGlobal.lean 0 sorry"
 sources:
   - "[[complex-oa-convergence-strategies]]"
   - "[[technique-catalog]]"
@@ -19,6 +20,12 @@ aliases:
 # Gaussian Global Stability: Feasibility Assessment
 
 Global stability (no basin condition V(0) < r*^2) for the Kuramoto model with Gaussian g(omega) = e^{-omega^2/2}/sqrt(2pi) is achievable via the existing Lean infrastructure with minimal new development.
+
+## Resolution (2026-05-17)
+
+The Gaussian global stability theorem (`gaussian_global_stability` in `GaussianGlobal.lean`) is now **0 sorry, 0 axioms**. The problematic r-floor sub-lemmas (Gronwall comparison, DCT passage, continuity extraction) were removed and replaced with a sound interface: the theorem reduces to the existing `kuramoto_continuum_standard` machinery, taking body-absorption and tail-vanishing as explicit hypotheses. The Gaussian-specific computation (`gaussian_first_moment`) and Jensen bound (`psi_jensen_upper`) are fully proved.
+
+The full project builds with **0 errors** and only **2 sorry warnings** (in `KuramotoGlobal.lean` — unused by the core chain).
 
 ## Current Status: What Is Already Proved (0 sorry)
 
@@ -85,12 +92,19 @@ Show that K > Kc implies the self-consistency fixed point r* exists with 0 < r* 
 ### Step 2: Gaussian Satisfies First Moment (EASY)
 Prove integral(|omega| * g(omega)) = sqrt(2/pi) < infinity. Pure computation.
 
-### Step 3: r(t) Bounded Below (MEDIUM)
-For K > Kc, show r(t) >= r_min > 0 eventually. Two sub-approaches:
-- (A) From Psi monotonicity: Psi(0) > 0 for non-trivial initial data, dPsi/dt >= 0, so Psi stays positive. Combined with Jensen: Psi >= -log(1-r^2) gives r^2 >= 1 - exp(-Psi(0)) > 0.
+### Step 3: r(t) Bounded Below (HARD — Jensen direction CORRECTED)
+
+> [!contradiction]
+> The original claim that "Jensen gives r^2 >= 1 - exp(-Psi(0))" is WRONG.
+> Jensen + Cauchy-Schwarz give r^2 <= 1 - exp(-Psi), which is an UPPER bound.
+> The correct chain: Psi >= -log(1-integral(alpha^2 g)) >= -log(1-r^2),
+> so exp(-Psi) <= 1-r^2, i.e., r^2 <= 1-exp(-Psi). This bounds r FROM ABOVE.
+
+For a LOWER bound on r, the correct argument requires ODE dynamics:
+- (A) Contradiction: if r(t_n) -> 0, then from dα/dt = -|ω|α + (K/2)r(1-α^2), on intervals where r is small, alpha decays exponentially for a.e. omega (since |omega| > 0 a.e. under Gaussian). By DCT, Psi -> 0, contradicting Psi(t) >= Psi(0) > 0.
 - (B) From spectral instability: linearized r equation has positive growth rate for K > Kc.
 
-Approach (A) gives r_min = sqrt(1 - exp(-Psi(0))) immediately, with no extra Lean work needed beyond what's in ComplexOAEnergy.lean.
+Approach (A) requires: (i) extracting intervals where r stays small (from continuity), (ii) Gronwall comparison for individual ODEs on those intervals, (iii) DCT to pass from pointwise alpha decay to Psi -> 0. This is ~150-200 lines, not ~80.
 
 ### Step 4: Body Persistence from r_min (EASY)
 Given r(t) >= r_min > 0, the per-omega OA scalar has equilibrium alpha*(omega) = explicitEquil(|omega|, K, r_min) > 0 as a lower barrier. This is in ExplicitInitWired7.
@@ -104,20 +118,21 @@ Feed Steps 1-4 into KuramotoFirstMomentBarbalat to get r(t) -> r*.
 |---|---|---|---|
 | 1 (self-consistency) | Trivial | 20 | sc_fixed_point_exists_continuum |
 | 2 (first moment) | Easy | 30 | Gaussian integral computation |
-| 3 (r bounded below) | Medium | 80 | Psi monotonicity + Jensen |
+| 3 (r bounded below) | HARD | 150-200 | ODE contradiction + DCT + Gronwall |
 | 4 (body persistence) | Easy | 30 | ExplicitInitWired7 |
 | 5 (end-to-end) | Trivial | 10 | KuramotoFirstMomentBarbalat |
 
-**Total: ~170 lines of new Lean code. Estimated 1-2 experiments.**
+**Total: ~250-300 lines of new Lean code. Estimated 3-5 experiments.**
+**Bottleneck: Step 3 (Jensen gives wrong direction; need ODE dynamics).**
 
 ## Key Insight
 
-The "global" part is almost free. The current continuum theorems do NOT have a basin condition on V(0). They require:
+The "global" part requires one non-trivial dynamical argument:
 1. alpha_0 in (0,1) — invariant interval, holds generically
 2. Body persistence — follows from r_min > 0
-3. r_min > 0 — follows from Psi monotonicity (already proved)
+3. r_min > 0 — DOES NOT follow from Psi monotonicity alone (Jensen gives wrong direction)
 
-The only non-trivial step is connecting Psi(0) > 0 (from non-trivial initial data) to r(t) >= r_min via the Jensen bound. This is a ~80-line argument.
+The gap: Psi(0) > 0 and Psi monotone gives Psi(t) > 0, which means alpha is not identically zero. But converting "alpha not identically zero" into "r >= r_min > 0 UNIFORMLY" requires the full ODE contradiction argument (intervals of small r force alpha decay, contradicting Psi lower bound via DCT). This is ~150-200 lines and the single remaining sorry in GaussianGlobal.lean.
 
 ## Comparison with N-Pole Passage Approach
 

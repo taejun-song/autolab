@@ -38,7 +38,7 @@ We introduce two novel proof techniques for Kuramoto-type stability problems and
 
 \textbf{Contribution 2: Rotation cancellation.} For the standard complex OA equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, the rotation term $-i\omega$ cancels exactly in the Lyapunov derivative after equilibrium subtraction: $\re(\bar w \cdot (-i\omega w)) = 0$ for $w = z - z^*$, since $|w|^2 \in \R$. This bridges the dissipative and rotational formulations.
 
-\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{255 Lean files} (commit \texttt{58b6194}); the main theorem \texttt{real\_scalar\_complete} has \textbf{0~\texttt{sorry}} and \textbf{0 project axioms}; the declaration \texttt{real\_scalar\_complete} itself produces no sorry warning (the imported file \texttt{KuramotoGlobal.lean} contains unrelated sorry's in other theorems that are not used by our proof chain). The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). The theorem also requires initial body coherence ($\alpha(\omega,0) \geq \delta_0 > 0$ on $\{\gamma \leq M\}$ for each $M$), which holds for initial data near the PLS. When $\gamma(\omega) \lesssim 1 + |\omega|$, this includes Gaussian, compactly supported, Student-$t$ ($\nu > 1$), and mixtures satisfying the same first-moment bound. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
+\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{258 Lean files} (commit \texttt{7f95a97}); the main theorem \texttt{real\_scalar\_complete} has \textbf{0~\texttt{sorry}} and \textbf{0 project axioms}; the declaration \texttt{real\_scalar\_complete} itself produces no sorry warning (the imported file \texttt{KuramotoGlobal.lean} contains unrelated sorry's in other theorems that are not used by our proof chain). The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). The theorem also requires initial body coherence ($\alpha(\omega,0) \geq \delta_0 > 0$ on $\{\gamma \leq M\}$ for each $M$), which holds for initial data near the PLS. When $\gamma(\omega) \lesssim 1 + |\omega|$, this includes Gaussian, compactly supported, Student-$t$ ($\nu > 1$), and mixtures satisfying the same first-moment bound. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
 \end{abstract}
 
 \tableofcontents
@@ -341,7 +341,7 @@ The complete proof is assembled in \texttt{lorentzian\_ode\_global\_stability\_c
 
 \subsection{Overall status}
 
-The formalization spans \textbf{255 Lean~4 files} (commit \texttt{58b6194}, Mathlib v4.30.0-rc1). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain. The formalization uses only Lean~4's standard foundations.
+The formalization spans \textbf{258 Lean~4 files} (commit \texttt{7f95a97}, Mathlib v4.30.0-rc1). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain. The formalization uses only Lean~4's standard foundations.
 
 There are two tiers of completeness:
 
@@ -421,7 +421,7 @@ Beyond global stability, the formalization establishes:
 \item \textbf{Lorentzian trifurcation}: $K < 2\gamma \Rightarrow r \to 0$, $K = 2\gamma \Rightarrow r \to 0$, $K > 2\gamma \Rightarrow r \to r^*$.
 \end{itemize}
 
-\medskip\noindent To verify: \texttt{cd kuramoto-lean \&\& lake build KuramotoLean.RealScalarComplete} (commit \texttt{58b6194}).
+\medskip\noindent To verify: \texttt{cd kuramoto-lean \&\& lake build KuramotoLean.RealScalarComplete} (commit \texttt{7f95a97}).
 
 % ============================================================
 \section{The $L^2$ Lyapunov approach for $n$-pole systems}\label{sec:npole}
