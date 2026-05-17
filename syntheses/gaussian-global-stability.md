@@ -25,7 +25,7 @@ Global stability (no basin condition V(0) < r*^2) for the Kuramoto model with Ga
 
 The Gaussian global stability theorem (`gaussian_global_stability` in `GaussianGlobal.lean`) is now **0 sorry, 0 axioms**. The problematic r-floor sub-lemmas (Gronwall comparison, DCT passage, continuity extraction) were removed and replaced with a sound interface: the theorem reduces to the existing `kuramoto_continuum_standard` machinery, taking body-absorption and tail-vanishing as explicit hypotheses. The Gaussian-specific computation (`gaussian_first_moment`) and Jensen bound (`psi_jensen_upper`) are fully proved.
 
-The full project builds with **0 errors**. `KuramotoGlobal.lean` is now **0 sorry**: the Leibniz rule for Ψ was proved via dominated convergence, and the bootstrap sorry (V entering the basin) was closed by replacing it with an explicit `hΨ_floor` hypothesis — the condition that Ψ monotonicity provides in the complex OA case. Remaining sorry are only in `NeuralMeanField.lean` (2) and `MeanFieldLimit.lean` (4), which are outside the core stability chain.
+The full project builds with **0 errors**. The core stability chain is **0 sorry end-to-end**: `ContinuumInstability.lean` proves r(t) ≥ r_min > 0 for K > Kc (via DCT bootstrap), `hPsi_floor_of_r_liminf` bridges this to V entering the basin, and `KuramotoGlobal.lean` proves V → 0 and r → r*. Remaining sorry are only in `NeuralMeanField.lean` (2) and `MeanFieldLimit.lean` (4), which are outside the core stability chain.
 
 ## Current Status: What Is Already Proved (0 sorry)
 
@@ -41,6 +41,7 @@ The full project builds with **0 errors**. `KuramotoGlobal.lean` is now **0 sorr
 | Gronwall continuous dependence | PassageToLimit.lean | PROVED, 0 sorry |
 | KuramotoViaPassage | KuramotoViaPassage.lean | PROVED, 0 sorry |
 | Global stability (Ψ floor) | KuramotoGlobal.lean | PROVED, 0 sorry |
+| Supercritical r > 0 | ContinuumInstability.lean | PROVED, 0 sorry |
 
 ## The Gap: Basin Condition
 
@@ -93,19 +94,12 @@ Show that K > Kc implies the self-consistency fixed point r* exists with 0 < r* 
 ### Step 2: Gaussian Satisfies First Moment (EASY)
 Prove integral(|omega| * g(omega)) = sqrt(2/pi) < infinity. Pure computation.
 
-### Step 3: r(t) Bounded Below (RESOLVED — via hΨ_floor hypothesis)
+### Step 3: r(t) Bounded Below (PROVED — ContinuumInstability.lean, 0 sorry)
 
-> [!contradiction]
-> The original claim that "Jensen gives r^2 >= 1 - exp(-Psi(0))" is WRONG.
-> Jensen + Cauchy-Schwarz give r^2 <= 1 - exp(-Psi), which is an UPPER bound.
-> The correct chain: Psi >= -log(1-integral(alpha^2 g)) >= -log(1-r^2),
-> so exp(-Psi) <= 1-r^2, i.e., r^2 <= 1-exp(-Psi). This bounds r FROM ABOVE.
-
-For a LOWER bound on r, the correct argument requires ODE dynamics:
-- (A) Contradiction: if r(t_n) -> 0, then from dα/dt = -|ω|α + (K/2)r(1-α^2), on intervals where r is small, alpha decays exponentially for a.e. omega (since |omega| > 0 a.e. under Gaussian). By DCT, Psi -> 0, contradicting Psi(t) >= Psi(0) > 0.
-- (B) From spectral instability: linearized r equation has positive growth rate for K > Kc.
-
-Approach (A) requires: (i) extracting intervals where r stays small (from continuity), (ii) Gronwall comparison for individual ODEs on those intervals, (iii) DCT to pass from pointwise alpha decay to Psi -> 0. This is ~150-200 lines, not ~80.
+`r_stays_positive_supercritical` proves: for K > Kc = 2/∫(1/γ)dμ, there exists r_min > 0 such that r(t) ≥ r_min for all t ≥ 0. The proof uses:
+- DCT on G(n,ω) = min((n+1)·α(ω,0), K/(2γ(ω)+K/(n+1))) → K/(2γ(ω)) to extract ε₀ with ∫min(α₀, Kε₀/(2γ+Kε₀))dμ > ε₀
+- Self-improvement: if r(t) ≥ ε₀ on [0,T], then r(T) > ε₀ (body persistence + self-consistency)
+- Contradiction via IVT + closed crossing set: r can never first cross below ε₀
 
 ### Step 4: Body Persistence from r_min (EASY)
 Given r(t) >= r_min > 0, the per-omega OA scalar has equilibrium alpha*(omega) = explicitEquil(|omega|, K, r_min) > 0 as a lower barrier. This is in ExplicitInitWired7.
@@ -119,12 +113,12 @@ Feed Steps 1-4 into KuramotoFirstMomentBarbalat to get r(t) -> r*.
 |---|---|---|---|---|
 | 1 (self-consistency) | Trivial | 20 | sc_fixed_point_exists_continuum | DONE |
 | 2 (first moment) | Easy | 30 | Gaussian integral computation | DONE |
-| 3 (r bounded below) | — | 0 | hΨ_floor hypothesis | RESOLVED |
+| 3 (r bounded below) | Hard | 350 | ContinuumInstability.lean | DONE (0 sorry) |
 | 4 (body persistence) | Easy | 30 | ExplicitInitWired7 | DONE |
 | 5 (end-to-end) | Trivial | 10 | KuramotoFirstMomentBarbalat | DONE |
 
-**All steps resolved. KuramotoGlobal.lean: 0 sorry.**
-**Step 3 resolved by making the basin-entry an explicit hypothesis (hΨ_floor) rather than proving it internally.**
+**All steps resolved. Full chain 0 sorry.**
+**Step 3 fully proved in ContinuumInstability.lean via DCT bootstrap + self-consistency contradiction.**
 
 ## Key Insight
 
@@ -133,7 +127,7 @@ The "global" part requires one non-trivial dynamical argument:
 2. Body persistence — follows from r_min > 0
 3. r_min > 0 — DOES NOT follow from Psi monotonicity alone (Jensen gives wrong direction)
 
-The gap: Psi(0) > 0 and Psi monotone gives Psi(t) > 0, which means alpha is not identically zero. But converting "alpha not identically zero" into "r >= r_min > 0 UNIFORMLY" requires the full ODE contradiction argument (intervals of small r force alpha decay, contradicting Psi lower bound via DCT). In `KuramotoGlobal.lean`, this is now handled by the `hΨ_floor` hypothesis: the caller must provide evidence that V enters the basin at some finite time T₀. For the complex OA, this follows from Ψ monotonicity; for real scalar OA it remains an open mathematical question.
+This gap is now closed: `r_stays_positive_supercritical` (ContinuumInstability.lean) proves r(t) ≥ r_min > 0 for K > Kc via contradiction — if r ever dips below ε₀, body persistence gives r(T) > ε₀ at the first crossing time, contradicting the IVT. The `hPsi_floor_of_r_liminf` bridge then gives V(T₀) < r*², discharging `hΨ_floor` in KuramotoGlobal.lean.
 
 ## Comparison with N-Pole Passage Approach
 
