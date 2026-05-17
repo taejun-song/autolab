@@ -33,7 +33,7 @@ Kuramoto-Type Mean-Field Equation, Formalized in Lean~4}
 \maketitle
 
 \begin{abstract}
-We prove global stability ($r(t) \to r^*$ for all initial data with $\alpha(\omega,0) \in (0,1)$) for a scalar dissipative mean-field equation sharing the self-consistency structure of the Kuramoto--Ott--Antonsen system. The proof introduces a novel \emph{pair bound}---a pointwise algebraic inequality lifted to a continuum double integral via Fubini---that gives $\dot V \leq 0$ for the $L^2$ Lyapunov function without spectral theory or Fourier analysis. Global stability (no basin condition) follows from a dominated convergence bootstrap proving $r(t) \geq r_{\min} > 0$ uniformly for $K > K_c$. The entire proof chain is formalized in Lean~4 (Mathlib v4.30.0-rc1) with \textbf{0~\texttt{sorry}} and \textbf{0~project axioms}. A conditional extension to the standard complex OA equation and full Kuramoto PDE is also formalized (0~sorry, 2~cited axioms: nonlinear Landau damping and OA manifold attractivity). To the best of our knowledge, this is the first Lean formalization of a stability theorem for a Kuramoto-type model.
+We prove global stability ($r(t) \to r^*$ for all initial data with $\alpha(\omega,0) \in (0,1)$) for a scalar dissipative mean-field equation sharing the self-consistency structure of the Kuramoto--Ott--Antonsen system. The scalar equation is not the OA equation; it shares the positive PLS self-consistency relation (same $K_c$, same $\alpha^*$, same $r^*$) but has different transient dynamics. The proof introduces a novel \emph{pair bound}---a pointwise algebraic inequality lifted to a continuum double integral via Fubini---that gives $\dot V \leq 0$ for the $L^2$ Lyapunov function without spectral theory or Fourier analysis. Global stability (no basin condition) follows from a dominated convergence bootstrap proving $r(t) \geq r_{\min} > 0$ uniformly for $K > K_c$. The entire proof chain is formalized in Lean~4 (Mathlib v4.30.0-rc1) with \textbf{0~\texttt{sorry}} and \textbf{0~project axioms}. A conditional extension to the standard complex OA equation and full Kuramoto PDE is also formalized (0~sorry, 2~cited axioms: nonlinear Landau damping and OA manifold attractivity). To the best of our knowledge, this is the first Lean formalization of a stability theorem for a Kuramoto-type model.
 \end{abstract}
 
 \paragraph{Main contributions.}
@@ -115,11 +115,17 @@ No persistence hypothesis is assumed. The proof \emph{derives} order parameter p
 \end{remark}
 
 \begin{theorem}[Global scalar stability, \texttt{r\_stays\_positive\_supercritical} + \texttt{hPsi\_floor\_of\_r\_liminf}]\label{thm:global}
-Under hypotheses (i), (ii), (iv) of Theorem~\ref{thm:main}, assume additionally that $K > K_c := 2/\int(1/\gamma)\,\mathrm{d}\mu$ (supercritical coupling) and $\int(1/\gamma)\,\mathrm{d}\mu < \infty$. Then $r(t) \to r^*$ as $t \to +\infty$, \textbf{without} assuming the basin condition $V(0) < (r^*)^2$.
+Under hypotheses (i), (ii), (iv) of Theorem~\ref{thm:main}, assume additionally that:
+\begin{itemize}
+\item $\int \gamma\,\mathrm{d}\mu < \infty$ and $\int (1/\gamma)\,\mathrm{d}\mu < \infty$;
+\item $K > K_c := 2/\int(1/\gamma)\,\mathrm{d}\mu$ (supercritical coupling);
+\item the unique positive equilibrium $(\alpha^*, r^*)$ satisfying~\eqref{eq:equil}--\eqref{eq:sc} exists.
+\end{itemize}
+Then $r(t) \to r^*$ as $t \to +\infty$, \textbf{without} assuming the basin condition $V(0) < (r^*)^2$.
 \end{theorem}
 
 \begin{remark}
-Theorem~\ref{thm:main} is a component of Theorem~\ref{thm:global}. The DCT bootstrap of Section~\ref{sec:bootstrap} proves $r(t) \geq r_{\min} > 0$ uniformly for all $t \geq 0$, which feeds into the basin machinery to discharge (iii). The scalar dissipative equation~\eqref{eq:oa} is \textbf{not} the standard complex OA equation~\eqref{eq:complex-oa}; it shares the PLS self-consistency relation but has different transient dynamics.
+The condition $K > K_c$ does not by itself guarantee existence of $(\alpha^*, r^*)$; existence is an additional hypothesis (proved for specific families such as Gaussian and Student-$t$ via the implicit function theorem on the self-consistency equation). The scalar dissipative equation~\eqref{eq:oa} is \textbf{not} the standard complex OA equation~\eqref{eq:complex-oa}; it shares the PLS self-consistency relation but has different transient dynamics.
 \end{remark}
 
 % ============================================================
@@ -346,10 +352,11 @@ G_n(\omega) := \min\!\bigl((n{+}1)\cdot\alpha(\omega,0),\; K/(2\gamma(\omega) + 
 \]
 Each $G_n$ is dominated by $K/(2\gamma(\omega))$, which is integrable (since $\int(1/\gamma)\,\mathrm{d}\mu < \infty$). Since $\alpha(\omega,0) > 0$ and $\gamma(\omega) > 0$, pointwise $G_n(\omega) \to K/(2\gamma(\omega))$ as $n \to \infty$. The dominated convergence theorem gives $\int G_n\,\mathrm{d}\mu \to \int K/(2\gamma)\,\mathrm{d}\mu = (K/2)\int(1/\gamma)\,\mathrm{d}\mu > 1$ (by $K > K_c$).
 
-Extract $N$ with $\int G_N\,\mathrm{d}\mu > 1$ and $1/(N{+}1) < r(0)$. Set $\varepsilon_0 := 1/(N{+}1)$. Then $\varepsilon_0 < r(0)$, $\varepsilon_0 \leq 1$, and
+Extract $N$ with $\int G_N\,\mathrm{d}\mu > 1$ and $1/(N{+}1) < r(0)$. Set $\varepsilon_0 := 1/(N{+}1)$. Then $\varepsilon_0 < r(0)$, $\varepsilon_0 \leq 1$. Dividing $G_N$ by $(N{+}1)$:
 \[
-\varepsilon_0 < \int \min\!\bigl(\alpha(\omega,0),\; K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0)\bigr)\,\mathrm{d}\mu.
+\frac{G_N(\omega)}{N{+}1} = \min\!\bigl(\alpha(\omega,0),\; K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0)\bigr),
 \]
+so $\int G_N\,\mathrm{d}\mu > 1$ gives $\varepsilon_0 = 1/(N{+}1) < (1/(N{+}1))\int G_N\,\mathrm{d}\mu = \int\min(\alpha(\omega,0),\,K\varepsilon_0/(2\gamma+K\varepsilon_0))\,\mathrm{d}\mu$.
 
 \textbf{Step B (Self-improvement).}
 If $r(s) \geq \varepsilon_0$ for all $s \in [0,T]$, then for each $\omega$: either $\alpha(\omega,0) \geq \beta^*(\gamma(\omega),K,\varepsilon_0)$ (the body equilibrium), in which case the ODE barrier gives $\alpha(\omega,T) \geq \beta^* \geq K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0)$; or $\alpha(\omega,0) < \beta^*$, in which case monotonicity below equilibrium gives $\alpha(\omega,T) \geq \alpha(\omega,0)$. In either case, $\alpha(\omega,T) \geq \min(\alpha(\omega,0),\, K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0))$. Integrating: $r(T) = \int\alpha(\omega,T)\,\mathrm{d}\mu > \varepsilon_0$.
@@ -359,7 +366,9 @@ Suppose $r(t_0) < \varepsilon_0$ for some $t_0 > 0$. The set $\{t \geq 0 : r(t) 
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:global}]
-Proposition~\ref{prop:rpos} gives $r(t) \geq r_{\min} > 0$. The bridge theorem \texttt{hPsi\_floor\_of\_r\_liminf} feeds this into the body persistence $+$ Barbalat machinery of Theorem~\ref{thm:main} to obtain $V(t) \to 0$, hence $V(T_0) < (r^*)^2$ for some $T_0$. Theorem~\ref{thm:main} then gives $r(t) \to r^*$.
+Proposition~\ref{prop:rpos} gives $r(t) \geq r_{\min} > 0$ for all $t \geq 0$. This uniform positivity provides the persistence hypotheses needed in the body-tail/Barbalat argument (Proposition~\ref{prop:drop}): on $\{\gamma \leq M\}$, the ODE barrier gives $\alpha(\omega,t) \geq \delta(M) > 0$ for all $t$, using $r \geq r_{\min}$ in place of the Cauchy--Schwarz bound from the basin condition. The body-tail split then gives $V(t) \to 0$ (Proposition~\ref{prop:vzero}). Finally, Proposition~\ref{prop:rconv} gives $r(t) \to r^*$.
+
+In the Lean formalization, this is assembled as \texttt{hPsi\_floor\_of\_r\_liminf}, which reuses the body persistence $+$ Barbalat infrastructure of \texttt{kuramoto\_V\_zero\_of\_r\_floor} (a shared subroutine, not a circular invocation of Theorem~\ref{thm:main}).
 \end{proof}
 
 % ============================================================
@@ -413,7 +422,7 @@ The complete proof is assembled in \texttt{lorentzian\_ode\_global\_stability\_c
 
 The formalization spans \textbf{255 Lean~4 files} (commit \texttt{58b6194}, Mathlib v4.30.0-rc1). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain. The formalization uses only Lean~4's standard foundations.
 
-There are two tiers of completeness:
+There are three tiers of completeness:
 
 \medskip\noindent\textbf{Tier 1 --- Lorentzian (fully end-to-end).} The theorem \texttt{lorentzian\_ode\_global\_stability\_complete} takes only the physical parameters $(K, \gamma, r_0)$ and constructs the complete proof: solution existence via the explicit Bernoulli formula, all solution properties, and convergence $r \to r^*$. Zero axioms, zero assumed fields.
 
@@ -633,12 +642,16 @@ The results are organized into four tiers of decreasing certainty:
 \textbf{Name} & \textbf{Model} & \textbf{Hypotheses} & \textbf{Conclusion} & \textbf{Sorry} & \textbf{Axioms} \\
 \hline
 \texttt{real\_scalar\_complete} & Scalar dissipative & $\int\gamma\,g < \infty$, $V(0) < (r^*)^2$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{real\_scalar\_global} (Thm.~\ref{thm:global}) & Scalar dissipative & $\int\gamma\,g < \infty$, $K > K_c$ & $r(t) \to r^*$ & 0 & 0 \\
+\texttt{real\_scalar\_global} (Thm.~\ref{thm:global}) & Scalar dissipative & $\int\gamma + \int 1/\gamma < \infty$, $K > K_c$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{lorentzian\_ode\_global\_stability\_complete} & Lorentzian ODE & $K > 2\gamma$, $r_0 \in (0,1)$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{kuramoto\_solved} & $n$-pole & $K > K_c$, $r(0) > 0$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{kuramoto\_stability\_universal} & Complex OA + PDE & Analytic $g$, $K > K_c$ & $\|\eta\| \to r^*$ & 0 & 2 \\
 \end{tabular}
 \end{center}
+
+\subsection{Significance of the scalar dissipative result}
+
+The critical coupling $K_c = 2/\int(1/\gamma)\,\mathrm{d}\mu$, the equilibrium profile $\alpha^*(\omega)$, and the order parameter $r^*$ are \emph{identical} between the scalar dissipative model~\eqref{eq:oa} and the standard Kuramoto--OA system~\eqref{eq:complex-oa} (restricted to the symmetric subspace). The global stability theorem (Theorem~\ref{thm:global}) therefore proves that the Kuramoto steady state is a global attractor---under transient dynamics that share the same phase-transition threshold, the same fixed point, and the same self-consistency structure. The pair bound is a property of the self-consistency algebra (the equilibrium relation~\eqref{eq:equil} and the integral constraint~\eqref{eq:sc}), not the specific flow generating the transients. This makes the technique potentially transferable to other mean-field models with the same equilibrium structure.
 
 \subsection{Novelty}
 
@@ -651,13 +664,13 @@ This work contributes four things that are new:
 
 \item \textbf{Rotation cancellation (structural observation).} The rotation term $-i\omega$ in the complex OA cancels in the $V$~derivative after equilibrium subtraction (Proposition~\ref{prop:rotation}). This is a structural observation relevant to the complex OA Lyapunov analysis; it does not by itself yield convergence (which requires external Landau damping input).
 
-\item \textbf{Finite first moment coverage.} Prior rigorous OA analysis was limited to Lorentzian/rational distributions. The finite first moment condition $\int \gamma\,g\,\mathrm{d}\omega < \infty$ covers Student-$t$ with $\nu > 1$ (including the infinite-variance case $1 < \nu \leq 2$), Gaussian, compact support, and all mixtures.
+\item \textbf{Finite first moment coverage.} Many explicit OA reductions and fully closed finite-dimensional analyses rely on Lorentzian or rational distributions. The finite first moment condition $\int \gamma\,\mathrm{d}\mu < \infty$ (with $\gamma(\omega) \lesssim 1+|\omega|$) covers Student-$t$ with $\nu > 1$ (including the infinite-variance case $1 < \nu \leq 2$), Gaussian, compact support, and mixtures.
 \end{enumerate}
 
 \subsection{Limitations}
 
 \begin{enumerate}
-\item \textbf{Basin of attraction (resolved for scalar OA).} The continuum basin stability result (Theorem~A) requires $V(0) < (r^*)^2$. This condition is now \emph{discharged} for the scalar dissipative model: \texttt{r\_stays\_positive\_supercritical} in \texttt{ContinuumInstability.lean} (0~sorry, 0~axioms) proves that for $K > K_c$, the order parameter stays uniformly positive ($r(t) \geq r_{\min} > 0$ for all $t \geq 0$), via a DCT bootstrap and self-consistency contradiction. Combined with \texttt{hPsi\_floor\_of\_r\_liminf}, this gives global stability (Theorem~A$'$) without the basin condition. The restriction to the scalar dissipative model~\eqref{eq:oa} remains (not the standard complex OA).
+\item \textbf{Basin of attraction (resolved for the scalar dissipative model).} The basin stability result (Theorem~\ref{thm:main}) requires $V(0) < (r^*)^2$. This condition is discharged by Theorem~\ref{thm:global} for the scalar dissipative model~\eqref{eq:oa}: the DCT bootstrap proves $r(t) \geq r_{\min} > 0$ for $K > K_c$, giving global stability without a basin condition. The restriction to the scalar dissipative model remains (not the standard complex OA~\eqref{eq:complex-oa}).
 
 \item \textbf{Two cited axioms with opaque conditions.} Theorem~D relies on two published results stated as Lean axioms with opaque (non-vacuous) conditions: (a)~nonlinear Landau damping \cite{dietert2017} for $V \to 0$, requiring linear stability, Sobolev smallness, and regularity of~$g$; and (b)~OA manifold attractivity \cite{dietert-fernandez2018} for the PDE-to-OA bridge. The conditions are encoded as \texttt{opaque Prop} types that cannot be trivially discharged. Formalizing the underlying spectral theory remains future work.
 
