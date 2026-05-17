@@ -33,7 +33,7 @@ Kuramoto-Type Mean-Field Equation, Formalized in Lean~4}
 \maketitle
 
 \begin{abstract}
-We prove global stability ($r(t) \to r^*$ for all initial data with $\alpha(\omega,0) \in (0,1)$) for a scalar dissipative mean-field equation sharing the self-consistency structure of the Kuramoto--Ott--Antonsen system. The scalar equation is not the OA equation; it shares the positive PLS self-consistency relation (same $K_c$, same $\alpha^*$, same $r^*$) but has different transient dynamics. The proof introduces a novel \emph{pair bound}---a pointwise algebraic inequality lifted to a continuum double integral via Fubini---that gives $\dot V \leq 0$ for the $L^2$ Lyapunov function without spectral theory or Fourier analysis. Global stability (no basin condition) follows from a dominated convergence bootstrap proving $r(t) \geq r_{\min} > 0$ uniformly for $K > K_c$. The entire proof chain is formalized in Lean~4 (Mathlib v4.30.0-rc1) with \textbf{0~\texttt{sorry}} and \textbf{0~project axioms}. A conditional extension to the standard complex OA equation and full Kuramoto PDE is also formalized (0~sorry, 2~cited axioms: nonlinear Landau damping and OA manifold attractivity). To the best of our knowledge, this is the first Lean formalization of a stability theorem for a Kuramoto-type model.
+We prove global stability ($r(t) \to r^*$ for all initial data with $\alpha(\omega,0) \in (0,1)$) for a scalar dissipative mean-field equation sharing the self-consistency structure of the Kuramoto--Ott--Antonsen system. The scalar equation is not the OA equation; it shares the positive real PLS self-consistency relation, and hence the corresponding $K_c$, $\alpha^*$, and $r^*$ branch, but has different transient dynamics. The proof introduces a novel \emph{pair bound}---a pointwise algebraic inequality lifted to a continuum double integral via Fubini---that gives $\dot V \leq 0$ for the $L^2$ Lyapunov function without spectral theory or Fourier analysis. Global stability (no basin condition) follows from a dominated convergence bootstrap proving $r(t) \geq r_{\min} > 0$ uniformly for $K > K_c$. The entire proof chain is formalized in Lean~4 (Mathlib v4.30.0-rc1) with \textbf{0~\texttt{sorry}} and \textbf{0~project axioms}. A conditional extension to the standard complex OA equation and full Kuramoto PDE is also formalized (0~sorry, 2~cited axioms: nonlinear Landau damping and OA manifold attractivity). To the best of our knowledge, this is the first Lean formalization of a stability theorem for a Kuramoto-type model.
 \end{abstract}
 
 \paragraph{Main contributions.}
@@ -115,12 +115,8 @@ No persistence hypothesis is assumed. The proof \emph{derives} order parameter p
 \end{remark}
 
 \begin{theorem}[Global scalar stability, \texttt{r\_stays\_positive\_supercritical} + \texttt{hPsi\_floor\_of\_r\_liminf}]\label{thm:global}
-Under hypotheses (i), (ii), (iv) of Theorem~\ref{thm:main}, assume additionally that:
-\begin{itemize}
-\item $\int \gamma\,\mathrm{d}\mu < \infty$ and $\int (1/\gamma)\,\mathrm{d}\mu < \infty$;
-\item $K > K_c := 2/\int(1/\gamma)\,\mathrm{d}\mu$ (supercritical coupling);
-\item the unique positive equilibrium $(\alpha^*, r^*)$ satisfying~\eqref{eq:equil}--\eqref{eq:sc} exists.
-\end{itemize}
+Let $\gamma(\omega) > 0$ with $\int \gamma\,\mathrm{d}\mu < \infty$ and $\int (1/\gamma)\,\mathrm{d}\mu < \infty$. Let $(\alpha^*, r^*)$ be the unique positive equilibrium satisfying~\eqref{eq:equil}--\eqref{eq:sc}. Let $(r, \alpha)$ solve~\eqref{eq:oa} with $r(t) = \int \alpha(\omega,t)\,\mathrm{d}\mu$, $\alpha(\omega,t) \in (0,1)$ for all $\omega, t \geq 0$, and initial body coherence (for each $M > 0$, $\exists\,\delta_0 > 0$ with $\alpha(\omega,0) \geq \delta_0$ on $\{\gamma \leq M\}$). Assume $K > K_c := 2/\int(1/\gamma)\,\mathrm{d}\mu$.
+
 Then $r(t) \to r^*$ as $t \to +\infty$, \textbf{without} assuming the basin condition $V(0) < (r^*)^2$.
 \end{theorem}
 
@@ -615,9 +611,9 @@ The hypothesis $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$ follows fro
 \section{Discussion}\label{sec:discussion}
 % ============================================================
 
-\subsection{Four tiers of formalization}
+\subsection{Formalization tiers}
 
-The results are organized into four tiers of decreasing certainty:
+The results are organized into four certainty classes (with Theorems~A and~A$'$ forming a single scalar tier at two levels of generality):
 
 \medskip
 \noindent\textbf{Theorem A: Real scalar complete} (\texttt{real\_scalar\_complete}). Fully formalized, 0~sorry, 0~axioms. Basin stability for the scalar dissipative model~\eqref{eq:oa} with finite first moment $\int \gamma\,g < \infty$. When $\gamma(\omega) \lesssim 1 + |\omega|$: Gaussian, Student-$t$ ($\nu > 1$), compact support, mixtures.
@@ -651,7 +647,7 @@ The results are organized into four tiers of decreasing certainty:
 
 \subsection{Significance of the scalar dissipative result}
 
-The critical coupling $K_c = 2/\int(1/\gamma)\,\mathrm{d}\mu$, the equilibrium profile $\alpha^*(\omega)$, and the order parameter $r^*$ are \emph{identical} between the scalar dissipative model~\eqref{eq:oa} and the standard Kuramoto--OA system~\eqref{eq:complex-oa} (restricted to the symmetric subspace). The global stability theorem (Theorem~\ref{thm:global}) therefore proves that the Kuramoto steady state is a global attractor---under transient dynamics that share the same phase-transition threshold, the same fixed point, and the same self-consistency structure. The pair bound is a property of the self-consistency algebra (the equilibrium relation~\eqref{eq:equil} and the integral constraint~\eqref{eq:sc}), not the specific flow generating the transients. This makes the technique potentially transferable to other mean-field models with the same equilibrium structure.
+The critical coupling $K_c = 2/\int(1/\gamma)\,\mathrm{d}\mu$, the equilibrium profile $\alpha^*(\omega)$, and the order parameter $r^*$ are \emph{identical} between the scalar dissipative model~\eqref{eq:oa} and the standard Kuramoto--OA system~\eqref{eq:complex-oa} (restricted to the positive real symmetric subspace). The global stability theorem (Theorem~\ref{thm:global}) therefore proves that the same positive real steady state is a global attractor for a scalar dissipative flow sharing the Kuramoto phase-transition threshold, the Kuramoto fixed point, and the Kuramoto self-consistency structure. The pair bound is a property of the self-consistency algebra (the equilibrium relation~\eqref{eq:equil} and the integral constraint~\eqref{eq:sc}), not the specific flow generating the transients. This makes the technique potentially transferable to other mean-field models with the same equilibrium structure.
 
 \subsection{Novelty}
 
@@ -703,7 +699,10 @@ This work contributes four things that are new:
 & \texttt{hPsi\_floor\_of\_r\_liminf} (bridge), \\
 & \texttt{lorentzian\_ode\_global\_stability\_complete} \\
 \textbf{Axiom check} & \texttt{\#print axioms real\_scalar\_complete} \\
-& outputs only \texttt{propext}, \texttt{Quot.sound}, \texttt{Classical.choice} \\
+& \texttt{\#print axioms r\_stays\_positive\_supercritical} \\
+& \texttt{\#print axioms hPsi\_floor\_of\_r\_liminf} \\
+& \texttt{\#print axioms lorentzian\_ode\_global\_stability\_complete} \\
+& All output only \texttt{propext}, \texttt{Quot.sound}, \texttt{Classical.choice} \\
 \textbf{Sorry check} & \texttt{grep -rn "\^{}\textbackslash s*sorry" KuramotoLean/} \\
 & returns 0 matches in the stability chain files \\
 \textbf{Unrelated sorry} & \texttt{NeuralMeanField.lean} (2), \texttt{MeanFieldLimit.lean} (4) --- \\
