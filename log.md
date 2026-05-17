@@ -1,5 +1,19 @@
 # Activity Log
 
+## [2026-05-12] query+page | Mean-field limit (N→∞) formalization feasibility and Lean skeleton
+
+- created: syntheses/mean-field-limit-formalization.md
+- created: KuramotoLean/MeanFieldLimit.lean (skeleton, 4 sorry)
+- updated: index.md (+1 synthesis entry)
+- index.md: regenerated
+
+## [2026-05-12] query+page | Gaussian global stability feasibility assessment and Lean skeleton
+
+- created: syntheses/gaussian-global-stability.md
+- created: KuramotoLean/GaussianGlobal.lean (skeleton, sorry)
+- updated: index.md (+3 synthesis entries)
+- index.md: regenerated
+
 ## [2026-05-08] query+page | Literature search + wiki pages for order parameter persistence (r-stays-positive gap)
 
 - created: concepts/order-parameter-persistence.md

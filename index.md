@@ -1,6 +1,6 @@
 # Wiki Index
 
-_Last regenerated: 2026-05-08 (order-parameter-persistence + r-stays-positive-strategies)_
+_Last regenerated: 2026-05-12 (mean-field-limit-formalization synthesis + MeanFieldLimit.lean skeleton)_
 
 ## Recently Updated
 
@@ -131,6 +131,7 @@ _(none yet)_
 
 ## Syntheses
 
+- [[mean-field-limit-formalization]] — Feasibility assessment for N→∞ propagation of chaos. Tier 1 (finite-N Gronwall) feasible now; full W₁ limit requires building Wasserstein infrastructure (~2200-3500 lines).
 - [[body-lasalle-gap-analysis]] — V_body antitonicity is the REAL gap (not Leibniz). Leibniz proved; pair bound for body-restricted integral under global self-consistency is open.
 - [[lean-proof-status]] — Machine-checked proof status: 0 sorry, 0 axioms across 132 files. h_approx ↔ V→0 equivalence proved. 3480 build jobs.
 - [[h-approx-equivalence]] — h_approx ↔ V→0: the tail-body hypothesis is equivalent to L² convergence. Proved in Lean.
@@ -142,6 +143,9 @@ _(none yet)_
 - [[r-stays-positive-strategies]] — Synthesis of all mathematical strategies to prove $r(t) \geq r_{\min} > 0$ for the OA Kuramoto model, the single remaining gap in the machine-checked proof.
 - [[research-program]] — A concrete sequence of progressively harder problems, where each level builds on the previous and the final level IS the open problem.
 - [[subproblem-decomposition]] — Breaking the open problem into concrete, individually attackable subproblems.
+- [[gaussian-global-stability]] — Feasibility assessment for global stability (no basin condition) of the Kuramoto model with Gaussian frequency distribution. Direct continuum path via Ψ monotonicity requires ~170 lines of new Lean.
+- [[complex-oa-convergence-strategies]] — Strategies to close hV_zero for complex OA: cooperative n-pole, Dietert spectral, Ψ+compactness, real V antitone, direct ODE.
+- [[technique-catalog]] — 75 techniques from 30+ papers mapped to 4 remaining subproblems and Lean status.
 
 ## Source Summaries
 
