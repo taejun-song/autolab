@@ -5,6 +5,7 @@
 \usepackage{hyperref}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{enumitem}
+\usepackage[normalem]{ulem}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -38,7 +39,7 @@ We introduce two novel proof techniques for Kuramoto-type stability problems and
 
 \textbf{Contribution 2: Rotation cancellation.} For the standard complex OA equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, the rotation term $-i\omega$ cancels exactly in the Lyapunov derivative after equilibrium subtraction: $\re(\bar w \cdot (-i\omega w)) = 0$ for $w = z - z^*$, since $|w|^2 \in \R$. This bridges the dissipative and rotational formulations.
 
-\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{255 Lean files} (commit \texttt{58b6194}); the main theorem \texttt{real\_scalar\_complete} has \textbf{0~\texttt{sorry}} and \textbf{0 project axioms}; the declaration \texttt{real\_scalar\_complete} itself produces no sorry warning (the imported file \texttt{KuramotoGlobal.lean} contains unrelated sorry's in other theorems that are not used by our proof chain). The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). The theorem also requires initial body coherence ($\alpha(\omega,0) \geq \delta_0 > 0$ on $\{\gamma \leq M\}$ for each $M$), which holds for initial data near the PLS. When $\gamma(\omega) \lesssim 1 + |\omega|$, this includes Gaussian, compactly supported, Student-$t$ ($\nu > 1$), and mixtures satisfying the same first-moment bound. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
+\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{255+ Lean files}; the main theorems have \textbf{0~\texttt{sorry}} and \textbf{0 project axioms}. The basin stability theorem \texttt{real\_scalar\_complete} proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. The \textbf{global stability} extension (\texttt{r\_stays\_positive\_supercritical} + \texttt{hPsi\_floor\_of\_r\_liminf}) removes the basin condition entirely for $K > K_c$: a DCT bootstrap proves $r(t) \geq r_{\min} > 0$ uniformly, which then feeds into the basin machinery. The proof chain wires: supercritical DCT bootstrap ($r > 0$) $\to$ pair bound ($\dot V \leq 0$) $\to$ ODE barrier (body persistence) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). When $\gamma(\omega) \lesssim 1 + |\omega|$, this covers Gaussian, compactly supported, Student-$t$ ($\nu > 1$), and mixtures. To our knowledge, this is the first fully self-contained, machine-checked global stability theorem for any Kuramoto-type model.
 \end{abstract}
 
 \tableofcontents
@@ -469,7 +470,7 @@ V(0) < \infty \;\xrightarrow{\text{Thm.~\ref{thm:lyapunov}}}\; V(t) \to 0 \;\xri
 This proof path (\texttt{NPoleGlobalStability.lean}, \texttt{GronwallBridge.lean}, \texttt{NPoleInstance.lean}) requires no Barbalat lemma beyond the monotone convergence theorem, and no analyticity of $g$---only the existence of the PLS and the gap bound.
 
 \begin{remark}[Local vs.\ global stability]
-For $n$-pole systems (any finite $n$), the theorem \texttt{kuramoto\_solved} gives \emph{global} stability: any $r(0) > 0$ converges. Persistence is automatic in finite dimensions. For the continuum, the theorem \texttt{kuramoto\_stability} gives stability within the basin $V(0) < (r^*)^2$. Removing this restriction requires proving that $r(t)$ stays uniformly positive for arbitrary initial data---equivalent to proving instability of the incoherent state $\alpha = 0$ for the nonlinear continuum OA system. This remains an open problem: no existing paper proves it for general $g$. A natural approach is passage to the limit from $n$-pole to continuum via continuous dependence of OA solutions on the measure $g$.
+For $n$-pole systems (any finite $n$), the theorem \texttt{kuramoto\_solved} gives \emph{global} stability: any $r(0) > 0$ converges. Persistence is automatic in finite dimensions. For the continuum scalar dissipative model~\eqref{eq:oa}, global stability is now also proved: \texttt{r\_stays\_positive\_supercritical} in \texttt{ContinuumInstability.lean} (0~sorry) shows that for $K > K_c$, the order parameter stays uniformly positive ($r(t) \geq r_{\min} > 0$) via a DCT bootstrap argument. The proof constructs $\varepsilon_0 > 0$ such that the self-consistency integral $\int\min(\alpha(\omega,0),\, K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0))\,\mathrm{d}\mu > \varepsilon_0$, then uses body persistence to show $r$ can never first cross below $\varepsilon_0$ (IVT + closed crossing set contradiction). This removes the basin condition $V(0) < (r^*)^2$ for the scalar dissipative model.
 \end{remark}
 
 % ============================================================
@@ -544,6 +545,9 @@ The results are organized into four tiers of decreasing certainty:
 \noindent\textbf{Theorem A: Real scalar complete} (\texttt{real\_scalar\_complete}). Fully formalized, 0~sorry, 0~axioms. Basin stability for the scalar dissipative model~\eqref{eq:oa} with finite first moment $\int \gamma\,g < \infty$. When $\gamma(\omega) \lesssim 1 + |\omega|$: Gaussian, Student-$t$ ($\nu > 1$), compact support, mixtures.
 
 \medskip
+\noindent\textbf{Theorem A$'$: Real scalar global} (\texttt{r\_stays\_positive\_supercritical} + \texttt{hPsi\_floor\_of\_r\_liminf} + \texttt{real\_scalar\_complete}). Fully formalized, 0~sorry, 0~axioms. \textbf{Global} stability for the scalar dissipative model: for $K > K_c := 2/\int(1/\gamma)\,\mathrm{d}\mu$ and $\alpha(\omega,0) \in (0,1)$, the order parameter converges $r(t) \to r^*$ \emph{without} assuming $V(0) < (r^*)^2$. The DCT bootstrap (\texttt{ContinuumInstability.lean}) proves $r(t) \geq r_{\min} > 0$ uniformly, which then enters the basin machinery of Theorem~A.
+
+\medskip
 \noindent\textbf{Theorem B: Lorentzian} (\texttt{lorentzian\_ode\_global\_stability\_complete}). Fully formalized, 0~sorry, 0~axioms. Global stability for the Bernoulli ODE with explicit solution formula. Finite-dimensional, no measure theory needed.
 
 \medskip
@@ -560,6 +564,7 @@ The results are organized into four tiers of decreasing certainty:
 \textbf{Name} & \textbf{Model} & \textbf{Hypotheses} & \textbf{Conclusion} & \textbf{Sorry} & \textbf{Axioms} \\
 \hline
 \texttt{real\_scalar\_complete} & Scalar dissipative & $\int\gamma\,g < \infty$, $V(0) < (r^*)^2$ & $r(t) \to r^*$ & 0 & 0 \\
+\texttt{r\_stays\_positive + hPsi\_floor} & Scalar dissipative & $\int\gamma\,g < \infty$, $K > K_c$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{lorentzian\_ode\_global\_stability\_complete} & Lorentzian ODE & $K > 2\gamma$, $r_0 \in (0,1)$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{kuramoto\_solved} & $n$-pole & $K > K_c$, $r(0) > 0$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{kuramoto\_stability\_universal} & Complex OA + PDE & Analytic $g$, $K > K_c$ & $\|\eta\| \to r^*$ & 0 & 2 \\
@@ -583,7 +588,7 @@ This work contributes four things that are new:
 \subsection{Limitations}
 
 \begin{enumerate}
-\item \textbf{Basin of attraction.} The continuum result (Theorem~A) requires $V(0) < (r^*)^2$, an explicit but \emph{local} condition. True global stability (any $r(0) > 0$) is proved only for Lorentzian (Theorem~B) and $n$-pole (Theorem~C) systems.
+\item \textbf{Basin of attraction (resolved for scalar OA).} The continuum basin stability result (Theorem~A) requires $V(0) < (r^*)^2$. This condition is now \emph{discharged} for the scalar dissipative model: \texttt{r\_stays\_positive\_supercritical} in \texttt{ContinuumInstability.lean} (0~sorry, 0~axioms) proves that for $K > K_c$, the order parameter stays uniformly positive ($r(t) \geq r_{\min} > 0$ for all $t \geq 0$), via a DCT bootstrap and self-consistency contradiction. Combined with \texttt{hPsi\_floor\_of\_r\_liminf}, this gives global stability (Theorem~A$'$) without the basin condition. The restriction to the scalar dissipative model~\eqref{eq:oa} remains (not the standard complex OA).
 
 \item \textbf{Two cited axioms with opaque conditions.} Theorem~D relies on two published results stated as Lean axioms with opaque (non-vacuous) conditions: (a)~nonlinear Landau damping \cite{dietert2017} for $V \to 0$, requiring linear stability, Sobolev smallness, and regularity of~$g$; and (b)~OA manifold attractivity \cite{dietert-fernandez2018} for the PDE-to-OA bridge. The conditions are encoded as \texttt{opaque Prop} types that cannot be trivially discharged. Formalizing the underlying spectral theory remains future work.
 
@@ -595,7 +600,7 @@ This work contributes four things that are new:
 \subsection{Open problems}
 
 \begin{enumerate}
-\item Remove the $V(0) < (r^*)^2$ basin condition (global stability for any $r(0) > 0$).
+\item \sout{Remove the $V(0) < (r^*)^2$ basin condition.} \textbf{Resolved} for the scalar dissipative model: \texttt{r\_stays\_positive\_supercritical} (0~sorry) proves $r(t) \geq r_{\min} > 0$ for $K > K_c$ via DCT bootstrap. Remains open for the standard complex OA equation~\eqref{eq:complex-oa} without the Landau damping axiom.
 \item Formalize the nonlinear Landau damping axiom (currently citing \cite{dietert2017}).
 \item Formalize the OA manifold attractivity axiom (currently citing \cite{dietert-fernandez2018}).
 \item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
