@@ -1,0 +1,24 @@
+# Dependency Index
+
+- **[Associativity](../axioms/associativity.md)** (ID: axiom-associativity)
+  - depends on: def-group
+- **[Identity Element](../axioms/identity-element.md)** (ID: axiom-identity-element)
+  - depends on: def-group
+- **[Inverse Element](../axioms/inverse-element.md)** (ID: axiom-inverse-element)
+  - depends on: def-group
+- **[Left Cancellation Law](../lemmas/cancellation-law.md)** (ID: lemma-cancellation-law)
+  - depends on: def-group
+  - depends on: axiom-associativity
+  - depends on: axiom-identity-element
+  - depends on: axiom-inverse-element
+- **[Uniqueness of Identity Element](../theorems/uniqueness-of-identity.md)** (ID: theorem-unique-identity)
+  - depends on: def-group
+  - depends on: axiom-associativity
+  - depends on: axiom-identity-element
+  - depends on: axiom-inverse-element
+- **[Uniqueness of Inverse](../theorems/uniqueness-of-inverse.md)** (ID: theorem-unique-inverse)
+  - depends on: def-group
+  - depends on: axiom-associativity
+  - depends on: axiom-identity-element
+  - depends on: axiom-inverse-element
+  - depends on: lemma-cancellation-law

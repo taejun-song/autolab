@@ -1,0 +1,115 @@
+{
+  "nodes": [
+    {
+      "id": "axiom-associativity",
+      "title": "Associativity",
+      "type": "axiom"
+    },
+    {
+      "id": "axiom-identity-element",
+      "title": "Identity Element",
+      "type": "axiom"
+    },
+    {
+      "id": "axiom-inverse-element",
+      "title": "Inverse Element",
+      "type": "axiom"
+    },
+    {
+      "id": "def-group",
+      "title": "Group",
+      "type": "definition"
+    },
+    {
+      "id": "lemma-cancellation-law",
+      "title": "Left Cancellation Law",
+      "type": "lemma"
+    },
+    {
+      "id": "technique-direct-proof",
+      "title": "Direct Proof",
+      "type": "proof-technique"
+    },
+    {
+      "id": "technique-contradiction",
+      "title": "Proof by Contradiction",
+      "type": "proof-technique"
+    },
+    {
+      "id": "theorem-unique-identity",
+      "title": "Uniqueness of Identity Element",
+      "type": "theorem"
+    },
+    {
+      "id": "theorem-unique-inverse",
+      "title": "Uniqueness of Inverse",
+      "type": "theorem"
+    }
+  ],
+  "edges": [
+    {
+      "from": "axiom-associativity",
+      "to": "def-group"
+    },
+    {
+      "from": "axiom-identity-element",
+      "to": "def-group"
+    },
+    {
+      "from": "axiom-inverse-element",
+      "to": "def-group"
+    },
+    {
+      "from": "lemma-cancellation-law",
+      "to": "def-group"
+    },
+    {
+      "from": "lemma-cancellation-law",
+      "to": "axiom-associativity"
+    },
+    {
+      "from": "lemma-cancellation-law",
+      "to": "axiom-identity-element"
+    },
+    {
+      "from": "lemma-cancellation-law",
+      "to": "axiom-inverse-element"
+    },
+    {
+      "from": "theorem-unique-identity",
+      "to": "def-group"
+    },
+    {
+      "from": "theorem-unique-identity",
+      "to": "axiom-associativity"
+    },
+    {
+      "from": "theorem-unique-identity",
+      "to": "axiom-identity-element"
+    },
+    {
+      "from": "theorem-unique-identity",
+      "to": "axiom-inverse-element"
+    },
+    {
+      "from": "theorem-unique-inverse",
+      "to": "def-group"
+    },
+    {
+      "from": "theorem-unique-inverse",
+      "to": "axiom-associativity"
+    },
+    {
+      "from": "theorem-unique-inverse",
+      "to": "axiom-identity-element"
+    },
+    {
+      "from": "theorem-unique-inverse",
+      "to": "axiom-inverse-element"
+    },
+    {
+      "from": "theorem-unique-inverse",
+      "to": "lemma-cancellation-law"
+    }
+  ]
+}

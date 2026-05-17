@@ -1,0 +1,30 @@
+# Dependency Graph
+
+```mermaid
+graph TD
+    axiom_associativity["Associativity"]
+    axiom_identity_element["Identity Element"]
+    axiom_inverse_element["Inverse Element"]
+    def_group["Group"]
+    lemma_cancellation_law["Left Cancellation Law"]
+    technique_direct_proof["Direct Proof"]
+    technique_contradiction["Proof by Contradiction"]
+    theorem_unique_identity["Uniqueness of Identity Element"]
+    theorem_unique_inverse["Uniqueness of Inverse"]
+    axiom_associativity --> def_group
+    axiom_identity_element --> def_group
+    axiom_inverse_element --> def_group
+    lemma_cancellation_law --> def_group
+    lemma_cancellation_law --> axiom_associativity
+    lemma_cancellation_law --> axiom_identity_element
+    lemma_cancellation_law --> axiom_inverse_element
+    theorem_unique_identity --> def_group
+    theorem_unique_identity --> axiom_associativity
+    theorem_unique_identity --> axiom_identity_element
+    theorem_unique_identity --> axiom_inverse_element
+    theorem_unique_inverse --> def_group
+    theorem_unique_inverse --> axiom_associativity
+    theorem_unique_inverse --> axiom_identity_element
+    theorem_unique_inverse --> axiom_inverse_element
+    theorem_unique_inverse --> lemma_cancellation_law
+```

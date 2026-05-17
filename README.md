@@ -1,149 +1,163 @@
-# AutoLab
+# AutoProof
 
-Autoresearch integrated with LLM-wiki.
+A Markdown-based mathematical LLM Wiki with a Lean 4 formal verification engine.
 
-*Autonomous AI research agents that search literature, run experiments, and build compounding knowledge. You write `program.md`. The agent reads papers, forms hypotheses, runs experiments, writes findings to a wiki, and re-reads the program for updates. You wake up to a wiki full of insights and a log of experiments.*
+AutoProof maintains two synchronized tracks for mathematical knowledge:
 
-## How it works
+1. **Natural-language wiki** — understanding, ontology, proof skeletons, dependencies
+2. **Lean 4 formalization** — formal definitions, theorem statements, machine-checked proofs
+
+A result is maximally reliable when both tracks agree: the wiki proof is rigorous and the Lean formalization compiles.
+
+## Why Ontology?
+
+Mathematical proof is an ontological connection between an accepted axiomatic space (definitions, axioms, previously proved theorems) and a target statement. AutoProof makes this connection structure explicit through dependency metadata, concept maps, and proof skeletons.
+
+## Directory Structure
 
 ```
-Human edits program.md
-        ↓
-   LLM Agent (Claude)
-        ↓
-    ┌───┴───┐
-    │       │
- Tools    Wiki
- (your     (persistent
-  CLIs)    knowledge)
-    │       │
-    └───┬───┘
-        ↓
-  Results + Wiki Pages
+autoproof/
+  CLAUDE.md              # Agent instructions
+  README.md              # This file
+  requirements.txt       # Python dependencies
+  lean-toolchain         # Lean version
+  lakefile.lean          # Lake project config
+  AutoProof.lean         # Root Lean import file
+
+  AutoProof/             # Lean 4 formalization
+    Basic.lean
+    Definitions/
+    Axioms/
+    Lemmas/
+    Theorems/
+    Examples/
+    ProofTechniques/
+
+  wiki/                  # Natural-language wiki
+    papers/
+    definitions/
+    axioms/
+    assumptions/
+    theorems/
+    lemmas/
+    proof-techniques/
+    examples/
+    counterexamples/
+    gaps/
+    contradictions/
+    concept-maps/
+    indexes/
+
+  templates/             # Page templates
+  scripts/               # Automation scripts
+  tests/                 # Test suite
 ```
 
-## Key ideas
+## Page Types
 
-- **Autoresearch** (Karpathy): LLM agent autonomously runs experiments, keeps or discards, iterates forever
-- **LLM-wiki**: Persistent, compounding knowledge base that survives across sessions
-- **AutoLab** = both: the agent searches literature, ingests into the wiki, forms hypotheses from accumulated knowledge, runs experiments, writes findings back to the wiki
+| Type | Directory | Description |
+|---|---|---|
+| paper | wiki/papers/ | Raw paper ingestion and analysis |
+| definition | wiki/definitions/ | Mathematical definitions |
+| axiom | wiki/axioms/ | Foundational axioms |
+| assumption | wiki/assumptions/ | Working assumptions |
+| theorem | wiki/theorems/ | Proved or unproved theorems |
+| lemma | wiki/lemmas/ | Supporting lemmas |
+| proof-technique | wiki/proof-techniques/ | Proof method descriptions |
+| example | wiki/examples/ | Illustrative examples |
+| counterexample | wiki/counterexamples/ | Refutations |
+| proof-gap | wiki/gaps/ | Incomplete proof bridges |
+| contradiction-note | wiki/contradictions/ | Conflicting claims |
+| concept-map | wiki/concept-maps/ | Structural overviews |
 
-Three files matter:
+## Metadata
 
-- **`program.md`** — your instructions to the agent. What to optimize, what tools to use, what matters. Edited by the human.
-- **`CLAUDE.md`** — wiki rules + lab rules. Defines how knowledge is structured. Edited by the human.
-- **`tools/run_one.py`** — your domain-specific experiment runner. The agent calls this. Written by you.
+Every wiki page has YAML frontmatter with:
 
-The agent reads `program.md`, uses your tools, records results, writes wiki pages about what it discovers, and periodically re-reads `program.md` for updates. You steer the research by editing the program — no need to restart the agent.
+- `id` — stable kebab-case identifier (e.g., `theorem-unique-identity`)
+- `type` — page type
+- `title` — human-readable title
+- `status` — current state (`unproved`, `needs-lemma`, `proved`, `disproved`, etc.)
+- `formal_status` — Lean state (`unformalized`, `partial`, `verified`, `failed`)
+- `lean_file` — path to corresponding Lean file
+- `lean_decl` — Lean declaration name
+- `depends_on` — list of page IDs this result depends on
+- `used_by` — list of page IDs that use this result
 
-## Quick start
+## Status Values
+
+**Theorem/Lemma status:** `unproved` | `needs-lemma` | `proved` | `disproved`
+
+**Formal status:** `unformalized` | `partial` | `verified` | `failed`
+
+A theorem reaches maximum acceptance when `status: proved` AND `formal_status: verified`.
+
+## Raw Paper Ingestion
+
+When a paper is introduced:
+
+1. Create a paper page extracting goals, definitions, theorems, lemmas
+2. Build proof skeleton and ontological concept map
+3. Create missing wiki pages for extracted concepts
+4. Create Lean formalization plan
+5. Formalize incrementally (definitions → statements → proofs)
+6. Run `lake build` and update formal status
+
+## Commands
 
 ```bash
-# 1. Clone and set up
-git clone https://github.com/taejun-song/autolab.git
-cd autolab
+# Create a new wiki page from template
+python scripts/create_page.py theorem "My Theorem Title"
+python scripts/create_page.py paper "Some Paper Title"
 
-# 2. Copy the example for your domain (or start from scratch)
-cp -r examples/hello/ my-lab/
-cd my-lab/
+# Validate all wiki pages
+python scripts/validate_wiki.py
 
-# 3. Edit program.md with your research objective and tools
-vim program.md
+# Build index pages
+python scripts/build_index.py
 
-# 4. Launch the agent (simple)
-claude --dangerously-skip-permissions -p "Read program.md and let's kick off the research."
+# Generate dependency graph
+python scripts/dependency_graph.py
 
-# 4b. Or use the harness for reliable long-running research
-python tools/harness.py --program program.md --max-experiments 5 --agents 3 --git-pull
+# Check for circular dependencies
+python scripts/check_circular_dependencies.py
+
+# Run Lean verification
+python scripts/check_lean.py
+lake build
 ```
 
-## Concepts
+## Example Workflow
 
-### The Wiki
+1. Ingest a paper:
+   ```bash
+   python scripts/create_page.py paper "Uniqueness Theorems in Group Theory"
+   ```
 
-AutoLab uses an Obsidian-compatible wiki as the agent's persistent memory. The agent writes:
+2. Extract and create pages for definitions and theorems found in the paper.
 
-- **`concepts/`** — reusable ideas it discovers (e.g., "learning rate warmup helps convergence")
-- **`entities/`** — named things (models, datasets, papers)
-- **`summaries/`** — distillations of sources it reads
-- **`comparisons/`** — side-by-side analyses
-- **`syntheses/`** — cross-experiment insights
+3. Write proofs in wiki pages, filling in all sections.
 
-Every page has YAML frontmatter with `type`, `title`, `created`, `updated`, `tags`. The wiki compounds over time — future agent sessions read past findings before starting new experiments.
+4. Create corresponding Lean files with formal proofs.
 
-### The Program
+5. Verify:
+   ```bash
+   lake build
+   python scripts/validate_wiki.py
+   python scripts/build_index.py
+   python scripts/check_circular_dependencies.py
+   ```
 
-`program.md` is your interface to the agent. It defines:
+6. Mark proved results:
+   ```yaml
+   status: proved
+   formal_status: verified
+   ```
 
-1. **Goal** — what to optimize (lower loss, higher accuracy, better binding score)
-2. **Tools** — CLI commands the agent can run
-3. **Constraints** — what the agent can and cannot modify
-4. **Current state** — scoreboard, known insights, unexplored areas
-5. **Loop** — the experiment cycle (check status → hypothesize → experiment → analyze → record)
+## Installation
 
-The agent re-reads `program.md` every N experiments to pick up your updates. You can add new tools, change the objective, redirect focus — all without restarting.
-
-### Hot Reload
-
-Every few experiments, the agent checks if `program.md` has been modified. If yes, it re-reads the file. This means you can:
-
-- Add a new tool mid-run → agent starts using it
-- Change the objective → agent redirects
-- Add insights you noticed → agent incorporates them
-
-No kill, no restart, no lost context.
-
-## Project structure
-
+```bash
+pip install -r requirements.txt
+curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh
+lake build
 ```
-my-lab/
-├── program.md          # Your instructions to the agent (you edit this)
-├── CLAUDE.md           # Wiki + lab rules (you edit this)
-├── index.md            # Wiki index (agent maintains)
-├── log.md              # Chronological log (agent maintains)
-├── tools/
-│   ├── run_one.py      # Your experiment runner (you write this)
-│   └── literature.py   # Literature search & download (built-in)
-├── raw/                # Source materials
-│   ├── papers/         # Downloaded PDFs (agent adds, never modifies)
-│   ├── articles/       # Fetched web articles
-│   ├── assets/         # Images, data files
-│   └── data/           # Datasets
-├── concepts/           # Wiki pages (agent writes)
-├── entities/           #
-├── summaries/          #
-├── comparisons/        #
-├── syntheses/          #
-└── results/            # Experiment outputs (agent writes)
-    └── results.tsv
-```
-
-## Examples
-
-### `examples/hello/` — Train a small LLM (Karpathy-style)
-The agent modifies `train.py`, trains for 5 minutes, evaluates val_bpb, keeps or discards.
-
-### `examples/binder/` — Design protein binders (DNA/protein)
-The agent runs RFdiffusion3 experiments, scores with RoseTTAFold3, optimizes ipTM across multiple targets.
-
-## Design principles
-
-1. **The agent is the researcher.** Not a script runner. It reads papers, forms hypotheses, designs experiments, interprets results.
-
-2. **The wiki is the lab notebook.** Knowledge persists across sessions. A new agent reads past findings before starting.
-
-3. **program.md is your steering wheel.** Edit it to redirect. No process management needed.
-
-4. **Tools are atomic.** One experiment per call. The agent decides what to run, not a loop script.
-
-5. **Simpler is better.** A small improvement from understanding is worth more than a large improvement from brute force.
-
-## Requirements
-
-- [Claude Code](https://claude.ai/claude-code) (CLI)
-- Your domain-specific tools
-- A GPU (if your experiments need one)
-
-## License
-
-MIT

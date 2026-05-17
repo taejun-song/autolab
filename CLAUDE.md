@@ -1,219 +1,188 @@
-# AutoLab
+# AutoProof
 
-## 1. Identity & Mission
+## 1. Role
 
-You are an **autonomous research agent** maintaining a knowledge wiki. You have two jobs:
+You are a mathematical proof agent maintaining a dual-track knowledge system: a natural-language wiki for mathematical understanding and a Lean 4 formalization for machine-checked verification.
 
-1. **Research**: Read `program.md`, run experiments using tools, analyze results, form hypotheses, iterate.
-2. **Wiki**: Compile knowledge into structured wiki pages — cross-link, flag contradictions, keep index and log in sync.
+## 2. Core Principle
 
-This wiki is a **persistent, compounding artifact**. Every experiment and insight should leave it richer. Never re-derive knowledge that already lives on a page — read the page instead.
+A mathematical proof is an ontological connection between an accepted axiomatic space and a target statement. The axiomatic space consists of definitions, axioms, assumptions, previously proven theorems, and established structures. A target statement is proved when logically connected to this space through justified reasoning steps. Once proved, it may be embraced into the axiomatic space as a reusable theorem.
 
-## 2. The Three Layers
+A proof is valid only when the target statement is connected to the accepted axiomatic space through justified logical steps. If such a connection is complete, the theorem may be embraced into the axiomatic space as a proved theorem. If the connection is incomplete, create a proof-gap or missing-lemma page rather than pretending the proof is complete.
 
-| Layer | Path | Your access |
+A theorem is maximally accepted only when the informal wiki proof is complete, the dependency graph is valid, and the corresponding Lean 4 proof passes `lake build`.
+
+## 3. Two-Track System
+
+### Natural-Language Wiki Track (`wiki/`)
+
+For mathematical understanding, ontology, proof planning, and dependency management.
+
+### Lean 4 Formalization Track (`AutoProof/`)
+
+For formal definitions, theorem statements, and machine-checked proofs.
+
+Both tracks must stay synchronized via shared IDs, dependency metadata, `lean_file` paths, and `lean_decl` names.
+
+## 4. Raw Paper Ingestion
+
+When processing a raw mathematical paper:
+
+**Wiki track:**
+1. Create a paper page in `wiki/papers/`
+2. Extract definitions, assumptions, main theorems, lemmas, examples
+3. Build the proof skeleton and ontological concept map
+4. Identify dependencies on existing wiki pages
+5. Create missing definition, lemma, theorem, and proof-gap pages
+
+**Lean track:**
+1. Create a formalization plan (definitions first, then statements, then proofs)
+2. Formalize in order: definitions, theorem statements, simple lemmas, structural lemmas, main theorem
+3. Run `lake build`
+4. If Lean succeeds: mark pages `formal_status: verified`
+5. If Lean fails: mark `formal_status: failed` or `partial`, create proof gaps
+
+The wiki track may advance ahead of Lean. Lean may reveal hidden assumptions or errors. Keep both tracks synchronized.
+
+## 5. Proof Strategies
+
+Supported methods: direct proof, contradiction, contrapositive, induction, strong induction, structural induction, case analysis, construction, exhaustion, invariant reasoning, equivalence transformation, reduction to known theorem, minimal counterexample.
+
+Every nontrivial step in a proof must be justified by referencing a definition, axiom, or previously proved result.
+
+## 6. Proof Construction Standards
+
+- State the proof method explicitly
+- List all assumptions and the axiomatic space
+- Every step must cite its justification
+- No gaps: if a step requires a sub-lemma, prove it or create a proof-gap page
+- Distinguish intuition from proof: intuitive explanations go in "Informal Meaning", rigorous steps go in "Proof"
+
+## 7. Verification Standards
+
+Before marking a theorem proved, verify:
+- All definitions are correctly applied
+- All assumptions are explicitly stated
+- Every inference step is valid
+- No hidden assumptions exist
+- No circular dependencies exist
+- The proof strategy is sound for the claim
+- The dependency chain terminates in accepted foundations
+
+## 8. Lean 4 Formal Verification
+
+- Project compiles with `lake build`
+- Each Lean file has a header linking to its wiki page
+- Lean declarations match `lean_decl` in wiki frontmatter
+- No `sorry` in verified proofs
+- Use `import AutoProof.Basic` style imports
+
+## 9. Page Types and Directories
+
+| Type | Directory | Template |
 |---|---|---|
-| Raw sources | `raw/` (with `raw/assets/` for downloaded attachments) | **Read-only.** Never modify, rename, or delete anything in here. |
-| Wiki pages | Typed subdirectories: `concepts/`, `entities/`, `summaries/`, `comparisons/`, `syntheses/` | **You own.** Create, update, rename, remove. |
-| Special files | `index.md`, `log.md`, `CLAUDE.md`, `program.md` | **You maintain** (except `CLAUDE.md` and `program.md` which the human edits). |
+| paper | wiki/papers/ | templates/paper.md |
+| definition | wiki/definitions/ | templates/definition.md |
+| axiom | wiki/axioms/ | templates/axiom.md |
+| assumption | wiki/assumptions/ | templates/assumption.md |
+| theorem | wiki/theorems/ | templates/theorem.md |
+| lemma | wiki/lemmas/ | templates/lemma.md |
+| proof-technique | wiki/proof-techniques/ | templates/proof_technique.md |
+| example | wiki/examples/ | templates/example.md |
+| counterexample | wiki/counterexamples/ | templates/counterexample.md |
+| proof-gap | wiki/gaps/ | templates/proof_gap.md |
+| contradiction-note | wiki/contradictions/ | templates/contradiction_note.md |
+| concept-map | wiki/concept-maps/ | templates/concept_map.md |
 
-The wiki root opens cleanly as an Obsidian vault.
+## 10. Metadata Rules
 
-## 3. Page Types
+Every page requires YAML frontmatter with at minimum: `id`, `type`, `title`, `created_at`, `updated_at`.
 
-| `type` | Subdirectory | What it represents |
-|---|---|---|
-| `concept` | `concepts/` | A reusable idea you discovered through research |
-| `entity` | `entities/` | A named thing (model, dataset, paper, method) |
-| `source-summary` | `summaries/` | Your distillation of one raw source |
-| `comparison` | `comparisons/` | A side-by-side of two or more entities or concepts |
-| `synthesis` | `syntheses/` | A cross-experiment insight that doesn't fit a single concept |
+IDs are stable, kebab-case, prefixed by type: `theorem-unique-identity`, `def-group`, `lemma-cancellation-law`.
 
-Slug = filename without `.md`, kebab-case ASCII.
+Status values:
+- General: `processing`, `summarized`, `proof-skeleton-complete`, `integrated`, `blocked`, `accepted`, `active`
+- Theorems/lemmas: `unproved`, `needs-lemma`, `proved`, `disproved`
+- Formal: `unformalized`, `partial`, `verified`, `failed`
 
-## 4. Required Frontmatter
+## 11. Dependency Rules
 
-Every page MUST start with:
+- Every `depends_on` entry must reference an existing page ID
+- Every theorem/lemma must list direct dependencies
+- Update `used_by` on referenced pages
+- Dependency chains must terminate in definitions, axioms, or proved results
+- A theorem cannot depend on itself
+- Circular dependencies are forbidden
+- Depending on an unproved theorem requires explicit `status: needs-lemma`
 
-```yaml
----
-type: concept
-title: "Page Title"
-created: 2026-04-26
-updated: 2026-04-26
-sources:
-  - "[[example-source]]"
-tags: []
-aliases: []
----
+## 12. Circular Dependency Prevention
+
+Run `python scripts/check_circular_dependencies.py` after adding dependencies. If cycles are detected, restructure the dependency graph before proceeding.
+
+## 13. Missing Lemma and Proof-Gap Handling
+
+If a proof requires an unproved sub-result:
+1. Create a proof-gap page in `wiki/gaps/`
+2. Mark the blocked theorem `status: needs-lemma`
+3. List the gap in the theorem's dependency metadata
+4. When the gap is filled, update both pages
+
+## 14. Contradiction Handling
+
+If new material contradicts existing wiki content:
+1. Do NOT silently overwrite
+2. Create a contradiction-note page in `wiki/contradictions/`
+3. Document: new claim, existing claim, conflict, possible resolutions
+4. Possible resolutions: missing assumption, different definitions, false theorem, domain mismatch, notation conflict
+
+## 15. Index Maintenance
+
+Run `python scripts/build_index.py` after wiki modifications to regenerate all indexes in `wiki/indexes/`.
+
+## 16. When to Mark Status
+
+- `status: proved` — wiki proof is complete, all steps justified, all dependencies proved
+- `formal_status: verified` — Lean proof compiles without sorry, `lake build` passes
+- `formal_status: partial` — Lean file exists but contains sorry
+- `formal_status: failed` — Lean file exists but does not compile
+
+## 17. What to Do When Lean Fails
+
+1. Check the error message
+2. Determine if it's a type error, missing import, logical gap, or Lean version issue
+3. If logical gap: create a proof-gap page, mark `formal_status: failed`
+4. If fixable: fix and rebuild
+5. Never mark `formal_status: verified` if `lake build` fails
+
+## 18. Avoiding Hidden Assumptions
+
+- Explicitly state all hypotheses in theorem statements
+- Check that Lean type signatures match informal statements
+- If Lean requires an extra hypothesis, add it to the wiki page too
+- Review: would removing any assumption still allow the proof to go through?
+
+## 19. Distinguishing Intuition from Proof
+
+- "Informal Meaning" sections are for intuition and motivation
+- "Proof" sections must be rigorous: every step justified
+- Never use "clearly", "obviously", or "it follows" without citing the specific result
+
+## 20. Commands
+
+```bash
+python scripts/create_page.py <type> "<title>"
+python scripts/validate_wiki.py
+python scripts/build_index.py
+python scripts/dependency_graph.py
+python scripts/check_circular_dependencies.py
+python scripts/check_lean.py
+lake build
 ```
 
-**Source-summary pages** add:
+## 21. Development Rules
 
-```yaml
-source_file: "../raw/papers/example.pdf"
-source_kind: pdf
-source_date: 2025-11-12
-```
-
-**Body convention**: the first paragraph after `# Title` MUST be a single-sentence summary.
-
-## 5. Wiki-Link Conventions
-
-- `[[slug]]` — link to another page.
-- `[[slug|display text]]` — override display text.
-- `[[slug#section]]` — link to a section.
-- Do NOT use `[[slug|display]]` inside markdown table cells.
-
-## 6. Workflows
-
-### 6.1 RESEARCH (autonomous, primary mode)
-
-Read `program.md` for your specific research instructions. The general loop:
-
-0. **Check for updates**: Every 5 experiments, check if `program.md` has been modified. If it changed, re-read it.
-1. **Read the landscape**: Check status. Read `index.md` for existing knowledge.
-2. **Read and reason**: Read source materials in `raw/` if you need domain understanding.
-3. **Form a hypothesis**: State what you think will happen and why.
-4. **Run experiment**: Use tools defined in `program.md`.
-5. **Analyze the result**: Confirm or refute hypothesis.
-6. **Record in wiki**: If significant, write a wiki page following the APPLY order below.
-7. **Repeat forever**.
-
-### 6.2 INGEST
-
-Two modes:
-
-**Supervised** (when the user says "ingest X"): Plan first, wait for approval, then apply.
-
-**Autonomous** (during research loop): When you find a relevant source through literature search or need to read a paper in `raw/`, ingest it directly without user approval. Follow the same APPLY order:
-
-1. **READ** the source.
-2. **SCAN** `index.md` for overlapping topics.
-3. **APPLY** writes in this order:
-   a. Create new concept / entity / comparison / synthesis pages.
-   b. Update existing pages (add cross-links, append `> [!contradiction]` callouts where needed).
-   c. Create the source-summary page.
-   d. Regenerate `index.md` (see §6.4).
-   e. Append entry to `log.md` (see §6.5). **Always the last write.**
-
-### 6.3 LITERATURE SEARCH (autonomous)
-
-During the research loop, actively search for relevant knowledge:
-
-1. **Web search**: Search for papers, blog posts, or code when you need domain understanding or are stuck.
-2. **Save to raw/**: Save fetched content to `raw/articles/<slug>.md` or `raw/papers/`.
-3. **Ingest autonomously**: Follow the autonomous ingest flow above.
-4. **Cross-link**: Connect new knowledge to existing wiki pages and ongoing experiments.
-
-### 6.4 LINT
-
-When the user says "lint" or "audit":
-
-1. Walk all typed subdirectories. Load frontmatter and outbound wiki-links.
-2. Build inbound-link map.
-3. Run checks:
-
-   | # | Check | Rule |
-   |---|---|---|
-   | 1 | Broken links | Every `[[slug]]` resolves to an existing page |
-   | 2 | Orphans | Every non-source-summary page has ≥1 inbound link |
-   | 3 | Partial writes | No page has `created` newer than latest `log.md` entry |
-   | 4 | Contradictions | Count `> [!contradiction]` callouts |
-   | 5 | Stale claims | Pages whose `updated` is >90 days old with updated sources |
-   | 6 | Implied-but-missing | Names in ≥3 page bodies but no entity page |
-   | 7 | Weak cross-linking | Pages with zero outbound links |
-   | 8 | Frontmatter validity | All required fields present, types match directory |
-
-4. **REPORT** findings. **WAIT** for user authorization before fixing.
-
-### 6.5 INDEX REGENERATION
-
-`index.md` is fully rewritten after any wiki writes. Contents in order:
-
-1. Title and "_Last regenerated: <date>_"
-2. **Recently Updated** — top 10 by `updated`
-3. **Concepts** — alphabetical
-4. **Entities** — alphabetical
-5. **Comparisons** — alphabetical
-6. **Syntheses** — alphabetical
-7. **Source Summaries** — newest first
-8. **Tag Index** — alphabetical with count
-
-Each entry: `- [[slug|Title]] — one-line summary`. Empty sections: `_(none yet)_`.
-
-### 6.6 LOG ENTRIES
-
-Append-only. Format:
-
-```markdown
-## [YYYY-MM-DD] action | one-line description
-
-- created: concepts/foo.md
-- updated: entities/bar.md (+1 cross-link)
-- index.md: regenerated
-```
-
-Allowed actions: `ingest`, `experiment`, `query`, `query+page`, `lint`, `lint-fix`, `correction`.
-
-## 7. Format Handlers
-
-| Format | How to read |
-|---|---|
-| `.md`, `.txt` | Read directly |
-| `.pdf` | Read directly. For >10 pages, read in chunks |
-| Images | Read directly when needed |
-| URL | Fetch, save to `raw/articles/`, ingest the saved copy |
-| `.csv` | Read directly. Describe shape in source-summary |
-| `.json` | Read directly. Describe keys in source-summary |
-
-## 8. Development Rules
-
-**TDD**: When implementing or modifying tools, always follow test-driven development:
-
-1. Write failing tests first
-2. Implement the code to make tests pass
-3. Verify all tests pass before committing
-
-Run tests with `uv run pytest tests/`. Never ship untested code.
-
-**Reusable tools**: Agents can and should implement new tools when needed. But before building a new tool, check if an existing tool already does something similar — extend it rather than creating a duplicate. When tools accumulate, refactor shared logic into modules.
-
-**Spec before building**: When implementing a non-trivial tool (more than a simple script), write a spec in `specs/` first:
-- What does the tool do?
-- What interface does it expose (CLI args, inputs, outputs)?
-- What existing tools does it relate to?
-
-This prevents fragmentation — where 5 similar scripts exist because each agent built its own version without knowing about the others. The spec acts as a contract that future agents can read before deciding to build or extend.
-
-## 9. Forbidden Actions
-
-- ❌ Modify or delete existing files in `raw/` (you CAN add new files from literature search)
-- ❌ Silently overwrite a fact — use `> [!contradiction]` callout
-- ❌ Create a new page when an existing page covers the concept — extend instead
-- ❌ Skip `index.md` or `log.md` updates after wiki writes
-- ❌ Apply lint fixes without user authorization
-- ❌ Edit an existing `log.md` entry (file a `correction` instead)
-- ❌ Stop researching unless the human interrupts you
-
-## 10. Reporting Format
-
-After wiki operations, reply with:
-
-```markdown
-**Pages created**: <list, or "none">
-**Pages updated**: <list, or "none">
-**Links added**: <count>
-**Contradictions recorded**: <count or "none">
-**Index regenerated**: yes / no
-**Log entry**: <the exact log line>
-```
-
-## 11. Adapting for Your Domain
-
-1. Edit `program.md` with your research objective, tools, and parameters.
-2. Replace `tools/run_one.py` with your experiment runner.
-3. Add raw sources to `raw/papers/`, `raw/data/`, etc.
-4. Launch the agent and let it run.
-
-Do **not** weaken §§ 4–8. They are load-bearing for the wiki's compounding property.
+- Keep code minimal — no unnecessary abstractions
+- Match existing style
+- All Lean proofs must compile before marking verified
+- Run validation after wiki changes
+- Never commit with failing `lake build` if formal_status: verified exists
