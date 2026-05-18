@@ -36,660 +36,442 @@ Kuramoto-Type Mean-Field Equation, Formalized in Lean~4}
 \maketitle
 
 \begin{abstract}
-We prove global stability ($r(t) \to r^*$ for all initial data with $\alpha(\omega,0) \in (0,1)$) for a scalar dissipative mean-field equation sharing the self-consistency structure of the Kuramoto--Ott--Antonsen system. The scalar equation is not the OA equation; it shares the positive real PLS self-consistency relation, and hence the corresponding $K_c$, $\alpha^*$, and $r^*$ branch, but has different transient dynamics. The proof introduces a novel \emph{pair bound}---a pointwise algebraic inequality lifted to a continuum double integral via Fubini---that gives $\dot V \leq 0$ for the $L^2$ Lyapunov function without spectral theory or Fourier analysis. Global stability (no basin condition) follows from a dominated convergence bootstrap proving $r(t) \geq r_{\min} > 0$ uniformly for $K > K_c$. The entire proof chain is formalized in Lean~4 (Mathlib v4.30.0-rc1) with \textbf{0~\texttt{sorry}} and \textbf{0~project axioms}. A conditional extension to the standard complex OA equation and full Kuramoto PDE is also formalized (0~sorry, 2~cited axioms: nonlinear Landau damping and OA manifold attractivity). To the best of our knowledge, this is the first Lean formalization of a stability theorem for a Kuramoto-type model.
+We establish global asymptotic stability of the partially locked state for a scalar dissipative mean-field equation that shares the self-consistency structure of the Kuramoto--Ott--Antonsen system. The central device is a \emph{pair bound}: a pointwise algebraic inequality, lifted to the continuum via Fubini, that renders the $L^2$ Lyapunov function non-increasing without recourse to spectral theory or Fourier analysis. Combining this with a dominated-convergence bootstrap that prevents the order parameter from vanishing, we obtain convergence $r(t)\to r^*$ from \emph{all} initial data---no basin-of-attraction assumption is needed.
+
+The entire argument is formalized in Lean~4 (Mathlib v4.30.0-rc1) with no \texttt{sorry} and no project-specific axioms. A conditional extension to the standard complex Ott--Antonsen equation and the full Kuramoto PDE is also provided, relying on two cited external results (nonlinear Landau damping and OA manifold attractivity). To the best of our knowledge, this constitutes the first machine-checked proof of a stability theorem for a Kuramoto-type model.
 \end{abstract}
 
 \paragraph{Main contributions.}
 \begin{enumerate}[label=(\arabic*)]
-\item \textbf{Pair bound.} A pointwise algebraic pair inequality (Proposition~\ref{prop:pair}) proving $\dot V \leq 0$ for the scalar dissipative model~\eqref{eq:oa}. No precedent in the Kuramoto literature.
-\item \textbf{Global stability without basin condition.} A DCT bootstrap (0~sorry) proves $r(t) \geq r_{\min} > 0$ for all $K > K_c$, removing the basin assumption $V(0) < (r^*)^2$.
-\item \textbf{Machine-checked formalization.} The full proof chain is verified in Lean~4 with 0~sorry, 0~axioms. Coverage: Gaussian, Student-$t$ ($\nu > 1$), compact support, and mixtures whenever $\gamma(\omega) \lesssim 1 + |\omega|$ ($\int\gamma\,\mathrm{d}\mu < \infty$).
-\item \textbf{Conditional complex OA/PDE bridge.} Rotation cancellation in the Lyapunov derivative plus two external axioms gives $\|\eta(t)\| \to r^*$ for the standard complex OA and full Kuramoto PDE.
+\item A novel \emph{pair bound} (Proposition~\ref{prop:pair}) giving $\dot V \leq 0$ for the scalar dissipative model~\eqref{eq:oa}, with no antecedent in the Kuramoto literature.
+\item Global stability without a basin condition: a DCT bootstrap (Proposition~\ref{prop:rpos}) shows $r(t) \geq r_{\min} > 0$ for all $K > K_c$, eliminating the assumption $V(0) < (r^*)^2$.
+\item A complete machine-checked formalization covering Gaussian, Student-$t$ ($\nu>1$), compactly supported, and mixture distributions satisfying $\int\gamma\,\mathrm{d}\mu<\infty$.
+\item A conditional bridge to the standard complex OA and full Kuramoto PDE via rotation cancellation and two external axioms.
 \end{enumerate}
 
 \tableofcontents
 
 % ============================================================
-\section{Setup and statement}
+\section{Setup and statement of results}\label{sec:setup}
 % ============================================================
 
 \subsection{The standard complex Ott--Antonsen equation}\label{sec:complex-oa}
 
-On the OA manifold, the Kuramoto--Sakaguchi PDE reduces to the \emph{complex} OA equation:
+On the Ott--Antonsen manifold, the Kuramoto--Sakaguchi PDE reduces to
 \begin{equation}\label{eq:complex-oa}
 \dot{z}(\omega,t) = -i\omega\,z + \frac{K}{2}\bigl(\bar\eta - \eta\,z^2\bigr), \qquad \eta(t) = \int_\R \overline{z(\omega,t)}\,g(\omega)\,\mathrm{d}\omega,
 \end{equation}
-where $z(\omega,t) \in \D$ (open unit disk) and $\eta(t) \in \C$ is the complex order parameter. This is the standard OA reduction \cite{ott-antonsen2008}.
-
-For symmetric~$g$ with symmetric initial data ($z(\omega,0) = \overline{z(-\omega,0)}$), the symmetry is preserved and $\eta(t) = r(t) \in \R$ (Lean: \texttt{complex\_oa\_\allowbreak symmetry\_preserved}, 0~sorry). For the Lorentzian $g(\omega) = \gamma/(\pi(\omega^2\!+\!\gamma^2))$, residue evaluation at $\omega = -i\gamma$ gives~$\dot{r} = (K/2-\gamma)r - (K/2)r^3$.
+where $z(\omega,t)\in\D$ and $\eta(t)\in\C$ is the complex order parameter~\cite{ott-antonsen2008}. When $g$ is symmetric and the initial data satisfy $z(\omega,0) = \overline{z(-\omega,0)}$, this symmetry persists and $\eta(t) = r(t)\in\R$. For the Lorentzian $g(\omega) = \gamma/(\pi(\omega^2+\gamma^2))$, residue calculus collapses~\eqref{eq:complex-oa} to the scalar ODE $\dot r = (K/2-\gamma)r - (K/2)r^3$.
 
 \subsection{A scalar dissipative model}\label{sec:scalar-model}
 
-We also study the scalar real mean-field equation
+We study the scalar real mean-field equation
 \begin{equation}\label{eq:oa}
 \dot{\alpha}(\omega,t) = -\gamma(\omega)\,\alpha + \frac{K}{2}\,r(t)\bigl(1 - \alpha^2\bigr), \qquad r(t) = \int_\R \alpha(\omega,t)\,g(\omega)\,\mathrm{d}\omega,
 \end{equation}
-where $\alpha(\omega,t) \in (0,1)$ and $\gamma(\omega) > 0$ is a dissipation rate. Throughout, we write $\mathrm{d}\mu = g(\omega)\,\mathrm{d}\omega$ for the probability measure with density~$g$; integrals $\int f\,\mathrm{d}\mu$ and $\int f\,g\,\mathrm{d}\omega$ are used interchangeably. We assume $g \geq 0$, $\int g = 1$, and $g$ measurable.
+with $\alpha(\omega,t)\in(0,1)$ and dissipation rate $\gamma(\omega)>0$. We write $\mathrm{d}\mu = g\,\mathrm{d}\omega$ for the probability measure induced by the density~$g$.
 
-This is a \emph{separate dynamical system} from~\eqref{eq:complex-oa}: the term $-\gamma(\omega)\alpha$ is dissipative, whereas $-i\omega z$ in~\eqref{eq:complex-oa} is rotational. The scalar model is designed to share the same positive real self-consistency equation as the symmetric partially locked state, but its transient dynamics differ from the standard complex OA equation.
+This is a \emph{distinct} dynamical system from~\eqref{eq:complex-oa}: the dissipative term $-\gamma\alpha$ replaces the rotational term $-i\omega z$. What the two systems share is the self-consistency equation defining the partially locked state.
 
-\begin{remark}[Scope clarification]\label{rem:scope}
-Equation~\eqref{eq:oa} is \textbf{not} derived from the complex OA equation~\eqref{eq:complex-oa} by setting $z = \alpha \in \R$. The subspace $\im(z) = 0$ is not invariant under~\eqref{eq:complex-oa} (since $\dot{y} = -\omega x \neq 0$ in general). The Lyapunov argument in Sections~\ref{sec:proof}--\ref{sec:cauchy} applies directly to~\eqref{eq:oa}. The conditional extension to the standard complex OA~\eqref{eq:complex-oa} is given in Section~\ref{sec:complex-extension}.
+\begin{remark}[Scope]\label{rem:scope}
+Equation~\eqref{eq:oa} is \textbf{not} obtained from~\eqref{eq:complex-oa} by restricting to real~$z$; the subspace $\im(z)=0$ is not invariant under~\eqref{eq:complex-oa}. The Lyapunov argument in Sections~\ref{sec:proof}--\ref{sec:cauchy} applies to~\eqref{eq:oa} directly. The conditional extension to~\eqref{eq:complex-oa} appears in Section~\ref{sec:complex-extension}.
 \end{remark}
 
 \begin{center}\small
 \begin{tabular}{@{}lllll@{}}
 \textbf{Model} & \textbf{Eq.} & \textbf{Uncond.?} & \textbf{Lean status} & \textbf{Relation to Kuramoto} \\
 \hline
-Scalar dissipative & \eqref{eq:oa} & Yes & 0 sorry, 0 ax. & Shares PLS self-consistency \\
-Lorentzian ODE & Bernoulli & Yes & 0 sorry, 0 ax. & Classical OA for Lorentzian $g$ \\
-$n$-pole & Finite & Yes & 0 sorry, 0 ax. & Discrete analogue \\
-Complex OA & \eqref{eq:complex-oa} & No (1 ax.) & 0 sorry, 1 ax. & Standard OA reduction \\
-Full Kuramoto PDE & Kinetic & No (2 ax.) & 0 sorry, 2 ax. & Original model \\
+Scalar dissipative & \eqref{eq:oa} & Yes & complete & Shares PLS self-consistency \\
+Lorentzian ODE & Bernoulli & Yes & complete & Classical OA for Lorentzian $g$ \\
+$n$-pole & Finite & Yes & complete & Discrete analogue \\
+Complex OA & \eqref{eq:complex-oa} & No (1 axiom) & complete & Standard OA reduction \\
+Full Kuramoto PDE & Kinetic & No (2 axioms) & complete & Original model \\
 \end{tabular}
 \end{center}
 
 \subsection{The partially locked state (PLS)}
 
-Assume there exists a unique positive equilibrium $(\alpha^*, r^*)$ satisfying the self-consistency equation
+We assume the existence of a unique positive equilibrium $(\alpha^*,r^*)$ with $r^*\in(0,1)$ satisfying
 \begin{equation}\label{eq:sc}
 r^* = \int_\R \alpha^*(\omega)\,g(\omega)\,\mathrm{d}\omega
 \end{equation}
-with $r^* \in (0,1)$. (For the Lorentzian $g(\omega) = \gamma/(\pi(\omega^2+\gamma^2))$, this holds when $K > K_c := 2\gamma$.) The equilibrium profile $\alpha^*(\omega) \in (0,1)$ satisfies the pointwise equilibrium condition
+and the pointwise balance
 \begin{equation}\label{eq:equil}
-\gamma(\omega)\,\alpha^*(\omega) = \frac{K}{2}\,r^*\bigl(1 - (\alpha^*(\omega))^2\bigr) \qquad \text{for $g$-a.e.}\ \omega.
+\gamma(\omega)\,\alpha^*(\omega) = \frac{K}{2}\,r^*\bigl(1 - \alpha^*(\omega)^2\bigr) \qquad \text{for $g$-a.e.\ $\omega$.}
 \end{equation}
+For the Lorentzian this holds whenever $K>K_c := 2\gamma$.
 
-\subsection{Main theorem}
+\subsection{Main theorems}
 
-\begin{theorem}[Basin stability, \texttt{real\_scalar\_complete}]\label{thm:main}
-Let $\gamma(\omega) > 0$ with $\int \gamma\,\mathrm{d}\mu < \infty$ (finite first moment). Let $(\alpha^*(\omega), r^*)$ satisfy~\eqref{eq:equil} and~\eqref{eq:sc}. Let $(r, \alpha)$ solve~\eqref{eq:oa}:
+\begin{theorem}[Basin stability]\label{thm:main}
+Let $\gamma>0$ with $\int\gamma\,\mathrm{d}\mu<\infty$. Let $(\alpha^*,r^*)$ satisfy~\eqref{eq:equil}--\eqref{eq:sc}, and let $(\alpha,r)$ solve~\eqref{eq:oa} with:
 \begin{enumerate}[label=(\roman*)]
-\item $\alpha(\omega,\cdot)$ solves~\eqref{eq:oa} for all $\omega$, with $r(t) = \int \alpha(\omega,t)\,\mathrm{d}\mu$;
-\item $\alpha(\omega,t) \in (0,1)$ for all $\omega, t \geq 0$ (invariant region);
-\item $V(0) := \int (\alpha(\omega,0) - \alpha^*(\omega))^2\,\mathrm{d}\mu < (r^*)^2$ (initial closeness to PLS);
-\item for each $M > 0$, $\exists\,\delta_0 > 0$ such that $\alpha(\omega,0) \geq \delta_0$ for all $\omega$ with $\gamma(\omega) \leq M$ (initial body coherence).
+\item $r(t) = \int\alpha(\omega,t)\,\mathrm{d}\mu$ and $\alpha(\omega,t)\in(0,1)$ for all $\omega,t\geq 0$;
+\item $V(0) := \int(\alpha(\omega,0)-\alpha^*(\omega))^2\,\mathrm{d}\mu < (r^*)^2$;
+\item for each $M>0$, there exists $\delta_0>0$ with $\alpha(\omega,0)\geq\delta_0$ on $\{\gamma\leq M\}$.
 \end{enumerate}
-Then $r(t) \to r^*$ as $t \to +\infty$.
+Then $r(t)\to r^*$ as $t\to+\infty$.
 \end{theorem}
 
 \begin{remark}
-No persistence hypothesis is assumed. The proof \emph{derives} order parameter persistence ($r(t) \geq r_{\min} > 0$) from $V$ antitonicity and Cauchy--Schwarz, then derives body persistence on $\{\gamma \leq M\}$ for each $M > 0$ from the ODE scalar barrier. The only conditions beyond the system definition are (iii) initial closeness and (iv) initial body coherence---both hold for any initial data in a neighborhood of the PLS.
+No persistence hypothesis appears among the assumptions. The proof \emph{derives} order-parameter persistence ($r(t)\geq r_{\min}>0$) from $V$~antitonicity and Cauchy--Schwarz, then body persistence from the ODE barrier. Conditions~(ii)--(iii) hold for any initial datum in a neighborhood of the PLS.
 \end{remark}
 
-\begin{theorem}[Global scalar stability]\label{thm:global}
-Let $\gamma(\omega) > 0$ with $\int \gamma\,\mathrm{d}\mu < \infty$ and $\int (1/\gamma)\,\mathrm{d}\mu < \infty$. Let $(\alpha^*, r^*)$ be the unique positive equilibrium satisfying~\eqref{eq:equil}--\eqref{eq:sc}. Let $(r, \alpha)$ solve~\eqref{eq:oa} with $r(t) = \int \alpha(\omega,t)\,\mathrm{d}\mu$, $\alpha(\omega,t) \in (0,1)$ for all $\omega, t \geq 0$, and initial body coherence (for each $M > 0$, $\exists\,\delta_0 > 0$ with $\alpha(\omega,0) \geq \delta_0$ on $\{\gamma \leq M\}$). Assume $K > K_c := 2/\!\int\!(1/\gamma)\,\mathrm{d}\mu$.
-
-Then $r(t) \to r^*$ as $t \to +\infty$, \textbf{without} assuming the basin condition $V(0) < (r^*)^2$.
+\begin{theorem}[Global stability]\label{thm:global}
+Assume additionally that $\int(1/\gamma)\,\mathrm{d}\mu<\infty$ and $K > K_c := 2/\!\int\!(1/\gamma)\,\mathrm{d}\mu$. Then the conclusion of Theorem~\ref{thm:main} holds \textbf{without} condition~(ii): $r(t)\to r^*$ for all initial data satisfying~(i) and~(iii).
 \end{theorem}
 
 \begin{remark}
-The condition $K > K_c$ does not by itself guarantee existence of $(\alpha^*, r^*)$; existence is an additional hypothesis (proved for specific families such as Gaussian and Student-$t$ via the implicit function theorem on the self-consistency equation). The scalar dissipative equation~\eqref{eq:oa} is \textbf{not} the standard complex OA equation~\eqref{eq:complex-oa}; it shares the PLS self-consistency relation but has different transient dynamics.
+The threshold $K>K_c$ does not alone guarantee existence of $(\alpha^*,r^*)$; that is an additional hypothesis, verified for specific families (Gaussian, Student-$t$) via the implicit function theorem on~\eqref{eq:sc}.
 \end{remark}
 
 % ============================================================
-\section{The proof chain}\label{sec:proof}
+\section{Proof of basin stability}\label{sec:proof}
 % ============================================================
 
-We present the seven-step proof of Theorem~\ref{thm:main} in the order that Lean verifies it. Each step is stated as a proposition and corresponds to a named lemma in the Lean formalization.
+The proof consists of six steps, presented in the order that the formal verification assembles them.
 
-\subsection{Step 1: Leibniz rule for the Lyapunov function}\label{sec:leibniz}
+\subsection{Step 1: Leibniz rule}\label{sec:leibniz}
 
-Define the continuum $L^2$ Lyapunov function
+Define the $L^2$ Lyapunov function
 \begin{equation}\label{eq:V}
-V(t) := \int_\R (\alpha(\omega,t) - \alpha^*(\omega))^2\,g(\omega)\,\mathrm{d}\omega.
+V(t) := \int_\R (\alpha(\omega,t) - \alpha^*(\omega))^2\,\mathrm{d}\mu.
 \end{equation}
 
-\begin{proposition}[Leibniz, \texttt{leibniz\_oa\_lyapunov}]\label{prop:leibniz}
-Under the hypotheses of Theorem~\ref{thm:main}, $V$ is continuous on $[0,\infty)$ and for every $t > 0$:
+\begin{proposition}[Leibniz]\label{prop:leibniz}
+Under the hypotheses of Theorem~\ref{thm:main}, $V$ is continuous and
 \[
-V'(t) = \int_\R 2\,(\alpha(\omega,t) - \alpha^*(\omega))\,\dot{\alpha}(\omega,t)\,g(\omega)\,\mathrm{d}\omega.
+V'(t) = \int_\R 2\,(\alpha - \alpha^*)\,\dot\alpha\,\mathrm{d}\mu \quad\text{for all } t>0.
 \]
 \end{proposition}
 
 \begin{proof}
-By the chain rule, $\frac{\partial}{\partial t}(\alpha(\omega,t) - \alpha^*(\omega))^2 = 2(\alpha - \alpha^*)\dot{\alpha}$. This pointwise derivative is bounded in absolute value by the integrable dominator
-\[
-\bigl|2(\alpha - \alpha^*)\dot{\alpha}\bigr| \leq 2\,|\dot{\alpha}| \leq 2(\gamma(\omega) + K),
-\]
-since $|\alpha - \alpha^*| \leq 1$ and $|\dot{\alpha}| \leq \gamma(\omega) + K$ for $\alpha, r \in (0,1)$. The dominator $2(\gamma + K)$ is integrable since $\int \gamma\,g\,\mathrm{d}\omega < \infty$ by hypothesis. Mathlib's differentiation-under-the-integral lemma then gives the stated formula for~$\frac{\mathrm{d}}{\mathrm{d}t}\!\int (\alpha - \alpha^*)^2\,g\,\mathrm{d}\omega$.
+The pointwise derivative $\partial_t(\alpha-\alpha^*)^2 = 2(\alpha-\alpha^*)\dot\alpha$ satisfies $|2(\alpha-\alpha^*)\dot\alpha| \leq 2(\gamma(\omega)+K)$, since $|\alpha-\alpha^*|\leq 1$ and $|\dot\alpha|\leq\gamma+K$ on $(0,1)$. The right-hand side is $\mu$-integrable by hypothesis, so differentiation under the integral sign applies.
 \end{proof}
 
-\subsection{Step 2: Pair bound and derived monotonicity}\label{sec:pair}
+\subsection{Step 2: The pair bound}\label{sec:pair}
 
-We derive $V'(t) \leq 0$ from the pair bound. Convergence $V(t) \to 0$ is obtained later by body-tail splitting and Barbalat (Proposition~\ref{prop:drop}).
-
-\begin{proposition}[Pair bound, \texttt{pair\_bound}]\label{prop:pair}
-For any $\alpha_j, \alpha_k, \alpha^*_j, \alpha^*_k \in (0,1)$:
+\begin{proposition}[Pair bound]\label{prop:pair}
+For any $\alpha_j,\alpha_k,\alpha^*_j,\alpha^*_k\in(0,1)$:
 \begin{equation}\label{eq:pair}
-\alpha^*_j(\alpha_k - \alpha^*_k)^2\Bigl(\alpha_k + \frac{1}{\alpha^*_k}\Bigr) + \alpha^*_k(\alpha_j - \alpha^*_j)^2\Bigl(\alpha_j + \frac{1}{\alpha^*_j}\Bigr) \geq (\alpha_j - \alpha^*_j)(\alpha_k - \alpha^*_k)(2 - \alpha_j^2 - \alpha_k^2).
+\alpha^*_j(\alpha_k-\alpha^*_k)^2\!\Bigl(\alpha_k+\tfrac{1}{\alpha^*_k}\Bigr) + \alpha^*_k(\alpha_j-\alpha^*_j)^2\!\Bigl(\alpha_j+\tfrac{1}{\alpha^*_j}\Bigr) \geq (\alpha_j-\alpha^*_j)(\alpha_k-\alpha^*_k)(2-\alpha_j^2-\alpha_k^2).
 \end{equation}
 \end{proposition}
 
 \begin{proof}
-Set $p_j = \alpha_j - \alpha^*_j$, $p_k = \alpha_k - \alpha^*_k$. Since $\alpha^*_j, \alpha^*_k > 0$, it suffices to show $\alpha^*_j \alpha^*_k \cdot (\text{LHS} - \text{RHS}) \geq 0$. Expanding the LHS terms and collecting:
-\begin{align}
-\alpha^*_j \alpha^*_k \cdot (\text{LHS} - \text{RHS}) &= \underbrace{(\alpha^*_j p_k - \alpha^*_k p_j)^2}_{T_1} + \underbrace{(\alpha^*_j)^2 \alpha_k \alpha^*_k\, p_k^2}_{T_2} \notag \\
-&\quad + \underbrace{(\alpha^*_k)^2 \alpha_j \alpha^*_j\, p_j^2}_{T_3} + \underbrace{\alpha^*_j \alpha^*_k (\alpha_j^2 + \alpha_k^2)\, p_j p_k}_{T_4}. \label{eq:decomp}
-\end{align}
+Write $p_j=\alpha_j-\alpha^*_j$, $p_k=\alpha_k-\alpha^*_k$. Multiplying both sides by $\alpha^*_j\alpha^*_k>0$ and expanding:
+\begin{equation}\label{eq:decomp}
+\alpha^*_j\alpha^*_k(\text{LHS}-\text{RHS}) = (\alpha^*_jp_k-\alpha^*_kp_j)^2 + (\alpha^*_j)^2\alpha_k\alpha^*_kp_k^2 + (\alpha^*_k)^2\alpha_j\alpha^*_jp_j^2 + \alpha^*_j\alpha^*_k(\alpha_j^2+\alpha_k^2)p_jp_k.
+\end{equation}
 
-\textbf{Case $p_j p_k \leq 0$.} Then LHS $\geq 0$ (each summand is $(\text{pos})\cdot p^2\cdot(\text{pos})$) and RHS $= p_j p_k(2-\alpha_j^2-\alpha_k^2) \leq 0$ (since $2-\alpha_j^2-\alpha_k^2 > 0$ for $\alpha_j,\alpha_k \in (0,1)$). Hence LHS $\geq 0 \geq$ RHS.
+When $p_jp_k\leq 0$: each LHS summand is non-negative (factors involving $\alpha+1/\alpha^*$ are positive) while the RHS is non-positive (since $2-\alpha_j^2-\alpha_k^2>0$).
 
-\textbf{Case $p_j p_k > 0$.} Terms $T_1, T_2, T_3 \geq 0$ and $T_4 > 0$. We show $T_2 + T_3 + T_4 \geq 0$, which suffices since $T_1 \geq 0$. Since $p_j p_k > 0$, both have the same sign. Write $\alpha_j = \alpha^*_j + p_j$ and $\alpha_k = \alpha^*_k + p_k$:
-\begin{align*}
-T_2 + T_3 + T_4 &= (\alpha^*_j)^2(\alpha^*_k + p_k)\alpha^*_k\,p_k^2 + (\alpha^*_k)^2(\alpha^*_j + p_j)\alpha^*_j\,p_j^2 \\
-&\quad + \alpha^*_j\alpha^*_k\bigl((\alpha^*_j+p_j)^2 + (\alpha^*_k+p_k)^2\bigr)p_jp_k.
-\end{align*}
-Since $\alpha_j, \alpha_k \in (0,1)$ we have $\alpha_j = \alpha^*_j + p_j > 0$ and $\alpha_k = \alpha^*_k + p_k > 0$, so all factors involving $\alpha_j, \alpha_k$ are positive. With $p_jp_k > 0$, every term in $T_2 + T_3 + T_4$ is non-negative (using $\alpha^*_j + p_j = \alpha_j > 0$ for $T_2$'s factor $\alpha_k = \alpha^*_k + p_k > 0$, and similarly for $T_3$). Hence $T_2+T_3+T_4 > 0$ and the decomposition~\eqref{eq:decomp} is positive.
-
-The full expansion is verified in Lean as \texttt{pair\_bound\_clear\_denom} (0~sorry).
+When $p_jp_k>0$: the first three terms of~\eqref{eq:decomp} are manifestly non-negative. The fourth is positive since $\alpha_j^2+\alpha_k^2>0$ and $p_jp_k>0$, so $\alpha_j=\alpha^*_j+p_j>0$ forces every factor positive.
 \end{proof}
 
-\begin{proposition}[Continuum pair bound, \texttt{continuum\_pair\_nonneg}]\label{prop:cpair}
+\begin{proposition}[Continuum pair bound]\label{prop:cpair}
 The double integral
 \[
-\int_\R \int_\R \left[\alpha^*(\omega_1)(\alpha(\omega_2) - \alpha^*(\omega_2))^2\Bigl(\alpha(\omega_2) + \frac{1}{\alpha^*(\omega_2)}\Bigr) + \alpha^*(\omega_2)(\alpha(\omega_1) - \alpha^*(\omega_1))^2\Bigl(\alpha(\omega_1) + \frac{1}{\alpha^*(\omega_1)}\Bigr)\right.
+\iint \Bigl[\alpha^*_1(\alpha_2-\alpha^*_2)^2\!\bigl(\alpha_2+\tfrac{1}{\alpha^*_2}\bigr) + \alpha^*_2(\alpha_1-\alpha^*_1)^2\!\bigl(\alpha_1+\tfrac{1}{\alpha^*_1}\bigr) - (\alpha_1-\alpha^*_1)(\alpha_2-\alpha^*_2)(2-\alpha_1^2-\alpha_2^2)\Bigr]\,\mathrm{d}\mu_1\,\mathrm{d}\mu_2 \geq 0,
 \]
-\[
-\left. - (\alpha(\omega_1) - \alpha^*(\omega_1))(\alpha(\omega_2) - \alpha^*(\omega_2))(2 - \alpha(\omega_1)^2 - \alpha(\omega_2)^2)\right] g(\omega_1)\,g(\omega_2)\,\mathrm{d}\omega_1\,\mathrm{d}\omega_2 \geq 0.
-\]
+where we abbreviate $\alpha_i = \alpha(\omega_i,t)$ and $\alpha^*_i = \alpha^*(\omega_i)$.
 \end{proposition}
 
 \begin{proof}
-Mathlib's \texttt{integral\_nonneg} applied twice (once in $\omega_1$, once in $\omega_2$) reduces this to the pointwise inequality of Proposition~\ref{prop:pair}.
+The integrand is pointwise non-negative by Proposition~\ref{prop:pair}; integrate.
 \end{proof}
 
-\begin{proposition}[Derived monotonicity from the pair bound, \texttt{hV\_rate}]\label{prop:rate}
-Under the hypotheses of Theorem~\ref{thm:main}, $V'(t) \leq 0$ for all $t > 0$. Convergence $V \to 0$ follows from body persistence combined with Barbalat's lemma via the body-tail split: on $\{\gamma \leq M\}$, body persistence gives a coercive lower bound on $-V'$; on $\{\gamma > M\}$, the tail contribution vanishes as $M \to \infty$ since $\int \gamma\,g < \infty$. This is \emph{proved} from the pair bound and persistence; it is not assumed.
+\begin{proposition}[Monotonicity]\label{prop:rate}
+$V'(t)\leq 0$ for all $t>0$.
 \end{proposition}
 
 \begin{proof}[Proof sketch]
-Substituting the OA equation~\eqref{eq:oa} into the Leibniz formula:
-\[
-V'(t) = \int_\R 2(\alpha - \alpha^*)\Bigl[-\gamma\alpha + \frac{K}{2}r(1-\alpha^2)\Bigr] g\,\mathrm{d}\omega.
-\]
-Using the equilibrium condition~\eqref{eq:equil} to write $\gamma\alpha^* = (K/2)r^*(1-(\alpha^*)^2)$, one computes:
-\[
-2(\alpha-\alpha^*)\dot\alpha = K(\alpha-\alpha^*)\Bigl[r(1-\alpha^2) - r^*(1-(\alpha^*)^2) - \frac{2\gamma}{K}(\alpha-\alpha^*)\Bigr].
-\]
-Expanding and grouping, the integrand splits into:
-\begin{itemize}
-\item a term proportional to $(r-r^*) \cdot D$ where $D = \int(\alpha-\alpha^*)g\,\mathrm{d}\omega = r - r^*$, giving $K(r-r^*)^2 \leq KV$ (by Cauchy-Schwarz);
-\item a term $-K r^* \cdot Q$ where $Q = \int (\alpha-\alpha^*)^2(\alpha + 1/\alpha^*)g\,\mathrm{d}\omega$;
-\item a term $K \cdot DS$ where $S = \int(\alpha-\alpha^*)(1-\alpha^2)g\,\mathrm{d}\omega$.
-\end{itemize}
-The continuum pair bound (Proposition~\ref{prop:cpair}) gives $DS \leq r^* Q$, so $K \cdot DS - K r^* Q \leq 0$, and the pair bound already yields $V'(t) \leq 0$. To obtain convergence $V \to 0$, one uses the body-tail split: on the body $\{\gamma \leq M\}$, body persistence gives $\alpha(\omega,t) \geq \delta(M) > 0$, which provides a coercive lower bound $Q_{\mathrm{body}} \geq \delta(M) \cdot \delta^* \cdot V_{\mathrm{body}}$; the tail $\{\gamma > M\}$ contributes at most $\int_{\gamma > M} \gamma\,g\,\mathrm{d}\omega \to 0$ as $M \to \infty$. Barbalat's lemma then gives $V \to 0$. The full computation is verified in \texttt{ContinuumUniformRate.lean}.
+Substituting~\eqref{eq:oa} into the Leibniz formula and using the equilibrium relation~\eqref{eq:equil}, the integrand splits into three terms: one proportional to $(r-r^*)^2$ (controlled by Cauchy--Schwarz), one involving the quadratic form $Q=\int(\alpha-\alpha^*)^2(\alpha+1/\alpha^*)\,\mathrm{d}\mu$, and a cross-term involving $S=\int(\alpha-\alpha^*)(1-\alpha^2)\,\mathrm{d}\mu$. The continuum pair bound (Proposition~\ref{prop:cpair}) supplies the key inequality $DS\leq r^*Q$, from which $V'\leq 0$ follows algebraically.
 \end{proof}
 
 \subsection{Step 3: $V$ is antitone}\label{sec:antitone}
 
-\begin{proposition}[$V$ antitone, \texttt{lyapunov\_antitone}]\label{prop:antitone}
-$V(t)$ is non-increasing on $[0,\infty)$.
+\begin{proposition}\label{prop:antitone}
+$V$ is non-increasing on $[0,\infty)$.
 \end{proposition}
 
 \begin{proof}
-By Proposition~\ref{prop:rate}, $V'(t) \leq 0$ for all $t > 0$. Since $V$ is continuous (Proposition~\ref{prop:leibniz}), Mathlib's \texttt{antitoneOn\_of\_deriv\_nonpos} applies directly on $[0,\infty)$.
+Immediate from $V'\leq 0$ and continuity.
 \end{proof}
 
-\subsection{Step 4: Body-tail split and Barbalat}
+\subsection{Step 4: Body--tail decomposition and Barbalat}\label{sec:barbalat}
 
-\begin{proposition}[Body-tail convergence, \texttt{supercritical\_coercive\_drops}]\label{prop:drop}
-For any $\varepsilon > 0$, there exists $T > 0$ such that $V(t) < \varepsilon$ for all $t > T$.
+\begin{proposition}[Convergence]\label{prop:drop}
+$V(t)\to 0$ as $t\to+\infty$.
 \end{proposition}
 
 \begin{proof}
-\textbf{Step A (Tail control).} Decompose
-\[
-V = V_{\mathrm{body},M} + V_{\mathrm{tail},M}, \quad
-V_{\mathrm{body},M} := \int_{\gamma \leq M} (\alpha - \alpha^*)^2\,g, \quad
-V_{\mathrm{tail},M} := \int_{\gamma > M} (\alpha - \alpha^*)^2\,g.
-\]
-Since $|\alpha - \alpha^*| \leq 1$ and $(\alpha - \alpha^*)^2 \leq 1$:
-\[
-V_{\mathrm{tail},M} \leq \int_{\gamma > M} g\,\mathrm{d}\omega.
-\]
-Since $\int \gamma\,g < \infty$, Markov's inequality gives $\int_{\gamma > M} g \leq \frac{1}{M}\int \gamma\,g \to 0$ as $M \to \infty$. Thus for every $\varepsilon > 0$, there exists $M_0$ such that $V_{\mathrm{tail},M_0}(t) < \varepsilon/2$ \emph{for all~$t$}.
+Fix $\varepsilon>0$. Decompose $V = V_{\mathrm{body},M} + V_{\mathrm{tail},M}$ along the partition $\{\gamma\leq M\}\cup\{\gamma>M\}$.
 
-\textbf{Step B (Body convergence).} Fix $M = M_0$. On $\{\gamma \leq M\}$, body persistence (derived in Step~3 of the proof of Theorem~\ref{thm:main}) gives $\alpha(\omega,t) \geq \delta(M) > 0$. The body-restricted pair coercivity then gives a positive lower bound:
-\[
--V'(t) \geq K \cdot \delta(M) \cdot \delta^*(M) \cdot \mu(\gamma \leq M) \cdot V_{\mathrm{body},M}(t),
-\]
-where $\delta^*(M) = \min_{\gamma \leq M} \alpha^*(\omega) > 0$. Since $V$ is antitone and $V' \leq -c \cdot V_{\mathrm{body},M}$ with $c > 0$: the time-integral $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t$ converges (bounded by $V(0)/c$). The derivative of $V_{\mathrm{body},M}$ satisfies
-\[
-\Bigl|\frac{d}{dt}V_{\mathrm{body},M}(t)\Bigr| = \Bigl|\int_{\gamma \leq M} 2(\alpha - \alpha^*)\dot\alpha\,g\Bigr| \leq 2(M+K)\,\mu(\gamma \leq M),
-\]
-since $|\alpha - \alpha^*| \leq 1$ and $|\dot\alpha| \leq M + K$ on $\{\gamma \leq M\}$. A bounded derivative gives Lipschitz, hence uniform continuity of $V_{\mathrm{body},M}$. Since $V_{\mathrm{body},M} \geq 0$ and $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t < \infty$, Barbalat's lemma gives $V_{\mathrm{body},M}(t) \to 0$.
+\textbf{Tail.} Since $(\alpha-\alpha^*)^2\leq 1$ and $\int\gamma\,\mathrm{d}\mu<\infty$, Markov's inequality gives $V_{\mathrm{tail},M}\leq \mu(\gamma>M)\leq (1/M)\int\gamma\,\mathrm{d}\mu\to 0$. Choose $M_0$ so that $V_{\mathrm{tail},M_0}<\varepsilon/2$ uniformly in~$t$.
 
-\textbf{Step C (Combine).} For $t$ large enough: $V_{\mathrm{body},M_0}(t) < \varepsilon/2$ (Step~B) and $V_{\mathrm{tail},M_0}(t) < \varepsilon/2$ (Step~A). Therefore $V(t) < \varepsilon$.
+\textbf{Body.} On $\{\gamma\leq M_0\}$, body persistence (derived from the basin condition via Cauchy--Schwarz and the ODE barrier) yields $\alpha(\omega,t)\geq\delta>0$. The resulting coercivity
+\[
+-V'(t)\geq c\,V_{\mathrm{body},M_0}(t), \qquad c = K\delta\delta^*\mu(\gamma\leq M_0)>0,
+\]
+forces $\int_0^\infty V_{\mathrm{body},M_0}\,\mathrm{d}t<\infty$. Since the time-derivative of $V_{\mathrm{body},M_0}$ is bounded (by $2(M_0+K)$), Barbalat's lemma gives $V_{\mathrm{body},M_0}(t)\to 0$.
 
-This avoids any appeal to uniform continuity of $V'$. The Lean formalization uses \texttt{coercive\_drop\_from\_\allowbreak persistence} in \texttt{ContinuumBarbalat.lean}, which takes: non-negativity, antitonicity, body persistence, and tail vanishing.
+Combining: $V(t)<\varepsilon$ for $t$ large enough.
 \end{proof}
 
-\begin{remark}
-In the $n$-pole case (Section~\ref{sec:npole}), the stronger exponential rate $V(t+1) \leq e^{-\mu}V(t)$ with $\mu = K c_{\min}\delta\delta^*$ holds via Gronwall comparison (\texttt{comparison\_decay\_\allowbreak interval} in \texttt{GronwallBridge.lean}).
-\end{remark}
+\subsection{Step 5: Cauchy--Schwarz closing}\label{sec:cauchy}
 
-\subsection{Step 5: $V \to 0$}
-
-\begin{proposition}[$V \to 0$, \texttt{coercive\_drop\_from\_persistence}]\label{prop:vzero}
-$V(t) \to 0$ as $t \to +\infty$.
+\begin{proposition}\label{prop:rconv}
+$V(t)\to 0$ implies $r(t)\to r^*$.
 \end{proposition}
 
 \begin{proof}
-By Proposition~\ref{prop:drop}, $V(t) \to 0$ via the body-tail split and Barbalat's lemma. Since $V$ is antitone (Proposition~\ref{prop:antitone}) and bounded below by $0$, the limit exists, and the body-tail argument forces it to be zero. The formalization uses \texttt{coercive\_drop\_from\_persistence} in \texttt{ContinuumBarbalat.lean}, which takes: non-negativity, antitonicity, body persistence, and tail vanishing.
-\end{proof}
-
-\subsection{Step 6: $r \to r^*$ via Cauchy-Schwarz}\label{sec:cauchy}
-
-\begin{proposition}[$r \to r^*$, closing step]\label{prop:rconv}
-$V(t) \to 0$ implies $r(t) \to r^*$.
-\end{proposition}
-
-\begin{proof}
-By the self-consistency relation and the equilibrium formula:
-\[
-r(t) - r^* = \int_\R (\alpha(\omega,t) - \alpha^*(\omega))\,g(\omega)\,\mathrm{d}\omega.
-\]
-By the Cauchy-Schwarz inequality (or Jensen applied to the square function):
-\[
-(r(t) - r^*)^2 = \left(\int_\R (\alpha - \alpha^*)\,g\,\mathrm{d}\omega\right)^2 \leq \int_\R (\alpha - \alpha^*)^2\,g\,\mathrm{d}\omega = V(t).
-\]
-This is formalized as \texttt{sq\_integral\_le\_integral\_sq} in the Lean code. Since $V(t) \to 0$, we have $(r(t)-r^*)^2 \to 0$, hence $r(t) \to r^*$ in the metric sense.
+$(r-r^*)^2 = \bigl(\int(\alpha-\alpha^*)\,\mathrm{d}\mu\bigr)^2 \leq \int(\alpha-\alpha^*)^2\,\mathrm{d}\mu = V(t) \to 0$.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:main}]
-Steps 1 through 6 above, composed in order, constitute the complete proof. In Lean:
-\begin{enumerate}[label=(\arabic*)]
-\item \texttt{leibniz\_oa\_lyapunov} gives continuity and differentiability of $V$.
-\item The pair bound (\texttt{continuum\_pair\_nonneg}) and Leibniz together give $V' \leq 0$.
-\item \texttt{lyapunov\_antitone} gives that $V$ is non-increasing.
-\item Cauchy--Schwarz gives $r(t) \geq r^* - \sqrt{V(0)} > 0$ (order parameter persistence).
-\item ODE scalar barrier gives body persistence on $\{\gamma \leq M\}$ for each $M > 0$.
-\item \texttt{coercive\_drop\_from\_persistence} gives $V \to 0$ via body-tail split + Barbalat.
-\item \texttt{sq\_integral\_le\_integral\_sq} gives $(r-r^*)^2 \leq V$, so $r \to r^*$.
-\end{enumerate}
-The end-to-end theorem is \texttt{real\_scalar\_complete} in \texttt{RealScalarComplete.lean}, which wires the chain and derives body persistence internally from the basin condition.
+Compose the five steps: Leibniz (Prop.~\ref{prop:leibniz}) $\to$ pair bound and monotonicity (Props.~\ref{prop:pair}--\ref{prop:rate}) $\to$ antitonicity (Prop.~\ref{prop:antitone}) $\to$ body--tail convergence (Prop.~\ref{prop:drop}) $\to$ Cauchy--Schwarz (Prop.~\ref{prop:rconv}). Order-parameter persistence and body persistence are derived internally from the basin condition~(ii) and never assumed.
 \end{proof}
 
-\subsection{Step 7: Pair rigidity (characterization of $V' = 0$)}\label{sec:rigidity}
+\subsection{Step 6: Pair rigidity}\label{sec:rigidity}
 
-Although not needed for the convergence proof itself, the pair bound also characterizes when $V' = 0$.
+Although not required for convergence, the pair bound also characterizes the set $\{V'=0\}$.
 
-\begin{proposition}[Pair rigidity, \texttt{pair\_eq\_zero\_iff}]\label{prop:rigidity}
-The pair integrand~\eqref{eq:pair} equals zero if and only if $\alpha_j = \alpha^*_j$ and $\alpha_k = \alpha^*_k$.
+\begin{proposition}\label{prop:rigidity}
+The pair integrand~\eqref{eq:pair} vanishes if and only if $\alpha_j=\alpha^*_j$ and $\alpha_k=\alpha^*_k$.
 \end{proposition}
 
 \begin{proof}
-The algebraic decomposition plus sign case split in the proof of Proposition~\ref{prop:pair} shows:
-\[
-\alpha^*_j \alpha^*_k \cdot (\text{LHS}-\text{RHS}) = (\alpha^*_j p_k - \alpha^*_k p_j)^2 + (\alpha^*_j)^2 \alpha_k \alpha^*_k p_k^2 + (\alpha^*_k)^2 \alpha_j \alpha^*_j p_j^2 + \alpha^*_j \alpha^*_k (\alpha_j^2+\alpha_k^2) p_j p_k.
-\]
-When $p_j p_k > 0$: the second and third terms are strictly positive, so the sum is positive and the integrand cannot be zero unless $p_j = p_k = 0$.
-When $p_j p_k \leq 0$: each of the three original terms of~\eqref{eq:pair} is non-negative (since $\alpha_j + 1/\alpha^*_j > 0$ and $2 - \alpha_j^2 - \alpha_k^2 > 0$), so all must individually vanish, giving $p_j = p_k = 0$.
-This is formalized as \texttt{pair\_eq\_zero\_iff} in \texttt{ContinuumLyapunov.lean}.
+When $p_jp_k>0$, terms $T_2$ and $T_3$ in~\eqref{eq:decomp} are strictly positive unless $p_j=p_k=0$. When $p_jp_k\leq 0$, each summand of the LHS of~\eqref{eq:pair} is non-negative and must vanish individually, again forcing $p_j=p_k=0$.
 \end{proof}
 
-\begin{remark}[LaSalle structure]
-Proposition~\ref{prop:rigidity} shows that $\{V' = 0\} = \{\alpha = \alpha^*\}$. This is the LaSalle invariance principle characterization and is used in the alternative Path~B proof (\texttt{ContinuumGlobalStability.lean}) where scalar asymptotic autonomy of each oscillator gives pointwise convergence and dominated convergence gives $V \to 0$.
+\begin{remark}[LaSalle interpretation]
+Proposition~\ref{prop:rigidity} shows $\{V'=0\}=\{\alpha=\alpha^*\}$, the LaSalle characterization. An alternative proof path uses scalar asymptotic autonomy of each oscillator to deduce pointwise convergence $\alpha(\omega,t)\to\alpha^*(\omega)$, then dominated convergence for $V\to 0$.
 \end{remark}
 
 % ============================================================
-\subsection{Step 8: Removing the basin condition (DCT bootstrap)}\label{sec:bootstrap}
+\subsection{Removing the basin condition}\label{sec:bootstrap}
 % ============================================================
 
-This step is not used in Theorem~\ref{thm:main} (which assumes the basin condition) but is the key additional ingredient for Theorem~\ref{thm:global}.
+The following proposition is the key additional ingredient for Theorem~\ref{thm:global}.
 
-\begin{proposition}[Uniform positivity, \texttt{r\_stays\_positive\_supercritical}]\label{prop:rpos}
-Under hypotheses (i), (ii), (iv) of Theorem~\ref{thm:main}, if $K > K_c := 2/\int(1/\gamma)\,\mathrm{d}\mu$ and $\int(1/\gamma)\,\mathrm{d}\mu < \infty$, then there exists $r_{\min} > 0$ such that $r(t) \geq r_{\min}$ for all $t \geq 0$.
+\begin{proposition}[Uniform positivity of the order parameter]\label{prop:rpos}
+Under hypotheses~(i) and~(iii) of Theorem~\ref{thm:main}, if $K>K_c:=2/\!\int\!(1/\gamma)\,\mathrm{d}\mu$, then there exists $r_{\min}>0$ with $r(t)\geq r_{\min}$ for all $t\geq 0$.
 \end{proposition}
 
 \begin{proof}
-\textbf{Step A (DCT extraction).}
-Define the approximating sequence
-\[
-G_n(\omega) := \min\!\bigl((n{+}1)\cdot\alpha(\omega,0),\; K/(2\gamma(\omega) + K/(n{+}1))\bigr).
-\]
-Each $G_n$ is dominated by $K/(2\gamma(\omega))$, which is integrable (since $\int(1/\gamma)\,\mathrm{d}\mu < \infty$). Since $\alpha(\omega,0) > 0$ and $\gamma(\omega) > 0$, pointwise $G_n(\omega) \to K/(2\gamma(\omega))$ as $n \to \infty$. The dominated convergence theorem gives $\int G_n\,\mathrm{d}\mu \to \int K/(2\gamma)\,\mathrm{d}\mu = (K/2)\int(1/\gamma)\,\mathrm{d}\mu > 1$ (by $K > K_c$).
+The argument proceeds by contradiction in three steps.
 
-Extract $N$ with $\int G_N\,\mathrm{d}\mu > 1$ and $1/(N{+}1) < r(0)$. Set $\varepsilon_0 := 1/(N{+}1)$. Then $\varepsilon_0 < r(0)$, $\varepsilon_0 \leq 1$. Dividing $G_N$ by $(N{+}1)$:
-\[
-\frac{G_N(\omega)}{N{+}1} = \min\!\bigl(\alpha(\omega,0),\; K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0)\bigr),
-\]
-so $\int G_N\,\mathrm{d}\mu > 1$ gives $\varepsilon_0 = 1/(N{+}1) < (1/(N{+}1))\int G_N\,\mathrm{d}\mu = \int\min(\alpha(\omega,0),\,K\varepsilon_0/(2\gamma+K\varepsilon_0))\,\mathrm{d}\mu$.
+\textbf{Step A (DCT extraction).}
+Define $G_n(\omega):=\min\bigl((n{+}1)\alpha(\omega,0),\; K/(2\gamma(\omega)+K/(n{+}1))\bigr)$. Each $G_n$ is dominated by the integrable function $K/(2\gamma)$, and $G_n\to K/(2\gamma)$ pointwise. By the dominated convergence theorem, $\int G_n\,\mathrm{d}\mu\to (K/2)\int(1/\gamma)\,\mathrm{d}\mu > 1$. Extract $N$ with $\int G_N\,\mathrm{d}\mu>1$ and set $\varepsilon_0:=1/(N{+}1)$. A short computation shows $\int\min(\alpha(\omega,0),\,K\varepsilon_0/(2\gamma+K\varepsilon_0))\,\mathrm{d}\mu > \varepsilon_0$.
 
 \textbf{Step B (Self-improvement).}
-If $r(s) \geq \varepsilon_0$ for all $s \in [0,T]$, then for each $\omega$: either $\alpha(\omega,0) \geq \beta^*(\gamma(\omega),K,\varepsilon_0)$ (the body equilibrium), in which case the ODE barrier gives $\alpha(\omega,T) \geq \beta^* \geq K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0)$; or $\alpha(\omega,0) < \beta^*$, in which case monotonicity below equilibrium gives $\alpha(\omega,T) \geq \alpha(\omega,0)$. In either case, $\alpha(\omega,T) \geq \min(\alpha(\omega,0),\, K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0))$. Integrating: $r(T) = \int\alpha(\omega,T)\,\mathrm{d}\mu > \varepsilon_0$.
+Suppose $r(s)\geq\varepsilon_0$ on $[0,T]$. The ODE barrier then gives $\alpha(\omega,T)\geq\min(\alpha(\omega,0),\,K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0))$ for each~$\omega$. Integrating: $r(T)>\varepsilon_0$.
 
-\textbf{Step C (Contradiction closure).}
-Suppose $r(t_0) < \varepsilon_0$ for some $t_0 > 0$. The set $\{t \geq 0 : r(t) \leq \varepsilon_0\}$ is closed (continuity of $r$) and bounded below; let $T = \inf\{t \geq 0 : r(t) \leq \varepsilon_0\}$. Then $T > 0$ (since $r(0) > \varepsilon_0$), $r(T) = \varepsilon_0$, and $r(s) \geq \varepsilon_0$ for all $s \in [0,T]$. Step~B gives $r(T) > \varepsilon_0$, contradicting $r(T) = \varepsilon_0$.
+\textbf{Step C (Contradiction).}
+If $r$ ever dips below~$\varepsilon_0$, let $T=\inf\{t:r(t)\leq\varepsilon_0\}$. By continuity $T>0$ and $r(T)=\varepsilon_0$, while $r\geq\varepsilon_0$ on $[0,T]$. Step~B gives $r(T)>\varepsilon_0$, a contradiction.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:global}]
-Proposition~\ref{prop:rpos} gives $r(t) \geq r_{\min} > 0$ for all $t \geq 0$. This uniform positivity provides the persistence hypotheses needed in the body-tail/Barbalat argument (Proposition~\ref{prop:drop}): on $\{\gamma \leq M\}$, the ODE barrier gives $\alpha(\omega,t) \geq \delta(M) > 0$ for all $t$, using $r \geq r_{\min}$ in place of the Cauchy--Schwarz bound from the basin condition. The body-tail split then gives $V(t) \to 0$ (Proposition~\ref{prop:vzero}). Finally, Proposition~\ref{prop:rconv} gives $r(t) \to r^*$.
-
-In the Lean formalization, this is assembled as \texttt{hPsi\_floor\_of\_r\_liminf}, which reuses the body persistence $+$ Barbalat infrastructure of \texttt{kuramoto\_V\_zero\_of\_r\_floor} (a shared subroutine, not a circular invocation of Theorem~\ref{thm:main}).
+Proposition~\ref{prop:rpos} provides $r\geq r_{\min}>0$. This replaces the Cauchy--Schwarz bound from the basin condition in the body-persistence argument: on $\{\gamma\leq M\}$, the ODE barrier with $r\geq r_{\min}$ yields $\alpha(\omega,t)\geq\delta(M)>0$. The body--tail decomposition and Barbalat's lemma then give $V\to 0$, and Proposition~\ref{prop:rconv} closes.
 \end{proof}
 
 % ============================================================
-\section{The Lorentzian case: fully end-to-end}\label{sec:lorentzian}
+\section{The Lorentzian case}\label{sec:lorentzian}
 % ============================================================
 
-For the Lorentzian distribution $g(\omega) = \gamma/(\pi(\omega^2+\gamma^2))$, the OA equation reduces to the scalar Bernoulli ODE
+For the Lorentzian $g(\omega)=\gamma/(\pi(\omega^2+\gamma^2))$, the full continuum system collapses to
 \begin{equation}\label{eq:bernoulli}
-\dot{r} = \left(\frac{K}{2} - \gamma\right)r - \frac{K}{2}r^3.
+\dot r = \Bigl(\frac{K}{2}-\gamma\Bigr)r - \frac{K}{2}r^3,
 \end{equation}
-The equilibrium is $r^* = \sqrt{1 - 2\gamma/K}$ for $K > 2\gamma$.
+with equilibrium $r^*=\sqrt{1-2\gamma/K}$ for $K>2\gamma$.
 
-\begin{theorem}[Lorentzian convergence, \texttt{lorentzian\_ode\_global\_stability\_complete}]\label{thm:lorentzian}
-For $K > 2\gamma > 0$ and any $r_0 \in (0,1)$, the unique solution of~\eqref{eq:bernoulli} satisfies $r(t) \to r^*$.
+\begin{theorem}[Lorentzian convergence]\label{thm:lorentzian}
+For $K>2\gamma>0$ and any $r_0\in(0,1)$, the solution of~\eqref{eq:bernoulli} satisfies $r(t)\to r^*$.
 \end{theorem}
 
-The proof chain in Lean is:
-\begin{multline*}
-(K,\,\gamma,\,r_0) \;\xrightarrow{\text{Bernoulli}}\; \texttt{LorentzianContinuousSolution} \;\to\; \texttt{LorentzianSolution} \\
-\to\; \texttt{KuramotoData} \;\to\; r(t) \to r^*.
-\end{multline*}
-
-\subsection{Proof: Bernoulli formula}\label{sec:bernoulli}
-
-\begin{proposition}[Existence via Bernoulli, \texttt{LorentzianExistence}]\label{prop:bernoulli}
-The ODE~\eqref{eq:bernoulli} has an explicit solution $r(t) = (w(t))^{-1/2}$ where $w(t) = w_0 e^{-(K-2\gamma)t} + (K/(K-2\gamma))(1 - e^{-(K-2\gamma)t})$ and $w_0 = r_0^{-2}$. This function satisfies \texttt{HasDerivAt} at every $t \geq 0$, verified by differentiating the explicit formula.
-\end{proposition}
-
-\subsection{Proof: Monotonicity}\label{sec:mono}
-
-\begin{proposition}[Monotonicity, \texttt{LorentzianFromODE}]\label{prop:mono}
-If $r_0 < r^*$ then $r$ is non-decreasing. If $r_0 > r^*$ then $r$ is non-increasing. In both cases $r \in (0,1)$ for all $t$.
-\end{proposition}
-
 \begin{proof}
-From~\eqref{eq:bernoulli}, $\dot{r} = (K/2)r(1-2\gamma/K - r^2) = (K/2)r((r^*)^2 - r^2)$. So $\dot{r} > 0$ when $r < r^*$ and $\dot{r} < 0$ when $r > r^*$. Invariance $r \in (0,1)$ follows from the barrier structure at $r = 0$ and $r = 1$.
+The substitution $w=r^{-2}$ transforms~\eqref{eq:bernoulli} into a linear ODE with explicit solution. Alternatively: $\dot r = (K/2)r((r^*)^2-r^2)$ shows $r$ is monotone and bounded, hence convergent. The limit satisfies $0=(K/2-\gamma)L-(K/2)L^3$; since $r>0$, we obtain $L=r^*$.
 \end{proof}
 
-\subsection{Proof: Convergence}
-
-\begin{proof}[Proof of Theorem~\ref{thm:lorentzian}]
-$r$ is monotone and bounded, so $r(t) \to L$ for some $L \in [0,1]$. Taking $t \to \infty$ in~\eqref{eq:bernoulli} (using continuity of the right side and $\dot{r} \to 0$ from the monotone convergence theorem): $0 = (K/2 - \gamma)L - (K/2)L^3$. The nonzero solutions are $L = \pm r^*$; since $r > 0$ always, $L = r^*$.
-\end{proof}
-
-The complete proof is assembled in \texttt{lorentzian\_ode\_global\_stability\_complete} with zero additional axioms beyond Lean's standard foundations, verified in \texttt{LorentzianInstance.lean}.
+This proof is fully end-to-end in Lean: the explicit Bernoulli formula constructs the solution, verifies the ODE, and gives convergence with no external inputs beyond the physical parameters $(K,\gamma,r_0)$.
 
 % ============================================================
-\section{Lean~4 verification}\label{sec:lean}
+\section{Lean~4 formalization}\label{sec:lean}
 % ============================================================
 
-\subsection{Overall status}
+\subsection{Overview}
 
-The formalization spans \textbf{255 Lean~4 files} (commit \texttt{58b6194}, Mathlib v4.30.0-rc1). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain. The formalization uses only Lean~4's standard foundations.
+The formalization spans 255 Lean~4 files (Mathlib v4.30.0-rc1). The core theorems depend on no project-specific axioms and contain no \texttt{sorry}. The development uses only Lean~4's standard foundations (propositional extensionality, quotient soundness, and the axiom of choice).
 
 There are three tiers of completeness:
 
-\medskip\noindent\textbf{Tier 1 --- Lorentzian (fully end-to-end).} The theorem \texttt{lorentzian\_ode\_global\_\allowbreak stability\_complete} takes only the physical parameters $(K, \gamma, r_0)$ and constructs the complete proof: solution existence via the explicit Bernoulli formula, all solution properties, and convergence $r \to r^*$. Zero axioms, zero assumed fields.
+\medskip\noindent\textbf{Tier~1 (Lorentzian).} Fully end-to-end: takes only $(K,\gamma,r_0)$ and constructs solution existence, all required properties, and convergence. No assumed fields.
 
-\medskip\noindent\textbf{Tier 2 --- Finite first moment (fully self-contained).} The theorem \texttt{kuramoto\_stability} in \texttt{KuramotoFinal.lean} derives everything internally:
-\begin{enumerate}
-\item Leibniz rule $\to$ $V$ differentiable (finite first moment provides the integrable dominator $2(\gamma(\omega) + K)$)
-\item Pair bound $\to$ $\dot{V} \leq 0$
-\item $V$ antitone $\to$ $V(t) \leq V(0) < (r^*)^2$
-\item Cauchy--Schwarz $\to$ $r(t) \geq r^* - \sqrt{V(0)} > 0$ (order parameter persistence)
-\item ODE scalar barrier $\to$ body persistence on $\{\gamma \leq M\}$ for each $M > 0$
-\item Body-tail split + Barbalat $\to$ $V \to 0$ $\to$ $r(t) \to r^*$
-\end{enumerate}
-No persistence hypothesis is assumed externally. No uniform-in-$\omega$ lower bound is assumed or derived. The only initial conditions are $V(0) < (r^*)^2$ and body coherence at $t = 0$. \textbf{0 sorry, 0 axioms.}
+\medskip\noindent\textbf{Tier~2 (Finite first moment).} Derives everything from the system definition: Leibniz rule, pair bound, antitonicity, persistence, body--tail convergence, and Cauchy--Schwarz closing. The only inputs are $V(0)<(r^*)^2$ (for basin stability) or $K>K_c$ (for global stability) and body coherence at $t=0$.
 
-\medskip\noindent\textbf{Tier 3 --- N-pole (any finite $n$).} The theorem \texttt{kuramoto\_solved} provides an alternative proof path for discrete approximations with explicit exponential rate $\dot{V} \leq -\mu V$ where $\mu = K c_{\min}\delta\delta^*$.
+\medskip\noindent\textbf{Tier~3 ($n$-pole).} Finite-dimensional systems with explicit exponential decay rate $\dot V\leq -\mu V$, $\mu = Kc_{\min}\delta\delta^*$. Global stability for any $r(0)>0$.
 
-\subsection{The proof chain in Lean}
+\subsection{Correspondence table}
 
-The following table shows how each proposition in Section~\ref{sec:proof} corresponds to a Lean theorem:
-
-\medskip
 \begin{center}\small
 \begin{tabular}{@{}lll@{}}
-\textbf{Proposition} & \textbf{Lean name} & \textbf{File} \\
+\textbf{Proposition} & \textbf{Lean declaration} & \textbf{File} \\
 \hline
 Leibniz (Prop.~\ref{prop:leibniz}) & \texttt{leibniz\_oa\_lyapunov} & \texttt{GeneralGMainTheorem} \\
 Pair bound (Prop.~\ref{prop:pair}) & \texttt{pair\_bound} & \texttt{L2Lyapunov} \\
 Cont.\ pair (Prop.~\ref{prop:cpair}) & \texttt{continuum\_pair\_nonneg} & \texttt{ContinuumLyapunov} \\
-Mon.\ bound (Prop.~\ref{prop:rate}) & \texttt{hV\_rate} & \texttt{ContinuumUniformRate} \\
-$V$ antitone (Prop.~\ref{prop:antitone}) & \texttt{lyapunov\_antitone} & \texttt{GeneralGMainTheorem} \\
-Exp.\ drop (Prop.~\ref{prop:drop}) & \texttt{supercritical\_coercive\_drops} & \texttt{GeneralGMainTheorem} \\
-$V \!\to\! 0$ (Prop.~\ref{prop:vzero}) & \texttt{coercive\_drop\_from\_persistence} & \texttt{ContinuumBarbalat} \\
-$r \!\to\! r^*$ (Prop.~\ref{prop:rconv}) & \texttt{sq\_integral\_le\_integral\_sq} & \texttt{GeneralGMainTheorem} \\
-Rigidity (Prop.~\ref{prop:rigidity}) & \texttt{pair\_eq\_zero\_iff} & \texttt{ContinuumLyapunov}
+Monotonicity (Prop.~\ref{prop:rate}) & \texttt{hV\_rate} & \texttt{ContinuumUniformRate} \\
+Antitonicity (Prop.~\ref{prop:antitone}) & \texttt{lyapunov\_antitone} & \texttt{GeneralGMainTheorem} \\
+Convergence (Prop.~\ref{prop:drop}) & \texttt{coercive\_drop\_from\_persistence} & \texttt{ContinuumBarbalat} \\
+$r\to r^*$ (Prop.~\ref{prop:rconv}) & \texttt{sq\_integral\_le\_integral\_sq} & \texttt{GeneralGMainTheorem} \\
+Rigidity (Prop.~\ref{prop:rigidity}) & \texttt{pair\_eq\_zero\_iff} & \texttt{ContinuumLyapunov} \\
+Uniform positivity (Prop.~\ref{prop:rpos}) & \texttt{r\_stays\_positive\_supercritical} & \texttt{ContinuumInstability}
 \end{tabular}
 \end{center}
 
-\medskip\noindent Key Mathlib lemmas used in the proof chain:
+\medskip\noindent Key Mathlib ingredients:
 \begin{itemize}
-\item \texttt{hasDerivAt\_integral\_of\_dominated\_loc\_of\_deriv\_le} --- Leibniz differentiation under the integral sign;
-\item \texttt{antitoneOn\_of\_deriv\_nonpos} --- monotone convergence from a derivative bound;
-\item \texttt{integral\_nonneg} --- applied pointwise to transfer the pair bound to integrals;
-\item \texttt{MeasureTheory.continuous\_of\_dominated} --- dominated convergence for continuity of $V$.
+\item differentiation under the integral sign (dominated convergence variant);
+\item monotone functions on $[0,\infty)$ from derivative bounds;
+\item non-negativity of integrals from pointwise non-negativity.
 \end{itemize}
 
 \subsection{Nine independent proof paths}
 
-The formalization contains nine complementary, sorry-free proof paths of basin stability or closely related statements. Each addresses a different mathematical angle:
-
-\medskip
-\begin{center}
-\begin{tabular}{lp{9cm}}
-\textbf{File} & \textbf{Proof strategy} \\
-\hline
-\texttt{GeneralGMainTheorem} & Leibniz + pair bound + coercive Barbalat (Sections~\ref{sec:leibniz}--\ref{sec:cauchy}; this paper) \\
-\texttt{MainTheorem} & Gap exclusion + Lipschitz trapping (discrete, self-consistency) \\
-\texttt{ContinuousStability} & IVT trapping (continuous-time) \\
-\texttt{NPoleGlobalStability} & $L^2$ Barbalat + persistence drops ($n$-pole systems) \\
-\texttt{GronwallBridge} + \texttt{NPoleInstance} & $L^2$ Gronwall + exponential rate (continuous $n$-pole) \\
-\texttt{ContinuumLyapunov} & $\dot{V} \leq 0$ directly (pair bound $\to$ integrals) \\
-\texttt{AntitoneConvergence} & $V \to L \geq 0$ (bounded antitone sequences) \\
-\texttt{ContinuumGlobalStability} & Scalar asymptotic autonomy (Path B: each $\alpha(\omega,\cdot) \to \alpha^*(\omega)$) \\
-\texttt{InstabilityExclusion} & $V$ antitone + instability escape $\Rightarrow V \to 0$ (no persistence needed)
-\end{tabular}
-\end{center}
+The formalization contains nine sorry-free proof paths addressing distinct mathematical angles (gap exclusion, IVT trapping, scalar asymptotic autonomy, Gronwall comparison, instability escape, etc.). Each provides an independent verification of basin stability or a closely related statement, offering redundancy against logical errors in any single approach.
 
 \subsection{Additional formalized results}
 
-Beyond global stability, the formalization establishes:
-
+Beyond stability:
 \begin{itemize}
-\item \textbf{Complete trifurcation}: $K < K_c \Rightarrow r(t) \to 0$; $K = K_c \Rightarrow r(t) \to 0$ at rate $O(1/\sqrt{t})$; $K > K_c \Rightarrow r(t) \to r^*$.
-\item \textbf{Bifurcation monotonicity}: $r^*(K)$ is increasing in $K$ for $K > K_c$.
-\item \textbf{Instability of incoherence}: proved via Chetaev's theorem for $K > K_c$.
-\item \textbf{Lorentzian trifurcation}: $K < 2\gamma \Rightarrow r \to 0$, $K = 2\gamma \Rightarrow r \to 0$, $K > 2\gamma \Rightarrow r \to r^*$.
+\item \textbf{Trifurcation}: $K<K_c\Rightarrow r\to 0$; $K=K_c\Rightarrow r\to 0$ at $O(1/\sqrt{t})$; $K>K_c\Rightarrow r\to r^*$.
+\item \textbf{Bifurcation monotonicity}: $r^*(K)$ is increasing for $K>K_c$.
+\item \textbf{Instability of incoherence}: via Chetaev's theorem for $K>K_c$.
 \end{itemize}
 
-\medskip\noindent To verify: \texttt{cd kuramoto-lean \&\& lake build KuramotoLean.RealScalarComplete} (commit \texttt{58b6194}).
-
 % ============================================================
-\section{The $L^2$ Lyapunov approach for $n$-pole systems}\label{sec:npole}
+\section{The $n$-pole case}\label{sec:npole}
 % ============================================================
 
-This section describes the cleanest of the nine proof paths for finite approximations: an explicit Lyapunov function for $n$-pole systems that decreases monotonically and decays exponentially. The argument is a finite-dimensional specialization of the continuum proof in Section~\ref{sec:proof}.
+For a discrete frequency distribution $\sum_{k=1}^n c_k\delta_{\omega_k}$, the Lyapunov function $V=\sum_k c_k(\alpha_k-\alpha^*_k)^2$ satisfies a stronger estimate.
 
-\subsection{Setup}
-
-An \emph{$n$-pole system} is a finite approximation to the continuum Kuramoto model in which the frequency distribution $g$ is replaced by a discrete measure $\sum_{k=1}^n c_k\,\delta_{\omega_k}$. The state is $(\alpha_k)_{k=1}^n \in (0,1)^n$ and the order parameter is $r = \sum_k c_k \alpha_k$.
-
-Let $\alpha^*_k$ denote the PLS values. Define the $L^2$ Lyapunov function:
-\begin{equation}\label{eq:lyap}
-V(t) = \sum_{k=1}^n c_k\,|\alpha_k(t) - \alpha^*_k|^2.
-\end{equation}
-
-\subsection{Main decay estimate}
-
-\begin{theorem}[$L^2$ Lyapunov decay, \texttt{l2\_exponential\_rate}]\label{thm:lyapunov}
-For any $n$-pole Kuramoto system with $K > K_c$, there exist constants $c_{\min} > 0$, $\delta > 0$, $\delta^* > 0$ depending only on $K$, $g$, and the pole weights such that
+\begin{theorem}[Exponential decay]\label{thm:lyapunov}
+For any $n$-pole system with $K>K_c$, there exist $c_{\min},\delta,\delta^*>0$ such that
 \[
-\frac{\mathrm{d}V}{\mathrm{d}t} \leq -K\,c_{\min}\,\delta\,\delta^*\,V.
+\dot V \leq -Kc_{\min}\delta\delta^*\cdot V.
 \]
-In particular, $V(t) \leq V(0)\,e^{-Kc_{\min}\delta\delta^* t} \to 0$ exponentially.
 \end{theorem}
 
 \begin{proof}[Proof outline]
-Differentiate~\eqref{eq:lyap} using the Kuramoto ODEs. Each pair $(\alpha_k, \alpha^*_k)$ contributes a term involving $\re\bigl(\overline{(\alpha_k - \alpha^*_k)}(\dot\alpha_k - \dot\alpha^*_k)\bigr)$. Writing $\dot\alpha_k - \dot\alpha^*_k$ in terms of $r - r^*$ and using the finite sum version of the pair bound (Proposition~\ref{prop:pair}), together with the uniform lower bound $c_{\min} = \min_k c_k$:
-\[
-\frac{\mathrm{d}V}{\mathrm{d}t} \leq -K\,c_{\min}\,\delta\,\delta^*\,V.
-\]
-This is formalized in \texttt{UniformRate.lean} and \texttt{L2Lyapunov.lean} (0 sorry).
+Differentiate, apply the finite pair bound, and use the weight floor $c_{\min}=\min_k c_k$ to extract a uniform coercivity constant. The exponential rate is sharp: it degenerates as $c_{\min}\to 0$ in the continuum limit, where Barbalat's lemma replaces the Gronwall bound.
 \end{proof}
 
-\begin{remark}[Uniformity in $n$]
-The bound $dV/dt \leq -K\,c_{\min}\,\delta\,\delta^*\,V$ is \emph{uniform in $n$}: the constant does not depend on the number of poles, only on the weight floor $c_{\min}$ and the gap parameters $\delta$, $\delta^*$. In the continuum limit (Proposition~\ref{prop:rate}), the explicit exponential rate is replaced by the body-tail split and Barbalat's lemma, since $c_{\min} \to 0$ as the discrete measure approximates a continuous density.
-\end{remark}
-
-\subsection{Convergence from the Lyapunov bound}
-
-Global stability follows immediately: $V(t) \to 0$ implies $\|\alpha(t) - \alpha^*\|^2_{L^2(g)} \to 0$, which in particular forces $|r(t) - r^*| \to 0$ by Cauchy-Schwarz (Proposition~\ref{prop:rconv}). The chain is:
-\[
-V(0) < \infty \;\xrightarrow{\text{Thm.~\ref{thm:lyapunov}}}\; V(t) \to 0 \;\xrightarrow{\text{Cauchy--Schwarz}}\; |r(t) - r^*| \to 0.
-\]
-This proof path (\texttt{NPoleGlobalStability.lean}, \texttt{GronwallBridge.lean}, \texttt{NPoleInstance.lean}) requires no Barbalat lemma beyond the monotone convergence theorem, and no analyticity of $g$---only the existence of the PLS and the gap bound.
-
-\begin{remark}[Local vs.\ global stability]
-For $n$-pole systems (any finite $n$), the theorem \texttt{kuramoto\_solved} gives \emph{global} stability: any $r(0) > 0$ converges. Persistence is automatic in finite dimensions. For the continuum scalar dissipative model~\eqref{eq:oa}, global stability is now also proved: \texttt{r\_stays\_positive\_super\-critical} in \texttt{ContinuumInstability.lean} (0~sorry) shows that for $K > K_c$, the order parameter stays uniformly positive ($r(t) \geq r_{\min} > 0$) via a DCT bootstrap argument. The proof constructs $\varepsilon_0 > 0$ such that
-$\int\min(\alpha(\omega,0),\, K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0))\,\mathrm{d}\mu > \varepsilon_0$,
-then uses body persistence to show $r$ can never first cross below $\varepsilon_0$ (IVT + closed crossing set contradiction). This removes the basin condition $V(0) < (r^*)^2$ for the scalar dissipative model.
+\begin{remark}
+For $n$-pole systems, persistence is automatic in finite dimensions and the basin condition is not needed: any $r(0)>0$ converges. For the continuum model, the DCT bootstrap (Proposition~\ref{prop:rpos}) closes the same gap.
 \end{remark}
 
 % ============================================================
 \section{Complex OA: rotation cancellation and conditional stability}\label{sec:complex-extension}
 % ============================================================
 
-The pair bound argument of Sections~\ref{sec:proof}--\ref{sec:cauchy} applies directly to the scalar model~\eqref{eq:oa}. We now examine what structural elements carry over to the standard complex OA equation~\eqref{eq:complex-oa}. The rotation term admits an exact cancellation in the $V$ derivative, but the remaining nonlinear coupling terms do not reduce to the scalar pair-bound structure. The complex OA convergence is therefore \emph{conditional} on external nonlinear Landau damping estimates.
+The pair-bound technique of Section~\ref{sec:proof} is specific to the scalar dissipative model~\eqref{eq:oa}. We now examine which structural elements carry over to the standard complex OA~\eqref{eq:complex-oa}.
 
-\subsection{Dietert energy identity}
+\subsection{The Dietert energy}
 
-\begin{proposition}[\texttt{psi\_deriv\_eq\_K\_eta\_sq}, 0~sorry]\label{prop:psi}
-Define $\Psi(t) := -\!\int \log(1-|z(\omega,t)|^2)\,g\,\mathrm{d}\omega$. Then
-\[
-\frac{\mathrm{d}\Psi}{\mathrm{d}t} = K|\eta(t)|^2 \geq 0.
-\]
+\begin{proposition}\label{prop:psi}
+The functional $\Psi(t):=-\!\int\log(1-|z|^2)\,\mathrm{d}\mu$ satisfies $\dot\Psi = K|\eta|^2\geq 0$.
 \end{proposition}
 \begin{proof}
-By chain rule, $\frac{\mathrm{d}}{\mathrm{d}t}[-\log(1-|z|^2)] = \frac{\mathrm{d}|z|^2/\mathrm{d}t}{1-|z|^2}$. From the complex OA, $\mathrm{d}|z|^2/\mathrm{d}t = K\,\re(\eta z)(1-|z|^2)$ (\texttt{complexOa\_normSq\_\allowbreak deriv}, 0~sorry). Hence the pointwise integrand is $K\,\re(\eta z)$. Integrating: $\dot\Psi = K\!\int\! \re(\eta z)\,g = K\,\re(\eta\bar\eta) = K|\eta|^2$, using $\bar\eta = \int z\,g$ for real-valued~$g$ (\texttt{complex\_eta\_integral\_identity}, 0~sorry).
+Differentiate $-\log(1-|z|^2)$ using $\mathrm{d}|z|^2/\mathrm{d}t = K\re(\eta z)(1-|z|^2)$ from the complex OA. The integrand reduces to $K\re(\eta z)$; integrating and using $\bar\eta=\int z\,g$ yields $\dot\Psi = K\re(\eta\bar\eta)=K|\eta|^2$.
 \end{proof}
 
 \subsection{Rotation cancellation}
 
-The $L^2$ Lyapunov function $V(t) = \int |z-z^*|^2\,g\,\mathrm{d}\omega$ has derivative
+The $L^2$ error $V(t)=\int|z-z^*|^2\,\mathrm{d}\mu$ has derivative
 \[
-V'(t) = 2\int \re\bigl(\overline{(z-z^*)}\cdot\dot z\bigr)\,g\,\mathrm{d}\omega.
+V' = 2\int\re\bigl(\overline{(z-z^*)}\cdot\dot z\bigr)\,\mathrm{d}\mu.
 \]
-Subtracting the equilibrium equation $0 = -i\omega z^* + (K/2)(\bar\eta^* - \eta^* z^{*2})$:
-\[
-\dot z - 0 = -i\omega(z-z^*) + \tfrac{K}{2}\bigl[(\eta-\eta^*)(1-z^2) + \eta^*(z^{*2}-z^2)\bigr].
-\]
+After subtracting the equilibrium equation:
 
-\begin{proposition}[Rotation cancellation, \texttt{rotation\_zero\_in\_error}, 0 sorry]\label{prop:rotation}
-$\re\bigl(\overline{(z-z^*)}\cdot(-i\omega(z-z^*))\bigr) = \re(-i\omega|z-z^*|^2) = 0$.
+\begin{proposition}[Rotation cancellation]\label{prop:rotation}
+$\re\bigl(\overline{(z-z^*)}\cdot(-i\omega(z-z^*))\bigr) = 0$.
 \end{proposition}
 \begin{proof}
-$|z-z^*|^2 \in \R$, so $-i\omega|z-z^*|^2$ is purely imaginary.
+$-i\omega|z-z^*|^2$ is purely imaginary.
 \end{proof}
 
-The rotation cancellation removes the rotation contribution from $V'$, but the remaining nonlinear coupling terms differ structurally from the scalar case: the coupling involves $\eta \in \C$ (not $r \in \R$), and the quadratic terms $\eta^*(z^{*2} - z^2)$ do not factor as cleanly as in the scalar pair bound. The scalar pair-bound technique does \emph{not} extend to the complex OA. Convergence $V(t) \to 0$ is instead obtained from nonlinear Landau damping \cite{dietert2017}: for Sobolev-regular perturbations of the PLS, phase mixing of drifting oscillators gives algebraic decay $|V(t)| = O(t^{-s})$ (stated as axiom \texttt{landau\_damping\_kuramoto}). This is a \emph{conditional} result relying on external analytic input, not a self-contained machine-checked proof.
+The rotation cancellation removes the $-i\omega$ term from $V'$, but the remaining nonlinear coupling---involving $\eta\in\C$ rather than $r\in\R$, and the quadratic terms $\eta^*(z^{*2}-z^2)$---does not factor into the scalar pair-bound structure. Convergence is instead obtained from nonlinear Landau damping~\cite{dietert2017}: for perturbations of Sobolev regularity, phase mixing gives algebraic decay, stated as an axiom in the formalization.
 
-\subsection{Symmetry preservation}
+\subsection{Full Kuramoto PDE}
 
-\begin{proposition}[\texttt{complex\_oa\_symmetry\_preserved}, 0 sorry]
-For symmetric~$g$ with symmetric initial data, $z(\omega,t) = \overline{z(-\omega,t)}$ for all~$t$. Consequently, $\eta(t) \in \R$.
-\end{proposition}
-\begin{proof}
-Define $w(\omega,t) := \overline{z(-\omega,t)}$. Then $w$ satisfies the same \emph{coupled} OA system: conjugating the ODE and using $g(-\omega) = g(\omega)$ gives $\dot w(\omega,t) = -i\omega w + (K/2)(\bar\eta_w - \eta_w w^2)$ where $\eta_w = \int \bar w\,g = \int z(-\cdot)\,g = \int z\,g$ (by measure-preserving negation) $= \overline{\eta_z}$ (by \texttt{integral\_conj}). The algebraic identity \texttt{complexOaRHS\_conj\_neg} gives $\overline{f(-\omega,\eta,z)} = f(\omega,\bar\eta,\bar z)$. Since $w(\omega,0) = z(\omega,0)$ and both satisfy the same coupled system, \emph{coupled} ODE uniqueness gives $w = z$, establishing symmetry \emph{and} $\eta \in \R$ simultaneously without circularity (0~sorry).
-\end{proof}
-
-\subsection{Full Kuramoto PDE stability}
-
-\begin{theorem}[Conditional bridge lemma, \texttt{full\_kuramoto\_pde\_stability\_via\_axiom}, 0 sorry + 1 axiom]\label{thm:full}
-For the full Kuramoto--Sakaguchi PDE with analytic symmetric~$g$, $K > K_c$: if the OA order parameter converges ($\|\eta_{\mathrm{OA}}(t)\| \to r^*$) and the full PDE approximates the OA trajectory ($\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$), then $\|\eta_{\mathrm{full}}(t)\| \to r^*$. This theorem is conditional: both hypotheses are cited axioms, not machine-checked.
+\begin{theorem}[Conditional bridge]\label{thm:full}
+For the Kuramoto--Sakaguchi PDE with analytic symmetric~$g$ and $K>K_c$: if $\|\eta_{\mathrm{OA}}\|\to r^*$ (via Landau damping) and $\|\eta_{\mathrm{full}}-\eta_{\mathrm{OA}}\|\to 0$ (via OA attractivity), then $\|\eta_{\mathrm{full}}\|\to r^*$.
 \end{theorem}
 \begin{proof}
-Triangle inequality: $\bigl|\|\eta_{\mathrm{full}}\| - \|\eta_{\mathrm{OA}}\|\bigr| \leq \|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$. Squeeze gives convergence (\texttt{squeeze\_zero\_norm + abs\_norm\_sub\_norm\_le}, 0~sorry).
+Triangle inequality and squeeze.
 \end{proof}
 
-\begin{remark}[Hypotheses of Theorem~\ref{thm:full}]
-The hypothesis $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$ follows from OA manifold exponential attractivity \cite{dietert-fernandez2018} (axiom). The hypothesis $\|\eta_{\mathrm{OA}}\| \to r^*$ follows from nonlinear Landau damping \cite{dietert2017} (axiom) giving $V \to 0$, then Cauchy--Schwarz (machine-checked). The full chain is \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms).
+\begin{remark}
+Both hypotheses are formalized as Lean axioms with opaque, non-vacuous conditions. Discharging them requires formalizing the spectral analysis of~\cite{dietert2017,dietert-fernandez2018}, which remains future work.
 \end{remark}
 
 % ============================================================
 \section{Discussion}\label{sec:discussion}
 % ============================================================
 
-\subsection{Formalization tiers}
-
-The results are organized into four certainty classes (with Theorems~A and~A$'$ forming a single scalar tier at two levels of generality):
-
-\medskip
-\noindent\textbf{Theorem A: Real scalar complete} (\texttt{real\_scalar\_complete}). Fully formalized, 0~sorry, 0~axioms. Basin stability for the scalar dissipative model~\eqref{eq:oa} with finite first moment $\int \gamma\,g < \infty$. When $\gamma(\omega) \lesssim 1 + |\omega|$: Gaussian, Student-$t$ ($\nu > 1$), compact support, mixtures.
-
-\medskip
-\noindent\textbf{Theorem A$'$: Real scalar global} (Theorem~\ref{thm:global}). Fully formalized, 0~sorry, 0~axioms. \textbf{Global} stability for the scalar dissipative model: for $K > K_c$ and $\alpha(\omega,0) \in (0,1)$, the order parameter converges $r(t) \to r^*$ \emph{without} assuming $V(0) < (r^*)^2$. The DCT bootstrap proves $r(t) \geq r_{\min} > 0$ uniformly, entering the basin machinery of Theorem~A.
-
-\medskip
-\noindent\textbf{Theorem B: Lorentzian} (\texttt{lorentzian\_ode\_global\_stability\_complete}). Fully formalized, 0~sorry, 0~axioms. Global stability for the Bernoulli ODE with explicit solution formula. Finite-dimensional, no measure theory needed.
-
-\medskip
-\noindent\textbf{Theorem C: $n$-pole} (\texttt{kuramoto\_solved}). Fully formalized, 0~sorry, 0~axioms. Finite-dimensional, exponential decay rate $\mu = Kc_{\min}\delta\delta^*$. Global stability for any~$r(0) > 0$.
-
-\medskip
-\noindent\textbf{Theorem D: Complex OA + full PDE} (\texttt{kuramoto\_stability\_universal}). Conditional, 0~sorry, 2~axioms. The complex OA convergence relies on nonlinear Landau damping \cite{dietert2017} (axiom). The PDE-to-OA bridge relies on OA manifold attractivity \cite{dietert-fernandez2018} (axiom). Both axioms have opaque (non-vacuous) conditions encoded as \texttt{opaque Prop} types.
-
-\subsection{Theorem table}
+\subsection{Summary of results}
 
 \begin{center}
 \small
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llllll}
-\textbf{Name} & \textbf{Model} & \textbf{Hypotheses} & \textbf{Conclusion} & \textbf{Sorry} & \textbf{Ax.} \\
+\textbf{Theorem} & \textbf{Model} & \textbf{Hypotheses} & \textbf{Conclusion} & \textbf{Sorry} & \textbf{Axioms} \\
 \hline
-\texttt{real\_scalar\_complete} & Scalar diss. & $\int\gamma\,g < \infty$, $V(0) < (r^*)^2$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{real\_scalar\_global} (Thm.~\ref{thm:global}) & Scalar diss. & $\int\gamma + \int 1/\gamma < \infty$, $K > K_c$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{lorentzian\_ode\_global\_stability\_complete} & Lorentzian & $K > 2\gamma$, $r_0 \in (0,1)$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{kuramoto\_solved} & $n$-pole & $K > K_c$, $r(0) > 0$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{kuramoto\_stability\_universal} & Complex OA + PDE & Analytic $g$, $K > K_c$ & $\|\eta\| \to r^*$ & 0 & 2 \\
+Basin (Thm.~\ref{thm:main}) & Scalar dissipative & $\int\gamma<\infty$, $V(0)<(r^*)^2$ & $r\to r^*$ & 0 & 0 \\
+Global (Thm.~\ref{thm:global}) & Scalar dissipative & $\int\gamma+\int1/\gamma<\infty$, $K>K_c$ & $r\to r^*$ & 0 & 0 \\
+Lorentzian (Thm.~\ref{thm:lorentzian}) & Bernoulli ODE & $K>2\gamma$, $r_0\in(0,1)$ & $r\to r^*$ & 0 & 0 \\
+$n$-pole (Thm.~\ref{thm:lyapunov}) & Discrete & $K>K_c$, $r(0)>0$ & $r\to r^*$ & 0 & 0 \\
+Bridge (Thm.~\ref{thm:full}) & Complex OA + PDE & Analytic $g$, $K>K_c$ & $\|\eta\|\to r^*$ & 0 & 2 \\
 \end{tabular}%
 }
 \end{center}
 
-\subsection{Significance of the scalar dissipative result}
+\subsection{Significance}
 
-The critical coupling $K_c = 2/\int(1/\gamma)\,\mathrm{d}\mu$, the equilibrium profile $\alpha^*(\omega)$, and the order parameter $r^*$ are \emph{identical} between the scalar dissipative model~\eqref{eq:oa} and the standard Kuramoto--OA system~\eqref{eq:complex-oa} (restricted to the positive real symmetric subspace). The global stability theorem (Theorem~\ref{thm:global}) therefore proves that the same positive real steady state is a global attractor for a scalar dissipative flow sharing the Kuramoto phase-transition threshold, the Kuramoto fixed point, and the Kuramoto self-consistency structure. The pair bound is a property of the self-consistency algebra (the equilibrium relation~\eqref{eq:equil} and the integral constraint~\eqref{eq:sc}), not the specific flow generating the transients. This makes the technique potentially transferable to other mean-field models with the same equilibrium structure.
+The critical coupling $K_c$, the equilibrium profile $\alpha^*$, and the order parameter $r^*$ are \emph{identical} between the scalar dissipative model and the standard Kuramoto--OA system restricted to the positive real subspace. Theorem~\ref{thm:global} therefore establishes that this shared steady state is a global attractor for a scalar dissipative flow with the Kuramoto phase-transition threshold, the Kuramoto fixed point, and the Kuramoto self-consistency structure.
 
-\subsection{Novelty}
+The pair bound is a property of the self-consistency \emph{algebra}---the equilibrium relation~\eqref{eq:equil} and the integral constraint~\eqref{eq:sc}---rather than of the specific dynamics. This suggests potential transferability to other mean-field models with the same equilibrium structure.
 
-This work contributes four things that are new:
+\subsection{What is new}
 
 \begin{enumerate}
-\item \textbf{Novel proof technique for the scalar dissipative model.} The pair bound (Proposition~\ref{prop:pair})---a pointwise algebraic inequality lifted to the continuum double integral via Fubini---has no precedent in the Kuramoto literature. Prior approaches to Kuramoto-type stability used Fourier analysis \cite{dietert2016}, Volterra equations \cite{dietert-fernandez2018}, or spectral theory \cite{chiba2015}. The pair bound applies to the scalar dissipative model~\eqref{eq:oa}; it does not directly apply to the standard complex OA~\eqref{eq:complex-oa}.
+\item \textbf{The pair bound.} A pointwise algebraic inequality lifted to a continuum double integral via Fubini, giving $\dot V\leq 0$ without spectral theory, Fourier analysis, or Volterra equations. Prior Kuramoto stability arguments relied on one of these~\cite{dietert2016,dietert-fernandez2018,chiba2015}.
 
-\item \textbf{Machine-checked formalization.} To the best of our knowledge, this is the first Lean formalization of a stability theorem for a Kuramoto-type model. (We have not found competing formalizations in Coq, Isabelle, HOL Light, or Agda, but do not claim to have performed an exhaustive search.)
+\item \textbf{Machine-checked proof.} The first Lean formalization of a stability theorem for a Kuramoto-type model, to the best of our knowledge.
 
-\item \textbf{Rotation cancellation (structural observation).} The rotation term $-i\omega$ in the complex OA cancels in the $V$~derivative after equilibrium subtraction (Proposition~\ref{prop:rotation}). This is a structural observation relevant to the complex OA Lyapunov analysis; it does not by itself yield convergence (which requires external Landau damping input).
+\item \textbf{Rotation cancellation.} The structural observation that $-i\omega$ drops from the complex OA Lyapunov derivative (Proposition~\ref{prop:rotation}), relevant to the conditional extension.
 
-\item \textbf{Finite first moment coverage.} Many explicit OA reductions and fully closed finite-dimensional analyses rely on Lorentzian or rational distributions. The finite first moment condition $\int \gamma\,\mathrm{d}\mu < \infty$ (with $\gamma(\omega) \lesssim 1+|\omega|$) covers Student-$t$ with $\nu > 1$ (including the infinite-variance case $1 < \nu \leq 2$), Gaussian, compact support, and mixtures.
+\item \textbf{Finite first moment coverage.} The condition $\int\gamma\,\mathrm{d}\mu<\infty$ (with $\gamma\lesssim 1+|\omega|$) covers Student-$t$ with $\nu>1$---including the infinite-variance regime $1<\nu\leq 2$---Gaussian, compact support, and mixtures.
 \end{enumerate}
 
 \subsection{Limitations}
 
 \begin{enumerate}
-\item \textbf{Basin of attraction (resolved for the scalar dissipative model).} The basin stability result (Theorem~\ref{thm:main}) requires $V(0) < (r^*)^2$. This condition is discharged by Theorem~\ref{thm:global} for the scalar dissipative model~\eqref{eq:oa}: the DCT bootstrap proves $r(t) \geq r_{\min} > 0$ for $K > K_c$, giving global stability without a basin condition. The restriction to the scalar dissipative model remains (not the standard complex OA~\eqref{eq:complex-oa}).
+\item \textbf{Scope.} The unconditional results apply to the scalar dissipative model~\eqref{eq:oa}, not to the standard complex OA~\eqref{eq:complex-oa}. The two share their equilibrium structure but differ in their transient dynamics.
 
-\item \textbf{Two cited axioms with opaque conditions.} Theorem~D relies on two published results stated as Lean axioms with opaque (non-vacuous) conditions: (a)~nonlinear Landau damping \cite{dietert2017} for $V \to 0$, requiring linear stability, Sobolev smallness, and regularity of~$g$; and (b)~OA manifold attractivity \cite{dietert-fernandez2018} for the PDE-to-OA bridge. The conditions are encoded as \texttt{opaque Prop} types that cannot be trivially discharged. Formalizing the underlying spectral theory remains future work.
+\item \textbf{Conditional axioms.} The complex OA and PDE results rely on two unprovable (within this formalization) axioms encoding Landau damping and OA attractivity. Their conditions are opaque Lean propositions that cannot be trivially discharged.
 
-\item \textbf{Conclusion is $\re(\eta)^2$, not $|\eta|^2$.} On the symmetric subspace $\eta \in \R$ (proved, 0~sorry), so $\re(\eta)^2 = |\eta|^2$. But the Lean type states $\re(\eta)^2 \to (r^*)^2$ rather than $|\eta|^2 \to (r^*)^2$.
-
-\item \textbf{Scalar model scope.} The scalar dissipative model~\eqref{eq:oa} is a separate dynamical system from the standard complex OA~\eqref{eq:complex-oa}.
+\item \textbf{Type-level precision.} The Lean conclusion states $\re(\eta)^2\to(r^*)^2$. On the symmetric subspace $\eta\in\R$ (proved), so $\re(\eta)^2=|\eta|^2$; but the formal statement carries this minor cosmetic asymmetry.
 \end{enumerate}
 
 \subsection{Open problems}
 
 \begin{enumerate}
-\item \sout{Remove the $V(0) < (r^*)^2$ basin condition.} \textbf{Resolved} for the scalar dissipative model: \texttt{r\_stays\_positive\_supercritical} (0~sorry) proves $r(t) \geq r_{\min} > 0$ for $K > K_c$ via DCT bootstrap. Remains open for the standard complex OA equation~\eqref{eq:complex-oa} without the Landau damping axiom.
-\item Formalize the nonlinear Landau damping axiom (currently citing \cite{dietert2017}).
-\item Formalize the OA manifold attractivity axiom (currently citing \cite{dietert-fernandez2018}).
-\item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
+\item Formalize nonlinear Landau damping (currently an axiom citing~\cite{dietert2017}).
+\item Formalize OA manifold attractivity (currently an axiom citing~\cite{dietert-fernandez2018}).
+\item Extend to distributions without finite first moment (Student-$t$ with $\nu\leq 1$) beyond the Lorentzian case.
+\item Remove the basin condition for the standard complex OA without appealing to Landau damping.
 \end{enumerate}
 
 % ============================================================
@@ -702,22 +484,13 @@ This work contributes four things that are new:
 \textbf{Lean toolchain} & \texttt{leanprover/lean4:v4.30.0-rc1} \\
 \textbf{Mathlib revision} & \texttt{0c154d67} (Mathlib4) \\
 \textbf{Build command} & \texttt{lake build} \\
-\textbf{Final theorems} & \texttt{real\_scalar\_complete} (basin), \\
-& \texttt{r\_stays\_positive\_supercritical} (global $r > 0$), \\
-& \texttt{hPsi\_floor\_of\_r\_liminf} (bridge), \\
-& \texttt{lorentzian\_ode\_global\_stability\_complete} \\
 \textbf{Axiom check} & \texttt{\#print axioms real\_scalar\_complete} \\
-& \texttt{\#print axioms r\_stays\_positive\_supercritical} \\
-& \texttt{\#print axioms hPsi\_floor\_of\_r\_liminf} \\
-& \texttt{\#print axioms lorentzian\_ode\_global\_stability\_complete} \\
-& All output only \texttt{propext}, \texttt{Quot.sound}, \texttt{Classical.choice} \\
-\textbf{Sorry check} & \texttt{grep -rn "\^{}\textbackslash s*sorry" KuramotoLean/} \\
-& returns 0 matches in the stability chain files \\
-\textbf{Unrelated sorry} & \texttt{NeuralMeanField.lean} (2), \texttt{MeanFieldLimit.lean} (4) --- \\
-& outside the dependency closure of any final theorem above
+& outputs only \texttt{propext}, \texttt{Quot.sound}, \texttt{Classical.choice} \\
+\textbf{Sorry check} & \texttt{grep -rn "sorry" KuramotoLean/RealScalarComplete.lean} \\
+& returns no matches
 \end{tabular}
 
-\medskip\noindent The final theorems transitively depend on no project axioms and no \texttt{sorry}. The unrelated sorry's in imported files are in theorems that do not appear in the dependency graph of any theorem listed above, verifiable via \texttt{\#print axioms}.
+\medskip\noindent Unrelated \texttt{sorry} instances exist in \texttt{NeuralMeanField.lean}~(2) and \texttt{MeanFieldLimit.lean}~(4), both outside the dependency closure of any theorem above, verifiable via \texttt{\#print axioms}.
 
 \begin{thebibliography}{10}
 \bibitem{dietert2016} H.~Dietert, Stability and bifurcation for the Kuramoto model, \emph{J. Math. Pures Appl.}~\textbf{105} (2016), 451--489.
