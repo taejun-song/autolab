@@ -528,11 +528,27 @@ The locked equilibrium
 \[
 z^*(\omega) = \frac{\sqrt{K^2r^2 - \omega^2} - i\omega}{Kr}
 \]
-satisfies: (i)~$z^*$ solves $\dot z = 0$, (ii)~$|z^*| = 1$, (iii)~$\re(z^*) > 0$, and (iv)~the linearized eigenvalue $\lambda = -i\omega - Kr\,z^*$ has $\re(\lambda) = -\sqrt{K^2r^2 - \omega^2} < 0$ (exponential stability).
+satisfies: (i)~$z^*$ solves $\dot z = 0$, (ii)~$|z^*| = 1$, (iii)~$0 < \re(z^*) \leq 1$ with equality iff $\omega = 0$, (iv)~the linearized eigenvalue $\lambda = -i\omega - Kr\,z^*$ has $\re(\lambda) = -\sqrt{K^2r^2 - \omega^2} < 0$, (v)~$\re(z^*)$ is monotone increasing in~$r$, and (vi)~the self-consistency function $F(r) := \int_{|\omega|<Kr} \re(z^*(\omega))\,g(\omega)\,\mathrm{d}\omega$ satisfies $F(0) = 0$, $F \geq 0$, $F \leq \int g$, and $F$ is monotone.
 \end{proposition}
 \begin{proof}
-Direct substitution: $(Kr/2)(z^{*2} - 1) + i\omega z^* = 0$ reduces to the identity $D^2 + \omega^2 = K^2r^2$ where $D = \sqrt{K^2r^2-\omega^2}$. Parts (ii)--(iv) follow from the explicit formula (\texttt{ComplexOALockedEquil.lean}, 168 lines, 0~sorry).
+Direct substitution: $(Kr/2)(z^{*2} - 1) + i\omega z^* = 0$ reduces to the identity $D^2 + \omega^2 = K^2r^2$ where $D = \sqrt{K^2r^2-\omega^2}$. Parts (ii)--(iv) follow from the explicit formula. Part (v) uses $\re(z^*)^2 = 1 - \omega^2/(K^2r^2)$, which is increasing in~$r$. Part (vi): $F(0) = 0$ since the locked domain is empty, monotonicity follows from (v) plus the expanding locked domain (\texttt{ComplexOALockedEquil.lean}, 270 lines, 19 theorems, 0~sorry).
 \end{proof}
+
+\subsection{V\texorpdfstring{$'$}{\'} decomposition}
+
+By Proposition~\ref{prop:rotation}, the rotation $-i\omega(z-z^*)$ contributes zero to~$V'$. The remaining coupling terms decompose as follows.
+
+\begin{proposition}[\texttt{complex\_V\_deriv\_eq\_QDS}, 0 sorry]\label{prop:v-prime}
+Define $Q_c := \int |z-z^*|^2\,\re(z+z^*)\,g$, $S_c := \int \re(\bar d(1-z^2))\,g$, and $D_c := \int \re(\bar d)\,g$ where $d = z - z^*$. If $r(t) - r^* = D_c$ (order parameter identity), then
+\[
+V'(t) = K\Bigl(-\frac{r^*}{2}\,Q_c + \frac{D_c}{2}\,S_c\Bigr).
+\]
+\end{proposition}
+\begin{proof}
+Factor the per-$\omega$ integrand (\texttt{complexVDerivIntegrand\_expand}, by \texttt{ring}), then apply linearity of integration with the order parameter substitution $r(t) - r^* = D_c$. Integrability of the $S_c$ and $Q_c$ integrands is required as hypothesis (\texttt{ComplexPairBoundProof.lean}, 0~sorry).
+\end{proof}
+
+By the real-case pair bound architecture, $V' \leq 0$ would follow from $r^*Q_c - D_cS_c \geq 0$, which is the Fubini double-integral nonnegativity. The pointwise pair bound is provably \emph{false} for complex~$z$ (\texttt{complex\_pair\_pointwise\_false}), so the integral nonnegativity requires genuine Fubini analysis; this remains open.
 
 \subsection{Full Kuramoto PDE stability}
 

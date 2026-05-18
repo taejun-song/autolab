@@ -189,14 +189,20 @@ Three approaches for Gap 2:
 
 ## Formalization Path
 
-### Phase 1: Per-oscillator stability — COMPLETE (0 sorry)
-- File: `ComplexOALockedEquil.lean` (168 lines, commit `6173aee`)
-- Proved: locked equilibrium formula $z^*(\omega) = (\sqrt{K^2r^2-\omega^2}-i\omega)/(Kr)$
-- Proved: $|z^*|=1$, $\mathrm{Re}(z^*)>0$, $\mathrm{Re}(z^*)<1$ for $\omega\ne 0$
-- Proved: $z^*$ solves `complexOaRHS = 0` (equilibrium equation)
-- Proved: linearized stability rate $-\sqrt{K^2r^2-\omega^2} < 0$
-- Proved: $\mathrm{Re}(z^*)^2 = (K^2r^2-\omega^2)/(K^2r^2)$ (monotonicity identity)
-- Defined: self-consistency function $F(r)$ and fixed-point interface
+### Phase 1: Per-oscillator stability + self-consistency — COMPLETE (0 sorry)
+- File: `ComplexOALockedEquil.lean` (270 lines, 19 theorems, commits `6173aee`→`2c605e1`)
+- Equilibrium formula: $z^*(\omega) = (\sqrt{K^2r^2-\omega^2}-i\omega)/(Kr)$
+- $|z^*|=1$, $0 < \mathrm{Re}(z^*) \le 1$ (strict < 1 when $\omega\ne 0$)
+- $z^*$ solves `complexOaRHS = 0`
+- Linearized stability: $\mathrm{Re}(\lambda) = -\sqrt{K^2r^2-\omega^2} < 0$
+- $\mathrm{Re}(z^*)$ monotone increasing in $r$ (`lockedEquilRe_mono`)
+- Self-consistency $F(r)$: $F(0)=0$, $F\ge 0$, $F\le\int g$, $F$ monotone in $r$
+
+### Phase 1.5: V' decomposition — COMPLETE (0 sorry)
+- File: `ComplexPairBoundProof.lean` (commit `431c468`)
+- `complex_V_deriv_eq_QDS`: $V' = K(-r^*Q_c/2 + D_cS_c/2)$ given order parameter identity
+- Pointwise pair bound is FALSE (`complex_pair_pointwise_false`)
+- Integral nonnegativity ($\int\int P \ge 0$) remains OPEN
 
 ### Phase 2: Instability of incoherence (the hard part)
 - New file: `ComplexOAInstability.lean`
