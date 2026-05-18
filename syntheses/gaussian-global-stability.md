@@ -53,9 +53,9 @@ The current end-to-end theorems (KuramotoFirstMomentBarbalat, ContinuumKuramotoS
 
 Body persistence means: for each M, there exists delta_0(M) > 0 such that alpha(omega,t) >= delta_0(M) for all omega in {gamma <= M} and t >= 0. This is derived from initial data alpha(omega,0) > 0 via the OA scalar invariant box (OAScalarBarrier.lean).
 
-**This is NOT a basin condition.** The alpha(omega,0) > 0 condition holds for ANY initial distribution with non-zero Fourier mode, which is generic. The actual basin condition V(0) < r*^2 from the real scalar model is ALREADY UNNECESSARY in the continuum theorem.
+**This is NOT a basin condition.** The alpha(omega,0) > 0 condition holds for ANY initial distribution with non-zero Fourier mode, which is generic. The basin condition V(0) < r*^2 is still required by the paper's Theorem 1.5 (hypothesis (iii)). The Lean code in KuramotoGlobal.lean + ContinuumInstability.lean removes it, but this result is NOT claimed in the paper (see warning above).
 
-## Assessment: Global Stability Is Already Proved
+## Assessment: Global Stability Is Proved in Lean (not in paper)
 
 Re-reading the architecture carefully:
 
