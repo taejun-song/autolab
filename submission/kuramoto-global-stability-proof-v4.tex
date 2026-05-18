@@ -356,7 +356,7 @@ From~\eqref{eq:bernoulli}, $\dot{r} = (K/2)r(1-2\gamma/K - r^2) = (K/2)r((r^*)^2
 $r$ is monotone and bounded, so $r(t) \to L$ for some $L \in [0,1]$. Taking $t \to \infty$ in~\eqref{eq:bernoulli} (using continuity of the right side and $\dot{r} \to 0$ from the monotone convergence theorem): $0 = (K/2 - \gamma)L - (K/2)L^3$. The nonzero solutions are $L = \pm r^*$; since $r > 0$ always, $L = r^*$.
 \end{proof}
 
-The complete proof is assembled in \texttt{lorentzian\_ode\_global\_stability\_complete} with zero additional axioms beyond Lean's standard foundations, verified in \texttt{LorentzianInstance.lean}.
+The complete proof is assembled in \texttt{lorentzian\_ode\_global\_stability\_complete} with zero additional axioms beyond Lean's standard foundations, verified in \texttt{LorentzianExistence.lean}.
 
 % ============================================================
 \section{Lean~4 verification}\label{sec:lean}
@@ -395,11 +395,11 @@ The following table shows how each proposition in Section~\ref{sec:proof} corres
 Leibniz rule (Prop.~\ref{prop:leibniz}) & \texttt{leibniz\_oa\_lyapunov} & \texttt{GeneralGMainTheorem.lean} \\
 Pair bound (Prop.~\ref{prop:pair}) & \texttt{pair\_bound} & \texttt{L2Lyapunov.lean} \\
 Continuum pair (Prop.~\ref{prop:cpair}) & \texttt{continuum\_pair\_nonneg} & \texttt{ContinuumLyapunov.lean} \\
-Monotonicity bound (Prop.~\ref{prop:rate}) & \texttt{hV\_rate} & \texttt{ContinuumUniformRate.lean} \\
+Monotonicity bound (Prop.~\ref{prop:rate}) & \texttt{continuum\_coercive\_integral} & \texttt{ContinuumUniformRate.lean} \\
 $V$ antitone (Prop.~\ref{prop:antitone}) & \texttt{lyapunov\_antitone} & \texttt{GeneralGMainTheorem.lean} \\
-Exp.\ drop (Prop.~\ref{prop:drop}) & \texttt{supercritical\_coercive\_drops} & \texttt{GeneralGMainTheorem.lean} \\
-$V \to 0$ (Prop.~\ref{prop:vzero}) & \texttt{coercive\_drop\_from\_persistence} & \texttt{ContinuumBarbalat.lean} \\
-$r \to r^*$ (Prop.~\ref{prop:rconv}) & \texttt{sq\_integral\_le\_integral\_sq} & \texttt{GeneralGMainTheorem.lean} \\
+Exp.\ drop (Prop.~\ref{prop:drop}) & \texttt{body\_exp\_decay\_to\_body\_drop} & \texttt{GeneralGMainTheorem.lean} \\
+$V \to 0$ (Prop.~\ref{prop:vzero}) & \texttt{coercive\_drop\_from\_persistence} & \texttt{GeneralGContinuumBridge.lean} \\
+$r \to r^*$ (Prop.~\ref{prop:rconv}) & \texttt{sq\_integral\_le\_integral\_sq} & \texttt{ContinuumUniformRate.lean} \\
 Pair rigidity (Prop.~\ref{prop:rigidity}) & \texttt{pair\_eq\_zero\_iff} & \texttt{ContinuumLyapunov.lean}
 \end{tabular}
 \end{center}
@@ -603,7 +603,7 @@ w_{n,m} := \hat f_{n+m} * \hat g - \hat f_n * \hat f_m,
 \]
 which vanish on the OA manifold. Their size is measured in a weighted Fourier--Sobolev norm $\|w\|_{H^1_{e^{a\tau}}}$; exponential decay $\|w(t)\|_{H^1_{e^{a\tau}}} \leq \|w(0)\|_{H^1_{e^{a\tau}}}\,e^{-at}$ is proved in this topology. This is not the same as directly proving the existence of an OA trajectory satisfying $|R_{\mathrm{full}}(t) - R_{\mathrm{OA}}(t)| \to 0$: the defect norm is a global Fourier--Sobolev quantity, and extracting a scalar order-parameter bound from it requires additional trace/evaluation estimates.
 
-\medskip\noindent\textbf{Matching gap.} To derive the two scalar assumptions of Lemma~\ref{lem:bridge} from~\cite{dietert2017} and~\cite{dietert-fernandez2018}, one would still need: choosing the correct OA representative, matching phase conventions and rotating frames, proving trace/evaluation estimates from the Fourier--Sobolev defect norm to the scalar order parameter, and verifying all local smallness, regularity, and linear stability hypotheses. This matching is not carried out here. The Lean declaration \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms) encodes the two assumptions as \texttt{opaque Prop} types that cannot be trivially discharged.
+\medskip\noindent\textbf{Matching gap.} To derive the two scalar assumptions of Lemma~\ref{lem:bridge} from~\cite{dietert2017} and~\cite{dietert-fernandez2018}, one would still need: choosing the correct OA representative, matching phase conventions and rotating frames, proving trace/evaluation estimates from the Fourier--Sobolev defect norm to the scalar order parameter, and verifying all local smallness, regularity, and linear stability hypotheses. This matching is not carried out here. The Lean declaration \texttt{full\_kuramoto\_pde\_stability\_via\_axiom} (0~sorry) takes OA convergence as a regular hypothesis and encodes PDE-to-OA closeness via one \texttt{opaque} type (\texttt{OAManifoldAttractive}) with one \texttt{axiom} (\texttt{oa\_manifold\_attractivity}).
 \end{remark}
 
 % ============================================================
@@ -621,10 +621,10 @@ The results are organized into four tiers of decreasing certainty:
 \noindent\textbf{Theorem B: Lorentzian} (\texttt{lorentzian\_ode\_global\_stability\_complete}). Fully formalized, 0~sorry, 0~axioms. Global stability for the Bernoulli ODE with explicit solution formula. Finite-dimensional, no measure theory needed.
 
 \medskip
-\noindent\textbf{Theorem C: $n$-pole} (\texttt{kuramoto\_solved}). Fully formalized, 0~sorry, 0~axioms. Finite-dimensional, exponential decay rate $\mu = K\delta\delta^*$. Global stability for any $r(0) > 0$.
+\noindent\textbf{Theorem C: $n$-pole} (\texttt{kuramoto\_solved}). Fully formalized, 0~sorry, 0~axioms. Exponential decay rate $\mu = K\delta\delta^*$. Requires bounded $\gamma \leq \gamma_{\max}$, uniform persistence $\delta \leq \alpha(\omega,t)$ for all $\omega,t$, and a pre-existing equilibrium $\alpha^*$.
 
 \medskip
-\noindent\textbf{Lemma D: Conditional bridge} (\texttt{kuramoto\_stability\_universal}). Formal bridge lemma (reverse triangle inequality), 0~sorry, 2~assumptions. The two assumptions---OA order-parameter convergence and PDE-to-OA closeness---are encoded as \texttt{opaque Prop} types in Lean. Discharging them would require matching the hypotheses and conclusions of~\cite{dietert2017} (Landau damping) and~\cite{dietert-fernandez2018} (OA attractivity) to the present notation; this matching is not carried out here (see Remark~\ref{rem:bridge-hypotheses}).
+\noindent\textbf{Lemma D: Conditional bridge} (\texttt{full\_kuramoto\_pde\_stability\_via\_axiom}). Formal bridge lemma (reverse triangle inequality), 0~sorry. OA convergence is a regular hypothesis; PDE-to-OA closeness is encoded via one \texttt{opaque} type and one \texttt{axiom}. Discharging them would require matching the hypotheses and conclusions of~\cite{dietert2017} (Landau damping) and~\cite{dietert-fernandez2018} (OA attractivity) to the present notation; this matching is not carried out here (see Remark~\ref{rem:bridge-hypotheses}).
 
 \subsection{Theorem table}
 
@@ -635,8 +635,8 @@ The results are organized into four tiers of decreasing certainty:
 \hline
 \texttt{real\_scalar\_complete} & Scalar dissipative & $\int\gamma\,g < \infty$, $V(0) < (r^*)^2$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{lorentzian\_ode\_global\_stability\_complete} & Lorentzian ODE & $K > 2\gamma$, $r_0 \in (0,1)$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{kuramoto\_solved} & $n$-pole & $K > K_c$, $r(0) > 0$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{kuramoto\_stability\_universal} & Conditional bridge & 2 unmatched assumptions (Remark~\ref{rem:bridge-hypotheses}) & $|R_{\mathrm{full}}| \to r_*$ & 0 & 2 \\
+\texttt{kuramoto\_solved} & Bounded $\gamma$ & $\gamma \leq \gamma_{\max}$, uniform persistence & $r(t) \to r^*$ & 0 & 0 \\
+\texttt{full\_kuramoto\_pde\_stability\_via\_axiom} & Conditional bridge & 1 hypothesis + 1 opaque/axiom & $|R_{\mathrm{full}}| \to r_*$ & 0 & 1 \\
 \end{tabular}
 \end{center}
 
