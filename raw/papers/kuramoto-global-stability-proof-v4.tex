@@ -492,7 +492,7 @@ V(0) < \infty \;\xrightarrow{\text{Thm.~\ref{thm:lyapunov}}}\; V(t) \to 0 \;\xri
 This proof path (\texttt{NPoleGlobalStability.lean}, \texttt{GronwallBridge.lean}, \texttt{NPoleInstance.lean}) requires no Barbalat lemma beyond the monotone convergence theorem, and no analyticity of $g$---only the existence of the PLS and the gap bound.
 
 \begin{remark}[Local vs.\ global stability]
-For $n$-pole systems (any finite $n$), the theorem \texttt{kuramoto\_solved} gives \emph{global} stability: any $r(0) > 0$ converges. Persistence is automatic in finite dimensions. For the continuum, the theorem \texttt{kuramoto\_stability} gives stability within the basin $V(0) < (r^*)^2$. Removing this restriction requires proving that $r(t)$ stays uniformly positive for arbitrary initial data---equivalent to proving instability of the incoherent state $\alpha = 0$ for the nonlinear continuum OA system. This remains an open problem: no existing paper proves it for general $g$. A natural approach is passage to the limit from $n$-pole to continuum via continuous dependence of OA solutions on the measure $g$.
+For $n$-pole systems (any finite $n$), the theorem \texttt{kuramoto\_solved} gives convergence $r(t) \to r^*$ given bounded $\gamma$ and uniform persistence $\delta \leq \alpha(\omega,t)$. Persistence is expected to hold automatically in finite dimensions but is taken as hypothesis in Lean. For the continuum, the theorem \texttt{kuramoto\_stability} gives stability within the basin $V(0) < (r^*)^2$. Removing this restriction requires proving that $r(t)$ stays uniformly positive for arbitrary initial data---equivalent to proving instability of the incoherent state $\alpha = 0$ for the nonlinear continuum OA system. This remains an open problem: no existing paper proves it for general $g$. A natural approach is passage to the limit from $n$-pole to continuum via continuous dependence of OA solutions on the measure $g$.
 \end{remark}
 
 % ============================================================
@@ -657,9 +657,9 @@ This work contributes four things that are new:
 \subsection{Limitations}
 
 \begin{enumerate}
-\item \textbf{Basin of attraction.} The continuum result (Theorem~A) requires $V(0) < (r^*)^2$, an explicit but \emph{local} condition. True global stability (any $r(0) > 0$) is proved only for Lorentzian (Theorem~B) and $n$-pole (Theorem~C) systems.
+\item \textbf{Basin of attraction.} The continuum result (Theorem~A) requires $V(0) < (r^*)^2$, an explicit but \emph{local} condition. True global stability (any $r(0) > 0$) is proved only for the Lorentzian ODE (Theorem~B). Theorem~C requires uniform persistence as a hypothesis.
 
-\item \textbf{Unmatched external assumptions.} Lemma~D is only the reverse triangle inequality. Its two assumptions---OA convergence and PDE-to-OA closeness---would need to be derived from~\cite{dietert2017} (Landau damping) and~\cite{dietert-fernandez2018,engelbrecht2020} (OA attractivity) respectively, but the matching (phase conventions, rotating frames, trace estimates, smallness/regularity verification) is not carried out here. The assumptions are encoded as \texttt{opaque Prop} types in Lean that cannot be trivially discharged. See Remark~\ref{rem:bridge-hypotheses} for details.
+\item \textbf{Unmatched external assumptions.} Lemma~D is only the reverse triangle inequality. Its two mathematical assumptions---OA convergence and PDE-to-OA closeness---would need to be derived from~\cite{dietert2017} (Landau damping) and~\cite{dietert-fernandez2018,engelbrecht2020} (OA attractivity) respectively, but the matching (phase conventions, rotating frames, trace estimates, smallness/regularity verification) is not carried out here. In Lean, OA convergence is a regular hypothesis; PDE-to-OA closeness is encoded via one \texttt{opaque} type and one \texttt{axiom}. See Remark~\ref{rem:bridge-hypotheses} for details.
 
 \item \textbf{Conclusion is $\re(\eta)^2$, not $|\eta|^2$.} On the symmetric subspace $\eta \in \R$ (proved, 0~sorry), so $\re(\eta)^2 = |\eta|^2$. But the Lean type states $\re(\eta)^2 \to (r^*)^2$ rather than $|\eta|^2 \to (r^*)^2$.
 
