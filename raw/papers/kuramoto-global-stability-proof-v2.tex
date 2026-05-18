@@ -167,17 +167,28 @@ Substituting the OA equation~\eqref{eq:oa} into the Leibniz formula:
 \[
 V'(t) = \int_\R 2(\alpha - \alpha^*)\Bigl[-\gamma\alpha + \frac{K}{2}r(1-\alpha^2)\Bigr] g\,\mathrm{d}\omega.
 \]
-Using the equilibrium condition~\eqref{eq:equil} to write $\gamma\alpha^* = (K/2)r^*(1-(\alpha^*)^2)$, one computes:
+Write $p := \alpha - \alpha^*$, $D := r - r^* = \int p\,g$. Split $-\gamma\alpha = -\gamma p - \gamma\alpha^*$ and use $\gamma\alpha^* = (K/2)r^*(1-(\alpha^*)^2)$, i.e.\ $2\gamma\alpha^* = Kr^*(1-(\alpha^*)^2)$:
+\begin{align*}
+2p\,\dot\alpha
+&= 2p\bigl[-\gamma p - \gamma\alpha^* + \tfrac{K}{2}r(1-\alpha^2)\bigr] \\
+&= -2\gamma p^2 + Kp\bigl[r(1-\alpha^2) - r^*(1-(\alpha^*)^2)\bigr].
+\end{align*}
+Absorb the damping using~\eqref{eq:equil}: $2\gamma = Kr^*(1/\alpha^* - \alpha^*)$, so $-2\gamma p^2 = -Kr^*p^2(1/\alpha^* - \alpha^*)$. The coupling term expands as $Kp[(r-r^*)(1-\alpha^2) + r^*(\alpha^{*2}-\alpha^2)] = K D p(1-\alpha^2) - Kr^*p^2(\alpha+\alpha^*)$, using $\alpha^{*2}-\alpha^2 = -p(\alpha+\alpha^*)$. Collecting all $Kr^*p^2$ terms: $(1/\alpha^* - \alpha^*) + (\alpha+\alpha^*) = \alpha + 1/\alpha^*$. Therefore:
+\begin{equation}\label{eq:per-omega-identity}
+2p\,\dot\alpha = K\cdot D\cdot p(1-\alpha^2) - Kr^*\,p^2\Bigl(\alpha + \frac{1}{\alpha^*}\Bigr).
+\end{equation}
+This is the per-$\omega$ identity (\texttt{per\_omega\_identity}). The term $\alpha + 1/\alpha^*$ arises from absorbing the dissipation $-2\gamma p^2$ into the equilibrium structure. Define
 \[
-2(\alpha-\alpha^*)\dot\alpha = K(\alpha-\alpha^*)\Bigl[r(1-\alpha^2) - r^*(1-(\alpha^*)^2) - \frac{2\gamma}{K}(\alpha-\alpha^*)\Bigr].
+Q_e := \int p^2\Bigl(\alpha + \frac{1}{\alpha^*}\Bigr)g\,\mathrm{d}\omega, \qquad
+S := \int p(1-\alpha^2)\,g\,\mathrm{d}\omega.
 \]
-Expanding and grouping, the integrand splits into:
-\begin{itemize}
-\item a term proportional to $(r-r^*) \cdot D$ where $D = \int(\alpha-\alpha^*)g\,\mathrm{d}\omega = r - r^*$, giving $K(r-r^*)^2 \leq KV$ (by Cauchy-Schwarz);
-\item a term $-K r^* \cdot Q$ where $Q = \int (\alpha-\alpha^*)^2(\alpha + 1/\alpha^*)g\,\mathrm{d}\omega$;
-\item a term $K \cdot DS$ where $S = \int(\alpha-\alpha^*)(1-\alpha^2)g\,\mathrm{d}\omega$.
-\end{itemize}
-The continuum pair bound (Proposition~\ref{prop:cpair}) gives $DS \leq r^* Q$, so $K \cdot DS - K r^* Q \leq 0$, and the pair bound already yields $V'(t) \leq 0$. To obtain convergence $V \to 0$, one uses the body-tail split: on the body $\{\gamma \leq M\}$, body persistence gives $\alpha(\omega,t) \geq \delta(M) > 0$, which provides a coercive lower bound $Q_{\mathrm{body}} \geq \delta(M) \cdot \delta^* \cdot V_{\mathrm{body}}$; the tail $\{\gamma > M\}$ contributes at most $\int_{\gamma > M} \gamma\,g\,\mathrm{d}\omega \to 0$ as $M \to \infty$. Barbalat's lemma then gives $V \to 0$. The full computation is verified in \texttt{ContinuumUniformRate.lean}.
+Integrating~\eqref{eq:per-omega-identity}:
+\begin{equation}\label{eq:Vprime-QeDS}
+V'(t) = K\bigl(D\cdot S - r^*\,Q_e\bigr).
+\end{equation}
+The Fubini identity (\texttt{pair\_fubini\_identity}) gives $r^*Q_e - D\cdot S = \frac{1}{2}\iint \mathcal{I}\,\mathrm{d}\mu\,\mathrm{d}\mu$ where $\mathcal{I}$ is the pair integrand of Proposition~\ref{prop:cpair}. Since $\mathcal{I} \geq 0$ pointwise, $D\cdot S \leq r^*Q_e$, and $V'(t) \leq 0$.
+
+Convergence $V \to 0$ uses the body-tail split (Proposition~\ref{prop:drop}).
 \end{proof}
 
 \subsection{Step 3: $V$ is antitone}\label{sec:antitone}
@@ -225,7 +236,7 @@ This avoids any appeal to uniform continuity of $V'$. The Lean formalization use
 \end{proof}
 
 \begin{remark}
-In the $n$-pole case (Section~\ref{sec:npole}), the stronger exponential rate $V(t+1) \leq e^{-\mu}V(t)$ with $\mu = K c_{\min}\delta\delta^*$ holds via Gronwall comparison (\texttt{comparison\_decay\_interval} in \texttt{GronwallBridge.lean}).
+In the $n$-pole case (Section~\ref{sec:npole}), the stronger exponential rate $V(t+1) \leq e^{-\mu}V(t)$ with $\mu = K\delta\delta^*$ holds via the coercive pair bound and Gronwall comparison (\texttt{comparison\_decay\_interval} in \texttt{GronwallBridge.lean}).
 \end{remark}
 
 \subsection{Step 5: $V \to 0$}
@@ -358,7 +369,7 @@ There are two tiers of completeness:
 \end{enumerate}
 No persistence hypothesis is assumed externally. No uniform-in-$\omega$ lower bound is assumed or derived. The only initial conditions are $V(0) < (r^*)^2$ and body coherence at $t = 0$. \textbf{0 sorry, 0 axioms.}
 
-\medskip\noindent\textbf{Tier 3 --- N-pole (any finite $n$).} The theorem \texttt{kuramoto\_solved} provides an alternative proof path for discrete approximations with explicit exponential rate $\dot{V} \leq -\mu V$ where $\mu = K c_{\min}\delta\delta^*$.
+\medskip\noindent\textbf{Tier 3 --- N-pole (any finite $n$).} The theorem \texttt{kuramoto\_solved} provides an alternative proof path for discrete approximations with explicit exponential rate $\dot{V} \leq -\mu V$ where $\mu = K\delta\delta^*$.
 
 \subsection{The proof chain in Lean}
 
@@ -441,23 +452,23 @@ V(t) = \sum_{k=1}^n c_k\,|\alpha_k(t) - \alpha^*_k|^2.
 \subsection{Main decay estimate}
 
 \begin{theorem}[$L^2$ Lyapunov decay, \texttt{l2\_exponential\_rate}]\label{thm:lyapunov}
-For any $n$-pole Kuramoto system with $K > K_c$, there exist constants $c_{\min} > 0$, $\delta > 0$, $\delta^* > 0$ depending only on $K$, $g$, and the pole weights such that
+For any $n$-pole Kuramoto system with $K > K_c$ and body persistence $\alpha_k(t) \geq \delta > 0$, $\alpha^*_k \geq \delta^* > 0$ for all~$k$:
 \[
-\frac{\mathrm{d}V}{\mathrm{d}t} \leq -K\,c_{\min}\,\delta\,\delta^*\,V.
+\frac{\mathrm{d}V}{\mathrm{d}t} \leq -K\,\delta\,\delta^*\,V.
 \]
-In particular, $V(t) \leq V(0)\,e^{-Kc_{\min}\delta\delta^* t} \to 0$ exponentially.
+In particular, $V(t) \leq V(0)\,e^{-K\delta\delta^* t} \to 0$ exponentially.
 \end{theorem}
 
 \begin{proof}[Proof outline]
-Differentiate~\eqref{eq:lyap} using the Kuramoto ODEs. Each pair $(\alpha_k, \alpha^*_k)$ contributes a term involving $\re\bigl(\overline{(\alpha_k - \alpha^*_k)}(\dot\alpha_k - \dot\alpha^*_k)\bigr)$. Writing $\dot\alpha_k - \dot\alpha^*_k$ in terms of $r - r^*$ and using the finite sum version of the pair bound (Proposition~\ref{prop:pair}), together with the uniform lower bound $c_{\min} = \min_k c_k$:
+The per-$\omega$ identity~\eqref{eq:per-omega-identity} and the finite-sum Fubini identity give
 \[
-\frac{\mathrm{d}V}{\mathrm{d}t} \leq -K\,c_{\min}\,\delta\,\delta^*\,V.
+V'(t) = -\frac{K}{2}\sum_{j,k} c_j c_k\,\mathcal{I}_{jk}.
 \]
-This is formalized in \texttt{UniformRate.lean} and \texttt{L2Lyapunov.lean} (0 sorry).
+The coercive pair bound (\texttt{pair\_coercive}) gives $\mathcal{I}_{jk} \geq \delta\delta^*(p_j^2 + p_k^2)$ when $\alpha_j, \alpha_k \geq \delta$ and $\alpha^*_j, \alpha^*_k \geq \delta^*$. The full pair sum identity (\texttt{full\_pair\_sum\_prob}) gives $\sum_{j,k} c_j c_k(p_j^2+p_k^2) = 2V$ when $\sum c_k = 1$. Therefore $V' \leq -K\delta\delta^* V$. This is formalized in \texttt{UniformRate.lean} (0 sorry).
 \end{proof}
 
 \begin{remark}[Uniformity in $n$]
-The bound $dV/dt \leq -K\,c_{\min}\,\delta\,\delta^*\,V$ is \emph{uniform in $n$}: the constant does not depend on the number of poles, only on the weight floor $c_{\min}$ and the gap parameters $\delta$, $\delta^*$. In the continuum limit (Proposition~\ref{prop:rate}), the explicit exponential rate is replaced by the body-tail split and Barbalat's lemma, since $c_{\min} \to 0$ as the discrete measure approximates a continuous density.
+The rate $K\delta\delta^*$ does not depend on the number of poles or the weight floor $c_{\min}$: the full double-sum identity eliminates the diagonal extraction that would introduce~$c_{\min}$. In the continuum limit (Proposition~\ref{prop:rate}), the explicit exponential rate is replaced by the body-tail split and Barbalat's lemma, since $\delta \to 0$ on the tail as $\gamma \to \infty$.
 \end{remark}
 
 \subsection{Convergence from the Lyapunov bound}
@@ -487,7 +498,7 @@ Define the Dietert energy $\Psi(t) := -\int \log(1-|z(\omega,t)|^2)\,g\,\mathrm{
 \]
 \end{proposition}
 \begin{proof}
-By chain rule, $\frac{\mathrm{d}}{\mathrm{d}t}[-\log(1-|z|^2)] = \frac{\mathrm{d}|z|^2/\mathrm{d}t}{1-|z|^2}$. From the complex OA, $\mathrm{d}|z|^2/\mathrm{d}t = K\,\re(\eta z)(1-|z|^2)$ (\texttt{complexOa\_normSq\_deriv}, 0~sorry). Hence the pointwise integrand is $K\,\re(\eta z)$. Integrating: $\mathrm{d}\Psi/\mathrm{d}t = K\int \re(\eta z)\,g = K\,\re(\eta\bar\eta) = K|\eta|^2$, using $\bar\eta = \int z\,g$ for real-valued~$g$ (\texttt{complex\_eta\_integral\_identity}, 0~sorry).
+By chain rule, $\frac{\mathrm{d}}{\mathrm{d}t}[-\log(1-|z|^2)] = \frac{\mathrm{d}|z|^2/\mathrm{d}t}{1-|z|^2}$. From the complex OA, $\mathrm{d}|z|^2/\mathrm{d}t = K\,\re(\eta z)(1-|z|^2)$ (\texttt{complexOa\_normSq\_deriv}, 0~sorry). Hence the pointwise integrand is $K\,\re(\eta z)$. Integrating: $\mathrm{d}\Psi/\mathrm{d}t = K\int \re(\eta z)\,g = K\,\re(\eta\bar\eta) = K|\eta|^2$, using $\bar\eta = \int z\,g$ for real-valued~$g$ (\texttt{complex\_eta\_integral\_identity}, 0~sorry). The identity $K|\eta|^2$ (not $K\,\re(\eta^2)$) depends on the convention $\eta := \int \bar z\,g$ in~\eqref{eq:complex-oa}; with the alternative $\eta' := \int z\,g$ one obtains $K\,\re(\eta'^2)$ instead.
 \end{proof}
 
 \subsection{Rotation cancellation}
@@ -560,7 +571,7 @@ Triangle inequality: $\bigl|\|\eta_{\mathrm{full}}\| - \|\eta_{\mathrm{OA}}\|\bi
 \end{proof}
 
 \begin{remark}[Hypotheses of Theorem~\ref{thm:full}]
-The hypothesis $\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$ follows from OA manifold exponential attractivity \cite{dietert-fernandez2018} (axiom). The hypothesis $\|\eta_{\mathrm{OA}}\| \to r^*$ follows from nonlinear Landau damping \cite{dietert2017} (axiom) giving $V \to 0$, then Cauchy--Schwarz (machine-checked). The full chain is \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms).
+Theorem~\ref{thm:full} is a conditional bridge. Its conclusion follows from the reverse triangle inequality once two independent assumptions are supplied: convergence of the OA order parameter to the target amplitude, and asymptotic closeness of the full PDE order parameter to the OA order parameter. These assumptions are not proved in this paper. Dietert's nonlinear Landau damping~\cite{dietert2017} proves local orbital stability of linearly stable partially locked states for the full PDE after removing the neutral rotation mode; Dietert--Fernandez OA attractivity~\cite{dietert-fernandez2018} is formulated in a weighted Fourier--Sobolev topology for OA defects. These external results are cited as opaque axioms; their hypotheses (linear stability, Sobolev smallness, regularity of~$g$, weighted defect norms) have not been matched to the present notation. The full chain is \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms).
 \end{remark}
 
 % ============================================================
@@ -578,10 +589,10 @@ The results are organized into four tiers of decreasing certainty:
 \noindent\textbf{Theorem B: Lorentzian} (\texttt{lorentzian\_ode\_global\_stability\_complete}). Fully formalized, 0~sorry, 0~axioms. Global stability for the Bernoulli ODE with explicit solution formula. Finite-dimensional, no measure theory needed.
 
 \medskip
-\noindent\textbf{Theorem C: $n$-pole} (\texttt{kuramoto\_solved}). Fully formalized, 0~sorry, 0~axioms. Finite-dimensional, exponential decay rate $\mu = K c_{\min}\delta\delta^*$. Global stability for any $r(0) > 0$.
+\noindent\textbf{Theorem C: $n$-pole} (\texttt{kuramoto\_solved}). Fully formalized, 0~sorry, 0~axioms. Finite-dimensional, exponential decay rate $\mu = K\delta\delta^*$. Global stability for any $r(0) > 0$.
 
 \medskip
-\noindent\textbf{Theorem D: Complex OA + full PDE} (\texttt{kuramoto\_stability\_universal}). Conditional, 0~sorry, 2~axioms. The complex OA convergence relies on nonlinear Landau damping \cite{dietert2017} (axiom). The PDE-to-OA bridge relies on OA manifold attractivity \cite{dietert-fernandez2018} (axiom). Both axioms have opaque (non-vacuous) conditions encoded as \texttt{opaque Prop} types.
+\noindent\textbf{Theorem D: Complex OA + full PDE} (\texttt{kuramoto\_stability\_universal}). Conditional bridge, 0~sorry, 2~axioms. The complex OA convergence relies on nonlinear Landau damping \cite{dietert2017} (axiom); the PDE-to-OA bridge relies on OA manifold attractivity \cite{dietert-fernandez2018} (axiom). Both axioms have opaque (non-vacuous) conditions encoded as \texttt{opaque Prop} types. The external results are cited but their hypotheses (linear stability, Sobolev smallness, weighted Fourier--Sobolev defect norms) have not been matched to the present notation.
 
 \subsection{Theorem table}
 
@@ -593,7 +604,7 @@ The results are organized into four tiers of decreasing certainty:
 \texttt{real\_scalar\_complete} & Scalar dissipative & $\int\gamma\,g < \infty$, $V(0) < (r^*)^2$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{lorentzian\_ode\_global\_stability\_complete} & Lorentzian ODE & $K > 2\gamma$, $r_0 \in (0,1)$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{kuramoto\_solved} & $n$-pole & $K > K_c$, $r(0) > 0$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{kuramoto\_stability\_universal} & Complex OA + PDE & Analytic $g$, $K > K_c$ & $\|\eta\| \to r^*$ & 0 & 2 \\
+\texttt{kuramoto\_stability\_universal} & Complex OA + PDE & Analytic $g$, $K > K_c$ + 2 cited axioms & $\|\eta\| \to r^*$ & 0 & 2 \\
 \end{tabular}
 \end{center}
 

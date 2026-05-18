@@ -1,29 +1,39 @@
 \contentsline {section}{\numberline {1}Setup and statement}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}The Ott--Antonsen equation}{2}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}The partially locked state (PLS)}{2}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}Main theorem}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.1}The standard complex Ott--Antonsen equation}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}A scalar dissipative model}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}The partially locked state (PLS)}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Main theorem}{3}{subsection.1.4}%
 \contentsline {section}{\numberline {2}The proof chain}{3}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Step 1: Leibniz rule for the Lyapunov function}{3}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Step 2: Pair bound and derived rate estimate}{3}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Step 3: $V$ is antitone}{4}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Step 4: Coercive exponential drops}{4}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Step 5: $V \to 0$}{4}{subsection.2.5}%
-\contentsline {subsection}{\numberline {2.6}Step 6: $r \to r^*$ via Cauchy-Schwarz}{5}{subsection.2.6}%
-\contentsline {subsection}{\numberline {2.7}Step 7: Pair rigidity (characterization of $V' = 0$)}{5}{subsection.2.7}%
-\contentsline {section}{\numberline {3}The Lorentzian case: fully end-to-end}{6}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Proof: Bernoulli formula}{6}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Proof: Monotonicity}{6}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Proof: Convergence}{6}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Lean\nobreakspace {}4 verification}{6}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Overall status}{6}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}The proof chain in Lean}{7}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Nine independent proof paths}{7}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Additional formalized results}{8}{subsection.4.4}%
-\contentsline {section}{\numberline {5}The $L^2$ Lyapunov approach for $n$-pole systems}{8}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Setup}{8}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Main decay estimate}{8}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Convergence from the Lyapunov bound}{9}{subsection.5.3}%
-\contentsline {section}{\numberline {6}Discussion}{9}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Novelty}{9}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Limitations}{10}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Open problems}{10}{subsection.6.3}%
+\contentsline {subsection}{\numberline {2.1}Step 1: Leibniz rule for the Lyapunov function}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Step 2: Pair bound and derived monotonicity}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Step 3: $V$ is antitone}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Step 4: Body-tail split and Barbalat}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Step 5: $V \to 0$}{6}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Step 6: $r \to r^*$ via Cauchy-Schwarz}{6}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Step 7: Pair rigidity (characterization of $V' = 0$)}{7}{subsection.2.7}%
+\contentsline {section}{\numberline {3}The Lorentzian case: fully end-to-end}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Proof: Bernoulli formula}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Proof: Monotonicity}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Proof: Convergence}{8}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Lean\nobreakspace {}4 verification}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Overall status}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}The proof chain in Lean}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Nine independent proof paths}{9}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Additional formalized results}{9}{subsection.4.4}%
+\contentsline {section}{\numberline {5}The $L^2$ Lyapunov approach for $n$-pole systems}{10}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Setup}{10}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Main decay estimate}{10}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Convergence from the Lyapunov bound}{11}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Complex OA: rotation cancellation and conditional stability}{11}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Dietert energy identity}{11}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Rotation cancellation}{11}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Symmetry preservation}{12}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Locked equilibrium structure}{12}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}V$'$ decomposition}{12}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Full Kuramoto PDE stability}{13}{subsection.6.6}%
+\contentsline {section}{\numberline {7}Discussion}{13}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Four tiers of formalization}{13}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Theorem table}{14}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Novelty}{14}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Limitations}{14}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Open problems}{14}{subsection.7.5}%
