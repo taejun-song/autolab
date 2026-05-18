@@ -32,13 +32,13 @@ Machine-Checked Proofs via an Algebraic Lyapunov Technique}
 \maketitle
 
 \begin{abstract}
-We introduce two novel proof techniques for Kuramoto-type stability problems and present the first machine-checked formalization of any Kuramoto model result. The complex OA and full PDE results are conditional on two cited axioms (nonlinear Landau damping and OA manifold attractivity).
+We introduce two novel proof techniques for Kuramoto-type stability problems and present the first machine-checked formalization of any Kuramoto model result. A formal bridge lemma connecting the OA and full PDE order parameters is stated; its two assumptions (OA convergence and PDE-to-OA closeness) are not proved here and would require substantial matching work with the external literature~\cite{dietert2017,dietert-fernandez2018}.
 
 \textbf{Contribution 1: The pair bound.} A pointwise algebraic pair inequality, lifted to the continuum double integral via Fubini, that proves the $L^2$ Lyapunov derivative $\dot V \leq 0$ for the scalar dissipative mean-field equation. This is a purely algebraic technique with no precedent in the Kuramoto literature, replacing spectral theory, Volterra equations, and Fourier analysis approaches.
 
 \textbf{Contribution 2: Rotation cancellation.} For the standard complex OA equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, the rotation term $-i\omega$ cancels exactly in the Lyapunov derivative after equilibrium subtraction: $\re(\bar w \cdot (-i\omega w)) = 0$ for $w = z - z^*$, since $|w|^2 \in \R$. This bridges the dissipative and rotational formulations.
 
-\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{260 Lean files} (commit \texttt{7f95a97}); the main theorem \texttt{real\_scalar\_complete} has \textbf{0~\texttt{sorry}} and \textbf{0 project axioms}; the declaration \texttt{real\_scalar\_complete} itself produces no sorry warning (the imported file \texttt{KuramotoGlobal.lean} contains unrelated sorry's in other theorems that are not used by our proof chain). The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). The theorem also requires initial body coherence ($\alpha(\omega,0) \geq \delta_0 > 0$ on $\{\gamma \leq M\}$ for each $M$), which holds for initial data near the PLS. When $\gamma(\omega) \lesssim 1 + |\omega|$, this includes Gaussian, compactly supported, Student-$t$ ($\nu > 1$), and mixtures satisfying the same first-moment bound. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
+\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib~\cite{mathlib} v4.30.0-rc1) spans \textbf{260 Lean files} (commit \texttt{7f95a97}); the main theorem \texttt{real\_scalar\_complete} has \textbf{0~\texttt{sorry}} and \textbf{0 project axioms}; the declaration \texttt{real\_scalar\_complete} itself produces no sorry warning (the imported file \texttt{KuramotoGlobal.lean} contains unrelated sorry's in other theorems that are not used by our proof chain). The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). The theorem also requires initial body coherence ($\alpha(\omega,0) \geq \delta_0 > 0$ on $\{\gamma \leq M\}$ for each $M$), which holds for initial data pointwise close to the PLS on each $\{\gamma \leq M\}$ (an $L^\infty$-type condition, not implied by $L^2(g)$ proximity alone). When $\gamma(\omega) \lesssim 1 + |\omega|$, this includes Gaussian, compactly supported, Student-$t$ ($\nu > 1$), and mixtures satisfying the same first-moment bound. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
 \end{abstract}
 
 \tableofcontents
@@ -59,7 +59,7 @@ For symmetric~$g$ with symmetric initial data ($z(\omega,0) = \overline{z(-\omeg
 
 \subsection{A scalar dissipative model}\label{sec:scalar-model}
 
-We also study the scalar real mean-field equation
+We also study the following scalar real mean-field equation (cf.~\cite{strogatz2000,kuramoto1975})
 \begin{equation}\label{eq:oa}
 \dot{\alpha}(\omega,t) = -\gamma(\omega)\,\alpha + \frac{K}{2}\,r(t)\bigl(1 - \alpha^2\bigr), \qquad r(t) = \int_\R \alpha(\omega,t)\,g(\omega)\,\mathrm{d}\omega,
 \end{equation}
@@ -94,7 +94,7 @@ Then $r(t) \to r^*$ as $t \to +\infty$.
 \end{theorem}
 
 \begin{remark}
-No persistence hypothesis is assumed. The proof \emph{derives} order parameter persistence ($r(t) \geq r_{\min} > 0$) from $V$ antitonicity and Cauchy--Schwarz, then derives body persistence on $\{\gamma \leq M\}$ for each $M > 0$ from the ODE scalar barrier. No uniform-in-$\omega$ lower bound is assumed or derived. The body-tail split uses local body persistence combined with tail vanishing from $\int \gamma\,g < \infty$. The only conditions beyond the OA system definition are (iii) initial closeness and (iv) initial body coherence---both hold for any initial data in a neighborhood of the PLS.
+No persistence hypothesis is assumed. The proof \emph{derives} order parameter persistence ($r(t) \geq r_{\min} > 0$) from $V$ antitonicity and Cauchy--Schwarz, then derives body persistence on $\{\gamma \leq M\}$ for each $M > 0$ from the ODE scalar barrier. No uniform-in-$\omega$ lower bound is assumed or derived. The body-tail split uses local body persistence combined with tail vanishing from $\int \gamma\,g < \infty$. The only conditions beyond the OA system definition are (iii) initial closeness and (iv) initial body coherence---condition~(iii) is an $L^2(g)$ constraint, while condition~(iv) is a pointwise constraint on each body set $\{\gamma \leq M\}$; both hold for initial data pointwise close to the PLS.
 \end{remark}
 
 % ============================================================
@@ -364,7 +364,7 @@ The complete proof is assembled in \texttt{lorentzian\_ode\_global\_stability\_c
 
 \subsection{Overall status}
 
-The formalization spans \textbf{258 Lean~4 files} (commit \texttt{7f95a97}, Mathlib v4.30.0-rc1). It gives a no-sorry Lean formalization of the pair-bound Lyapunov proof for the scalar dissipative Kuramoto-type mean-field equation. The extension to the standard complex OA equation and the full Kuramoto PDE is conditional on external convergence and attractivity inputs that are not proved in this paper (see Remark~\ref{rem:bridge-hypotheses}). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain.
+The formalization spans \textbf{260 Lean~4 files} (commit \texttt{7f95a97}, Mathlib v4.30.0-rc1). It gives a no-sorry Lean formalization of the pair-bound Lyapunov proof for the scalar dissipative Kuramoto-type mean-field equation. A formal bridge lemma (reverse triangle inequality) connects the OA and full PDE order parameters, but its two assumptions are not proved here and would require matching with the external literature (see Remark~\ref{rem:bridge-hypotheses}). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain.
 
 There are two tiers of completeness:
 
@@ -531,7 +531,7 @@ $\re\bigl(\overline{(z-z^*)}\cdot(-i\omega(z-z^*))\bigr) = \re(-i\omega|z-z^*|^2
 $|z-z^*|^2 \in \R$, so $-i\omega|z-z^*|^2$ is purely imaginary.
 \end{proof}
 
-The rotation cancellation removes the rotation contribution from $V'$, but the remaining nonlinear coupling terms differ structurally from the scalar case: the coupling involves $\eta \in \C$ (not $r \in \R$), and the quadratic terms $\eta^*(z^{*2} - z^2)$ do not factor as cleanly as in the scalar pair bound. The convergence $V(t) \to 0$ is therefore established via nonlinear Landau damping \cite{dietert2017}: for Sobolev-regular perturbations of the PLS, phase mixing of drifting oscillators gives algebraic decay $|V(t)| = O(t^{-s})$, valid universally for all $K > K_c$ (stated as axiom \texttt{landau\_damping\_kuramoto}). The complex OA stability result relies on this external Landau damping input (cited as axiom).
+The rotation cancellation removes the rotation contribution from $V'$, but the remaining nonlinear coupling terms differ structurally from the scalar case: the coupling involves $\eta \in \C$ (not $r \in \R$), and the quadratic terms $\eta^*(z^{*2} - z^2)$ do not factor as cleanly as in the scalar pair bound. Convergence $V(t) \to 0$ for the complex OA is not proved here; it would require an external input such as nonlinear Landau damping~\cite{dietert2017} (see Section~\ref{sec:bridge} and Remark~\ref{rem:bridge-hypotheses} for a discussion of what this entails).
 
 \subsection{Symmetry preservation}
 
@@ -573,29 +573,37 @@ Factor the per-$\omega$ integrand (\texttt{complexVDerivIntegrand\_expand}, by \
 
 By the real-case pair bound architecture, $V' \leq 0$ would follow from $r^*Q_c - D_cS_c \geq 0$, which is the Fubini double-integral nonnegativity. The pointwise pair bound is provably \emph{false} for complex~$z$ (\texttt{complex\_pair\_pointwise\_false}), so the integral nonnegativity requires genuine Fubini analysis; this remains open.
 
-\subsection{Full Kuramoto PDE stability}
+\subsection{Formal order-parameter bridge}\label{sec:bridge}
 
-\begin{theorem}[Conditional bridge lemma, \texttt{full\_kuramoto\_pde\_stability\_via\_axiom}, 0 sorry + 1 axiom]\label{thm:full}
-For the full Kuramoto--Sakaguchi PDE with analytic symmetric~$g$, $K > K_c$: if the OA order parameter converges ($\|\eta_{\mathrm{OA}}(t)\| \to r^*$) and the full PDE approximates the OA trajectory ($\|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$), then $\|\eta_{\mathrm{full}}(t)\| \to r^*$. This theorem is conditional: both hypotheses are cited axioms, not machine-checked.
-\end{theorem}
+\begin{lemma}[Formal order-parameter bridge, \texttt{full\_kuramoto\_pde\_stability\_via\_axiom}, 0 sorry]\label{lem:bridge}
+Let $R_{\mathrm{OA}}, R_{\mathrm{full}} : [0,\infty) \to \C$ and let $r_* > 0$. If
+\[
+|R_{\mathrm{OA}}(t)| \to r_*
+\qquad\text{and}\qquad
+|R_{\mathrm{full}}(t) - R_{\mathrm{OA}}(t)| \to 0,
+\]
+then $|R_{\mathrm{full}}(t)| \to r_*$.
+\end{lemma}
 \begin{proof}
-Triangle inequality: $\bigl|\|\eta_{\mathrm{full}}\| - \|\eta_{\mathrm{OA}}\|\bigr| \leq \|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$. Squeeze gives convergence (\texttt{squeeze\_zero\_norm + abs\_norm\_sub\_norm\_le}, 0~sorry).
+By the reverse triangle inequality,
+\[
+\bigl||R_{\mathrm{full}}(t)| - |R_{\mathrm{OA}}(t)|\bigr| \leq |R_{\mathrm{full}}(t) - R_{\mathrm{OA}}(t)|.
+\]
+The second hypothesis makes the right-hand side tend to zero, while the first gives $|R_{\mathrm{OA}}(t)| \to r_*$. Hence $|R_{\mathrm{full}}(t)| \to r_*$ (\texttt{squeeze\_zero\_norm + abs\_norm\_sub\_norm\_le}, 0~sorry).
 \end{proof}
 
-\begin{remark}[Hypotheses of Theorem~\ref{thm:full}]\label{rem:bridge-hypotheses}
-Theorem~\ref{thm:full} is a conditional bridge. Its conclusion follows from the reverse triangle inequality once two independent assumptions are supplied: convergence of the OA order parameter to the target amplitude, and asymptotic closeness of the full PDE order parameter to the OA order parameter. These assumptions are not proved in this paper.
+\begin{remark}[Status of the bridge lemma]\label{rem:bridge-hypotheses}
+Lemma~\ref{lem:bridge} is a formal consequence of the reverse triangle inequality. It is not, by itself, a proof of full Kuramoto PDE stability. Its two assumptions---convergence of the OA order parameter and asymptotic closeness of the full PDE order parameter to the OA order parameter---are \emph{external hypotheses that are not proved in this manuscript}. We describe below what would be needed to discharge them.
 
-To discuss attraction to the OA manifold for the full Kuramoto PDE, the natural objects are Fourier-side OA defects. For the Fourier modes $\hat f_\ell(\tau) = \int_{\mathbb{T} \times \mathbb{R}} e^{-i(\ell\theta + \tau\omega)}\,f(\mathrm{d}\theta,\mathrm{d}\omega)$, the OA manifold is characterized by the convolution identities $\hat f_\ell = h^{*\ell} * \hat g$ for $\ell \geq 0$. The OA defect variables
-\[
-w_{n,m} := \hat f_{n+m} * \hat g - \hat f_n * \hat f_m
-\]
-vanish on the OA manifold. Their size is measured in a weighted Fourier--Sobolev norm of the form
-\[
-\|w\|_{H^1_{e^{a\tau}}}^2 = \sum_{n,m \geq 1} \int_\R \frac{e^{2a\tau}}{nm}\bigl(|w_{n,m}(\tau)|^2 + |\partial_\tau w_{n,m}(\tau)|^2\bigr)\,\mathrm{d}\tau.
-\]
-Dietert--Fernandez OA attractivity~\cite{dietert-fernandez2018} gives exponential decay $\|w(t)\|_{H^1_{e^{a\tau}}} \leq \|w(0)\|_{H^1_{e^{a\tau}}}\,e^{-at}$ in this topology. This is structurally different from a pointwise bound on an OA parameter $\alpha(\omega,t)$ in a strip: the defect norm is a global Fourier--Sobolev quantity, not a pointwise analytic continuation bound.
+\medskip\noindent\textbf{Reference~\cite{dietert2017}: nonlinear Landau damping.} Dietert~\cite{dietert2017} (building on~\cite{dietert-thesis}) proves local nonlinear Landau damping / orbital stability for linearly stable partially locked states of the full Kuramoto PDE, after removing the neutral rotation mode. In~\cite{dietert2017}, the decaying quantity $\eta(t)$ is the perturbation order parameter $u_1(t,0)$ in a rotating frame, not automatically the full physical order parameter and not an OA order parameter. The hypotheses include Sobolev regularity of the perturbation, smallness near a linearly stable PLS, and phase/gauge fixing.
 
-Dietert's nonlinear Landau damping~\cite{dietert2017} proves local orbital stability of linearly stable partially locked states for the full PDE after removing the neutral rotation mode, requiring linear stability, Sobolev smallness, and regularity of~$g$. Neither external result is stated in the variables or topology of the present paper, and matching them to the present notation remains open. The full chain is \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms).
+\medskip\noindent\textbf{Reference~\cite{dietert-fernandez2018}: OA manifold attractivity.} Dietert--Fernandez~\cite{dietert-fernandez2018} controls attraction to the OA manifold through Fourier-side OA defects
+\[
+w_{n,m} := \hat f_{n+m} * \hat g - \hat f_n * \hat f_m,
+\]
+which vanish on the OA manifold. Their size is measured in a weighted Fourier--Sobolev norm $\|w\|_{H^1_{e^{a\tau}}}$; exponential decay $\|w(t)\|_{H^1_{e^{a\tau}}} \leq \|w(0)\|_{H^1_{e^{a\tau}}}\,e^{-at}$ is proved in this topology. This is not the same as directly proving the existence of an OA trajectory satisfying $|R_{\mathrm{full}}(t) - R_{\mathrm{OA}}(t)| \to 0$: the defect norm is a global Fourier--Sobolev quantity, and extracting a scalar order-parameter bound from it requires additional trace/evaluation estimates.
+
+\medskip\noindent\textbf{Matching gap.} To derive the two scalar assumptions of Lemma~\ref{lem:bridge} from~\cite{dietert2017} and~\cite{dietert-fernandez2018}, one would still need: choosing the correct OA representative, matching phase conventions and rotating frames, proving trace/evaluation estimates from the Fourier--Sobolev defect norm to the scalar order parameter, and verifying all local smallness, regularity, and linear stability hypotheses. This matching is not carried out here. The Lean declaration \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms) encodes the two assumptions as \texttt{opaque Prop} types that cannot be trivially discharged.
 \end{remark}
 
 % ============================================================
@@ -616,7 +624,7 @@ The results are organized into four tiers of decreasing certainty:
 \noindent\textbf{Theorem C: $n$-pole} (\texttt{kuramoto\_solved}). Fully formalized, 0~sorry, 0~axioms. Finite-dimensional, exponential decay rate $\mu = K\delta\delta^*$. Global stability for any $r(0) > 0$.
 
 \medskip
-\noindent\textbf{Theorem D: Complex OA + full PDE} (\texttt{kuramoto\_stability\_universal}). Conditional bridge, 0~sorry, 2~axioms. The complex OA convergence relies on nonlinear Landau damping \cite{dietert2017} (axiom); the PDE-to-OA bridge relies on OA manifold attractivity \cite{dietert-fernandez2018} (axiom). Both axioms have opaque (non-vacuous) conditions encoded as \texttt{opaque Prop} types. The external results are cited but their hypotheses (linear stability, Sobolev smallness, weighted Fourier--Sobolev defect norms) have not been matched to the present notation.
+\noindent\textbf{Lemma D: Conditional bridge} (\texttt{kuramoto\_stability\_universal}). Formal bridge lemma (reverse triangle inequality), 0~sorry, 2~assumptions. The two assumptions---OA order-parameter convergence and PDE-to-OA closeness---are encoded as \texttt{opaque Prop} types in Lean. Discharging them would require matching the hypotheses and conclusions of~\cite{dietert2017} (Landau damping) and~\cite{dietert-fernandez2018} (OA attractivity) to the present notation; this matching is not carried out here (see Remark~\ref{rem:bridge-hypotheses}).
 
 \subsection{Theorem table}
 
@@ -628,7 +636,7 @@ The results are organized into four tiers of decreasing certainty:
 \texttt{real\_scalar\_complete} & Scalar dissipative & $\int\gamma\,g < \infty$, $V(0) < (r^*)^2$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{lorentzian\_ode\_global\_stability\_complete} & Lorentzian ODE & $K > 2\gamma$, $r_0 \in (0,1)$ & $r(t) \to r^*$ & 0 & 0 \\
 \texttt{kuramoto\_solved} & $n$-pole & $K > K_c$, $r(0) > 0$ & $r(t) \to r^*$ & 0 & 0 \\
-\texttt{kuramoto\_stability\_universal} & Complex OA + PDE & Analytic $g$, $K > K_c$ + 2 cited axioms & $\|\eta\| \to r^*$ & 0 & 2 \\
+\texttt{kuramoto\_stability\_universal} & Conditional bridge & 2 unmatched assumptions (Remark~\ref{rem:bridge-hypotheses}) & $|R_{\mathrm{full}}| \to r_*$ & 0 & 2 \\
 \end{tabular}
 \end{center}
 
@@ -641,7 +649,7 @@ This work contributes four things that are new:
 
 \item \textbf{Novel proof technique.} The pair bound (Proposition~\ref{prop:pair})---a pointwise algebraic inequality lifted to the continuum double integral via Fubini---has no precedent in the Kuramoto literature. Prior approaches used Fourier analysis \cite{dietert2016}, Volterra equations \cite{dietert-fernandez2018}, or spectral theory \cite{chiba2015}.
 
-\item \textbf{Rotation cancellation.} The rotation term $-i\omega$ in the complex OA cancels in the $V$~derivative after equilibrium subtraction (Proposition~\ref{prop:rotation}). This removes the rotation contribution from $V'$, but the remaining nonlinear coupling terms differ structurally from the scalar case. The complex OA convergence relies on external Landau damping input (cited as axiom).
+\item \textbf{Rotation cancellation.} The rotation term $-i\omega$ in the complex OA cancels in the $V$~derivative after equilibrium subtraction (Proposition~\ref{prop:rotation}). This removes the rotation contribution from $V'$, but the remaining nonlinear coupling terms differ structurally from the scalar case. Convergence of the complex OA is not proved here (see Remark~\ref{rem:bridge-hypotheses}).
 
 \item \textbf{Finite first moment coverage.} Prior rigorous OA analysis was limited to Lorentzian/rational distributions. The finite first moment condition $\int \gamma\,g\,\mathrm{d}\omega < \infty$ covers Student-$t$ with $\nu > 1$ (including the infinite-variance case $1 < \nu \leq 2$), Gaussian, compact support, and all mixtures.
 \end{enumerate}
@@ -651,7 +659,7 @@ This work contributes four things that are new:
 \begin{enumerate}
 \item \textbf{Basin of attraction.} The continuum result (Theorem~A) requires $V(0) < (r^*)^2$, an explicit but \emph{local} condition. True global stability (any $r(0) > 0$) is proved only for Lorentzian (Theorem~B) and $n$-pole (Theorem~C) systems.
 
-\item \textbf{Two cited axioms with opaque conditions.} Theorem~D relies on two published results stated as Lean axioms with opaque (non-vacuous) conditions: (a)~nonlinear Landau damping \cite{dietert2017} for $V \to 0$, requiring linear stability, Sobolev smallness, and regularity of~$g$; and (b)~OA manifold attractivity \cite{dietert-fernandez2018} for the PDE-to-OA bridge. The conditions are encoded as \texttt{opaque Prop} types that cannot be trivially discharged. Formalizing the underlying spectral theory remains future work.
+\item \textbf{Unmatched external assumptions.} Lemma~D is only the reverse triangle inequality. Its two assumptions---OA convergence and PDE-to-OA closeness---would need to be derived from~\cite{dietert2017} (Landau damping) and~\cite{dietert-fernandez2018,engelbrecht2020} (OA attractivity) respectively, but the matching (phase conventions, rotating frames, trace estimates, smallness/regularity verification) is not carried out here. The assumptions are encoded as \texttt{opaque Prop} types in Lean that cannot be trivially discharged. See Remark~\ref{rem:bridge-hypotheses} for details.
 
 \item \textbf{Conclusion is $\re(\eta)^2$, not $|\eta|^2$.} On the symmetric subspace $\eta \in \R$ (proved, 0~sorry), so $\re(\eta)^2 = |\eta|^2$. But the Lean type states $\re(\eta)^2 \to (r^*)^2$ rather than $|\eta|^2 \to (r^*)^2$.
 
@@ -662,8 +670,8 @@ This work contributes four things that are new:
 
 \begin{enumerate}
 \item Remove the $V(0) < (r^*)^2$ basin condition (global stability for any $r(0) > 0$). The locked equilibrium structure (Proposition~\ref{prop:locked-equil}) and self-consistency interface are formalized; the remaining gap is proving $\liminf r(t) > 0$ for $K > K_c$ via instability of incoherence.
-\item Formalize the nonlinear Landau damping axiom (currently citing \cite{dietert2017}).
-\item Formalize the OA manifold attractivity axiom (currently citing \cite{dietert-fernandez2018}).
+\item Match and formalize the nonlinear Landau damping result of~\cite{dietert2017}: identify the correct rotating-frame order parameter, verify linear stability and Sobolev smallness hypotheses, and extract a scalar convergence bound in the physical frame.
+\item Match and formalize the OA attractivity result of~\cite{dietert-fernandez2018}: extract from the Fourier--Sobolev defect norm a scalar bound $|R_{\mathrm{full}}(t) - R_{\mathrm{OA}}(t)| \to 0$ via trace/evaluation estimates.
 \item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
 \end{enumerate}
 
@@ -676,7 +684,7 @@ This work contributes four things that are new:
 \bibitem{chiba2015} H.~Chiba, A proof of the Kuramoto conjecture for a bifurcation structure of the infinite-dimensional Kuramoto model, \emph{Ergod. Th. \& Dynam. Sys.}~\textbf{35} (2015), 762--834.
 \bibitem{engelbrecht2020} J.~R.~Engelbrecht and R.~Mirollo, Is the Ott-Antonsen manifold attracting?, \emph{Phys. Rev. Research}~\textbf{2} (2020), 023057.
 \bibitem{strogatz2000} S.~H.~Strogatz, From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators, \emph{Physica D}~\textbf{143} (2000), 1--20.
-\bibitem{dietert2017} H.~Dietert, Stability of partially locked states in the Kuramoto model through Landau damping with Sobolev regularity, \emph{arXiv:1707.03475} (2020).
+\bibitem{dietert2017} H.~Dietert, Stability of partially locked states in the Kuramoto model through Landau damping with Sobolev regularity, \emph{arXiv:1707.03475} (2017, revised 2020).
 \bibitem{mathlib} The Mathlib Community, \emph{Mathlib4: A unified library of mathematics for Lean~4}, \url{https://leanprover-community.github.io/mathlib4_docs/} (2024).
 \end{thebibliography}
 

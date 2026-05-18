@@ -92,3 +92,8 @@ timestamp	experiment	file	sorry_count	axiom_count	error_count	status	description
 2026-05-16 09:57:46	exp091	KuramotoFresh	0	0	0	keep	attack turn 8
 2026-05-16 09:58:58	exp092	KuramotoFresh	0	0	0	keep	attack turn 9
 2026-05-16 10:00:42	exp093	KuramotoFresh	0	0	0	keep	attack turn 10
+2026-05-17 10:32:31	exp094	GaussianGlobal	4	0	0	keep	attack turn 1
+2026-05-17 10:42:49	exp095	GaussianGlobal	0	0	0	keep	attack turn 2
+2026-05-17 10:44:29	exp096	GaussianGlobal	0	0	0	keep	attack turn 3
+2026-05-17 10:46:08	exp097	GaussianGlobal	0	0	0	keep	attack turn 4
+2026-05-17 10:47:58	exp098	GaussianGlobal	0	0	0	keep	attack turn 5
