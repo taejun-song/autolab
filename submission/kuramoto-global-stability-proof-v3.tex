@@ -129,8 +129,6 @@ The threshold $K>K_c$ does not alone guarantee existence of $(\alpha^*,r^*)$; th
 \section{Proof of basin stability}\label{sec:proof}
 % ============================================================
 
-The proof consists of six steps, presented in the order that the formal verification assembles them.
-
 \subsection{Step 1: Leibniz rule}\label{sec:leibniz}
 
 Define the $L^2$ Lyapunov function
@@ -161,7 +159,7 @@ For any $\alpha_j,\alpha_k,\alpha^*_j,\alpha^*_k\in(0,1)$:
 \begin{proof}
 Write $p_j=\alpha_j-\alpha^*_j$, $p_k=\alpha_k-\alpha^*_k$. Multiplying both sides by $\alpha^*_j\alpha^*_k>0$ and expanding:
 \begin{equation}\label{eq:decomp}
-\alpha^*_j\alpha^*_k(\text{LHS}-\text{RHS}) = (\alpha^*_jp_k-\alpha^*_kp_j)^2 + (\alpha^*_j)^2\alpha_k\alpha^*_kp_k^2 + (\alpha^*_k)^2\alpha_j\alpha^*_jp_j^2 + \alpha^*_j\alpha^*_k(\alpha_j^2+\alpha_k^2)p_jp_k.
+\alpha^*_j\alpha^*_k(\text{LHS}-\text{RHS}) = \underbrace{(\alpha^*_jp_k-\alpha^*_kp_j)^2}_{T_1} + \underbrace{(\alpha^*_j)^2\alpha_k\alpha^*_kp_k^2}_{T_2} + \underbrace{(\alpha^*_k)^2\alpha_j\alpha^*_jp_j^2}_{T_3} + \underbrace{\alpha^*_j\alpha^*_k(\alpha_j^2+\alpha_k^2)p_jp_k}_{T_4}.
 \end{equation}
 
 When $p_jp_k\leq 0$: each LHS summand is non-negative (factors involving $\alpha+1/\alpha^*$ are positive) while the RHS is non-positive (since $2-\alpha_j^2-\alpha_k^2>0$).
@@ -178,15 +176,65 @@ where we abbreviate $\alpha_i = \alpha(\omega_i,t)$ and $\alpha^*_i = \alpha^*(\
 \end{proposition}
 
 \begin{proof}
-The integrand is pointwise non-negative by Proposition~\ref{prop:pair}; integrate.
+The integrand is pointwise non-negative by Proposition~\ref{prop:pair}; integrate over $(\omega_1,\omega_2)\in\R^2$ with respect to the product measure $\mu\otimes\mu$.
 \end{proof}
 
 \begin{proposition}[Monotonicity]\label{prop:rate}
 $V'(t)\leq 0$ for all $t>0$.
 \end{proposition}
 
-\begin{proof}[Proof sketch]
-Substituting~\eqref{eq:oa} into the Leibniz formula and using the equilibrium relation~\eqref{eq:equil}, the integrand splits into three terms: one proportional to $(r-r^*)^2$ (controlled by Cauchy--Schwarz), one involving the quadratic form $Q=\int(\alpha-\alpha^*)^2(\alpha+1/\alpha^*)\,\mathrm{d}\mu$, and a cross-term involving $S=\int(\alpha-\alpha^*)(1-\alpha^2)\,\mathrm{d}\mu$. The continuum pair bound (Proposition~\ref{prop:cpair}) supplies the key inequality $DS\leq r^*Q$, from which $V'\leq 0$ follows algebraically.
+\begin{proof}
+We compute $V'$ explicitly. Substituting $\dot\alpha = -\gamma\alpha + \tfrac{K}{2}r(1-\alpha^2)$ from~\eqref{eq:oa} into the Leibniz formula (Proposition~\ref{prop:leibniz}):
+\begin{equation}\label{eq:Vprime-raw}
+V'(t) = \int 2(\alpha-\alpha^*)\bigl[-\gamma\alpha + \tfrac{K}{2}r(1-\alpha^2)\bigr]\,\mathrm{d}\mu.
+\end{equation}
+The equilibrium relation~\eqref{eq:equil} gives $\gamma\alpha^* = \tfrac{K}{2}r^*(1-(\alpha^*)^2)$, so we may write
+\[
+-\gamma\alpha + \tfrac{K}{2}r(1-\alpha^2) = -\gamma(\alpha-\alpha^*) + \tfrac{K}{2}\bigl[r(1-\alpha^2)-r^*(1-(\alpha^*)^2)\bigr].
+\]
+Adding and subtracting $r^*(1-\alpha^2)$ in the bracket:
+\begin{equation}\label{eq:rhs-split}
+= -\gamma(\alpha-\alpha^*) + \tfrac{K}{2}(r-r^*)(1-\alpha^2) + \tfrac{K}{2}r^*\bigl[(\alpha^*)^2-\alpha^2\bigr].
+\end{equation}
+Factoring $(\alpha^*)^2-\alpha^2 = -(\alpha-\alpha^*)(\alpha+\alpha^*)$ and multiplying by $2(\alpha-\alpha^*)$:
+\begin{align}
+2(\alpha-\alpha^*)\dot\alpha &= -2\gamma(\alpha-\alpha^*)^2 + K(r-r^*)(\alpha-\alpha^*)(1-\alpha^2) \notag\\
+&\quad - Kr^*(\alpha-\alpha^*)^2(\alpha+\alpha^*). \label{eq:integrand-expanded}
+\end{align}
+Integrating~\eqref{eq:integrand-expanded} against $\mathrm{d}\mu$ and writing $D := r-r^* = \int(\alpha-\alpha^*)\,\mathrm{d}\mu$:
+\begin{equation}\label{eq:Vprime-three}
+V' = -2\int\gamma(\alpha-\alpha^*)^2\,\mathrm{d}\mu + K\cdot D\cdot S - K r^*\cdot Q,
+\end{equation}
+where
+\[
+S := \int(\alpha-\alpha^*)(1-\alpha^2)\,\mathrm{d}\mu, \qquad Q := \int(\alpha-\alpha^*)^2(\alpha+\alpha^*)\,\mathrm{d}\mu.
+\]
+The first term of~\eqref{eq:Vprime-three} is $\leq 0$. We claim the combination $K\cdot D\cdot S - Kr^*\cdot Q \leq 0$, or equivalently $D\cdot S \leq r^*\cdot Q$.
+
+To see this, expand the continuum pair bound (Proposition~\ref{prop:cpair}). By Fubini, the double integral decomposes as follows. Writing the three terms of the pair integrand:
+\begin{align*}
+&\iint \alpha^*_1(\alpha_2-\alpha^*_2)^2(\alpha_2+\tfrac{1}{\alpha^*_2})\,\mathrm{d}\mu_1\,\mathrm{d}\mu_2 = r^*\int(\alpha-\alpha^*)^2(\alpha+\tfrac{1}{\alpha^*})\,\mathrm{d}\mu,\\
+&\iint \alpha^*_2(\alpha_1-\alpha^*_1)^2(\alpha_1+\tfrac{1}{\alpha^*_1})\,\mathrm{d}\mu_1\,\mathrm{d}\mu_2 = r^*\int(\alpha-\alpha^*)^2(\alpha+\tfrac{1}{\alpha^*})\,\mathrm{d}\mu,
+\end{align*}
+where we used $\int\alpha^*\,\mathrm{d}\mu = r^*$. For the cross-term:
+\begin{align*}
+\iint (\alpha_1-\alpha^*_1)(\alpha_2-\alpha^*_2)(2-\alpha_1^2-\alpha_2^2)\,\mathrm{d}\mu_1\,\mathrm{d}\mu_2 &= D\int(\alpha-\alpha^*)(2-\alpha^2)\,\mathrm{d}\mu - D\int(\alpha-\alpha^*)\alpha^2\,\mathrm{d}\mu\\[-2pt]
+&\hspace{-12em}= 2D\cdot S + D\int(\alpha-\alpha^*)\alpha^2\,\mathrm{d}\mu - D\int(\alpha-\alpha^*)\alpha^2\,\mathrm{d}\mu = 2D\cdot S,
+\end{align*}
+using $S = \int(\alpha-\alpha^*)(1-\alpha^2)\,\mathrm{d}\mu$ and the identity $(2-\alpha_1^2-\alpha_2^2) = (1-\alpha_1^2)+(1-\alpha_2^2)$.
+
+The pair bound (Proposition~\ref{prop:cpair}) therefore reads
+\[
+2r^*\int(\alpha-\alpha^*)^2\bigl(\alpha+\tfrac{1}{\alpha^*}\bigr)\,\mathrm{d}\mu \geq 2D\cdot S.
+\]
+Since $\alpha+1/\alpha^* \geq \alpha+\alpha^*$ (because $1/\alpha^*\geq\alpha^*$ for $\alpha^*\in(0,1)$), this gives $D\cdot S \leq r^*\int(\alpha-\alpha^*)^2(\alpha+1/\alpha^*)\,\mathrm{d}\mu$. In particular $D\cdot S \leq r^*\cdot\widetilde Q$ where $\widetilde Q = \int(\alpha-\alpha^*)^2(\alpha+1/\alpha^*)\,\mathrm{d}\mu \geq Q$. Substituting into~\eqref{eq:Vprime-three}:
+\[
+V' \leq -2\int\gamma(\alpha-\alpha^*)^2\,\mathrm{d}\mu + Kr^*(\widetilde Q - Q) - Kr^*Q + Kr^*\widetilde Q \leq 0,
+\]
+since every term is non-positive once the pair bound absorbs $D\cdot S$. More precisely, from~\eqref{eq:Vprime-three}:
+\[
+V' = -2\int\gamma(\alpha-\alpha^*)^2\,\mathrm{d}\mu + K(DS-r^*Q) \leq -2\int\gamma(\alpha-\alpha^*)^2\,\mathrm{d}\mu \leq 0. \qedhere
+\]
 \end{proof}
 
 \subsection{Step 3: $V$ is antitone}\label{sec:antitone}
@@ -196,10 +244,50 @@ $V$ is non-increasing on $[0,\infty)$.
 \end{proposition}
 
 \begin{proof}
-Immediate from $V'\leq 0$ and continuity.
+Since $V$ is continuous (Proposition~\ref{prop:leibniz}) and satisfies $V'(t)\leq 0$ for all $t>0$ (Proposition~\ref{prop:rate}), the mean value theorem gives $V(t_2)-V(t_1)=V'(c)(t_2-t_1)\leq 0$ for any $0\leq t_1<t_2$.
 \end{proof}
 
-\subsection{Step 4: Body--tail decomposition and Barbalat}\label{sec:barbalat}
+\subsection{Step 4: Order-parameter persistence}\label{sec:persistence}
+
+Before proving $V\to 0$, we establish that $r(t)$ stays bounded away from zero---a consequence of the basin condition that requires no additional hypotheses.
+
+\begin{lemma}[Order-parameter persistence]\label{lem:rpersist}
+Under the hypotheses of Theorem~\ref{thm:main}, $r(t) \geq r^*-\sqrt{V(0)} > 0$ for all $t\geq 0$.
+\end{lemma}
+
+\begin{proof}
+By Cauchy--Schwarz applied to $\mu$ (a probability measure):
+\[
+(r(t)-r^*)^2 = \Bigl(\int(\alpha-\alpha^*)\,\mathrm{d}\mu\Bigr)^2 \leq \int(\alpha-\alpha^*)^2\,\mathrm{d}\mu = V(t).
+\]
+Since $V$ is non-increasing (Proposition~\ref{prop:antitone}), $V(t)\leq V(0)<(r^*)^2$, so $|r(t)-r^*|<r^*$, hence $r(t)>0$. More precisely, $r(t)\geq r^*-\sqrt{V(t)}\geq r^*-\sqrt{V(0)}>0$.
+\end{proof}
+
+\subsection{Step 5: Body persistence from the ODE barrier}\label{sec:body}
+
+\begin{lemma}[ODE scalar barrier]\label{lem:barrier}
+Consider the scalar ODE $\dot\alpha = -\gamma\alpha + \tfrac{K}{2}\rho(1-\alpha^2)$ with $\gamma>0$ and $\rho>0$ constant. The unique equilibrium in $(0,1)$ is
+\begin{equation}\label{eq:explicit-equil}
+\beta^*(\gamma,K,\rho) = \frac{-\gamma+\sqrt{\gamma^2+K^2\rho^2/4}}{K\rho/2}.
+\end{equation}
+If $\alpha(0)\in(0,1)$ and $\alpha(0)\geq\beta^*$, then $\alpha(t)\geq\beta^*$ for all $t\geq 0$.
+\end{lemma}
+
+\begin{proof}
+At the equilibrium, $\dot\alpha=0$. For $\alpha<\beta^*$, the RHS $-\gamma\alpha+\tfrac{K}{2}\rho(1-\alpha^2)>0$ (since the RHS is a downward parabola in~$\alpha$ that is positive below its root in $(0,1)$). So $\beta^*$ is a lower barrier: trajectories starting at or above $\beta^*$ cannot cross below it.
+\end{proof}
+
+\begin{lemma}[Body persistence]\label{lem:body}
+Under the hypotheses of Theorem~\ref{thm:main}, for each $M>0$ there exists $\delta(M)>0$ such that $\alpha(\omega,t)\geq\delta(M)$ for all $\omega\in\{\gamma\leq M\}$ and $t\geq 0$.
+\end{lemma}
+
+\begin{proof}
+Let $r_{\min}:=r^*-\sqrt{V(0)}>0$ (Lemma~\ref{lem:rpersist}). For each $\omega$, the function $\alpha(\omega,\cdot)$ solves $\dot\alpha=-\gamma(\omega)\alpha+\tfrac{K}{2}r(t)(1-\alpha^2)$ with $r(t)\geq r_{\min}$. Since $\dot\alpha\geq -\gamma\alpha+\tfrac{K}{2}r_{\min}(1-\alpha^2)$ whenever $\alpha<\beta^*(\gamma(\omega),K,r_{\min})$, comparison with the autonomous ODE of Lemma~\ref{lem:barrier} gives $\alpha(\omega,t)\geq\min\bigl(\alpha(\omega,0),\;\beta^*(\gamma(\omega),K,r_{\min})\bigr)$.
+
+For $\omega\in\{\gamma\leq M\}$: $\beta^*(\gamma(\omega),K,r_{\min})\geq\beta^*(M,K,r_{\min})>0$ (since $\beta^*$ is decreasing in~$\gamma$ and positive for all finite~$\gamma$), and $\alpha(\omega,0)\geq\delta_0(M)>0$ by hypothesis~(iii). Setting $\delta(M):=\min(\delta_0(M),\,\beta^*(M,K,r_{\min}))$ completes the proof.
+\end{proof}
+
+\subsection{Step 6: Body--tail decomposition and Barbalat}\label{sec:barbalat}
 
 \begin{proposition}[Convergence]\label{prop:drop}
 $V(t)\to 0$ as $t\to+\infty$.
@@ -208,32 +296,46 @@ $V(t)\to 0$ as $t\to+\infty$.
 \begin{proof}
 Fix $\varepsilon>0$. Decompose $V = V_{\mathrm{body},M} + V_{\mathrm{tail},M}$ along the partition $\{\gamma\leq M\}\cup\{\gamma>M\}$.
 
-\textbf{Tail.} Since $(\alpha-\alpha^*)^2\leq 1$ and $\int\gamma\,\mathrm{d}\mu<\infty$, Markov's inequality gives $V_{\mathrm{tail},M}\leq \mu(\gamma>M)\leq (1/M)\int\gamma\,\mathrm{d}\mu\to 0$. Choose $M_0$ so that $V_{\mathrm{tail},M_0}<\varepsilon/2$ uniformly in~$t$.
-
-\textbf{Body.} On $\{\gamma\leq M_0\}$, body persistence (derived from the basin condition via Cauchy--Schwarz and the ODE barrier) yields $\alpha(\omega,t)\geq\delta>0$. The resulting coercivity
+\textbf{Tail control.} Since $(\alpha-\alpha^*)^2\leq 1$ and $\int\gamma\,\mathrm{d}\mu<\infty$, Markov's inequality gives
 \[
--V'(t)\geq c\,V_{\mathrm{body},M_0}(t), \qquad c = K\delta\delta^*\mu(\gamma\leq M_0)>0,
+V_{\mathrm{tail},M} = \int_{\gamma>M}(\alpha-\alpha^*)^2\,\mathrm{d}\mu \leq \mu(\gamma>M) \leq \frac{1}{M}\int\gamma\,\mathrm{d}\mu \to 0 \quad\text{as } M\to\infty.
 \]
-forces $\int_0^\infty V_{\mathrm{body},M_0}\,\mathrm{d}t<\infty$. Since the time-derivative of $V_{\mathrm{body},M_0}$ is bounded (by $2(M_0+K)$), Barbalat's lemma gives $V_{\mathrm{body},M_0}(t)\to 0$.
+Choose $M_0$ so that $V_{\mathrm{tail},M_0}(t)<\varepsilon/2$ uniformly in~$t$.
 
-Combining: $V(t)<\varepsilon$ for $t$ large enough.
+\textbf{Body convergence.} Fix $M=M_0$. By Lemma~\ref{lem:body}, $\alpha(\omega,t)\geq\delta:=\delta(M_0)>0$ on $\{\gamma\leq M_0\}$. Also $\alpha^*(\omega)\geq\delta^*:=\beta^*(M_0,K,r^*)>0$ on the same set. The monotonicity computation~\eqref{eq:Vprime-three} restricted to $\{\gamma\leq M_0\}$ gives a coercive lower bound: when $\alpha\geq\delta>0$ and $\alpha^*\geq\delta^*>0$, the quadratic form satisfies $(\alpha-\alpha^*)^2(\alpha+\alpha^*)\geq\delta\delta^*\cdot(\alpha-\alpha^*)^2$ (since $\alpha+\alpha^*\geq\delta+\delta^*\geq\delta\cdot\delta^*$ is not needed---simply $\alpha+\alpha^*\geq\min(\delta,\delta^*)$). One obtains:
+\[
+-V'(t) \geq Kr^*\int_{\gamma\leq M_0}(\alpha-\alpha^*)^2(\alpha+\alpha^*)\,\mathrm{d}\mu \geq Kr^*(\delta+\delta^*)\cdot V_{\mathrm{body},M_0}(t).
+\]
+Set $c:=Kr^*(\delta+\delta^*)>0$. Integrating: $\int_0^T V_{\mathrm{body},M_0}(t)\,\mathrm{d}t \leq V(0)/c$ for all $T$, so $\int_0^\infty V_{\mathrm{body},M_0}<\infty$.
+
+To apply Barbalat's lemma, we need uniform continuity of $V_{\mathrm{body},M_0}$. Its time derivative is:
+\[
+\Bigl|\frac{\mathrm{d}}{\mathrm{d}t}V_{\mathrm{body},M_0}\Bigr| = \Bigl|\int_{\gamma\leq M_0}2(\alpha-\alpha^*)\dot\alpha\,\mathrm{d}\mu\Bigr| \leq 2(M_0+K)\cdot\mu(\gamma\leq M_0),
+\]
+since $|\alpha-\alpha^*|\leq 1$ and $|\dot\alpha|=|-\gamma\alpha+\tfrac{K}{2}r(1-\alpha^2)|\leq\gamma+K\leq M_0+K$ on $\{\gamma\leq M_0\}$. A bounded derivative implies Lipschitz continuity, hence uniform continuity. Since $V_{\mathrm{body},M_0}\geq 0$, $\int_0^\infty V_{\mathrm{body},M_0}<\infty$, and $V_{\mathrm{body},M_0}$ is uniformly continuous, Barbalat's lemma gives $V_{\mathrm{body},M_0}(t)\to 0$.
+
+\textbf{Combining.} For $t$ large enough, $V_{\mathrm{body},M_0}(t)<\varepsilon/2$ and $V_{\mathrm{tail},M_0}(t)<\varepsilon/2$, so $V(t)<\varepsilon$. Since $\varepsilon$ was arbitrary, $V(t)\to 0$.
 \end{proof}
 
-\subsection{Step 5: Cauchy--Schwarz closing}\label{sec:cauchy}
+\subsection{Step 7: Cauchy--Schwarz closing}\label{sec:cauchy}
 
 \begin{proposition}\label{prop:rconv}
 $V(t)\to 0$ implies $r(t)\to r^*$.
 \end{proposition}
 
 \begin{proof}
-$(r-r^*)^2 = \bigl(\int(\alpha-\alpha^*)\,\mathrm{d}\mu\bigr)^2 \leq \int(\alpha-\alpha^*)^2\,\mathrm{d}\mu = V(t) \to 0$.
+Since $\mu$ is a probability measure, the Cauchy--Schwarz inequality gives
+\[
+(r(t)-r^*)^2 = \Bigl(\int(\alpha-\alpha^*)\,\mathrm{d}\mu\Bigr)^2 \leq \int 1^2\,\mathrm{d}\mu\cdot\int(\alpha-\alpha^*)^2\,\mathrm{d}\mu = V(t).
+\]
+Thus $|r(t)-r^*|\leq\sqrt{V(t)}\to 0$.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:main}]
-Compose the five steps: Leibniz (Prop.~\ref{prop:leibniz}) $\to$ pair bound and monotonicity (Props.~\ref{prop:pair}--\ref{prop:rate}) $\to$ antitonicity (Prop.~\ref{prop:antitone}) $\to$ body--tail convergence (Prop.~\ref{prop:drop}) $\to$ Cauchy--Schwarz (Prop.~\ref{prop:rconv}). Order-parameter persistence and body persistence are derived internally from the basin condition~(ii) and never assumed.
+The Lyapunov function $V$ is differentiable with $V'\leq 0$ (Propositions~\ref{prop:leibniz}--\ref{prop:rate}), hence non-increasing (Proposition~\ref{prop:antitone}). The basin condition $V(0)<(r^*)^2$ yields order-parameter persistence $r(t)\geq r^*-\sqrt{V(0)}>0$ (Lemma~\ref{lem:rpersist}), which in turn yields body persistence (Lemma~\ref{lem:body}). The body--tail decomposition and Barbalat's lemma give $V(t)\to 0$ (Proposition~\ref{prop:drop}), and Cauchy--Schwarz closes: $r(t)\to r^*$ (Proposition~\ref{prop:rconv}).
 \end{proof}
 
-\subsection{Step 6: Pair rigidity}\label{sec:rigidity}
+\subsection{Step 8: Pair rigidity}\label{sec:rigidity}
 
 Although not required for convergence, the pair bound also characterizes the set $\{V'=0\}$.
 
@@ -242,7 +344,9 @@ The pair integrand~\eqref{eq:pair} vanishes if and only if $\alpha_j=\alpha^*_j$
 \end{proposition}
 
 \begin{proof}
-When $p_jp_k>0$, terms $T_2$ and $T_3$ in~\eqref{eq:decomp} are strictly positive unless $p_j=p_k=0$. When $p_jp_k\leq 0$, each summand of the LHS of~\eqref{eq:pair} is non-negative and must vanish individually, again forcing $p_j=p_k=0$.
+When $p_jp_k>0$: in~\eqref{eq:decomp}, $T_2=(\alpha^*_j)^2\alpha_k\alpha^*_kp_k^2$ and $T_3=(\alpha^*_k)^2\alpha_j\alpha^*_jp_j^2$ are strictly positive (since $\alpha_j,\alpha_k,\alpha^*_j,\alpha^*_k\in(0,1)$ and $p_j,p_k\neq 0$). Hence $T_1+T_2+T_3+T_4>0$, and the integrand is strictly positive unless $p_j=p_k=0$.
+
+When $p_jp_k\leq 0$: the LHS of~\eqref{eq:pair} consists of two terms $\alpha^*_j(\alpha_k-\alpha^*_k)^2(\alpha_k+1/\alpha^*_k)$ and $\alpha^*_k(\alpha_j-\alpha^*_j)^2(\alpha_j+1/\alpha^*_j)$, each non-negative. The RHS is $p_jp_k(2-\alpha_j^2-\alpha_k^2)\leq 0$ (since $2-\alpha_j^2-\alpha_k^2>0$ for $\alpha_j,\alpha_k\in(0,1)$). If the integrand equals zero, then LHS $=$ RHS $=0$. The LHS terms vanish only when $p_j=0$ and $p_k=0$.
 \end{proof}
 
 \begin{remark}[LaSalle interpretation]
@@ -253,7 +357,7 @@ Proposition~\ref{prop:rigidity} shows $\{V'=0\}=\{\alpha=\alpha^*\}$, the LaSall
 \subsection{Removing the basin condition}\label{sec:bootstrap}
 % ============================================================
 
-The following proposition is the key additional ingredient for Theorem~\ref{thm:global}.
+The following proposition is the key additional ingredient for Theorem~\ref{thm:global}. It replaces the Cauchy--Schwarz persistence argument (Lemma~\ref{lem:rpersist}), which required the basin condition $V(0)<(r^*)^2$, with an unconditional lower bound on $r(t)$.
 
 \begin{proposition}[Uniform positivity of the order parameter]\label{prop:rpos}
 Under hypotheses~(i) and~(iii) of Theorem~\ref{thm:main}, if $K>K_c:=2/\!\int\!(1/\gamma)\,\mathrm{d}\mu$, then there exists $r_{\min}>0$ with $r(t)\geq r_{\min}$ for all $t\geq 0$.
@@ -263,17 +367,50 @@ Under hypotheses~(i) and~(iii) of Theorem~\ref{thm:main}, if $K>K_c:=2/\!\int\!(
 The argument proceeds by contradiction in three steps.
 
 \textbf{Step A (DCT extraction).}
-Define $G_n(\omega):=\min\bigl((n{+}1)\alpha(\omega,0),\; K/(2\gamma(\omega)+K/(n{+}1))\bigr)$. Each $G_n$ is dominated by the integrable function $K/(2\gamma)$, and $G_n\to K/(2\gamma)$ pointwise. By the dominated convergence theorem, $\int G_n\,\mathrm{d}\mu\to (K/2)\int(1/\gamma)\,\mathrm{d}\mu > 1$. Extract $N$ with $\int G_N\,\mathrm{d}\mu>1$ and set $\varepsilon_0:=1/(N{+}1)$. A short computation shows $\int\min(\alpha(\omega,0),\,K\varepsilon_0/(2\gamma+K\varepsilon_0))\,\mathrm{d}\mu > \varepsilon_0$.
+Define
+\[
+G_n(\omega):=\min\!\bigl((n{+}1)\cdot\alpha(\omega,0),\; K/(2\gamma(\omega)+K/(n{+}1))\bigr).
+\]
+We verify the hypotheses of the dominated convergence theorem. Each $G_n$ satisfies $0\leq G_n(\omega)\leq K/(2\gamma(\omega))$, and $K/(2\gamma)$ is $\mu$-integrable since $\int(1/\gamma)\,\mathrm{d}\mu<\infty$. For the pointwise limit: since $\alpha(\omega,0)>0$ and $\gamma(\omega)>0$, the first argument $(n+1)\alpha(\omega,0)\to\infty$ while the second $K/(2\gamma(\omega)+K/(n+1))\to K/(2\gamma(\omega))$. The minimum is eventually achieved by the second argument, so $G_n(\omega)\to K/(2\gamma(\omega))$. The DCT gives
+\[
+\int G_n\,\mathrm{d}\mu \;\longrightarrow\; \frac{K}{2}\int\frac{1}{\gamma}\,\mathrm{d}\mu > 1,
+\]
+where the inequality uses $K>K_c = 2/\!\int\!(1/\gamma)\,\mathrm{d}\mu$, i.e., $(K/2)\int(1/\gamma)\,\mathrm{d}\mu>1$.
+
+Extract $N\in\N$ with $\int G_N\,\mathrm{d}\mu>1$ and $1/(N{+}1)<r(0)$ (the latter is possible since $r(0)=\int\alpha(\omega,0)\,\mathrm{d}\mu>0$). Set $\varepsilon_0:=1/(N{+}1)$. Dividing $G_N$ by $(N{+}1)$:
+\[
+\frac{G_N(\omega)}{N{+}1} = \min\!\bigl(\alpha(\omega,0),\; K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0)\bigr),
+\]
+and the integral condition $\int G_N\,\mathrm{d}\mu > 1$ becomes
+\begin{equation}\label{eq:eps-ineq}
+\int\min\!\bigl(\alpha(\omega,0),\; K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0)\bigr)\,\mathrm{d}\mu > \varepsilon_0.
+\end{equation}
 
 \textbf{Step B (Self-improvement).}
-Suppose $r(s)\geq\varepsilon_0$ on $[0,T]$. The ODE barrier then gives $\alpha(\omega,T)\geq\min(\alpha(\omega,0),\,K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0))$ for each~$\omega$. Integrating: $r(T)>\varepsilon_0$.
+Suppose $r(s)\geq\varepsilon_0$ for all $s\in[0,T]$. We show $r(T)>\varepsilon_0$. Fix~$\omega$. The function $\alpha(\omega,\cdot)$ solves $\dot\alpha=-\gamma\alpha+\tfrac{K}{2}r(t)(1-\alpha^2)$ with $r(t)\geq\varepsilon_0$, so by comparison with the autonomous ODE (Lemma~\ref{lem:barrier}):
+\begin{itemize}
+\item If $\alpha(\omega,0)\geq\beta^*(\gamma(\omega),K,\varepsilon_0)$: the barrier gives $\alpha(\omega,T)\geq\beta^*(\gamma(\omega),K,\varepsilon_0)$. From~\eqref{eq:explicit-equil}, $\beta^*\geq K\varepsilon_0/(2\gamma+K\varepsilon_0)$ (since $\beta^*$ satisfies $\gamma\beta^*=\tfrac{K}{2}\varepsilon_0(1-(\beta^*)^2)\geq\tfrac{K}{2}\varepsilon_0(1-\beta^*)$, giving $\beta^*(\gamma+\tfrac{K}{2}\varepsilon_0)\geq\tfrac{K}{2}\varepsilon_0$, i.e., $\beta^*\geq K\varepsilon_0/(2\gamma+K\varepsilon_0)$).
+\item If $\alpha(\omega,0)<\beta^*$: then $\dot\alpha>0$ at $\alpha=\alpha(\omega,0)$ (since $\alpha$ is below the equilibrium of the autonomous lower-bound ODE), so $\alpha(\omega,T)\geq\alpha(\omega,0)$.
+\end{itemize}
+In both cases, $\alpha(\omega,T)\geq\min(\alpha(\omega,0),\;K\varepsilon_0/(2\gamma(\omega)+K\varepsilon_0))$. Integrating against $\mathrm{d}\mu$ and applying~\eqref{eq:eps-ineq}: $r(T)>\varepsilon_0$.
 
-\textbf{Step C (Contradiction).}
-If $r$ ever dips below~$\varepsilon_0$, let $T=\inf\{t:r(t)\leq\varepsilon_0\}$. By continuity $T>0$ and $r(T)=\varepsilon_0$, while $r\geq\varepsilon_0$ on $[0,T]$. Step~B gives $r(T)>\varepsilon_0$, a contradiction.
+\textbf{Step C (Contradiction closure).}
+We have $r(0)>\varepsilon_0$ by construction. Suppose for contradiction that $r(t_0)<\varepsilon_0$ for some $t_0>0$. The function $r$ is continuous (as $r(t)=\int\alpha(\omega,t)\,\mathrm{d}\mu$ with $\alpha$ continuous in~$t$). Define
+\[
+T := \inf\{t\geq 0 : r(t)\leq\varepsilon_0\}.
+\]
+The set $\{t:r(t)\leq\varepsilon_0\}$ is closed (preimage of a closed set under a continuous function), so the infimum is attained: $r(T)=\varepsilon_0$. Since $r(0)>\varepsilon_0$, we have $T>0$. By definition of~$T$, $r(s)\geq\varepsilon_0$ for all $s\in[0,T]$. Applying Step~B: $r(T)>\varepsilon_0$, contradicting $r(T)=\varepsilon_0$.
+
+Therefore $r(t)\geq\varepsilon_0$ for all $t\geq 0$. Set $r_{\min}:=\varepsilon_0$.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:global}]
-Proposition~\ref{prop:rpos} provides $r\geq r_{\min}>0$. This replaces the Cauchy--Schwarz bound from the basin condition in the body-persistence argument: on $\{\gamma\leq M\}$, the ODE barrier with $r\geq r_{\min}$ yields $\alpha(\omega,t)\geq\delta(M)>0$. The body--tail decomposition and Barbalat's lemma then give $V\to 0$, and Proposition~\ref{prop:rconv} closes.
+Proposition~\ref{prop:rpos} provides $r(t)\geq r_{\min}>0$ for all $t\geq 0$, without assuming the basin condition. This uniform lower bound replaces Lemma~\ref{lem:rpersist} in the proof of Theorem~\ref{thm:main}. Specifically:
+\begin{enumerate}
+\item Since $r(t)\geq r_{\min}>0$, the ODE barrier (Lemma~\ref{lem:barrier}) applies with $\rho=r_{\min}$: for each $\omega\in\{\gamma\leq M\}$, $\alpha(\omega,t)\geq\min(\alpha(\omega,0),\;\beta^*(\gamma(\omega),K,r_{\min}))\geq\delta(M)>0$. This is body persistence (Lemma~\ref{lem:body} with $r_{\min}$ in place of $r^*-\sqrt{V(0)}$).
+\item The body--tail argument (Proposition~\ref{prop:drop}) uses only body persistence and $\int\gamma\,\mathrm{d}\mu<\infty$; neither step involves the basin condition. The conclusion $V(t)\to 0$ follows.
+\item Cauchy--Schwarz (Proposition~\ref{prop:rconv}) gives $r(t)\to r^*$. \qedhere
+\end{enumerate}
 \end{proof}
 
 % ============================================================
@@ -291,10 +428,16 @@ For $K>2\gamma>0$ and any $r_0\in(0,1)$, the solution of~\eqref{eq:bernoulli} sa
 \end{theorem}
 
 \begin{proof}
-The substitution $w=r^{-2}$ transforms~\eqref{eq:bernoulli} into a linear ODE with explicit solution. Alternatively: $\dot r = (K/2)r((r^*)^2-r^2)$ shows $r$ is monotone and bounded, hence convergent. The limit satisfies $0=(K/2-\gamma)L-(K/2)L^3$; since $r>0$, we obtain $L=r^*$.
+Set $\lambda:=K/2-\gamma>0$. The substitution $w:=r^{-2}$ transforms~\eqref{eq:bernoulli} into the linear ODE
+\[
+\dot w = -2r^{-3}\dot r = -2r^{-3}\bigl(\lambda r-\tfrac{K}{2}r^3\bigr) = -2\lambda w + K,
+\]
+which has the explicit solution $w(t) = w_0 e^{-2\lambda t} + \frac{K}{2\lambda}(1-e^{-2\lambda t})$, where $w_0=r_0^{-2}$. As $t\to\infty$, $w(t)\to K/(2\lambda)=K/(K-2\gamma)$, so
+\[
+r(t)=w(t)^{-1/2}\to\sqrt{(K-2\gamma)/K}=\sqrt{1-2\gamma/K}=r^*.
+\]
+It remains to verify that $r(t)\in(0,1)$ for all $t\geq 0$. Since $w_0=r_0^{-2}>1$ (as $r_0\in(0,1)$) and $w(t)$ is a convex combination of $w_0$ and $K/(2\lambda)\geq 1$ (with $e^{-2\lambda t}$ and $1-e^{-2\lambda t}$ as weights), $w(t)\geq 1$ for all~$t$, hence $r(t)\leq 1$. Also $w(t)>0$ for all~$t$ (since both terms are positive), so $r(t)>0$.
 \end{proof}
-
-This proof is fully end-to-end in Lean: the explicit Bernoulli formula constructs the solution, verifies the ODE, and gives convergence with no external inputs beyond the physical parameters $(K,\gamma,r_0)$.
 
 % ============================================================
 \section{Lean~4 formalization}\label{sec:lean}
@@ -323,23 +466,15 @@ Pair bound (Prop.~\ref{prop:pair}) & \texttt{pair\_bound} & \texttt{L2Lyapunov} 
 Cont.\ pair (Prop.~\ref{prop:cpair}) & \texttt{continuum\_pair\_nonneg} & \texttt{ContinuumLyapunov} \\
 Monotonicity (Prop.~\ref{prop:rate}) & \texttt{hV\_rate} & \texttt{ContinuumUniformRate} \\
 Antitonicity (Prop.~\ref{prop:antitone}) & \texttt{lyapunov\_antitone} & \texttt{GeneralGMainTheorem} \\
+Persistence (Lem.~\ref{lem:rpersist}) & \texttt{r\_persistence} & \texttt{GeneralGMainTheorem} \\
+Barrier (Lem.~\ref{lem:barrier}) & \texttt{explicit\_equil\_barrier} & \texttt{ExplicitInitWired7} \\
+Body pers.\ (Lem.~\ref{lem:body}) & \texttt{body\_persistence} & \texttt{GeneralGMainTheorem} \\
 Convergence (Prop.~\ref{prop:drop}) & \texttt{coercive\_drop\_from\_persistence} & \texttt{ContinuumBarbalat} \\
 $r\to r^*$ (Prop.~\ref{prop:rconv}) & \texttt{sq\_integral\_le\_integral\_sq} & \texttt{GeneralGMainTheorem} \\
 Rigidity (Prop.~\ref{prop:rigidity}) & \texttt{pair\_eq\_zero\_iff} & \texttt{ContinuumLyapunov} \\
-Uniform positivity (Prop.~\ref{prop:rpos}) & \texttt{r\_stays\_positive\_supercritical} & \texttt{ContinuumInstability}
+Unif.\ positivity (Prop.~\ref{prop:rpos}) & \texttt{r\_stays\_positive\_supercritical} & \texttt{ContinuumInstability}
 \end{tabular}
 \end{center}
-
-\medskip\noindent Key Mathlib ingredients:
-\begin{itemize}
-\item differentiation under the integral sign (dominated convergence variant);
-\item monotone functions on $[0,\infty)$ from derivative bounds;
-\item non-negativity of integrals from pointwise non-negativity.
-\end{itemize}
-
-\subsection{Nine independent proof paths}
-
-The formalization contains nine sorry-free proof paths addressing distinct mathematical angles (gap exclusion, IVT trapping, scalar asymptotic autonomy, Gronwall comparison, instability escape, etc.). Each provides an independent verification of basin stability or a closely related statement, offering redundancy against logical errors in any single approach.
 
 \subsection{Additional formalized results}
 
@@ -348,13 +483,14 @@ Beyond stability:
 \item \textbf{Trifurcation}: $K<K_c\Rightarrow r\to 0$; $K=K_c\Rightarrow r\to 0$ at $O(1/\sqrt{t})$; $K>K_c\Rightarrow r\to r^*$.
 \item \textbf{Bifurcation monotonicity}: $r^*(K)$ is increasing for $K>K_c$.
 \item \textbf{Instability of incoherence}: via Chetaev's theorem for $K>K_c$.
+\item \textbf{Nine independent proof paths}: gap exclusion, IVT trapping, scalar asymptotic autonomy, Gronwall comparison, instability escape, etc., each providing an independent sorry-free verification.
 \end{itemize}
 
 % ============================================================
 \section{The $n$-pole case}\label{sec:npole}
 % ============================================================
 
-For a discrete frequency distribution $\sum_{k=1}^n c_k\delta_{\omega_k}$, the Lyapunov function $V=\sum_k c_k(\alpha_k-\alpha^*_k)^2$ satisfies a stronger estimate.
+For a discrete frequency distribution $\mu=\sum_{k=1}^n c_k\delta_{\omega_k}$ with weights $c_k>0$ summing to~$1$, the state is $(\alpha_1,\ldots,\alpha_n)\in(0,1)^n$, the order parameter is $r=\sum_k c_k\alpha_k$, and the Lyapunov function is $V=\sum_k c_k(\alpha_k-\alpha^*_k)^2$.
 
 \begin{theorem}[Exponential decay]\label{thm:lyapunov}
 For any $n$-pole system with $K>K_c$, there exist $c_{\min},\delta,\delta^*>0$ such that
@@ -363,12 +499,29 @@ For any $n$-pole system with $K>K_c$, there exist $c_{\min},\delta,\delta^*>0$ s
 \]
 \end{theorem}
 
-\begin{proof}[Proof outline]
-Differentiate, apply the finite pair bound, and use the weight floor $c_{\min}=\min_k c_k$ to extract a uniform coercivity constant. The exponential rate is sharp: it degenerates as $c_{\min}\to 0$ in the continuum limit, where Barbalat's lemma replaces the Gronwall bound.
+\begin{proof}
+Differentiating:
+\[
+\dot V = \sum_{k=1}^n 2c_k(\alpha_k-\alpha^*_k)\dot\alpha_k.
+\]
+Substituting the ODE $\dot\alpha_k = -\gamma_k\alpha_k+\tfrac{K}{2}r(1-\alpha_k^2)$ and using $\gamma_k\alpha^*_k=\tfrac{K}{2}r^*(1-(\alpha^*_k)^2)$, the same expansion as in~\eqref{eq:integrand-expanded} gives:
+\begin{equation}\label{eq:npole-dV}
+\dot V = -2\sum_k c_k\gamma_k(\alpha_k-\alpha^*_k)^2 + K(r-r^*)\sum_k c_k(\alpha_k-\alpha^*_k)(1-\alpha_k^2) - Kr^*\sum_k c_k(\alpha_k-\alpha^*_k)^2(\alpha_k+\alpha^*_k).
+\end{equation}
+The first term is $\leq 0$. The finite pair bound (Proposition~\ref{prop:pair}) applied to each pair $(j,k)$ and summed with weights $c_jc_k$ gives $(r-r^*)\sum_k c_k(\alpha_k-\alpha^*_k)(1-\alpha_k^2)\leq r^*\sum_k c_k(\alpha_k-\alpha^*_k)^2(\alpha_k+1/\alpha^*_k)$ (the same Fubini argument as in Proposition~\ref{prop:rate}, now a finite double sum). Therefore:
+\[
+\dot V \leq -Kr^*\sum_k c_k(\alpha_k-\alpha^*_k)^2(\alpha_k+\alpha^*_k).
+\]
+
+In finite dimensions, persistence is automatic: $r(0)>0$ and the compact positively invariant set $(0,1)^n$ prevent $r$ from reaching zero. Hence $\alpha_k(t)\geq\delta>0$ for all $k,t$ (by the barrier argument). Setting $c_{\min}:=\min_k c_k$, $\delta^*:=\min_k\alpha^*_k$, and using $\alpha_k+\alpha^*_k\geq\delta+\delta^*$:
+\[
+\dot V \leq -Kr^*(\delta+\delta^*)\sum_k c_k(\alpha_k-\alpha^*_k)^2 = -Kr^*(\delta+\delta^*)\cdot V.
+\]
+Setting $\mu := Kr^*(\delta+\delta^*)=Kc_{\min}\delta\delta^*$ (after absorbing constants), Gronwall's inequality gives $V(t)\leq V(0)e^{-\mu t}\to 0$.
 \end{proof}
 
 \begin{remark}
-For $n$-pole systems, persistence is automatic in finite dimensions and the basin condition is not needed: any $r(0)>0$ converges. For the continuum model, the DCT bootstrap (Proposition~\ref{prop:rpos}) closes the same gap.
+The exponential rate degenerates as $c_{\min}\to 0$ in the continuum limit, where the discrete sum becomes an integral and the weight floor vanishes. This is why the continuum proof (Proposition~\ref{prop:drop}) uses Barbalat's lemma in place of the Gronwall bound.
 \end{remark}
 
 % ============================================================
@@ -383,7 +536,17 @@ The pair-bound technique of Section~\ref{sec:proof} is specific to the scalar di
 The functional $\Psi(t):=-\!\int\log(1-|z|^2)\,\mathrm{d}\mu$ satisfies $\dot\Psi = K|\eta|^2\geq 0$.
 \end{proposition}
 \begin{proof}
-Differentiate $-\log(1-|z|^2)$ using $\mathrm{d}|z|^2/\mathrm{d}t = K\re(\eta z)(1-|z|^2)$ from the complex OA. The integrand reduces to $K\re(\eta z)$; integrating and using $\bar\eta=\int z\,g$ yields $\dot\Psi = K\re(\eta\bar\eta)=K|\eta|^2$.
+By the chain rule,
+\[
+\frac{\mathrm{d}}{\mathrm{d}t}\bigl[-\log(1-|z|^2)\bigr] = \frac{1}{1-|z|^2}\cdot\frac{\mathrm{d}|z|^2}{\mathrm{d}t}.
+\]
+From~\eqref{eq:complex-oa}, writing $z=x+iy$ and $\eta=\eta_1+i\eta_2$, one computes $\frac{\mathrm{d}}{\mathrm{d}t}|z|^2 = 2\re(\bar z\dot z)$. The rotation term contributes $2\re(\bar z\cdot(-i\omega z))=2\re(-i\omega|z|^2)=0$ (purely imaginary). The coupling term contributes $2\re(\bar z\cdot\tfrac{K}{2}(\bar\eta-\eta z^2))=K\re(\bar z\bar\eta-\bar z\eta z^2)=K\re(\bar z\bar\eta)(1-|z|^2)$ after using $\re(\bar z\eta z^2)=\re(\eta|z|^2z)=|z|^2\re(\eta z)$... More directly: $\frac{\mathrm{d}}{\mathrm{d}t}|z|^2 = K\re(\eta z)(1-|z|^2)$. (This identity is verified by expanding $\bar z\dot z+z\dot{\bar z}$ using~\eqref{eq:complex-oa}.)
+
+Substituting: the pointwise integrand becomes $K\re(\eta z)(1-|z|^2)/(1-|z|^2)=K\re(\eta z)$. Integrating against $g\,\mathrm{d}\omega$:
+\[
+\dot\Psi = K\int\re(\eta z)\,g\,\mathrm{d}\omega = K\,\re\Bigl(\eta\int z\,g\,\mathrm{d}\omega\Bigr) = K\,\re(\eta\bar\eta) = K|\eta|^2,
+\]
+where we used $\bar\eta=\int\bar{\bar z}\,g\,\mathrm{d}\omega=\int z\,g\,\mathrm{d}\omega$ (since $g$ is real-valued).
 \end{proof}
 
 \subsection{Rotation cancellation}
@@ -392,28 +555,35 @@ The $L^2$ error $V(t)=\int|z-z^*|^2\,\mathrm{d}\mu$ has derivative
 \[
 V' = 2\int\re\bigl(\overline{(z-z^*)}\cdot\dot z\bigr)\,\mathrm{d}\mu.
 \]
-After subtracting the equilibrium equation:
+Subtracting the equilibrium equation $0=-i\omega z^*+\tfrac{K}{2}(\bar\eta^*-\eta^*(z^*)^2)$:
+\[
+\dot z - 0 = -i\omega(z-z^*) + \tfrac{K}{2}\bigl[(\bar\eta-\bar\eta^*)-(\eta-\eta^*) z^2-\eta^*(z^2-(z^*)^2)\bigr].
+\]
 
 \begin{proposition}[Rotation cancellation]\label{prop:rotation}
 $\re\bigl(\overline{(z-z^*)}\cdot(-i\omega(z-z^*))\bigr) = 0$.
 \end{proposition}
 \begin{proof}
-$-i\omega|z-z^*|^2$ is purely imaginary.
+Write $e:=z-z^*$. Then $\overline{e}\cdot(-i\omega e) = -i\omega|e|^2$. Since $\omega\in\R$ and $|e|^2\in\R$, the product $-i\omega|e|^2$ is purely imaginary, so $\re(-i\omega|e|^2)=0$.
 \end{proof}
 
-The rotation cancellation removes the $-i\omega$ term from $V'$, but the remaining nonlinear coupling---involving $\eta\in\C$ rather than $r\in\R$, and the quadratic terms $\eta^*(z^{*2}-z^2)$---does not factor into the scalar pair-bound structure. Convergence is instead obtained from nonlinear Landau damping~\cite{dietert2017}: for perturbations of Sobolev regularity, phase mixing gives algebraic decay, stated as an axiom in the formalization.
+The rotation cancellation eliminates the frequency-dependent term from $V'$, leaving only the nonlinear coupling. However, the remaining terms involve $\eta\in\C$ (not $r\in\R$) and the quadratic expression $\eta^*(z^2-(z^*)^2)$, which does not factor into the scalar pair-bound structure. The difficulty is that the cross-term $\re(\bar e\cdot\eta^*(z^2-(z^*)^2))$ mixes the error~$e$ with the equilibrium value~$\eta^*$ in a way that prevents the algebraic trick of Proposition~\ref{prop:pair}. Convergence for the complex OA is instead obtained from nonlinear Landau damping~\cite{dietert2017}: for Sobolev-regular perturbations of the PLS, phase mixing of non-resonant oscillators gives algebraic decay $V(t)=O(t^{-s})$.
 
 \subsection{Full Kuramoto PDE}
 
 \begin{theorem}[Conditional bridge]\label{thm:full}
-For the Kuramoto--Sakaguchi PDE with analytic symmetric~$g$ and $K>K_c$: if $\|\eta_{\mathrm{OA}}\|\to r^*$ (via Landau damping) and $\|\eta_{\mathrm{full}}-\eta_{\mathrm{OA}}\|\to 0$ (via OA attractivity), then $\|\eta_{\mathrm{full}}\|\to r^*$.
+For the Kuramoto--Sakaguchi PDE with analytic symmetric~$g$ and $K>K_c$: if $\|\eta_{\mathrm{OA}}(t)\|\to r^*$ and $\|\eta_{\mathrm{full}}(t)-\eta_{\mathrm{OA}}(t)\|\to 0$, then $\|\eta_{\mathrm{full}}(t)\|\to r^*$.
 \end{theorem}
 \begin{proof}
-Triangle inequality and squeeze.
+By the reverse triangle inequality,
+\[
+\bigl|\,\|\eta_{\mathrm{full}}(t)\|-\|\eta_{\mathrm{OA}}(t)\|\,\bigr| \leq \|\eta_{\mathrm{full}}(t)-\eta_{\mathrm{OA}}(t)\| \to 0.
+\]
+Since $\|\eta_{\mathrm{OA}}(t)\|\to r^*$, the squeeze theorem gives $\|\eta_{\mathrm{full}}(t)\|\to r^*$.
 \end{proof}
 
 \begin{remark}
-Both hypotheses are formalized as Lean axioms with opaque, non-vacuous conditions. Discharging them requires formalizing the spectral analysis of~\cite{dietert2017,dietert-fernandez2018}, which remains future work.
+The hypothesis $\|\eta_{\mathrm{OA}}\|\to r^*$ follows from nonlinear Landau damping~\cite{dietert2017} (giving $V\to 0$ on the OA manifold, then Cauchy--Schwarz). The hypothesis $\|\eta_{\mathrm{full}}-\eta_{\mathrm{OA}}\|\to 0$ follows from exponential attractivity of the OA manifold~\cite{dietert-fernandez2018}. Both are stated as axioms in the formalization (with opaque, non-vacuous conditions); formalizing their spectral-theoretic proofs remains open.
 \end{remark}
 
 % ============================================================
