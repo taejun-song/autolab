@@ -2,7 +2,7 @@
 type: synthesis
 title: "LEAN Proof Status: Kuramoto Global Stability"
 created: 2026-04-26
-updated: 2026-05-05
+updated: 2026-05-18
 sources:
   - "[[kuramoto-stability-problem]]"
   - "[[dietert-2016-stability-bifurcation]]"
@@ -17,7 +17,7 @@ aliases:
 
 # LEAN Proof Status: Kuramoto Global Stability
 
-Machine-checked proof status: **0 sorry, 0 axioms** across 145 files. New: `tail_body_iss_convergence` (ContinuumTailBodyConvergence.lean) — corrected ISS convergence with general absorbing radius $C(M)$, fixing the unsatisfiable $C \leq \mu(\text{tail})$ condition in prior theorems.
+Machine-checked proof status: **0 sorry, 0 axioms** across 260 files. New: `tail_body_iss_convergence` (ContinuumTailBodyConvergence.lean) — corrected ISS convergence with general absorbing radius $C(M)$, fixing the unsatisfiable $C \leq \mu(\text{tail})$ condition in prior theorems.
 
 ## Main Theorem (MainTheorem.lean)
 
@@ -138,8 +138,8 @@ See [[h-approx-equivalence]] for full analysis.
 | Sorry count | **0** |
 | Axiom declarations | **0** |
 | Axioms eliminated total | **31** (30 prior + rational_approximation_rate) |
-| Total .lean files | **133** |
-| Comprehensive build | **3486 build jobs** |
+| Total .lean files | **260** |
+| Comprehensive build | **8331 build jobs** |
 | LorentzianSolution assumed fields | **0** (both constructors fully proved) |
 
 ### Axiom Inventory

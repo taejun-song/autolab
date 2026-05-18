@@ -2,7 +2,7 @@
 type: synthesis
 title: "Continuum Stability Debate: Final Synthesis"
 created: 2026-05-05
-updated: 2026-05-08
+updated: 2026-05-18
 status: v9-no-hα_neg
 experiment: 308
 sources:
@@ -82,7 +82,7 @@ The remaining structural hypotheses (V antitone, body drop) are derivable from t
 | Self-consistency $r = \int \alpha \cdot g\,d\omega$ | Structural | Built into OA | OK |
 | $\alpha(t) \in (0,1)$ for a.e. $\omega$ | Needed for Lyapunov | Yes for $t > 0$ (instantaneous entry) | OK |
 | $V_\infty$ antitone ($dV/dt \leq 0$) | Core Lyapunov | **Proved** (pair bound, 0 sorry) | OK |
-| $V_\infty(t) \to 0$ | The hard content | **Open** | GAP |
+| $V_\infty(t) \to 0$ | The hard content | **Proved for real scalar** (body-tail + Barbalat, 0 sorry). Open for complex OA. | GAP (complex OA only) |
 | h_approx | Tautological (↔ $V \to 0$) | Equivalent to goal | NOT USEFUL |
 | Precompactness of $\{\alpha(\cdot,t)\}$ in $L^2(g)$ | Sufficient for LaSalle | **Likely false** (√-singularity at $|\omega|=Kr^*$) | BLOCKED |
 | Uniform persistence $\delta_S > 0$ on compacts | Needed for ISS | Nontrivial spectral-gap claim | UNPROVED |
@@ -91,7 +91,7 @@ The remaining structural hypotheses (V antitone, body drop) are derivable from t
 
 ### The single open problem
 
-Prove $V_\infty(t) \to 0$ for the OA flow with $\gamma(\omega) = |\omega|$ and $g \in L^1(\mathbb{R})$.
+Prove $V_\infty(t) \to 0$ for the **complex OA** flow with $\gamma(\omega) = |\omega|$ and $g \in L^1(\mathbb{R})$. (The real scalar dissipative model has $V \to 0$ fully proved via body-tail split + Barbalat in `ContinuumBarbalat.lean`, 0 sorry, 0 axioms.)
 
 Equivalently: prove that the only $\omega$-limit point of the flow (in a suitable topology) is $\alpha^*$.
 

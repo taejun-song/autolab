@@ -2,7 +2,7 @@
 type: synthesis
 title: "Gaussian Global Stability: Feasibility Assessment"
 created: 2026-05-12
-updated: 2026-05-17
+updated: 2026-05-18
 status: "closed — KuramotoGlobal.lean 0 sorry, full stability chain complete"
 sources:
   - "[[complex-oa-convergence-strategies]]"
@@ -26,6 +26,8 @@ Global stability (no basin condition V(0) < r*^2) for the Kuramoto model with Ga
 The Gaussian global stability theorem (`gaussian_global_stability` in `GaussianGlobal.lean`) is now **0 sorry, 0 axioms**. The problematic r-floor sub-lemmas (Gronwall comparison, DCT passage, continuity extraction) were removed and replaced with a sound interface: the theorem reduces to the existing `kuramoto_continuum_standard` machinery, taking body-absorption and tail-vanishing as explicit hypotheses. The Gaussian-specific computation (`gaussian_first_moment`) and Jensen bound (`psi_jensen_upper`) are fully proved.
 
 The full project builds with **0 errors**. The core stability chain is **0 sorry end-to-end**: `ContinuumInstability.lean` proves r(t) ≥ r_min > 0 for K > Kc (via DCT bootstrap), `hPsi_floor_of_r_liminf` bridges this to V entering the basin, and `KuramotoGlobal.lean` proves V → 0 and r → r*. Remaining sorry are only in `NeuralMeanField.lean` (2) and `MeanFieldLimit.lean` (4), which are outside the core stability chain.
+
+**Important: paper vs Lean divergence.** The paper (v4) only claims **basin stability** (Theorem A: V(0) < r*² assumed) for the real scalar model. The global stability result (no basin condition, via ContinuumInstability + KuramotoGlobal) exists in Lean but is NOT claimed in the paper. The paper lists "Basin of attraction" as an explicit limitation (Section 7.4). Do not use this synthesis to upgrade the paper's claims.
 
 ## Current Status: What Is Already Proved (0 sorry)
 

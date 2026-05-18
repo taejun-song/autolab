@@ -2,7 +2,7 @@
 type: synthesis
 title: "Complex OA Convergence: Strategies to Close hV_zero"
 created: 2026-05-15
-updated: 2026-05-15
+updated: 2026-05-18
 sources:
   - "[[dietert-2016-thesis]]"
   - "[[dietert-fernandez-2018-asymptotic-stability]]"
@@ -52,7 +52,7 @@ For rational g with poles ω_j = σ_j - iγ_j (γ_j > 0):
 
 **New literature**: Kuehn-Landi 2025 (arXiv:2511.03833) proves OA manifold IS the unstable manifold of incoherence in the continuum limit. This strengthens Phase 1: near incoherence, the OA dynamics is exactly the unstable manifold dynamics.
 
-**Lean status**: PassageToLimit.lean has framework, 3 True placeholders.
+**Lean status**: PassageToLimit.lean — PROVED, 0 sorry (epsilon/3 passage framework).
 
 ## Strategy B: Dietert spectral approach + Hypothesis (H)
 
