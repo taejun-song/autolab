@@ -220,11 +220,23 @@ V_{\mathrm{tail},M} \leq \int_{\gamma > M} g\,\mathrm{d}\omega.
 \]
 Since $\int \gamma\,g < \infty$, Markov's inequality gives $\int_{\gamma > M} g \leq \frac{1}{M}\int \gamma\,g \to 0$ as $M \to \infty$. Thus for every $\varepsilon > 0$, there exists $M_0$ such that $V_{\mathrm{tail},M_0}(t) < \varepsilon/2$ \emph{for all~$t$}.
 
-\textbf{Step B (Body convergence).} Fix $M = M_0$. On $\{\gamma \leq M\}$, body persistence (derived in Step~3 of the proof of Theorem~\ref{thm:main}) gives $\alpha(\omega,t) \geq \delta(M) > 0$. The body-restricted pair coercivity then gives a positive lower bound:
+\textbf{Step B (Body convergence).} The pair integrand satisfies a stronger pointwise lower bound:
+\begin{equation}\label{eq:pair-lower}
+\mathcal{I}_{jk} \geq \alpha^*_j\,\alpha_k\,p_k^2 + \alpha^*_k\,\alpha_j\,p_j^2.
+\end{equation}
+Indeed, the remainder $\mathcal{I}_{jk} - \text{RHS}$ equals $(\alpha^*_j/\alpha^*_k)p_k^2 + (\alpha^*_k/\alpha^*_j)p_j^2 - p_jp_k(2-\alpha_j^2-\alpha_k^2)$. When $p_jp_k \leq 0$, the cross term is non-negative and the positive terms dominate. When $p_jp_k > 0$, AM-GM gives $(\alpha^*_j/\alpha^*_k)p_k^2 + (\alpha^*_k/\alpha^*_j)p_j^2 \geq 2p_jp_k \geq p_jp_k(2-\alpha_j^2-\alpha_k^2)$. Integrating~\eqref{eq:pair-lower}:
 \[
--V'(t) \geq K \cdot \delta(M) \cdot \delta^*(M) \cdot \mu(\gamma \leq M) \cdot V_{\mathrm{body},M}(t),
+\iint \mathcal{I}\,\mathrm{d}\mu\,\mathrm{d}\mu \geq 2r^*\int \alpha\,p^2\,g\,\mathrm{d}\omega.
 \]
-where $\delta^*(M) = \min_{\gamma \leq M} \alpha^*(\omega) > 0$. Since $V$ is antitone and $V' \leq -c \cdot V_{\mathrm{body},M}$ with $c > 0$: the time-integral $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t$ converges (bounded by $V(0)/c$). The derivative of $V_{\mathrm{body},M}$ satisfies
+Since $V'(t) = -\frac{K}{2}\iint \mathcal{I}\,\mathrm{d}\mu\,\mathrm{d}\mu$ (combining~\eqref{eq:Vprime-QeDS} with the Fubini identity):
+\begin{equation}\label{eq:coercive-alpha}
+-V'(t) \geq Kr^*\int \alpha(\omega,t)\,(\alpha(\omega,t)-\alpha^*(\omega))^2\,g\,\mathrm{d}\omega.
+\end{equation}
+Fix $M = M_0$. Body persistence (derived in Step~5 of the proof of Theorem~\ref{thm:main}) gives $\alpha(\omega,t) \geq \delta(M) > 0$ on $\{\gamma \leq M\}$, so
+\[
+-V'(t) \geq Kr^*\,\delta(M)\,V_{\mathrm{body},M}(t).
+\]
+Since $V$ is antitone and $-V' \geq c \cdot V_{\mathrm{body},M}$ with $c = Kr^*\delta(M) > 0$: the time-integral $\int_0^\infty V_{\mathrm{body},M}(t)\,\mathrm{d}t$ converges (bounded by $V(0)/c$). The derivative of $V_{\mathrm{body},M}$ satisfies
 \[
 \Bigl|\frac{d}{dt}V_{\mathrm{body},M}(t)\Bigr| = \Bigl|\int_{\gamma \leq M} 2(\alpha - \alpha^*)\dot\alpha\,g\Bigr| \leq 2(M+K)\,\mu(\gamma \leq M),
 \]
@@ -352,7 +364,7 @@ The complete proof is assembled in \texttt{lorentzian\_ode\_global\_stability\_c
 
 \subsection{Overall status}
 
-The formalization spans \textbf{258 Lean~4 files} (commit \texttt{7f95a97}, Mathlib v4.30.0-rc1). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain. The formalization uses only Lean~4's standard foundations.
+The formalization spans \textbf{258 Lean~4 files} (commit \texttt{7f95a97}, Mathlib v4.30.0-rc1). It gives a no-sorry Lean formalization of the pair-bound Lyapunov proof for the scalar dissipative Kuramoto-type mean-field equation. The extension to the standard complex OA equation and the full Kuramoto PDE is conditional on external convergence and attractivity inputs that are not proved in this paper (see Remark~\ref{rem:bridge-hypotheses}). The declaration \texttt{real\_scalar\_complete} depends on no project axioms and no \texttt{sorry}; the imported development contains unrelated \texttt{sorry}s in theorems outside this dependency chain.
 
 There are two tiers of completeness:
 
@@ -570,8 +582,20 @@ For the full Kuramoto--Sakaguchi PDE with analytic symmetric~$g$, $K > K_c$: if 
 Triangle inequality: $\bigl|\|\eta_{\mathrm{full}}\| - \|\eta_{\mathrm{OA}}\|\bigr| \leq \|\eta_{\mathrm{full}} - \eta_{\mathrm{OA}}\| \to 0$. Squeeze gives convergence (\texttt{squeeze\_zero\_norm + abs\_norm\_sub\_norm\_le}, 0~sorry).
 \end{proof}
 
-\begin{remark}[Hypotheses of Theorem~\ref{thm:full}]
-Theorem~\ref{thm:full} is a conditional bridge. Its conclusion follows from the reverse triangle inequality once two independent assumptions are supplied: convergence of the OA order parameter to the target amplitude, and asymptotic closeness of the full PDE order parameter to the OA order parameter. These assumptions are not proved in this paper. Dietert's nonlinear Landau damping~\cite{dietert2017} proves local orbital stability of linearly stable partially locked states for the full PDE after removing the neutral rotation mode; Dietert--Fernandez OA attractivity~\cite{dietert-fernandez2018} is formulated in a weighted Fourier--Sobolev topology for OA defects. These external results are cited as opaque axioms; their hypotheses (linear stability, Sobolev smallness, regularity of~$g$, weighted defect norms) have not been matched to the present notation. The full chain is \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms).
+\begin{remark}[Hypotheses of Theorem~\ref{thm:full}]\label{rem:bridge-hypotheses}
+Theorem~\ref{thm:full} is a conditional bridge. Its conclusion follows from the reverse triangle inequality once two independent assumptions are supplied: convergence of the OA order parameter to the target amplitude, and asymptotic closeness of the full PDE order parameter to the OA order parameter. These assumptions are not proved in this paper.
+
+To discuss attraction to the OA manifold for the full Kuramoto PDE, the natural objects are Fourier-side OA defects. For the Fourier modes $\hat f_\ell(\tau) = \int_{\mathbb{T} \times \mathbb{R}} e^{-i(\ell\theta + \tau\omega)}\,f(\mathrm{d}\theta,\mathrm{d}\omega)$, the OA manifold is characterized by the convolution identities $\hat f_\ell = h^{*\ell} * \hat g$ for $\ell \geq 0$. The OA defect variables
+\[
+w_{n,m} := \hat f_{n+m} * \hat g - \hat f_n * \hat f_m
+\]
+vanish on the OA manifold. Their size is measured in a weighted Fourier--Sobolev norm of the form
+\[
+\|w\|_{H^1_{e^{a\tau}}}^2 = \sum_{n,m \geq 1} \int_\R \frac{e^{2a\tau}}{nm}\bigl(|w_{n,m}(\tau)|^2 + |\partial_\tau w_{n,m}(\tau)|^2\bigr)\,\mathrm{d}\tau.
+\]
+Dietert--Fernandez OA attractivity~\cite{dietert-fernandez2018} gives exponential decay $\|w(t)\|_{H^1_{e^{a\tau}}} \leq \|w(0)\|_{H^1_{e^{a\tau}}}\,e^{-at}$ in this topology. This is structurally different from a pointwise bound on an OA parameter $\alpha(\omega,t)$ in a strip: the defect norm is a global Fourier--Sobolev quantity, not a pointwise analytic continuation bound.
+
+Dietert's nonlinear Landau damping~\cite{dietert2017} proves local orbital stability of linearly stable partially locked states for the full PDE after removing the neutral rotation mode, requiring linear stability, Sobolev smallness, and regularity of~$g$. Neither external result is stated in the variables or topology of the present paper, and matching them to the present notation remains open. The full chain is \texttt{kuramoto\_stability\_universal} (0~sorry, 2~axioms).
 \end{remark}
 
 % ============================================================

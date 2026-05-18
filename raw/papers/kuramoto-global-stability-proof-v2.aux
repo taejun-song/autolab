@@ -46,6 +46,8 @@
 \newlabel{prop:antitone}{{2.5}{5}{$V$ antitone, \texttt {lyapunov\_antitone}}{theorem.2.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Step 4: Body-tail split and Barbalat}{5}{subsection.2.4}\protected@file@percent }
 \newlabel{prop:drop}{{2.6}{5}{Body-tail convergence, \texttt {supercritical\_coercive\_drops}}{theorem.2.6}{}}
+\newlabel{eq:pair-lower}{{9}{5}{Step 4: Body-tail split and Barbalat}{equation.2.9}{}}
+\newlabel{eq:coercive-alpha}{{10}{6}{Step 4: Body-tail split and Barbalat}{equation.2.10}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Step 5: $V \to 0$}{6}{subsection.2.5}\protected@file@percent }
 \newlabel{prop:vzero}{{2.8}{6}{$V \to 0$, \texttt {coercive\_drop\_from\_persistence}}{theorem.2.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Step 6: $r \to r^*$ via Cauchy-Schwarz}{6}{subsection.2.6}\protected@file@percent }
@@ -56,11 +58,11 @@
 \newlabel{prop:rigidity}{{2.10}{7}{Pair rigidity, \texttt {pair\_eq\_zero\_iff}}{theorem.2.10}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}The Lorentzian case: fully end-to-end}{7}{section.3}\protected@file@percent }
 \newlabel{sec:lorentzian}{{3}{7}{The Lorentzian case: fully end-to-end}{section.3}{}}
-\newlabel{eq:bernoulli}{{9}{7}{The Lorentzian case: fully end-to-end}{equation.3.9}{}}
+\newlabel{eq:bernoulli}{{11}{7}{The Lorentzian case: fully end-to-end}{equation.3.11}{}}
 \newlabel{thm:lorentzian}{{3.1}{7}{Lorentzian convergence, \texttt {lorentzian\_ode\_global\_stability\_complete}}{theorem.3.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Proof: Bernoulli formula}{7}{subsection.3.1}\protected@file@percent }
-\newlabel{sec:bernoulli}{{3.1}{7}{Proof: Bernoulli formula}{subsection.3.1}{}}
-\newlabel{prop:bernoulli}{{3.2}{7}{Existence via Bernoulli, \texttt {LorentzianExistence}}{theorem.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Proof: Bernoulli formula}{8}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:bernoulli}{{3.1}{8}{Proof: Bernoulli formula}{subsection.3.1}{}}
+\newlabel{prop:bernoulli}{{3.2}{8}{Existence via Bernoulli, \texttt {LorentzianExistence}}{theorem.3.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Proof: Monotonicity}{8}{subsection.3.2}\protected@file@percent }
 \newlabel{sec:mono}{{3.2}{8}{Proof: Monotonicity}{subsection.3.2}{}}
 \newlabel{prop:mono}{{3.3}{8}{Monotonicity, \texttt {LorentzianFromODE}}{theorem.3.3}{}}
@@ -70,11 +72,11 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Overall status}{8}{subsection.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}The proof chain in Lean}{9}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Nine independent proof paths}{9}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Additional formalized results}{9}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Additional formalized results}{10}{subsection.4.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {5}The $L^2$ Lyapunov approach for $n$-pole systems}{10}{section.5}\protected@file@percent }
 \newlabel{sec:npole}{{5}{10}{The $L^2$ Lyapunov approach for $n$-pole systems}{section.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Setup}{10}{subsection.5.1}\protected@file@percent }
-\newlabel{eq:lyap}{{10}{10}{Setup}{equation.5.10}{}}
+\newlabel{eq:lyap}{{12}{10}{Setup}{equation.5.12}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Main decay estimate}{10}{subsection.5.2}\protected@file@percent }
 \newlabel{thm:lyapunov}{{5.1}{10}{$L^2$ Lyapunov decay, \texttt {l2\_exponential\_rate}}{theorem.5.1}{}}
 \citation{dietert2017}
@@ -90,25 +92,25 @@
 \newlabel{prop:locked-equil}{{6.4}{12}{\texttt {lockedEquil\_is\_equil}, \texttt {lockedEquil\_normSq}, \texttt {lockedEquil\_stability\_neg}; 0 sorry}{theorem.6.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.5}V$'$ decomposition}{12}{subsection.6.5}\protected@file@percent }
 \newlabel{prop:v-prime}{{6.5}{12}{\texttt {complex\_V\_deriv\_eq\_QDS}, 0 sorry}{theorem.6.5}{}}
-\citation{dietert2017}
 \citation{dietert-fernandez2018}
 \citation{dietert2017}
-\citation{dietert-fernandez2018}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Full Kuramoto PDE stability}{13}{subsection.6.6}\protected@file@percent }
 \newlabel{thm:full}{{6.6}{13}{Conditional bridge lemma, \texttt {full\_kuramoto\_pde\_stability\_via\_axiom}, 0 sorry + 1 axiom}{theorem.6.6}{}}
+\newlabel{rem:bridge-hypotheses}{{6.7}{13}{Hypotheses of Theorem~\ref {thm:full}}{theorem.6.7}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{13}{section.7}\protected@file@percent }
 \newlabel{sec:discussion}{{7}{13}{Discussion}{section.7}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Four tiers of formalization}{13}{subsection.7.1}\protected@file@percent }
+\citation{dietert2017}
+\citation{dietert-fernandez2018}
 \citation{dietert2016}
 \citation{dietert-fernandez2018}
 \citation{chiba2015}
 \citation{dietert2017}
 \citation{dietert-fernandez2018}
-\citation{dietert2017}
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Theorem table}{14}{subsection.7.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Novelty}{14}{subsection.7.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {7.4}Limitations}{14}{subsection.7.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}Open problems}{14}{subsection.7.5}\protected@file@percent }
+\citation{dietert2017}
 \citation{dietert-fernandez2018}
 \bibcite{dietert2016}{1}
 \bibcite{dietert-fernandez2018}{2}
@@ -120,4 +122,5 @@
 \bibcite{strogatz2000}{8}
 \bibcite{dietert2017}{9}
 \bibcite{mathlib}{10}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5}Open problems}{15}{subsection.7.5}\protected@file@percent }
 \gdef \@abspage@last{15}

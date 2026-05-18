@@ -12,14 +12,14 @@
 \contentsline {subsection}{\numberline {2.6}Step 6: $r \to r^*$ via Cauchy-Schwarz}{6}{subsection.2.6}%
 \contentsline {subsection}{\numberline {2.7}Step 7: Pair rigidity (characterization of $V' = 0$)}{7}{subsection.2.7}%
 \contentsline {section}{\numberline {3}The Lorentzian case: fully end-to-end}{7}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Proof: Bernoulli formula}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.1}Proof: Bernoulli formula}{8}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Proof: Monotonicity}{8}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Proof: Convergence}{8}{subsection.3.3}%
 \contentsline {section}{\numberline {4}Lean\nobreakspace {}4 verification}{8}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Overall status}{8}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}The proof chain in Lean}{9}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Nine independent proof paths}{9}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Additional formalized results}{9}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.4}Additional formalized results}{10}{subsection.4.4}%
 \contentsline {section}{\numberline {5}The $L^2$ Lyapunov approach for $n$-pole systems}{10}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Setup}{10}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Main decay estimate}{10}{subsection.5.2}%
@@ -36,4 +36,4 @@
 \contentsline {subsection}{\numberline {7.2}Theorem table}{14}{subsection.7.2}%
 \contentsline {subsection}{\numberline {7.3}Novelty}{14}{subsection.7.3}%
 \contentsline {subsection}{\numberline {7.4}Limitations}{14}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}Open problems}{14}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.5}Open problems}{15}{subsection.7.5}%
