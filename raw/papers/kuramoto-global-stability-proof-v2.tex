@@ -38,7 +38,7 @@ We introduce two novel proof techniques for Kuramoto-type stability problems and
 
 \textbf{Contribution 2: Rotation cancellation.} For the standard complex OA equation $\dot z = -i\omega z + (K/2)(\bar\eta - \eta z^2)$, the rotation term $-i\omega$ cancels exactly in the Lyapunov derivative after equilibrium subtraction: $\re(\bar w \cdot (-i\omega w)) = 0$ for $w = z - z^*$, since $|w|^2 \in \R$. This bridges the dissipative and rotational formulations.
 
-\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{258 Lean files} (commit \texttt{7f95a97}); the main theorem \texttt{real\_scalar\_complete} has \textbf{0~\texttt{sorry}} and \textbf{0 project axioms}; the declaration \texttt{real\_scalar\_complete} itself produces no sorry warning (the imported file \texttt{KuramotoGlobal.lean} contains unrelated sorry's in other theorems that are not used by our proof chain). The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). The theorem also requires initial body coherence ($\alpha(\omega,0) \geq \delta_0 > 0$ on $\{\gamma \leq M\}$ for each $M$), which holds for initial data near the PLS. When $\gamma(\omega) \lesssim 1 + |\omega|$, this includes Gaussian, compactly supported, Student-$t$ ($\nu > 1$), and mixtures satisfying the same first-moment bound. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
+\textbf{Contribution 3: Formalization.} The Lean~4 formalization (Mathlib v4.30.0-rc1) spans \textbf{260 Lean files} (commit \texttt{7f95a97}); the main theorem \texttt{real\_scalar\_complete} has \textbf{0~\texttt{sorry}} and \textbf{0 project axioms}; the declaration \texttt{real\_scalar\_complete} itself produces no sorry warning (the imported file \texttt{KuramotoGlobal.lean} contains unrelated sorry's in other theorems that are not used by our proof chain). The main theorem \texttt{real\_scalar\_complete} (\textbf{0~sorry, 0~axioms}) proves: for the scalar dissipative mean-field equation~\eqref{eq:oa} with $\gamma > 0$ pointwise, finite first moment $\int\gamma\,g < \infty$, and initial data in the basin $V(0) < (r^*)^2$, the order parameter converges $r(t) \to r^*$. Body persistence is \emph{derived internally}, not assumed. The proof wires: pair bound ($\dot V \leq 0$) $\to$ Cauchy--Schwarz ($r \geq r^* - \sqrt{V(0)} > 0$) $\to$ ODE barrier (body persistence from $r > 0$) $\to$ Barbalat ($V \to 0$) $\to$ convergence ($r \to r^*$). The theorem also requires initial body coherence ($\alpha(\omega,0) \geq \delta_0 > 0$ on $\{\gamma \leq M\}$ for each $M$), which holds for initial data near the PLS. When $\gamma(\omega) \lesssim 1 + |\omega|$, this includes Gaussian, compactly supported, Student-$t$ ($\nu > 1$), and mixtures satisfying the same first-moment bound. To our knowledge, this is the first fully self-contained, machine-checked stability theorem for any Kuramoto-type model.
 \end{abstract}
 
 \tableofcontents
@@ -519,6 +519,21 @@ For symmetric~$g$ with symmetric initial data, $z(\omega,t) = \overline{z(-\omeg
 Define $w(\omega,t) := \overline{z(-\omega,t)}$. Then $w$ satisfies the same \emph{coupled} OA system: conjugating the ODE and using $g(-\omega) = g(\omega)$ gives $\dot w(\omega,t) = -i\omega w + (K/2)(\bar\eta_w - \eta_w w^2)$ where $\eta_w = \int \bar w\,g = \int z(-\cdot)\,g = \int z\,g$ (by measure-preserving negation) $= \overline{\eta_z}$ (by \texttt{integral\_conj}). The algebraic identity \texttt{complexOaRHS\_conj\_neg} gives $\overline{f(-\omega,\eta,z)} = f(\omega,\bar\eta,\bar z)$. Since $w(\omega,0) = z(\omega,0)$ and both satisfy the same coupled system, \emph{coupled} ODE uniqueness gives $w = z$, establishing symmetry \emph{and} $\eta \in \R$ simultaneously without circularity (0~sorry).
 \end{proof}
 
+\subsection{Locked equilibrium structure}
+
+On the symmetric subspace ($\eta = r \in \R$), the per-oscillator equilibrium satisfies $(Kr/2)z^2 + i\omega z - Kr/2 = 0$. For locked oscillators ($|\omega| < Kr$):
+
+\begin{proposition}[\texttt{lockedEquil\_is\_equil}, \texttt{lockedEquil\_normSq}, \texttt{lockedEquil\_stability\_neg}; 0 sorry]\label{prop:locked-equil}
+The locked equilibrium
+\[
+z^*(\omega) = \frac{\sqrt{K^2r^2 - \omega^2} - i\omega}{Kr}
+\]
+satisfies: (i)~$z^*$ solves $\dot z = 0$, (ii)~$|z^*| = 1$, (iii)~$\re(z^*) > 0$, and (iv)~the linearized eigenvalue $\lambda = -i\omega - Kr\,z^*$ has $\re(\lambda) = -\sqrt{K^2r^2 - \omega^2} < 0$ (exponential stability).
+\end{proposition}
+\begin{proof}
+Direct substitution: $(Kr/2)(z^{*2} - 1) + i\omega z^* = 0$ reduces to the identity $D^2 + \omega^2 = K^2r^2$ where $D = \sqrt{K^2r^2-\omega^2}$. Parts (ii)--(iv) follow from the explicit formula (\texttt{ComplexOALockedEquil.lean}, 168 lines, 0~sorry).
+\end{proof}
+
 \subsection{Full Kuramoto PDE stability}
 
 \begin{theorem}[Conditional bridge lemma, \texttt{full\_kuramoto\_pde\_stability\_via\_axiom}, 0 sorry + 1 axiom]\label{thm:full}
@@ -595,7 +610,7 @@ This work contributes four things that are new:
 \subsection{Open problems}
 
 \begin{enumerate}
-\item Remove the $V(0) < (r^*)^2$ basin condition (global stability for any $r(0) > 0$).
+\item Remove the $V(0) < (r^*)^2$ basin condition (global stability for any $r(0) > 0$). The locked equilibrium structure (Proposition~\ref{prop:locked-equil}) and self-consistency interface are formalized; the remaining gap is proving $\liminf r(t) > 0$ for $K > K_c$ via instability of incoherence.
 \item Formalize the nonlinear Landau damping axiom (currently citing \cite{dietert2017}).
 \item Formalize the OA manifold attractivity axiom (currently citing \cite{dietert-fernandez2018}).
 \item Extend to distributions without finite first moment (Student-$t$ with $\nu \leq 1$) beyond the Lorentzian special case.
