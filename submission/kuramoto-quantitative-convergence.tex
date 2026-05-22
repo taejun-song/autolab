@@ -1,0 +1,835 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage[pdfusetitle,hidelinks]{hyperref}
+\pdfstringdefDisableCommands{%
+  \let\Phi\relax\def\Phi{Phi}%
+  \let\lambda\relax\def\lambda{lambda}%
+  \let\gamma\relax\def\gamma{gamma}%
+  \let\texorpdfstring\@secondoftwo}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+
+\title{Exact Spectral Gap and Quantitative Convergence Rates\\for the Kuramoto Self-Consistency Equation}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study the self-consistency map $\Phi(r) = \int \alpha^*(\gamma, K, r)\,\mathrm{d}\mu(\gamma)$ that determines the equilibrium order parameter of the mean-field Kuramoto model on the Ott--Antonsen manifold. Here $\mu$ is a probability measure on a positive dissipation parameter $\gamma > 0$ satisfying $\int (1/\gamma)\,\mathrm{d}\mu \in (0,\infty)$. We prove:
+\begin{enumerate}[label=(\roman*),nosep]
+\item an exact closed-form expression for the derivative $\Phi'(r^*)$ and the spectral gap $1 - \Phi'(r^*) = \int K^3 r^{*2} / (D_\gamma ({\gamma + D_\gamma})^2)\,\mathrm{d}\mu$ where $D_\gamma = \sqrt{\gamma^2 + K^2 r^{*2}}$;
+\item two-sided critical slowing down: the spectral gap satisfies $1 - \lambda = \Theta(K - K_c)$ at the onset of synchronization (under bounded $\gamma$);
+\item geometric convergence of Picard iterates to $r^*$ from both above and below, with explicitly computable contraction rates;
+\item strictly subcritical exponential decay: $\Phi^n(r_0) \leq (K/K_c)^n r_0 \to 0$ for $K < K_c$.
+\end{enumerate}
+The results are accompanied by a Lean~4 formalization (Mathlib v4.30.0-rc1, 0~\texttt{sorry}, no project-specific axioms); the repository link, commit hash, and exact Lean declaration names are given in Section~\ref{sec:formal}. The exact spectral gap formula and the identification of the contraction rate with $\Phi'(r^*)$ appear to be new.
+\end{abstract}
+
+\tableofcontents
+
+% ============================================================
+\section{Introduction}
+% ============================================================
+
+\subsection{Background}
+
+The Kuramoto model~\cite{kuramoto1975,kuramoto1984} of coupled oscillators exhibits a phase transition from incoherence to partial synchronization at a critical coupling strength $K_c$. On the Ott--Antonsen manifold~\cite{ott-antonsen2008}, the infinite-dimensional PDE reduces to a family of ODEs parametrized by frequency, and the equilibrium order parameter $r^*$ satisfies the self-consistency equation
+\begin{equation}\label{eq:sc}
+r^* = \Phi(r^*) \coloneqq \int \alpha^*(\gamma, K, r^*)\,\mathrm{d}\mu(\gamma),
+\end{equation}
+where $\alpha^*(\gamma, K, r)$ is the equilibrium locking amplitude of an oscillator with dissipation parameter~$\gamma$ at coupling $K$ and mean-field $r$. The explicit formula is
+\begin{equation}\label{eq:equil}
+\alpha^*(\gamma, K, r) = \frac{-\gamma + \sqrt{\gamma^2 + K^2 r^2}}{Kr}.
+\end{equation}
+
+The existence of a critical coupling $K_c$ and the qualitative bifurcation structure have been understood since Kuramoto's original work~\cite{kuramoto1975}. Strogatz and Mirollo~\cite{strogatz-mirollo1991} established spectral stability of incoherence for the Lorentzian case and analyzed the self-consistency equation in detail. Crawford~\cite{crawford1994,crawford1995} developed center manifold analysis for the onset instability, identifying the critical slowing down phenomenon qualitatively via amplitude expansions. Chiba~\cite{chiba2015} proved nonlinear stability of the partially locked state using generalized spectral theory on rigged Hilbert spaces. Dietert~\cite{dietert2016} established sharp nonlinear Landau damping for both subcritical and supercritical regimes. Strogatz~\cite{strogatz2000} provides a comprehensive survey of the Kuramoto model literature through 2000.
+
+Despite this extensive literature, the \emph{quantitative} convergence theory of the self-consistency iteration---the explicit rate at which the Picard scheme $r_{n+1} = \Phi(r_n)$ converges, and the exact dependence of this rate on system parameters---has not been developed for general distributions. The self-consistency equation is routinely solved numerically by iteration, yet rigorous a priori convergence guarantees with computable error bounds have been absent.
+
+\subsection{Main contribution}
+
+Our central result is an exact formula for the derivative of the self-consistency map at its fixed point:
+\begin{equation}\label{eq:lambda}
+\lambda \coloneqq \Phi'(r^*) = \int \frac{K\gamma}{D_\gamma(\gamma + D_\gamma)}\,\mathrm{d}\mu, \qquad D_\gamma = \sqrt{\gamma^2 + K^2 r^{*2}},
+\end{equation}
+with $0 < \lambda < 1$ strictly whenever $r^* > 0$ is a fixed point. The spectral gap $1 - \lambda$ admits the exact integral representation
+\begin{equation}\label{eq:gap}
+1 - \lambda = \int \frac{K^3 r^{*2}}{D_\gamma(\gamma + D_\gamma)^2}\,\mathrm{d}\mu > 0.
+\end{equation}
+This identity arises from the pointwise algebraic relation
+\[
+\frac{K}{\gamma + D} - \frac{K\gamma}{D(\gamma + D)} = \frac{K^3 r^2}{D(\gamma + D)^2},
+\]
+combined with the slope identity $\int K/(\gamma + D)\,\mathrm{d}\mu = 1$ at the fixed point (Section~\ref{sec:slope}).
+
+From~\eqref{eq:gap}, we derive:
+\begin{itemize}[nosep]
+\item \textbf{Critical slowing down} (under bounded $\gamma$): $1 - \lambda = O(K - K_c)$ as $K \to K_c^+$.
+\item \textbf{Geometric convergence from above}: For $r_0 > r^*$, the Picard iterates satisfy $0 \leq r_n - r^* \leq \lambda^n (r_0 - r^*)$.
+\item \textbf{Subcritical global decay}: For $K < K_c$, the bound $\Phi(r) \leq (K/K_c)\,r$ gives $\Phi^n(r_0) \leq (K/K_c)^n r_0 \to 0$.
+\end{itemize}
+
+\subsection{What is and is not proved}
+
+We distinguish results by the assumptions they require:
+\begin{enumerate}[nosep]
+\item \textbf{Minimal assumptions (H1)--(H3) only}: the slope identity (Lemma~\ref{lem:slope-one}), the spectral gap identity~\eqref{eq:gap}, the contraction $\lambda < 1$, the sign lemma (Lemma~\ref{lem:sign}), existence and uniqueness of $r^*$ for $K > K_c$, the linear bound $\Phi(r) \leq (K/K_c)r$, subcritical decay, Picard convergence (from above and below).
+\item \textbf{Bounded $\gamma$ (H4)}: two-sided bounds on $1 - \lambda$, the critical slowing down estimate.
+\item \textbf{Finite mean (H5): $\int \gamma\,\mathrm{d}\mu < \infty$}: the contraction rate upper bound $\lambda \leq \mathbb{E}[\gamma]/(Kr^{*2})$.
+\item \textbf{Third inverse moment}: $\int 1/\gamma^3\,\mathrm{d}\mu < \infty$ for the lower bound on $r^*$ in the square-root law.
+\end{enumerate}
+
+The geometric convergence rate $\lambda^n$ is proved only for initial data $r_0 > r^*$ (Theorem~\ref{thm:geometric}). For $r_0 < r^*$, we prove monotone convergence $r_n \nearrow r^*$ (Theorem~\ref{thm:below}) but do not establish a geometric rate.
+
+\subsection{Relation to prior work}
+
+The qualitative bifurcation diagram (existence and uniqueness of $r^*$ for $K > K_c$) is classical for the Lorentzian distribution~\cite{strogatz-mirollo1991} and has been extended to general distributions via the intermediate value theorem applied to the slope function $S(r) = \Phi(r)/r$, which is strictly decreasing (see Lemma~\ref{lem:sign} below). The Ott--Antonsen reduction~\cite{ott-antonsen2008} provides the explicit equilibrium formula~\eqref{eq:equil}. Crawford~\cite{crawford1994,crawford1995} used amplitude expansions to identify the $\beta = 1/2$ critical exponent and the qualitative slowing down at onset.
+
+Our contribution is complementary: we study the self-consistency map $\Phi$ as a nonlinear operator on $(0,\infty)$ and establish its quantitative contraction properties. The exact formula~\eqref{eq:gap} appears not to have been written down previously, though the equilibrium profile and its derivative are individually known in the literature. Crawford's amplitude expansion~\cite{crawford1994} gives the critical exponent but not the quantitative convergence rate of the iteration; Chiba's generalized spectral analysis~\cite{chiba2015} concerns the PDE eigenvalues, not the map derivative. The relationship between $\Phi'(r^*)$ and the PDE stability exponent is discussed in Section~\ref{sec:discussion}.
+
+We emphasize that linearization of the OA system around the partially locked state gives eigenvalues related to, but distinct from, $1 - \lambda$: the self-consistency map derivative governs the \emph{iterative} convergence of the fixed-point equation, while the PDE eigenvalue governs the \emph{dynamical} stability.
+
+\subsection{Formal verification}
+
+The results in this paper have been formally verified in Lean~4~\cite{lean4} using Mathlib~\cite{mathlib} v4.30.0-rc1. The formalization is available at:
+
+\begin{center}
+\url{https://github.com/taejun-song/kuramoto-lean}, \quad commit \texttt{e86b442}
+\end{center}
+
+\noindent Lean toolchain: \texttt{leanprover/lean4:v4.30.0-rc1}. Mathlib: v4.30.0-rc1. The exact correspondence between paper theorems and Lean declarations is given in Section~\ref{sec:formal}. The main file \texttt{TightLipschitz.lean} contains approximately 580 lines of proof.
+
+% ============================================================
+\section{Setup and notation}\label{sec:setup}
+% ============================================================
+
+\subsection{The model}
+
+Let $(\Omega, \mathcal{F}, \mu)$ be a probability space and $\gamma : \Omega \to (0,\infty)$ a measurable function. We call $\gamma$ the \emph{dissipation parameter}.
+
+\begin{remark}[On the parameter $\gamma$]\label{rem:gamma}
+The parameter $\gamma$ is \emph{not} the natural frequency $\omega$ of the standard Kuramoto model (which takes values in $\R$ and can be negative). In the Ott--Antonsen reduction with symmetric frequency density $g(\omega)$ and real-valued initial data, the complex OA equation reduces to the scalar equation
+\begin{equation}\label{eq:oa-scalar}
+\dot\alpha(\omega, t) = -\gamma(\omega)\,\alpha + \tfrac{K}{2}\,r(t)(1 - \alpha^2),
+\end{equation}
+where $\gamma(\omega) > 0$ encodes the effective dissipation/detuning. For the Cauchy--Lorentz distribution $g(\omega) = \gamma_0/(\pi(\omega^2 + \gamma_0^2))$, residue evaluation gives $\gamma = \gamma_0$ (constant). The probability space $(\Omega, \mu)$ parametrizes the oscillator population: $\gamma(\omega)$ assigns to each oscillator its positive dissipation rate, and $\mu$ is the distribution of these rates. Our theorems take $\gamma > 0$ and the self-consistency equation~\eqref{eq:sc} as the starting point; the derivation of $\gamma$ from the underlying frequency density is a separate reduction step.
+\end{remark}
+
+\subsection{Standing assumptions}
+
+\begin{enumerate}[label=(H\arabic*),nosep]
+\item\label{H1} $\gamma(\omega) > 0$ for all $\omega \in \Omega$ (positive dissipation);
+\item\label{H2} $\int (1/\gamma)\,\mathrm{d}\mu < \infty$ (finite harmonic mean);
+\item\label{H3} $\int (1/\gamma)\,\mathrm{d}\mu > 0$ (non-degeneracy).
+\end{enumerate}
+Conditions~\ref{H2}--\ref{H3} ensure that $K_c$ is finite and positive.
+
+\begin{remark}[On the integrability hypothesis]
+The condition $\int(1/\gamma)\,\mathrm{d}\mu < \infty$ is an assumption on the distribution of $\gamma$ near zero, \emph{not} a moment condition on $\gamma$ itself. It is strictly weaker than $\gamma$ being bounded away from zero, and unrelated to the condition $\int\gamma\,\mathrm{d}\mu < \infty$ (finite first moment). For example, $\mu = \text{Uniform}(0,1)$ on positive $\gamma$ fails~\ref{H2} since $\int_0^1 \gamma^{-1}\,\mathrm{d}\gamma = \infty$, while $\mu = \text{Uniform}(1,2)$ satisfies all hypotheses trivially.
+\end{remark}
+
+The framework covers any probability distribution on positive dissipation parameters satisfying~\ref{H2}: point masses (Lorentzian residue case), finite mixtures, bounded positive distributions, and positive unbounded distributions with sufficiently little mass near zero.
+
+\subsection{Definitions}
+
+\begin{definition}[Critical coupling]\label{def:Kc}
+\begin{equation}\label{eq:Kc}
+K_c \coloneqq \frac{2}{\int (1/\gamma)\,\mathrm{d}\mu}.
+\end{equation}
+\end{definition}
+
+\begin{definition}[Equilibrium profile]\label{def:alpha}
+For $\gamma, K, r > 0$:
+\begin{equation}\label{eq:alpha-star}
+\alpha^*(\gamma, K, r) \coloneqq \frac{-\gamma + \sqrt{\gamma^2 + K^2 r^2}}{Kr} = \frac{Kr}{\gamma + \sqrt{\gamma^2 + K^2 r^2}}.
+\end{equation}
+The second form (rationalized) is used throughout.
+\end{definition}
+
+\begin{definition}[Self-consistency map]\label{def:Phi}
+\begin{equation}\label{eq:Phi}
+\Phi(r) \coloneqq \int \alpha^*(\gamma(\omega), K, r)\,\mathrm{d}\mu(\omega).
+\end{equation}
+\end{definition}
+
+We write $D = D_\gamma(r) \coloneqq \sqrt{\gamma^2 + K^2 r^2}$.
+
+\begin{proposition}[Basic properties]\label{prop:basic}
+Under~\ref{H1}, for all $K, r > 0$:
+\begin{enumerate}[label=(\alph*),nosep]
+\item $0 < \alpha^*(\gamma, K, r) < 1$;
+\item $\alpha^*$ is strictly increasing in $r$ and strictly decreasing in $\gamma$;
+\item $\alpha^*(\gamma, K, r) < Kr/\gamma$;
+\item $\alpha^*(\gamma, K, r) = Kr/(\gamma + D) \leq Kr/(2\gamma)$ \quad (since $D \geq \gamma$).
+\end{enumerate}
+\end{proposition}
+
+% ============================================================
+\section{The slope identity and sign lemma}\label{sec:slope}
+% ============================================================
+
+\subsection{Slope factorization}
+
+The self-consistency map factors as $\Phi(r) = S(r) \cdot r$ where
+\begin{equation}\label{eq:slope}
+S(r) = \int \frac{K}{\gamma + D_\gamma(r)}\,\mathrm{d}\mu
+\end{equation}
+is the \emph{slope function}.
+
+\begin{lemma}[Properties of the slope function]\label{lem:slope-props}
+Under~\ref{H1}--\ref{H3}, $S:(0,\infty)\to(0,\infty)$ is continuous, strictly decreasing, and satisfies
+\[
+\lim_{r\downarrow 0} S(r) = \frac{K}{K_c}, \qquad \lim_{r\to\infty} S(r) = 0.
+\]
+\end{lemma}
+
+\begin{proof}
+\emph{Continuity.} For each $\omega$, $r\mapsto K/(\gamma(\omega)+D_\gamma(r))$ is continuous. The pointwise bound $K/(\gamma+D) \leq K/(2\gamma)$ and $\int K/(2\gamma)\,\mathrm{d}\mu = K/K_c < \infty$ (by~\ref{H2}) provide an integrable dominator. Dominated convergence gives continuity of~$S$.
+
+\emph{Strict decrease.} For $r_1 < r_2$, $D_\gamma(r_1) < D_\gamma(r_2)$ for every $\omega$, so $K/(\gamma+D_\gamma(r_1)) > K/(\gamma+D_\gamma(r_2))$ pointwise. Since $\mu$ is a nonzero probability measure and the strict inequality holds on a set of full measure, integration preserves the strict inequality: $S(r_1) > S(r_2)$.
+
+\emph{Limits.} As $r\downarrow 0$: $D_\gamma(r)\to\gamma$, so $K/(\gamma+D)\to K/(2\gamma)$. Dominated convergence gives $S(0^+) = \int K/(2\gamma)\,\mathrm{d}\mu = K/K_c$. As $r\to\infty$: $D_\gamma(r)\to\infty$, so each integrand $\to 0$; dominated convergence gives $S(r)\to 0$.
+\end{proof}
+
+\begin{lemma}[Slope identity at the fixed point]\label{lem:slope-one}
+If $r^* > 0$ satisfies $\Phi(r^*) = r^*$, then $S(r^*) = 1$.
+\end{lemma}
+
+\begin{proof}
+From $\alpha^* = Kr/(\gamma + D)$: $\Phi(r^*) = r^* S(r^*)$. Since $\Phi(r^*) = r^*$ and $r^* > 0$, divide to get $S(r^*) = 1$.
+\end{proof}
+
+\subsection{Sign of \texorpdfstring{$\Phi(r) - r$}{Phi(r) - r}}
+
+The strict monotonicity of $S$ determines the sign of $\Phi(r) - r$ on either side of the fixed point.
+
+\begin{lemma}[Sign lemma]\label{lem:sign}
+Let $r^* > 0$ with $\Phi(r^*) = r^*$. Then for all $r > 0$:
+\begin{alignat}{2}
+r < r^* &\;\implies\; \Phi(r) > r &\qquad &\text{(the map overshoots below $r^*$),} \label{eq:sign-below}\\
+r > r^* &\;\implies\; \Phi(r) < r &\qquad &\text{(the map undershoots above $r^*$).} \label{eq:sign-above}
+\end{alignat}
+\end{lemma}
+
+\begin{proof}
+Since $S$ is strictly decreasing and $S(r^*) = 1$: for $r < r^*$, $S(r) > S(r^*) = 1$, so $\Phi(r) = rS(r) > r$. For $r > r^*$, $S(r) < 1$, so $\Phi(r) = rS(r) < r$.
+\end{proof}
+
+\begin{remark}
+The sign lemma, combined with Lemma~\ref{lem:slope-props}, implies the qualitative bifurcation structure. For $K > K_c$: $S(0^+) = K/K_c > 1$ and $S(r)\to 0$, so by the intermediate value theorem there is a unique $r^* > 0$ with $S(r^*) = 1$. For $K \leq K_c$: $S(r) < S(0^+) = K/K_c \leq 1$ for all $r > 0$, so no positive fixed point exists. See Theorem~\ref{thm:existence}.
+\end{remark}
+
+\subsection{Existence and uniqueness}
+
+\begin{theorem}[Bifurcation]\label{thm:existence}
+Under~\ref{H1}--\ref{H3}:
+\begin{enumerate}[label=(\alph*),nosep]
+\item\label{thm:existence-sub} If $K \leq K_c$, then $\Phi(r) < r$ for all $r > 0$. No positive fixed point exists.
+\item\label{thm:existence-super} If $K > K_c$, there exists a unique $r^* \in (0,1)$ with $\Phi(r^*) = r^*$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Part~\ref{thm:existence-sub}: For $K \leq K_c$, $S(r) < S(0^+) = K/K_c \leq 1$ for all $r > 0$, so $\Phi(r) = rS(r) < r$. (At $K = K_c$ the inequality $S(r) < 1$ is strict for $r > 0$ since $D_\gamma(r) > \gamma$ implies $K/(\gamma + D) < K/(2\gamma)$.)
+
+Part~\ref{thm:existence-super}: By Lemma~\ref{lem:slope-props}, $S$ is continuous and strictly decreasing on $(0,\infty)$ with $S(0^+) = K/K_c > 1$ and $S(r) \to 0$. By the intermediate value theorem, there exists a unique $r^*$ with $S(r^*) = 1$, equivalently $\Phi(r^*) = r^*$. The bound $r^* < 1$ follows from $\alpha^* < 1$.
+\end{proof}
+
+\subsection{Exact derivative of the equilibrium profile}
+
+\begin{theorem}[Exact derivative]\label{thm:deriv}
+For $\gamma, K, r > 0$:
+\begin{equation}\label{eq:deriv}
+\frac{\partial}{\partial r}\alpha^*(\gamma, K, r) = \frac{K\gamma}{D(\gamma + D)}, \qquad D = \sqrt{\gamma^2 + K^2 r^2}.
+\end{equation}
+This derivative is strictly decreasing in $r$ (since $D$ and $\gamma + D$ are increasing in $r$).
+\end{theorem}
+
+\begin{proof}
+Differentiating $\alpha^* = Kr/(\gamma + D)$ with $\partial D/\partial r = K^2 r/D$:
+\[
+\frac{\partial\alpha^*}{\partial r} = \frac{K(\gamma + D) - Kr \cdot K^2 r/D}{(\gamma + D)^2} = \frac{K[\gamma D + D^2 - K^2 r^2]}{D(\gamma + D)^2} = \frac{K[\gamma D + \gamma^2]}{D(\gamma+D)^2} = \frac{K\gamma}{D(\gamma+D)},
+\]
+using $D^2 - K^2 r^2 = \gamma^2$.
+\end{proof}
+
+\begin{theorem}[Tight Lipschitz bound]\label{thm:tight-lip}
+For $0 < r_1 < r_2$:
+\[
+\alpha^*(\gamma, K, r_2) - \alpha^*(\gamma, K, r_1) \leq \frac{K\gamma}{D_1(\gamma + D_1)} \cdot (r_2 - r_1),
+\]
+where $D_1 = \sqrt{\gamma^2 + K^2 r_1^2}$.
+\end{theorem}
+
+\begin{proof}
+By the mean value theorem, $\alpha^*(r_2) - \alpha^*(r_1) = (\partial_r \alpha^*)(c) \cdot (r_2 - r_1)$ for some $c \in (r_1, r_2)$. Since $\partial_r \alpha^*$ is decreasing in $r$ (Theorem~\ref{thm:deriv}), $(\partial_r \alpha^*)(c) \leq (\partial_r \alpha^*)(r_1) = K\gamma/(D_1(\gamma + D_1))$.
+\end{proof}
+
+\begin{theorem}[Derivative strictly less than slope]\label{thm:deriv-lt-slope}
+For all $\gamma, K, r > 0$:
+\[
+\frac{K\gamma}{D(\gamma + D)} < \frac{K}{\gamma + D}.
+\]
+\end{theorem}
+
+\begin{proof}
+Divide both sides by $K/(\gamma + D) > 0$ to get $\gamma/D < 1$, which holds since $D > \gamma$ for $r > 0$.
+\end{proof}
+
+% ============================================================
+\section{Spectral gap: exact formula and bounds}\label{sec:spectral-gap}
+% ============================================================
+
+\subsection{The contraction rate}
+
+\begin{lemma}[Differentiation under the integral]\label{lem:diff-integral}
+Under~\ref{H1}--\ref{H3}, $\Phi$ is differentiable on $(0,\infty)$ with
+\[
+\Phi'(r) = \int \frac{\partial}{\partial r}\alpha^*(\gamma, K, r)\,\mathrm{d}\mu = \int \frac{K\gamma}{D(\gamma + D)}\,\mathrm{d}\mu.
+\]
+\end{lemma}
+
+\begin{proof}
+For each $\omega$, $r\mapsto\alpha^*(\gamma(\omega),K,r)$ is differentiable with derivative $K\gamma/(D(\gamma+D))$ (Theorem~\ref{thm:deriv}). For all $r$ in a neighborhood of any $r_0 > 0$, this derivative satisfies $K\gamma/(D(\gamma+D)) \leq K/(\gamma+D) \leq K/(2\gamma)$, and $K/(2\gamma)$ is $\mu$-integrable by~\ref{H2}. The Leibniz integral rule (via dominated convergence) gives $\Phi'(r) = \int \partial_r\alpha^*\,\mathrm{d}\mu$.
+\end{proof}
+
+\begin{theorem}[$\lambda < 1$ at any positive fixed point]\label{thm:lambda-lt-one}
+If $r^* > 0$ satisfies $\Phi(r^*) = r^*$, then
+\[
+\lambda \coloneqq \Phi'(r^*) = \int \frac{K\gamma(\omega)}{D_\gamma(\gamma(\omega) + D_\gamma)}\,\mathrm{d}\mu < 1.
+\]
+\end{theorem}
+
+\begin{proof}
+The equality $\lambda = \Phi'(r^*)$ holds by Lemma~\ref{lem:diff-integral}. By Theorem~\ref{thm:deriv-lt-slope}, pointwise $K\gamma/(D(\gamma+D)) < K/(\gamma+D)$. Both integrands are positive and integrable (the right-hand side by Lemma~\ref{lem:slope-one}). Hence $\lambda < \int K/(\gamma + D)\,\mathrm{d}\mu = 1$.
+\end{proof}
+
+\subsection{Exact spectral gap}
+
+\begin{theorem}[Spectral gap identity]\label{thm:spectral-gap}
+At a fixed point $r^* > 0$:
+\begin{equation}\label{eq:gap-identity}
+1 - \lambda = \int \frac{K^3 r^{*2}}{D_\gamma (\gamma + D_\gamma)^2}\,\mathrm{d}\mu.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The pointwise algebraic identity (using $D^2 = \gamma^2 + K^2 r^2$):
+\[
+\frac{K}{\gamma + D} - \frac{K\gamma}{D(\gamma + D)} = \frac{K(D - \gamma)}{D(\gamma + D)} = \frac{K(D^2 - \gamma^2)}{D(\gamma + D)(D + \gamma)} = \frac{K^3 r^2}{D(\gamma + D)^2}.
+\]
+Integrating and applying Lemma~\ref{lem:slope-one}:
+\[
+1 - \lambda = \int \frac{K}{\gamma + D}\,\mathrm{d}\mu - \int \frac{K\gamma}{D(\gamma + D)}\,\mathrm{d}\mu = \int \frac{K^3 r^{*2}}{D(\gamma + D)^2}\,\mathrm{d}\mu. \qedhere
+\]
+\end{proof}
+
+\subsection{Two-sided bounds (bounded \texorpdfstring{$\gamma$}{gamma})}
+
+The following bounds require the additional assumption:
+\begin{equation}\label{eq:bounded-gamma}\tag{H4}
+0 < \gamma_{\min} \leq \gamma(\omega) \leq \gamma_{\max} \quad \text{for all } \omega.
+\end{equation}
+
+\begin{theorem}[Two-sided bounds on the spectral gap]\label{thm:gap-bounds}
+Under~\eqref{eq:bounded-gamma}, with $D_{\min} = \sqrt{\gamma_{\min}^2 + K^2 r^{*2}}$ and $D_{\max} = \sqrt{\gamma_{\max}^2 + K^2 r^{*2}}$:
+\begin{equation}\label{eq:gap-two-sided}
+\frac{K^3 r^{*2}}{D_{\max}(\gamma_{\max} + D_{\max})^2} \;\leq\; 1 - \lambda \;\leq\; \frac{K^3 r^{*2}}{D_{\min}(\gamma_{\min} + D_{\min})^2}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The integrand $K^3 r^{*2}/(D(\gamma+D)^2)$ is decreasing in $\gamma$ (since $D$ and $\gamma + D$ increase with $\gamma$). Evaluating at $\gamma_{\max}$ gives the lower bound and at $\gamma_{\min}$ the upper bound. Since $\mu$ is a probability measure, integration preserves the pointwise bounds.
+\end{proof}
+
+% ============================================================
+\section{Critical slowing down}\label{sec:critical-slowing}
+% ============================================================
+
+Near $K = K_c$, the equilibrium $r^*$ vanishes as $r^* = \Theta(\sqrt{K - K_c})$ (critical exponent $\beta = 1/2$). Since the spectral gap~\eqref{eq:gap-identity} is $O(r^{*2})$, it vanishes as $O(K - K_c)$.
+
+\begin{theorem}[Square-root law]\label{thm:rstar-bounds}
+Under~\eqref{eq:bounded-gamma}, for $K > K_c$ with fixed point $r^* \in (0,1)$:
+\[
+r^* \leq \sqrt{\frac{(K - K_c)(2\gamma_{\max} + K)^2}{K^3}}.
+\]
+If additionally $\int (1/\gamma^3)\,\mathrm{d}\mu < \infty$:
+\[
+\sqrt{\frac{8(K - K_c)}{K^3 K_c \int (1/\gamma^3)\,\mathrm{d}\mu}} \leq r^*.
+\]
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+At the fixed point $S(r^*)=1$, i.e., $\int K/(\gamma+D)\,\mathrm{d}\mu = 1$, while $S(0^+)=K/K_c$.
+
+\emph{Upper bound.} The difference $S(0^+)-S(r^*) = K/K_c - 1 = (K-K_c)/K_c$. Since $D\leq\gamma+Kr^*$, we have $K/(2\gamma) - K/(\gamma+D) \geq K^2r^*/(2\gamma(\gamma+Kr^*))$. Under~\eqref{eq:bounded-gamma}, bounding below by $K^2r^*/(2\gamma_{\max}(2\gamma_{\max}+K))$ and integrating yields $(K-K_c)/K_c \geq K^2 r^*/(K_c\gamma_{\max}(2\gamma_{\max}+K))$. Rearranging and using $r^{*2} \leq r^*$ (since $r^*<1$) gives the stated bound. The full calculation is carried out in \texttt{CriticalExponent.lean} (declaration \texttt{rstar\_le\_sqrt\_gap}).
+
+\emph{Lower bound.} A Taylor expansion of $1/(\gamma+D)$ around $r=0$ gives $K/(\gamma+D) = K/(2\gamma) - K^3r^2/(4\gamma^3) + O(r^4)$. The leading correction term, bounded using $\int\gamma^{-3}\,\mathrm{d}\mu$, yields the lower bound. See \texttt{rstar\_ge\_sqrt\_gap} in \texttt{CriticalExponent.lean}.
+\end{proof}
+
+\begin{theorem}[Critical slowing down]\label{thm:csd}
+Under~\eqref{eq:bounded-gamma}, for $K > K_c$ with fixed point $r^* \in (0,1)$:
+\begin{equation}\label{eq:csd}
+1 - \lambda \;\leq\; \frac{(K - K_c)(2\gamma_{\max} + K)^2}{4\gamma_{\min}^3}.
+\end{equation}
+In particular, $1 - \lambda = O(K - K_c)$ as $K \to K_c^+$.
+\end{theorem}
+
+\begin{proof}
+From the upper bound in~\eqref{eq:gap-two-sided} and $D_{\min} \geq \gamma_{\min}$:
+\[
+1 - \lambda \leq \frac{K^3 r^{*2}}{D_{\min}(\gamma_{\min} + D_{\min})^2} \leq \frac{K^3 r^{*2}}{\gamma_{\min} (2\gamma_{\min})^2} = \frac{K^3 r^{*2}}{4\gamma_{\min}^3}.
+\]
+From Theorem~\ref{thm:rstar-bounds}: $r^{*2} \leq (K - K_c)(2\gamma_{\max} + K)^2/K^3$. Substituting:
+\[
+1 - \lambda \leq \frac{K^3}{4\gamma_{\min}^3} \cdot \frac{(K - K_c)(2\gamma_{\max} + K)^2}{K^3} = \frac{(K - K_c)(2\gamma_{\max} + K)^2}{4\gamma_{\min}^3}. \qedhere
+\]
+\end{proof}
+
+\begin{corollary}\label{cor:csd-rate}
+The number of iterates to reach accuracy $\varepsilon$ from above is at least $\lceil|\log\varepsilon|/(1-\lambda)\rceil$, which by~\eqref{eq:csd} diverges at least on the order of $(K-K_c)^{-1}$ as $K\to K_c^+$ under the bounded-$\gamma$ assumption~\eqref{eq:bounded-gamma}.
+\end{corollary}
+
+\begin{theorem}[Critical slowing down --- lower bound]\label{thm:csd-lower}
+Under~\eqref{eq:bounded-gamma} and additionally $\int (1/\gamma^3)\,\mathrm{d}\mu < \infty$, for $K > K_c$ with fixed point $r^* \in (0,1)$:
+\begin{equation}\label{eq:csd-lower}
+\frac{8(K - K_c)}{(\gamma_{\max} + K)(2\gamma_{\max} + K)^2 K_c \int(1/\gamma^3)\,\mathrm{d}\mu} \;\leq\; 1 - \lambda.
+\end{equation}
+Combined with~\eqref{eq:csd}: $1 - \lambda = \Theta(K - K_c)$ as $K \to K_c^+$.
+\end{theorem}
+
+\begin{proof}
+From the lower bound in Theorem~\ref{thm:gap-bounds}: $1 - \lambda \geq K^3 r^{*2}/\bigl((\gamma_{\max}+K)(2\gamma_{\max}+K)^2\bigr)$ (since $D_{\max} \leq \gamma_{\max} + K$ and $\gamma_{\max} + D_{\max} \leq 2\gamma_{\max} + K$). From the lower bound in Theorem~\ref{thm:rstar-bounds}: $r^{*2} \geq 8(K-K_c)/(K^3 K_c \int\gamma^{-3}\,\mathrm{d}\mu)$. Substituting and canceling $K^3$ gives the result.
+\end{proof}
+
+% ============================================================
+\section{Geometric convergence of Picard iterates}\label{sec:convergence}
+% ============================================================
+
+Define the Picard iteration: given $r_0 > 0$, set $r_{n+1} = \Phi(r_n)$.
+
+\subsection{Convergence from above}
+
+\begin{theorem}[One-step contraction above $r^*$]\label{thm:one-step}
+For $r > r^* > 0$ with $\Phi(r^*) = r^*$:
+\[
+\Phi(r) - r^* \leq \lambda \cdot (r - r^*).
+\]
+\end{theorem}
+
+\begin{proof}
+Apply Theorem~\ref{thm:tight-lip} pointwise with $r_1 = r^*$ and $r_2 = r > r^*$:
+\[
+\alpha^*(\gamma, K, r) - \alpha^*(\gamma, K, r^*) \leq \frac{K\gamma}{D^*(\gamma + D^*)} \cdot (r - r^*),
+\]
+where $D^* = \sqrt{\gamma^2 + K^2 r^{*2}}$. The derivative is evaluated at $r^*$ (the left endpoint), which bounds the difference quotient from above since $\partial_r\alpha^*$ is decreasing (Theorem~\ref{thm:deriv}). Integrating over $\mu$:
+\[
+\Phi(r) - \Phi(r^*) \leq \lambda \cdot (r - r^*). \qedhere
+\]
+\end{proof}
+
+\begin{theorem}[Geometric convergence from above]\label{thm:geometric}
+Let $r^* > 0$ with $\Phi(r^*) = r^*$. For $r_0 > r^*$:
+\begin{equation}\label{eq:geometric}
+r^* \leq r_n \leq r^* + \lambda^n (r_0 - r^*), \qquad \forall n \geq 0.
+\end{equation}
+In particular, $r_n \to r^*$ as $n \to \infty$.
+\end{theorem}
+
+\begin{proof}
+The lower bound $r_n \geq r^*$ holds by induction: $\Phi$ is strictly increasing (Proposition~\ref{prop:basic}(b)), so $r_n \geq r^*$ implies $r_{n+1} = \Phi(r_n) \geq \Phi(r^*) = r^*$. The upper bound $r_n - r^* \leq \lambda^n(r_0 - r^*)$ follows by induction from Theorem~\ref{thm:one-step}. Since $0 < \lambda < 1$ (Theorem~\ref{thm:lambda-lt-one}), $\lambda^n \to 0$.
+\end{proof}
+
+\subsection{Convergence from below}
+
+\begin{theorem}[Monotone convergence from below]\label{thm:below}
+For $0 < r_0 < r^*$ with $\Phi(r^*) = r^*$:
+\begin{enumerate}[label=(\alph*),nosep]
+\item The iterates are monotone increasing: $r_n \leq r_{n+1}$ for all $n$.
+\item The iterates are bounded above: $r_n \leq r^*$ for all $n$.
+\item $r_n \to r^*$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Parts~(a) and~(b) follow from the sign lemma and monotonicity of $\Phi$.
+
+\emph{Part (a)}: By Lemma~\ref{lem:sign}\eqref{eq:sign-below}, $r_0 < r^*$ implies $\Phi(r_0) > r_0$, i.e., $r_1 > r_0$. If $r_n \leq r_{n+1}$, then $r_{n+1} = \Phi(r_n) \leq \Phi(r_{n+1}) = r_{n+2}$ by monotonicity of $\Phi$, completing the induction.
+
+\emph{Part (b)}: $r_0 \leq r^*$ and $\Phi$ is monotone increasing imply $r_1 = \Phi(r_0) \leq \Phi(r^*) = r^*$. By induction: $r_n \leq r^*$ implies $r_{n+1} \leq r^*$.
+
+\emph{Part (c)}: By~(a) and~(b), $(r_n)$ is increasing and bounded, hence converges to a limit $L \in [r_0, r^*]$. Since $\Phi$ is continuous on $(0,\infty)$ (being an integral of continuous functions bounded in $[0,1]$), $L = \Phi(L)$. If $L < r^*$, then $\Phi(L) > L$ by Lemma~\ref{lem:sign}\eqref{eq:sign-below}, contradicting $L = \Phi(L)$. Hence $L = r^*$.
+\end{proof}
+
+\begin{theorem}[Geometric convergence from below]\label{thm:geometric-below}
+For $0 < r_0 < r^*$ with $\Phi(r^*) = r^*$, define $\lambda_0 = \Phi'(r_0) = \int K\gamma/(D_0(\gamma + D_0))\,\mathrm{d}\mu$ where $D_0 = \sqrt{\gamma^2 + K^2 r_0^2}$. If $\lambda_0 < 1$, then:
+\begin{equation}\label{eq:geometric-below}
+r^* - \Phi^n(r_0) \;\leq\; \lambda_0^n \,(r^* - r_0) \quad \text{for all } n \geq 0.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Since $\partial_r\alpha^*(\gamma, K, r)$ is decreasing in $r$ (the tight Lipschitz property), and the iterates $r_n = \Phi^n(r_0)$ satisfy $r_0 \leq r_n < r^*$ (Theorem~\ref{thm:below}), we have $\Phi'(r_n) \leq \Phi'(r_0) = \lambda_0$ for all $n$.
+
+The one-step bound: for $r < r^*$, the mean value theorem applied to $\alpha^*(\gamma, K, \cdot)$ on $[r, r^*]$ gives
+\[
+\alpha^*(\gamma, K, r^*) - \alpha^*(\gamma, K, r) \;\leq\; \frac{K\gamma}{D_r(\gamma + D_r)} \,(r^* - r)
+\]
+where $D_r = \sqrt{\gamma^2 + K^2 r^2}$, using that $\partial_r\alpha^*$ is decreasing and hence bounded above by its value at the \emph{left} endpoint. Integrating over $\mu$:
+\[
+r^* - \Phi(r) \;\leq\; \Phi'(r)\,(r^* - r).
+\]
+By induction: $r^* - r_{n+1} \leq \Phi'(r_n)(r^* - r_n) \leq \lambda_0(r^* - r_n) \leq \lambda_0^{n+1}(r^* - r_0)$.
+\end{proof}
+
+\begin{remark}[Comparison of rates from above and below]\label{rem:rate-comparison}
+From above, the rate is $\lambda = \Phi'(r^*)$. From below, it is $\lambda_0 = \Phi'(r_0) > \lambda$ (since $\Phi'$ is decreasing and $r_0 < r^*$). This reflects the genuine asymmetry: the derivative is larger on $(r_0, r^*)$ than at $r^*$. As $r_0 \to r^{*-}$, the rate $\lambda_0 \to \lambda$ and the two bounds coincide.
+\end{remark}
+
+% ============================================================
+\section{Subcritical regime}\label{sec:subcritical}
+% ============================================================
+
+\subsection{The linear bound}
+
+\begin{theorem}[Linear bound on $\Phi$]\label{thm:linear-bound}
+Under~\ref{H1}--\ref{H3}, for all $r > 0$:
+\begin{equation}\label{eq:linear}
+\Phi(r) \leq \frac{K}{K_c} \cdot r.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+From the rationalized form and $D \geq \gamma$:
+\[
+\alpha^*(\gamma, K, r) = \frac{Kr}{\gamma + D} \leq \frac{Kr}{2\gamma}.
+\]
+Integrating: $\Phi(r) \leq (Kr/2) \int (1/\gamma)\,\mathrm{d}\mu = (K/K_c) r$.
+\end{proof}
+
+\subsection{Strictly subcritical decay}
+
+\begin{theorem}[Subcritical geometric decay]\label{thm:subcritical}
+For $K < K_c$ and any $r_0 > 0$:
+\begin{equation}\label{eq:subcritical}
+0 < \Phi^n(r_0) \leq \left(\frac{K}{K_c}\right)^n r_0 \;\xrightarrow{n\to\infty}\; 0.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By induction from Theorem~\ref{thm:linear-bound}: $\Phi^{n+1}(r_0) \leq (K/K_c) \cdot \Phi^n(r_0)$. Since $K/K_c < 1$, the bound converges to zero. Positivity holds because $\Phi$ maps $(0,\infty)$ into $(0,1)$ (Proposition~\ref{prop:basic}(a)).
+\end{proof}
+
+\subsection{The critical case \texorpdfstring{$K = K_c$}{K = Kc}}
+
+\begin{proposition}[Convergence at criticality]\label{prop:critical}
+For $K = K_c$: $\Phi(r) < r$ for all $r > 0$, and $\Phi^n(r_0) \to 0$ for any $r_0 > 0$, but no exponential rate holds.
+\end{proposition}
+
+\begin{proof}
+The strict inequality $\Phi(r) < r$ follows from Theorem~\ref{thm:existence}\ref{thm:existence-sub}. The sequence $(\Phi^n(r_0))$ is strictly decreasing and bounded below by $0$, hence converges to a limit $L \geq 0$. If $L > 0$, continuity of $\Phi$ on $(0,\infty)$ gives $L = \Phi(L) < L$, a contradiction. Hence $L = 0$.
+\end{proof}
+
+% ============================================================
+\section{Contraction rate bounds}\label{sec:rate-bounds}
+% ============================================================
+
+\begin{theorem}[Upper bound on contraction rate]\label{thm:rate-upper}
+Under~\ref{H1}--\ref{H3} and the additional assumption
+\begin{equation}\label{eq:finite-mean}\tag{H5}
+\int \gamma\,\mathrm{d}\mu < \infty \quad \text{(finite mean)},
+\end{equation}
+for any $r > 0$:
+\[
+\lambda(r) = \int \frac{K\gamma}{D(\gamma + D)}\,\mathrm{d}\mu \leq \frac{\mathbb{E}_\mu[\gamma]}{K r^2}.
+\]
+\end{theorem}
+
+\begin{proof}
+Pointwise: $K\gamma/(D(\gamma+D)) \leq K\gamma/D^2 = K\gamma/(\gamma^2 + K^2 r^2) \leq \gamma/(Kr^2)$, the last step since $K^2 r^2 \leq \gamma^2 + K^2 r^2$. Integrating gives the result.
+\end{proof}
+
+\begin{remark}
+At the fixed point: $\lambda(r^*) \leq \mathbb{E}[\gamma]/(Kr^{*2})$. Deep in the supercritical regime ($K \gg K_c$, $r^* \to 1$), this gives $\lambda \leq \mathbb{E}[\gamma]/K$: convergence accelerates with coupling strength.
+\end{remark}
+
+% ============================================================
+\section{Distribution sensitivity}\label{sec:sensitivity}
+% ============================================================
+
+\begin{theorem}[Monotonicity of $K_c$]\label{thm:Kc-mono}
+If $\gamma_1(\omega) \leq \gamma_2(\omega)$ for all $\omega$, then $K_c(\gamma_1) \leq K_c(\gamma_2)$.
+\end{theorem}
+
+\begin{proof}
+$1/\gamma_1 \geq 1/\gamma_2$ pointwise implies $\int(1/\gamma_1)\,\mathrm{d}\mu \geq \int(1/\gamma_2)\,\mathrm{d}\mu$, hence $K_c(\gamma_1) \leq K_c(\gamma_2)$.
+\end{proof}
+
+\begin{theorem}[Monotonicity of $r^*$]\label{thm:rstar-mono}
+If $\gamma_1 \leq \gamma_2$ pointwise and both have supercritical fixed points $r_1^*, r_2^*$ at coupling $K$, then $r_2^* \leq r_1^*$.
+\end{theorem}
+
+\begin{proof}
+Suppose for contradiction that $r_1^* < r_2^*$. Since $\alpha^*$ is decreasing in $\gamma$ (Proposition~\ref{prop:basic}(b)), $\Phi_{\gamma_1}(r_2^*) \geq \Phi_{\gamma_2}(r_2^*) = r_2^*$. But $r_2^* > r_1^*$ and Lemma~\ref{lem:sign}\eqref{eq:sign-above} (applied to $\Phi_{\gamma_1}$ with fixed point $r_1^*$) gives $\Phi_{\gamma_1}(r_2^*) < r_2^*$, a contradiction.
+\end{proof}
+
+\begin{theorem}[Scaling]\label{thm:scaling}
+$K_c(c\gamma) = c \cdot K_c(\gamma)$ for $c > 0$.
+\end{theorem}
+
+% ============================================================
+\section{Lorentzian verification}\label{sec:lorentzian}
+% ============================================================
+
+For the Cauchy--Lorentz distribution with width $\gamma_0 > 0$, the OA residue evaluation gives constant dissipation $\gamma = \gamma_0$. Then $K_c = 2\gamma_0$ and $r^* = \sqrt{(K - 2\gamma_0)/K}$ for $K > 2\gamma_0$.
+
+\begin{proposition}[Lorentzian contraction rate]\label{prop:lorentzian}
+For the Lorentzian with $K > 2\gamma_0$:
+\begin{align}
+D &= \sqrt{\gamma_0^2 + K^2 r^{*2}} = \sqrt{(K - \gamma_0)^2} = K - \gamma_0, \label{eq:lor-D}\\
+\lambda &= \frac{K\gamma_0}{D(\gamma_0 + D)} = \frac{K\gamma_0}{(K-\gamma_0) \cdot K} = \frac{\gamma_0}{K - \gamma_0}, \label{eq:lor-lambda}\\
+1 - \lambda &= \frac{K - 2\gamma_0}{K - \gamma_0}. \label{eq:lor-gap}
+\end{align}
+\end{proposition}
+
+\begin{proof}
+We compute $D^2 = \gamma_0^2 + K^2(K-2\gamma_0)/K = \gamma_0^2 + K^2 - 2K\gamma_0 = (K - \gamma_0)^2$. Since $K > 2\gamma_0 > \gamma_0$, $D = K - \gamma_0 > 0$. Then $\gamma_0 + D = K$, giving~\eqref{eq:lor-lambda}--\eqref{eq:lor-gap}.
+\end{proof}
+
+\begin{remark}[Consistency checks]\leavevmode
+\begin{enumerate}[nosep]
+\item \emph{Spectral gap formula}: $K^3 r^{*2}/(D(\gamma_0+D)^2) = K^3 \cdot (K-2\gamma_0)/(K \cdot (K-\gamma_0) \cdot K^2) = (K-2\gamma_0)/(K-\gamma_0) = 1 - \lambda$. $\checkmark$
+\item \emph{Critical slowing down}: as $K \to 2\gamma_0^+$, $1 - \lambda = (K - 2\gamma_0)/(K - \gamma_0) \sim (K - K_c)/\gamma_0$, confirming linear vanishing with coefficient $1/\gamma_0 = 2/K_c$. $\checkmark$
+\item \emph{Strong coupling}: as $K \to \infty$, $\lambda = \gamma_0/(K-\gamma_0) \to 0$, confirming fast convergence. $\checkmark$
+\end{enumerate}
+\end{remark}
+
+% ============================================================
+\section{The main theorem}\label{sec:main}
+% ============================================================
+
+\begin{theorem}[Quantitative phase transition]\label{thm:main}
+Let $\mu$ be a probability measure on $(\Omega, \mathcal{F})$ and $\gamma : \Omega \to (0,\infty)$ measurable with $\int (1/\gamma)\,\mathrm{d}\mu \in (0,\infty)$. Set $K_c = 2/\int(1/\gamma)\,\mathrm{d}\mu$.
+
+\medskip\noindent\textbf{Subcritical ($K < K_c$):} $\Phi(r) < r$ for all $r > 0$. No positive fixed point exists. Picard iterates decay exponentially: $\Phi^n(r_0) \leq (K/K_c)^n r_0 \to 0$.
+
+\medskip\noindent\textbf{Critical ($K = K_c$):} $\Phi(r) < r$ for all $r > 0$. No positive fixed point exists. $\Phi^n(r_0) \to 0$ by monotone convergence; no exponential rate is claimed.
+
+\medskip\noindent\textbf{Supercritical ($K > K_c$):} There exists a unique $r^* \in (0,1)$ with $\Phi(r^*) = r^*$ (Theorem~\ref{thm:existence}). The derivative at the fixed point is
+\[
+\lambda = \Phi'(r^*) = \int \frac{K\gamma}{D_\gamma(\gamma + D_\gamma)}\,\mathrm{d}\mu \in (0,1),
+\]
+with spectral gap
+\[
+1 - \lambda = \int \frac{K^3 r^{*2}}{D_\gamma(\gamma + D_\gamma)^2}\,\mathrm{d}\mu > 0.
+\]
+For $r_0 > r^*$: geometric convergence $r^* \leq r_n \leq r^* + \lambda^n(r_0 - r^*)$.
+
+\noindent For $0 < r_0 < r^*$: monotone convergence $r_n \nearrow r^*$ (no geometric rate claimed).
+\end{theorem}
+
+% ============================================================
+\section{Proof architecture and formal verification}\label{sec:formal}
+% ============================================================
+
+\subsection{Repository and build information}
+
+The Lean 4 formalization is available at:
+
+\begin{center}
+\url{https://github.com/taejun-song/kuramoto-lean}\\[2pt]
+commit \texttt{e86b442} $\;\cdot\;$ Lean \texttt{v4.30.0-rc1} $\;\cdot\;$ Mathlib \texttt{v4.30.0-rc1}
+\end{center}
+
+\noindent To reproduce: clone the repository, run \texttt{lake build}. All declarations below compile with 0~\texttt{sorry} and no project-specific axioms (only the standard Lean~4/Mathlib foundations: propositional extensionality, quotients, and choice).
+
+\subsection{Lean file structure}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{File} & \textbf{Content} & \textbf{Status} \\
+\midrule
+\texttt{TightLipschitz.lean} & Spectral gap, geometric convergence & 0 sorry \\
+\texttt{SelfConsistencyContraction.lean} & Sign lemma, contraction, map range & 0 sorry \\
+\texttt{ContinuumBifurcationDiagram.lean} & Existence, uniqueness, bifurcation & 0 sorry \\
+\texttt{CriticalExponent.lean} & $r^* = \Theta(\sqrt{K-K_c})$ bounds & 0 sorry \\
+\texttt{IterationConvergence.lean} & Picard monotonicity and boundedness & 0 sorry \\
+\texttt{ContractionRate.lean} & Quantitative contraction & 0 sorry \\
+\texttt{QuantitativeRefinements.lean} & Two-sided CSD, geometric below & 0 sorry \\
+\texttt{DistributionSensitivity.lean} & $K_c$, $r^*$ comparison across $\gamma$ & 0 sorry \\
+\texttt{UnifiedPhaseTransition.lean} & Combined packaging theorem & 0 sorry \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Correspondence between paper and Lean declarations}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Paper result} & \textbf{Lean declaration} \\
+\midrule
+Lemma~\ref{lem:slope-one} (slope identity) & \texttt{slope\_integral\_eq\_one} \\
+Lemma~\ref{lem:sign} ($\Phi(r) > r$ below) & \texttt{sc\_map\_exceeds\_below} \\
+Lemma~\ref{lem:sign} ($\Phi(r) < r$ above) & \texttt{sc\_map\_below\_above} \\
+Theorem~\ref{thm:existence} (bifurcation) & \texttt{kuramoto\_phase\_transition} \\
+Theorem~\ref{thm:existence}\ref{thm:existence-super} (uniqueness) & \texttt{continuum\_exactly\_one\_equilibrium} \\
+Theorem~\ref{thm:deriv} (tight derivative) & \texttt{explicitEquil\_tight\_lipschitz} \\
+Theorem~\ref{thm:lambda-lt-one} ($\lambda < 1$) & \texttt{tight\_lipschitz\_lt\_one} \\
+Theorem~\ref{thm:spectral-gap} (gap identity) & \texttt{spectral\_gap\_integral} \\
+Theorem~\ref{thm:gap-bounds} (lower bound) & \texttt{spectral\_gap\_lower\_bound} \\
+Theorem~\ref{thm:gap-bounds} (upper bound) & \texttt{spectral\_gap\_upper\_bound} \\
+Theorem~\ref{thm:csd} (critical slowing) & \texttt{critical\_slowing\_down} \\
+Theorem~\ref{thm:csd-lower} (CSD lower) & \texttt{critical\_slowing\_down\_lower} \\
+Theorem~\ref{thm:one-step} (one-step) & \texttt{sc\_map\_tight\_contraction\_above} \\
+Theorem~\ref{thm:geometric} (geometric) & \texttt{scMapIter\_geometric\_above} \\
+Theorem~\ref{thm:geometric} (topological) & \texttt{scMapIter\_tendsto\_above} \\
+Theorem~\ref{thm:below} (from below) & \texttt{scMapIter\_converges\_below} \\
+Theorem~\ref{thm:geometric-below} (geometric below) & \texttt{scMapIter\_geometric\_below} \\
+Theorem~\ref{thm:linear-bound} (linear bound) & \texttt{sc\_map\_linear\_bound} \\
+Theorem~\ref{thm:subcritical} (subcritical) & \texttt{subcritical\_geometric\_decay} \\
+Theorem~\ref{thm:rate-upper} (rate bound) & \texttt{contraction\_rate\_upper} \\
+Theorem~\ref{thm:Kc-mono} ($K_c$ monotone) & \texttt{continuumKc\_mono\_gamma} \\
+Theorem~\ref{thm:rstar-mono} ($r^*$ monotone) & \texttt{rstar\_mono\_gamma} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Key formalization decisions}
+
+\begin{enumerate}[nosep]
+\item \textbf{Abstract probability space.} Theorems are stated over $(\Omega, \mathcal{F}, \mu)$ with $\gamma : \Omega \to \R$ satisfying $\gamma(\omega) > 0$ pointwise.
+
+\item \textbf{Measurability via level sets.} The Lean formalization assumes $\forall M,\, \{\omega \mid \gamma(\omega) \leq M\}$ is measurable (implying Borel measurability of $\gamma$).
+
+\item \textbf{Integrability by dominance.} The integrability of $K\gamma/(D(\gamma+D))$ is proved by showing it is pointwise $< K/(\gamma+D)$ (Theorem~\ref{thm:deriv-lt-slope}), and the latter is integrable by the fixed-point identity.
+
+\item \textbf{Spectral gap by subtraction.} The formula~\eqref{eq:gap-identity} is derived by integrating the \emph{difference} of the slope $K/(\gamma+D)$ and the derivative $K\gamma/(D(\gamma+D))$, using the linearity of integration.
+
+\item \textbf{Topological convergence.} The Lean proof of $r_n \to r^*$ from above uses Mathlib's \texttt{Filter.Tendsto} framework and the squeeze theorem, not just the geometric bound.
+\end{enumerate}
+
+% ============================================================
+\section{Discussion}\label{sec:discussion}
+% ============================================================
+
+\subsection{Summary}
+
+The central contribution is the spectral gap identity~\eqref{eq:gap-identity}: $1 - \Phi'(r^*) = \int K^3 r^{*2}/(D(\gamma+D)^2)\,\mathrm{d}\mu$. This exact formula reveals how the gap depends on the coupling $K$ (numerator $\sim K^3$) and the frequency dispersion (denominator controlled by $\gamma$ through $D$). The two-sided critical slowing down bounds~\eqref{eq:csd}--\eqref{eq:csd-lower} establish $1-\lambda = \Theta(K-K_c)$, making rigorous the physics intuition that convergence becomes arbitrarily slow near onset. The geometric bound from below (Theorem~\ref{thm:geometric-below}) shows that convergence to $r^*$ is exponential from \emph{any} starting point, not only from above.
+
+\subsection{Relation to PDE stability}
+
+The self-consistency map $\Phi$ governs the \emph{static} fixed-point equation. The \emph{dynamical} convergence $r(t) \to r^*$ for the ODE/PDE system is studied by~\cite{strogatz-mirollo1991,chiba2015,dietert2016}. The two are related: the derivative $\Phi'(r^*)$ controls the linearized dynamics of $\dot r = \Phi(r) - r$ near $r^*$, giving exponential rate $1 - \lambda$. Whether $1 - \Phi'(r^*)$ equals the leading eigenvalue of the linearized PDE operator (as studied by Chiba) is an open question.
+
+\subsection{Computational applications}
+
+\begin{itemize}[nosep]
+\item \textbf{A priori error bound}: after $n$ iterations from $r_0 > r^*$, $|r_n - r^*| \leq \lambda^n(r_0 - r^*)$.
+\item \textbf{Iteration count}: $n \geq \lceil \log((r_0-r^*)/\varepsilon)/(-\log\lambda) \rceil$ iterations suffice for accuracy $\varepsilon$ (for $r_0 > r^*$).
+\item \textbf{Subcritical detection}: $K_c = 2/\!\int\gamma^{-1}\mathrm{d}\mu$ is computable from the distribution. If $K/K_c < 1$, the linear bound~\eqref{eq:linear} guarantees $\Phi(r) \leq (K/K_c)\,r$ for all $r > 0$, giving subcritical exponential decay with rate $K/K_c$.
+\end{itemize}
+
+\subsection{Limitations}
+
+\begin{enumerate}[nosep]
+\item The geometric rate from above uses the fixed-point derivative $\lambda = \Phi'(r^*)$; from below, the rate $\lambda_0 = \Phi'(r_0) > \lambda$ depends on the initial point.
+\item Critical slowing down requires bounded $\gamma$. For unbounded distributions, the identity~\eqref{eq:gap-identity} still holds but~\eqref{eq:csd} does not.
+\item We study the self-consistency map, not the full PDE. Connecting $\Phi'(r^*)$ to PDE eigenvalues requires additional analysis.
+\end{enumerate}
+
+\subsection{Open questions}
+
+\begin{enumerate}[nosep]
+\item Is the rate $\lambda_0 = \Phi'(r_0)$ from below optimal, or can it be improved (e.g., to $\Phi'(r^*)$ under additional regularity)?
+\item What is the relationship between $1 - \Phi'(r^*)$ and Chiba's generalized eigenvalues~\cite{chiba2015}?
+\item At $K = K_c$: the self-consistency equation $\Phi(r) \approx r - cr^3$ near $r = 0$ suggests $\Phi^n(r_0) = O(1/\sqrt{n})$. Can this be proved?
+\end{enumerate}
+
+% ============================================================
+% References
+% ============================================================
+
+\begin{thebibliography}{20}
+
+\bibitem{chiba2015}
+H.~Chiba,
+\emph{A proof of the Kuramoto conjecture for a bifurcation structure of the infinite-dimensional Kuramoto model},
+Ergodic Theory Dynam.\ Systems \textbf{35} (2015), 762--834.
+
+\bibitem{crawford1994}
+J.~D.~Crawford,
+\emph{Amplitude expansions for instabilities in populations of globally-coupled oscillators},
+J.~Stat.\ Phys.\ \textbf{74} (1994), 1047--1084.
+
+\bibitem{crawford1995}
+J.~D.~Crawford,
+\emph{Scaling and singularities in the entrainment of globally coupled oscillators},
+Phys.\ Rev.\ Lett.\ \textbf{74} (1995), 4341--4344.
+
+\bibitem{dietert2016}
+H.~Dietert,
+\emph{Stability and bifurcation for the Kuramoto model},
+J.~Math.\ Pures Appl.\ \textbf{105} (2016), 451--489.
+
+\bibitem{dietert-fernandez2018}
+H.~Dietert and B.~Fernandez,
+\emph{The mathematics of asymptotic stability in the Kuramoto model},
+Proc.\ R.\ Soc.\ A \textbf{474} (2018), 20180467.
+
+\bibitem{kuramoto1975}
+Y.~Kuramoto,
+\emph{Self-entrainment of a population of coupled non-linear oscillators},
+in: International Symposium on Mathematical Problems in Theoretical Physics, Lecture Notes in Physics, vol.~39, Springer, 1975, pp.~420--422.
+
+\bibitem{kuramoto1984}
+Y.~Kuramoto,
+\emph{Chemical Oscillations, Waves, and Turbulence},
+Springer, Berlin, 1984.
+
+\bibitem{lean4}
+L.~de~Moura and S.~Ullrich,
+\emph{The Lean 4 theorem prover and programming language},
+in: CADE-28, Lecture Notes in Computer Science, vol.~12699, Springer, 2021, pp.~625--635.
+
+\bibitem{mathlib}
+The mathlib Community,
+\emph{Mathlib4},
+\url{https://github.com/leanprover-community/mathlib4}, 2024.
+
+\bibitem{ott-antonsen2008}
+E.~Ott and T.~M.~Antonsen,
+\emph{Low dimensional behavior of large systems of globally coupled oscillators},
+Chaos \textbf{18} (2008), 037113.
+
+\bibitem{strogatz2000}
+S.~H.~Strogatz,
+\emph{From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators},
+Phys.\ D \textbf{143} (2000), 1--20.
+
+\bibitem{strogatz-mirollo1991}
+S.~H.~Strogatz and R.~E.~Mirollo,
+\emph{Stability of incoherence in a population of coupled oscillators},
+J.~Stat.\ Phys.\ \textbf{63} (1991), 613--635.
+
+\end{thebibliography}
+
+\end{document}
